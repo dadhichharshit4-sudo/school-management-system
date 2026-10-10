@@ -331,3 +331,30 @@ app.get('/api/marks', async (req, res) => {
     res.status(500).json({ error: 'मार्क्स डेटा लोड करने में त्रुटि' });
   }
 });
+// 14. मार्क्स एडिट/अपडेट करने की API (PUT /api/marks/:id)
+app.put('/api/marks/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { marks_obtained, total_marks } = req.body;
+    const result = await pool.query(
+      'UPDATE marks SET marks_obtained = $1, total_marks = $2 WHERE id = $3 RETURNING *',
+      [Number(marks_obtained), Number(total_marks) || 100, id]
+    );
+    res.json({ message: 'मार्क्स सफलतापूर्वक अपडेट हो गए!', mark: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'मार्क्स अपडेट करने में त्रुटि' });
+  }
+});
+
+// 15. मार्क्स डिलीट करने की API (DELETE /api/marks/:id)
+app.delete('/api/marks/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query('DELETE FROM marks WHERE id = $1', [id]);
+    res.json({ message: 'रिकॉर्ड हटा दिया गया!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'मार्क्स डिलीट करने में त्रुटि' });
+  }
+});
