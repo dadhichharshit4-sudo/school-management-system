@@ -290,7 +290,7 @@
       </div>
     </div>
 
-    <!-- 5 टैब्स वाला बॉटम नेविगेशन बार -->
+    <!-- बॉटम नेविगेशन बार -->
     <div class="bottom-nav">
       <button id="nav-btn-notices" class="nav-item active" onclick="switchTab('notices')">
         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
@@ -498,18 +498,37 @@
           <div class="card" style="border-left: 4px solid #0d9488;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <strong style="color: #0d9488; font-size:15px;">${hw.subject}</strong>
-              <span class="status-badge" style="background:#ccfbf1; color:#0f766e;">कक्षा: ${hw.class_name}</span>
+              <div>
+                <span class="status-badge" style="background:#ccfbf1; color:#0f766e;">${hw.class_name}</span>
+                ${currentUser && currentUser.role !== 'student' ? `
+                  <button class="action-icon-btn delete-btn" style="margin-left: 6px;" onclick="deleteHomework(${hw.id})">🗑️</button>
+                ` : ''}
+              </div>
             </div>
             <h4 style="font-size:14px; color:#1e293b; margin:6px 0 4px 0;">${hw.title}</h4>
             <p style="font-size:13px; color:#475569; line-height:1.4;">${hw.description}</p>
             <div style="margin-top:8px; font-size:11px; font-weight:600; color:#dc2626; text-align:right;">
-              📅 जमा करने की अंतिम तिथि: ${d}
+              📅 अंतिम तिथि: ${d}
             </div>
           </div>
         `;
       });
     } catch {
       container.innerHTML = 'गृहकार्य लोड करने में त्रुटि!';
+    }
+  }
+
+  async function deleteHomework(hwId) {
+    if (!confirm("क्या आप सचमुच यह गृहकार्य हटाना चाहते हैं?")) return;
+    try {
+      const res = await fetch(`/api/homework/${hwId}`, { method: 'DELETE' });
+      if (res.ok) {
+        loadHomework();
+      } else {
+        alert("गृहकार्य हटाने में विफलता!");
+      }
+    } catch {
+      alert("सर्वर त्रुटि!");
     }
   }
 
