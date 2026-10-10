@@ -141,7 +141,7 @@
     .edit-btn { color: #2563eb; }
     .delete-btn { color: #dc2626; margin-left: 4px; }
 
-    /* रसीद मोडल स्टाइल */
+    /* मोडल स्टाइल */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -155,10 +155,12 @@
     .receipt-box {
       background: white;
       width: 100%;
-      max-width: 360px;
+      max-width: 380px;
       border-radius: 16px;
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .receipt-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 14px; }
     .receipt-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #334155; }
@@ -168,8 +170,8 @@
 
     @media print {
       body * { visibility: hidden; }
-      #printable-receipt, #printable-receipt * { visibility: visible; }
-      #printable-receipt { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; box-shadow: none; border: 1px solid #ccc; }
+      #printable-receipt, #printable-receipt *, #printable-marksheet, #printable-marksheet * { visibility: visible; }
+      #printable-receipt, #printable-marksheet { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; box-shadow: none; border: 1px solid #ccc; }
       .no-print { display: none !important; }
     }
   </style>
@@ -313,6 +315,43 @@
     <div class="no-print" style="margin-top:18px; display:flex; gap:8px;">
       <button class="btn-action btn-blue" onclick="window.print()">🖨️ प्रिंट / PDF सेव</button>
       <button class="btn-action" style="background:#64748b;" onclick="closeReceipt()">बंद करें</button>
+    </div>
+  </div>
+</div>
+
+<!-- आधिकारिक रिपोर्ट कार्ड / मार्कशीट मोडल -->
+<div id="marksheet-modal" class="modal-overlay hidden">
+  <div class="receipt-box" id="printable-marksheet" style="border: 2px solid #7c3aed;">
+    <div class="receipt-header">
+      <h3 style="color:#7c3aed; font-size:19px;">श्री मेवाड़ पब्लिक स्कूल</h3>
+      <p style="font-size:12px; font-weight:700; color:#1e293b; margin-top:2px;">प्रगति पत्रक (Progress Report Card)</p>
+      <p style="font-size:11px; color:#64748b;">सत्र: 2026-2027</p>
+    </div>
+    <div class="receipt-row"><span>छात्र का नाम:</span><strong id="ms-name"></strong></div>
+    <div class="receipt-row"><span>रोल नंबर:</span><span id="ms-roll"></span></div>
+    <div class="receipt-row"><span>कक्षा:</span><span id="ms-class"></span></div>
+    <div class="receipt-row"><span>परीक्षा:</span><span>अर्धवार्षिक परीक्षा</span></div>
+    <hr style="border:0; border-top:1px solid #cbd5e1; margin:10px 0;">
+    <table class="marks-table" style="margin-bottom:12px;">
+      <thead>
+        <tr style="background:#f8fafc; border-bottom:1px solid #cbd5e1;">
+          <th style="padding:6px;">विषय</th>
+          <th style="padding:6px; text-align:right;">प्राप्तांक / पूर्णांक</th>
+        </tr>
+      </thead>
+      <tbody id="ms-tbody"></tbody>
+    </table>
+    <hr style="border:0; border-top:1px solid #cbd5e1; margin:8px 0;">
+    <div class="receipt-row highlight"><span>कुल योग:</span><span id="ms-total"></span></div>
+    <div class="receipt-row highlight"><span>प्रतिशत:</span><span id="ms-percent" style="color:#7c3aed;"></span></div>
+    <div class="receipt-row"><span>परिणाम स्थिति:</span><strong id="ms-grade" style="color:#16a34a;">उत्तीर्ण (Passed)</strong></div>
+    <div style="margin-top:20px; display:flex; justify-content:space-between; font-size:11px; color:#64748b;">
+      <span>हस्ताक्षर कक्षाध्यापक</span>
+      <span>हस्ताक्षर प्रधानाचार्य</span>
+    </div>
+    <div class="no-print" style="margin-top:18px; display:flex; gap:8px;">
+      <button class="btn-action btn-purple" onclick="window.print()">🖨️ मार्कशीट प्रिंट</button>
+      <button class="btn-action" style="background:#64748b;" onclick="closeMarksheet()">बंद करें</button>
     </div>
   </div>
 </div>
@@ -655,6 +694,36 @@
     }
   }
 
+  function showMarksheet(studentName, data) {
+    document.getElementById('ms-name').innerText = studentName;
+    document.getElementById('ms-roll').innerText = data.roll;
+    document.getElementById('ms-class').innerText = data.class;
+
+    let rows = '';
+    let totalObt = 0;
+    let totalMax = 0;
+
+    data.subjects.forEach(s => {
+      totalObt += Number(s.marks_obtained);
+      totalMax += Number(s.total_marks);
+      rows += `
+        <tr>
+          <td style="padding:6px; font-weight:600;">${s.subject}</td>
+          <td style="padding:6px; text-align:right;">${s.marks_obtained} / ${s.total_marks}</td>
+        </tr>`;
+    });
+
+    const percentage = Math.round((totalObt / totalMax) * 100);
+    document.getElementById('ms-tbody').innerHTML = rows;
+    document.getElementById('ms-total').innerText = `${totalObt} / ${totalMax}`;
+    document.getElementById('ms-percent').innerText = `${percentage}%`;
+    document.getElementById('marksheet-modal').classList.remove('hidden');
+  }
+
+  function closeMarksheet() {
+    document.getElementById('marksheet-modal').classList.add('hidden');
+  }
+
   async function loadMarks() {
     const container = document.getElementById('report-card-container');
     try {
@@ -710,6 +779,7 @@
               </div>
               <div style="text-align:right;">
                 <span class="status-badge" style="background:#f3e8ff; color:#7c3aed; font-size:12px;">${percentage}%</span>
+                <button class="action-icon-btn" style="background:#ede9fe; color:#6d28d9; padding:3px 8px; font-weight:600; margin-left:4px;" onclick='showMarksheet("${studentName}", ${JSON.stringify(data)})'>📜 प्रिंट</button>
               </div>
             </div>
             <table class="marks-table">
