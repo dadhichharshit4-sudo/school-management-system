@@ -65,14 +65,14 @@
       flex-direction: column;
       align-items: center;
       color: #64748b;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       background: none;
       border: none;
       cursor: pointer;
       gap: 3px;
     }
-    .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+    .nav-item svg { width: 19px; height: 19px; fill: currentColor; }
     .nav-item.active { color: #1a73e8; }
 
     .user-pill {
@@ -102,6 +102,7 @@
     .btn-green { background: #16a34a; }
     .btn-orange { background: #ea580c; }
     .btn-purple { background: #7c3aed; }
+    .btn-teal { background: #0d9488; }
 
     .notice-item {
       background: #ffffff;
@@ -223,7 +224,23 @@
         <div id="notices-container">लोड हो रहा है...</div>
       </div>
 
-      <!-- टैब 2: अटेंडेंस -->
+      <!-- टैब 2: गृहकार्य (Homework) -->
+      <div id="section-homework" class="hidden">
+        <div id="create-hw-section" class="card hidden" style="border: 1px dashed #0d9488; background: #f0fdfa;">
+          <div class="card-title" style="color: #0d9488;">+ नया गृहकार्य (Homework) दें</div>
+          <input type="text" id="hw-subject" class="form-control" placeholder="विषय (उदा. गणित / English / विज्ञान)">
+          <input type="text" id="hw-title" class="form-control" placeholder="शीर्षक (उदा. अध्याय 5 अभ्यास प्रश्न)">
+          <textarea id="hw-desc" class="form-control" rows="2" placeholder="गृहकार्य का विस्तृत विवरण..."></textarea>
+          <label style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 4px; display: block;">जमा करने की अंतिम तिथि (Due Date)</label>
+          <input type="date" id="hw-due-date" class="form-control">
+          <button class="btn-action btn-teal" onclick="handleCreateHomework()">गृहकार्य पोस्ट करें</button>
+          <p id="hw-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
+        </div>
+        <div class="card-title">📚 दैनिक गृहकार्य (Homework)</div>
+        <div id="homework-container">लोड हो रहा है...</div>
+      </div>
+
+      <!-- टैब 3: अटेंडेंस -->
       <div id="section-attendance" class="hidden">
         <div id="add-student-section" class="card hidden" style="border: 1px dashed #1a73e8; background: #f8fafc;">
           <div class="card-title" style="color: #1a73e8;">+ नया छात्र प्रवेश</div>
@@ -248,13 +265,13 @@
         </div>
       </div>
 
-      <!-- टैब 3: फीस -->
+      <!-- टैब 4: फीस -->
       <div id="section-fees" class="hidden">
         <div class="card-title" id="fee-heading">फीस विवरण</div>
         <div id="fees-container">लोड हो रहा है...</div>
       </div>
 
-      <!-- टैब 4: रिजल्ट / मार्क्स -->
+      <!-- टैब 5: रिजल्ट / मार्क्स -->
       <div id="section-marks" class="hidden">
         <div id="add-marks-section" class="card hidden" style="border: 1px dashed #7c3aed; background: #faf5ff;">
           <div class="card-title" style="color: #7c3aed;">+ परीक्षा अंक दर्ज करें</div>
@@ -273,11 +290,15 @@
       </div>
     </div>
 
-    <!-- बॉटम नेविगेशन बार -->
+    <!-- 5 टैब्स वाला बॉटम नेविगेशन बार -->
     <div class="bottom-nav">
       <button id="nav-btn-notices" class="nav-item active" onclick="switchTab('notices')">
         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
         नोटिस
+      </button>
+      <button id="nav-btn-homework" class="nav-item" onclick="switchTab('homework')">
+        <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+        गृहकार्य
       </button>
       <button id="nav-btn-attendance" class="nav-item" onclick="switchTab('attendance')">
         <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
@@ -389,6 +410,7 @@
 
     if (user.role === 'admin' || user.role === 'teacher') {
       document.getElementById('create-notice-section').classList.remove('hidden');
+      document.getElementById('create-hw-section').classList.remove('hidden');
       document.getElementById('att-submit-box').classList.remove('hidden');
       document.getElementById('add-marks-section').classList.remove('hidden');
       if (user.role === 'admin') {
@@ -400,6 +422,7 @@
       document.getElementById('fee-heading').innerText = 'सभी छात्र फीस रिकॉर्ड';
     } else {
       document.getElementById('create-notice-section').classList.add('hidden');
+      document.getElementById('create-hw-section').classList.add('hidden');
       document.getElementById('add-student-section').classList.add('hidden');
       document.getElementById('att-submit-box').classList.add('hidden');
       document.getElementById('att-heading').classList.add('hidden');
@@ -408,6 +431,7 @@
     }
 
     loadNotices();
+    loadHomework();
     loadStudents();
     loadAttendanceSummary();
     loadFees();
@@ -415,7 +439,7 @@
   }
 
   function switchTab(tab) {
-    ['notices', 'attendance', 'fees', 'marks'].forEach(t => {
+    ['notices', 'homework', 'attendance', 'fees', 'marks'].forEach(t => {
       document.getElementById(`section-${t}`).classList.add('hidden');
       document.getElementById(`nav-btn-${t}`).classList.remove('active');
     });
@@ -452,6 +476,78 @@
       document.getElementById('new-notice-title').value = '';
       document.getElementById('new-notice-desc').value = '';
       loadNotices();
+    }
+  }
+
+  /* गृहकार्य (Homework) फंक्शन्स */
+  async function loadHomework() {
+    const container = document.getElementById('homework-container');
+    try {
+      const res = await fetch('/api/homework');
+      const hwList = await res.json();
+      container.innerHTML = '';
+
+      if (hwList.length === 0) {
+        container.innerHTML = '<p style="font-size: 13px; color: #94a3b8; text-align:center;">अभी कोई गृहकार्य पोस्ट नहीं किया गया है।</p>';
+        return;
+      }
+
+      hwList.forEach(hw => {
+        const d = hw.due_date ? new Date(hw.due_date).toLocaleDateString('hi-IN') : 'कोई नहीं';
+        container.innerHTML += `
+          <div class="card" style="border-left: 4px solid #0d9488;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color: #0d9488; font-size:15px;">${hw.subject}</strong>
+              <span class="status-badge" style="background:#ccfbf1; color:#0f766e;">कक्षा: ${hw.class_name}</span>
+            </div>
+            <h4 style="font-size:14px; color:#1e293b; margin:6px 0 4px 0;">${hw.title}</h4>
+            <p style="font-size:13px; color:#475569; line-height:1.4;">${hw.description}</p>
+            <div style="margin-top:8px; font-size:11px; font-weight:600; color:#dc2626; text-align:right;">
+              📅 जमा करने की अंतिम तिथि: ${d}
+            </div>
+          </div>
+        `;
+      });
+    } catch {
+      container.innerHTML = 'गृहकार्य लोड करने में त्रुटि!';
+    }
+  }
+
+  async function handleCreateHomework() {
+    const subject = document.getElementById('hw-subject').value.trim();
+    const title = document.getElementById('hw-title').value.trim();
+    const description = document.getElementById('hw-desc').value.trim();
+    const due_date = document.getElementById('hw-due-date').value;
+    const msg = document.getElementById('hw-msg');
+
+    if (!subject || !title || !description) {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'कृपया विषय, शीर्षक और विवरण भरें!';
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/homework', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ class_name: 'Class 10-A', subject, title, description, due_date })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        msg.style.color = '#16a34a';
+        msg.innerText = data.message;
+        document.getElementById('hw-subject').value = '';
+        document.getElementById('hw-title').value = '';
+        document.getElementById('hw-desc').value = '';
+        document.getElementById('hw-due-date').value = '';
+        loadHomework();
+      } else {
+        msg.style.color = '#dc2626';
+        msg.innerText = data.error;
+      }
+    } catch {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'सर्वर त्रुटि!';
     }
   }
 
