@@ -176,6 +176,42 @@ app.get('/api/fees', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'फीस रिकॉर्ड लोड करने में त्रुटि' });
   }
+  // 11. अटेंडेंस रिपोर्ट और प्रतिशत API
+app.get('/api/attendance/report', async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        s.id AS student_id,
+        s.roll_no,
+        s.name,
+        s.class_name,
+        COUNT(a.id) AS total_days,
+        COUNT(CASE WHEN a.status = 'Present' THEN 1 END) AS present_days
+      FROM students s
+      LEFT JOIN attendance a ON s.id = a.student_id
+      GROUP BY s.id, s.roll_no, s.name, s.class_name
+      ORDER BY s.roll_no ASC;
+    `;
+    const result = await pool.query(query);
+
+    const report = result.rows.map(row => {
+      const total = Number(row.total_days);
+      const present = Number(row.present_days);
+      const percentage = total > 0 ? Math.round((present / total) * 100) : 0;
+      return {
+        ...row,
+        total_days: total,
+        present_days: present,
+        percentage
+      };
+    });
+
+    res.json(report);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'अटेंडेंस रिपोर्ट लोड करने में त्रुटि' });
+  }
+});
 });
 
 // 9. फीस जमा / अपडेट करें
