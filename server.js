@@ -429,3 +429,40 @@ app.post('/api/auth/change-password', async (req, res) => {
     res.status(500).json({ error: 'पासवर्ड अपडेट करने में विफलता!' });
   }
 });
+// 20. छात्र विवरण अपडेट करने की API (PUT /api/students/:id)
+app.put('/api/students/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, roll_no, class_name } = req.body;
+    if (!name || !roll_no || !class_name) {
+      return res.status(400).json({ error: 'सभी फ़ील्ड्स आवश्यक हैं!' });
+    }
+
+    const result = await pool.query(
+      'UPDATE students SET name = $1, roll_no = $2, class_name = $3 WHERE id = $4 RETURNING *',
+      [name, roll_no, class_name, id]
+    );
+
+    res.json({ message: 'छात्र विवरण सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'छात्र अपडेट करने में त्रुटि!' });
+  }
+});
+
+// 21. छात्र हटाने की API (DELETE /api/students/:id)
+app.delete('/api/students/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    // संबंधित उपस्थिति, फीस और मार्क्स कैस्केड या पहले रिमूव होंगे
+    await pool.query('DELETE FROM attendance WHERE student_id = $1', [id]);
+    await pool.query('DELETE FROM fees WHERE student_id = $1', [id]);
+    await pool.query('DELETE FROM marks WHERE student_id = $1', [id]);
+    await pool.query('DELETE FROM students WHERE id = $1', [id]);
+
+    res.json({ message: 'छात्र रिकॉर्ड सफलतापूर्वक हटा दिया गया!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'छात्र हटाने में विफलता!' });
+  }
+});
