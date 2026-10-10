@@ -400,3 +400,32 @@ app.delete('/api/homework/:id', async (req, res) => {
     res.status(500).json({ error: 'होमवर्क हटाने में त्रुटि!' });
   }
 });
+// 19. पासवर्ड बदलने की API (POST /api/auth/change-password)
+app.post('/api/auth/change-password', async (req, res) => {
+  try {
+    const { userId, oldPassword, newPassword } = req.body;
+    if (!userId || !oldPassword || !newPassword) {
+      return res.status(400).json({ error: 'सभी फ़ील्ड्स आवश्यक हैं!' });
+    }
+
+    const userRes = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+    if (userRes.rows.length === 0) {
+      return res.status(404).json({ error: 'यूज़र नहीं मिला!' });
+    }
+
+    const user = userRes.rows[0];
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'वर्तमान (पुराना) पासवर्ड गलत है!' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await pool.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, userId]);
+    res.json({ message: 'पासवर्ड सफलतापूर्वक बदल दिया गया!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'पासवर्ड अपडेट करने में विफलता!' });
+  }
+});
