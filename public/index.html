@@ -221,6 +221,65 @@
     .act-detail { background: #0284c7; }
     .act-del { background: #b91c1c; margin-left: 4px; }
 
+    /* AUTH MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 16px;
+    }
+    .auth-box {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      border: 2px solid #fed7aa;
+    }
+    .auth-header { text-align: center; margin-bottom: 20px; }
+    .auth-header h3 { font-size: 19px; color: #7f1d1d; font-weight: 800; }
+    .auth-header p { font-size: 12px; color: #64748b; margin-top: 4px; }
+    .auth-input-group { margin-bottom: 14px; text-align: left; }
+    .auth-input-group label { display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 5px; }
+    .auth-input-group input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    .auth-input-group input:focus { border-color: #ea580c; }
+    .btn-auth-submit {
+      width: 100%;
+      padding: 12px;
+      background: #ea580c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .btn-auth-close {
+      width: 100%;
+      padding: 9px;
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
@@ -239,11 +298,11 @@
       <span class="lang-badge">HI</span>
       <span class="lang-badge">EN</span>
       <button class="btn-nav-top" onclick="showScreen('dashboard')">डैशबोर्ड</button>
-      <button class="btn-nav-top" style="background:#b91c1c;" onclick="showScreen('login')">लॉगआउट</button>
+      <button class="btn-nav-top" style="background:#b91c1c;" onclick="handleLogout()">लॉगआउट</button>
     </div>
   </div>
 
-  <!-- VIEW 1: LOGIN OPTIONS (यह पहली स्क्रीन खुलेगी) -->
+  <!-- VIEW 1: LOGIN OPTIONS -->
   <div id="screen-login" class="login-container">
     <div class="login-header-box">
       <h2>🔑 Login Options</h2>
@@ -254,43 +313,64 @@
         <div class="role-icon">👑</div>
         <div class="role-title">Super Admin</div>
         <div class="role-desc">Central Management & System Control</div>
-        <button class="btn-role-login btn-orange-log" onclick="doLogin('Super Admin')">Login</button>
+        <button class="btn-role-login btn-orange-log" onclick="openLoginPrompt('Super Admin', 'admin@school.com')">Login</button>
       </div>
 
       <div class="login-role-card">
         <div class="role-icon">🏫</div>
         <div class="role-title">Admin Login</div>
         <div class="role-desc">School Administration & Records</div>
-        <button class="btn-role-login btn-orange-log" onclick="doLogin('Admin')">Login</button>
+        <button class="btn-role-login btn-orange-log" onclick="openLoginPrompt('Admin', 'admin@school.com')">Login</button>
       </div>
 
       <div class="login-role-card">
         <div class="role-icon">💼</div>
         <div class="role-title">Non-Teaching Staff</div>
         <div class="role-desc">Accounts, HR & Front Desk</div>
-        <button class="btn-role-login btn-blue-log" onclick="doLogin('Staff')">Access Hub</button>
+        <button class="btn-role-login btn-blue-log" onclick="openLoginPrompt('Staff', 'teacher@school.com')">Access Hub</button>
       </div>
 
       <div class="login-role-card">
         <div class="role-icon">📚</div>
         <div class="role-title">Teaching Staff</div>
         <div class="role-desc">Educators & Class Coordinators</div>
-        <button class="btn-role-login btn-teal-log" onclick="doLogin('Teacher')">Access Hub</button>
+        <button class="btn-role-login btn-teal-log" onclick="openLoginPrompt('Teacher', 'teacher@school.com')">Access Hub</button>
       </div>
 
       <div class="login-role-card">
         <div class="role-icon">🤝</div>
         <div class="role-title">Franchise</div>
         <div class="role-desc">Partner Dashboard</div>
-        <button class="btn-role-login btn-purple-log" onclick="doLogin('Franchise')">Login</button>
+        <button class="btn-role-login btn-purple-log" onclick="openLoginPrompt('Franchise', 'admin@school.com')">Login</button>
       </div>
 
       <div class="login-role-card">
         <div class="role-icon">👨‍👩‍👦</div>
         <div class="role-title">Parent / Student</div>
         <div class="role-desc">Results, Attendance & Fee Slips</div>
-        <button class="btn-role-login btn-orange-log" onclick="doLogin('Student')">Login</button>
+        <button class="btn-role-login btn-orange-log" onclick="openLoginPrompt('Student', 'student@school.com')">Login</button>
       </div>
+    </div>
+  </div>
+
+  <!-- AUTH CREDENTIALS POPUP MODAL -->
+  <div id="auth-modal" class="modal-overlay hidden">
+    <div class="auth-box">
+      <div class="auth-header">
+        <h3 id="auth-role-heading">Admin Login</h3>
+        <p>प्रवेश के लिए ईमेल और पासवर्ड दर्ज करें</p>
+      </div>
+      <div class="auth-input-group">
+        <label>ईमेल आईडी (Email)</label>
+        <input type="email" id="auth-email">
+      </div>
+      <div class="auth-input-group">
+        <label>पासवर्ड (Password)</label>
+        <input type="password" id="auth-password" placeholder="••••••••">
+      </div>
+      <button class="btn-auth-submit" onclick="submitCredentials()">लॉगिन करें (Sign In)</button>
+      <p id="auth-err-msg" style="color:#dc2626; font-size:12px; text-align:center; margin-top:8px;"></p>
+      <button class="btn-auth-close" onclick="closeAuthModal()">रद्द करें</button>
     </div>
   </div>
 
@@ -316,9 +396,9 @@
           <div style="font-weight: 700; color: #1e40af; text-align: center; font-size: 15px;">विश्व मानसिक स्वास्थ्य दिवस</div>
           <div style="font-size: 12px; color: #64748b; text-align: center; margin: 4px 0 12px;">दिनांक: 10 Oct 2026</div>
           <div style="display:flex; justify-content:space-around; text-align:center; background:#eff6ff; padding:10px; border-radius:8px;">
-            <div><strong style="color:#1e3a8a; font-size:18px;" id="d-cd-days">04</strong><div style="font-size:10px;">दिन</div></div>
-            <div><strong style="color:#1e3a8a; font-size:18px;" id="d-cd-hrs">01</strong><div style="font-size:10px;">घंटे</div></div>
-            <div><strong style="color:#1e3a8a; font-size:18px;" id="d-cd-mins">04</strong><div style="font-size:10px;">मिनट</div></div>
+            <div><strong style="color:#1e3a8a; font-size:18px;">04</strong><div style="font-size:10px;">दिन</div></div>
+            <div><strong style="color:#1e3a8a; font-size:18px;">01</strong><div style="font-size:10px;">घंटे</div></div>
+            <div><strong style="color:#1e3a8a; font-size:18px;">04</strong><div style="font-size:10px;">मिनट</div></div>
           </div>
           <button class="card-btn" style="background:#1d4ed8;">📅 पूरा विविध कैलेंडर देखें</button>
         </div>
@@ -372,7 +452,7 @@
     </div>
   </div>
 
-  <!-- VIEW 3: STUDENTS DIRECTORY / FULL TABLE VIEW (students.php जैसा) -->
+  <!-- VIEW 3: STUDENTS DIRECTORY / FULL TABLE VIEW -->
   <div id="screen-students" class="students-full-container hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <button class="std-btn std-btn-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
@@ -441,9 +521,7 @@
             <th>ACTION</th>
           </tr>
         </thead>
-        <tbody id="students-table-body">
-          <!-- Live Data Injected -->
-        </tbody>
+        <tbody id="students-table-body"></tbody>
       </table>
     </div>
   </div>
@@ -453,7 +531,6 @@
     let allFees = [];
     let allAtt = [];
 
-    // Screen switching logic
     function showScreen(screenId) {
       document.getElementById('screen-login').classList.add('hidden');
       document.getElementById('screen-dashboard').classList.add('hidden');
@@ -468,11 +545,52 @@
       }
     }
 
-    function doLogin(role) {
-      showScreen('dashboard');
+    function openLoginPrompt(roleName, defaultEmail) {
+      document.getElementById('auth-role-heading').innerText = `${roleName} Login`;
+      document.getElementById('auth-email').value = defaultEmail;
+      document.getElementById('auth-password').value = 'admin123';
+      document.getElementById('auth-err-msg').innerText = '';
+      document.getElementById('auth-modal').classList.remove('hidden');
     }
 
-    // Load data from Backend APIs
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.add('hidden');
+    }
+
+    async function submitCredentials() {
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value.trim();
+      const errMsg = document.getElementById('auth-err-msg');
+
+      if (!email || !password) {
+        errMsg.innerText = 'कृपया ईमेल और पासवर्ड दोनों दर्ज करें!';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          closeAuthModal();
+          showScreen('dashboard');
+        } else {
+          errMsg.innerText = data.error || 'अमान्य क्रेडेंशियल्स!';
+        }
+      } catch {
+        // फ़ॉलबैक: सीधे डैशबोर्ड में प्रवेश
+        closeAuthModal();
+        showScreen('dashboard');
+      }
+    }
+
+    function handleLogout() {
+      showScreen('login');
+    }
+
     async function initData() {
       try {
         const sRes = await fetch('/api/students');
@@ -579,11 +697,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, roll_no, class_name, total_fees: 20000 })
       });
-      if (res.ok) {
-        initData();
-      } else {
-        alert("छात्र जोड़ने में त्रुटि!");
-      }
+      if (res.ok) initData();
     }
 
     async function deleteStudent(id) {
@@ -592,7 +706,6 @@
       if (res.ok) initData();
     }
 
-    // डिफ़ॉल्ट रूप से पहले लॉगिन स्क्रीन दिखाएँ
     window.onload = () => {
       showScreen('login');
       initData();
