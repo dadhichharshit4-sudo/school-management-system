@@ -72,7 +72,7 @@
       cursor: pointer;
       gap: 3px;
     }
-    .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+    .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
     .nav-item.active { color: #1a73e8; }
 
     .user-pill {
@@ -96,10 +96,12 @@
     .card-title { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
 
     .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; margin-bottom: 10px; outline: none; background: #fff; }
+    .form-control:focus { border-color: #1a73e8; }
     .btn-action { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
     .btn-blue { background: #1a73e8; }
     .btn-green { background: #16a34a; }
     .btn-orange { background: #ea580c; }
+    .btn-purple { background: #7c3aed; }
 
     .notice-item {
       background: #ffffff;
@@ -128,21 +130,12 @@
     .badge-partial { background: #fef9c3; color: #a16207; }
     .badge-pending { background: #fee2e2; color: #b91c1c; }
 
-    /* प्रोग्रेस बार */
-    .progress-bar-container {
-      background: #e2e8f0;
-      border-radius: 10px;
-      height: 8px;
-      width: 100%;
-      overflow: hidden;
-      margin-top: 6px;
-    }
-    .progress-fill {
-      height: 100%;
-      background: #16a34a;
-      border-radius: 10px;
-      transition: width 0.3s;
-    }
+    .progress-bar-container { background: #e2e8f0; border-radius: 10px; height: 8px; width: 100%; overflow: hidden; margin-top: 6px; }
+    .progress-fill { height: 100%; border-radius: 10px; }
+
+    .marks-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+    .marks-table th, .marks-table td { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
+    .marks-table th { color: #64748b; font-weight: 600; }
 
     .hidden { display: none !important; }
   </style>
@@ -206,7 +199,6 @@
           <p id="student-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
         </div>
 
-        <!-- उपस्थिति रिपोर्ट / प्रतिशत सारांश -->
         <div class="card" style="border-top: 3px solid #16a34a;">
           <div class="card-title" style="color: #16a34a; margin-bottom: 6px;">📊 उपस्थिति प्रतिशत रिपोर्ट</div>
           <div id="attendance-summary-container">लोड हो रहा है...</div>
@@ -225,9 +217,27 @@
         <div class="card-title" id="fee-heading">फीस विवरण</div>
         <div id="fees-container">लोड हो रहा है...</div>
       </div>
+
+      <!-- टैब 4: रिजल्ट / मार्क्स -->
+      <div id="section-marks" class="hidden">
+        <div id="add-marks-section" class="card hidden" style="border: 1px dashed #7c3aed; background: #faf5ff;">
+          <div class="card-title" style="color: #7c3aed;">+ परीक्षा अंक दर्ज करें</div>
+          <select id="marks-student-select" class="form-control"></select>
+          <input type="text" id="marks-subject" class="form-control" placeholder="विषय (उदा. गणित / English / Science)">
+          <div style="display: flex; gap: 8px;">
+            <input type="number" id="marks-obtained" class="form-control" placeholder="प्राप्तांक (उदा. 85)">
+            <input type="number" id="marks-total" class="form-control" value="100" placeholder="पूर्णांक (100)">
+          </div>
+          <button class="btn-action btn-purple" onclick="handleAddMarks()">अंक सबमिट करें</button>
+          <p id="marks-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
+        </div>
+
+        <div class="card-title">📜 परीक्षा परिणाम / रिपोर्ट कार्ड</div>
+        <div id="report-card-container">लोड हो रहा है...</div>
+      </div>
     </div>
 
-    <!-- बॉटम नेविगेशन बार -->
+    <!-- 4 टैब्स वाला बॉटम नेविगेशन बार -->
     <div class="bottom-nav">
       <button id="nav-btn-notices" class="nav-item active" onclick="switchTab('notices')">
         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
@@ -240,6 +250,10 @@
       <button id="nav-btn-fees" class="nav-item" onclick="switchTab('fees')">
         <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
         फीस
+      </button>
+      <button id="nav-btn-marks" class="nav-item" onclick="switchTab('marks')">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        रिजल्ट
       </button>
     </div>
   </div>
@@ -276,16 +290,15 @@
     document.getElementById('welcome-name').innerText = user.name;
     document.getElementById('user-role-badge').innerText = `रोल: ${user.role.toUpperCase()}`;
 
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'teacher') {
       document.getElementById('create-notice-section').classList.remove('hidden');
-      document.getElementById('add-student-section').classList.remove('hidden');
       document.getElementById('att-submit-box').classList.remove('hidden');
-      document.getElementById('att-heading').innerText = 'दैनिक हाजिरी दर्ज करें';
-      document.getElementById('fee-heading').innerText = 'सभी छात्र फीस रिकॉर्ड (Admin)';
-    } else if (user.role === 'teacher') {
-      document.getElementById('create-notice-section').classList.remove('hidden');
-      document.getElementById('add-student-section').classList.add('hidden');
-      document.getElementById('att-submit-box').classList.remove('hidden');
+      document.getElementById('add-marks-section').classList.remove('hidden');
+      if (user.role === 'admin') {
+        document.getElementById('add-student-section').classList.remove('hidden');
+      } else {
+        document.getElementById('add-student-section').classList.add('hidden');
+      }
       document.getElementById('att-heading').innerText = 'दैनिक हाजिरी दर्ज करें';
       document.getElementById('fee-heading').innerText = 'सभी छात्र फीस रिकॉर्ड';
     } else {
@@ -293,6 +306,7 @@
       document.getElementById('add-student-section').classList.add('hidden');
       document.getElementById('att-submit-box').classList.add('hidden');
       document.getElementById('att-heading').classList.add('hidden');
+      document.getElementById('add-marks-section').classList.add('hidden');
       document.getElementById('fee-heading').innerText = 'मेरी फीस का विवरण';
     }
 
@@ -300,10 +314,11 @@
     loadStudents();
     loadAttendanceSummary();
     loadFees();
+    loadMarks();
   }
 
   function switchTab(tab) {
-    ['notices', 'attendance', 'fees'].forEach(t => {
+    ['notices', 'attendance', 'fees', 'marks'].forEach(t => {
       document.getElementById(`section-${t}`).classList.add('hidden');
       document.getElementById(`nav-btn-${t}`).classList.remove('active');
     });
@@ -345,15 +360,21 @@
 
   async function loadStudents() {
     const container = document.getElementById('students-list');
+    const select = document.getElementById('marks-student-select');
     try {
       const res = await fetch('/api/students');
       studentsData = await res.json();
       container.innerHTML = '';
+      select.innerHTML = '<option value="">छात्र चुनें...</option>';
 
       let listToShow = studentsData;
       if (currentUser && currentUser.role === 'student') {
         listToShow = studentsData.filter(s => s.name.toLowerCase() === currentUser.name.toLowerCase());
       }
+
+      studentsData.forEach(s => {
+        select.innerHTML += `<option value="${s.id}">${s.name} (${s.roll_no})</option>`;
+      });
 
       listToShow.forEach(s => {
         container.innerHTML += `
@@ -387,11 +408,6 @@
         listToShow = reports.filter(r => r.name.toLowerCase() === currentUser.name.toLowerCase());
       }
 
-      if (listToShow.length === 0) {
-        container.innerHTML = '<p style="font-size: 12px; color: #94a3b8;">कोई रिकॉर्ड उपलब्ध नहीं है।</p>';
-        return;
-      }
-
       listToShow.forEach(r => {
         const color = r.percentage >= 75 ? '#16a34a' : (r.percentage >= 50 ? '#ca8a04' : '#dc2626');
         container.innerHTML += `
@@ -403,8 +419,7 @@
             <div class="progress-bar-container">
               <div class="progress-fill" style="width: ${r.percentage}%; background: ${color};"></div>
             </div>
-          </div>
-        `;
+          </div>`;
       });
     } catch {
       container.innerHTML = 'रिपोर्ट लोड करने में त्रुटि!';
@@ -418,34 +433,23 @@
     const total_fees = document.getElementById('new-stud-fee').value;
     const msg = document.getElementById('student-add-msg');
 
-    if (!roll_no || !name || !class_name) {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'कृपया सभी विवरण भरें!';
-      return;
-    }
+    if (!roll_no || !name || !class_name) return;
 
-    try {
-      const res = await fetch('/api/students', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ roll_no, name, class_name, total_fees })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        msg.style.color = '#16a34a';
-        msg.innerText = data.message;
-        document.getElementById('new-stud-roll').value = '';
-        document.getElementById('new-stud-name').value = '';
-        loadStudents();
-        loadAttendanceSummary();
-        loadFees();
-      } else {
-        msg.style.color = '#dc2626';
-        msg.innerText = data.error;
-      }
-    } catch {
+    const res = await fetch('/api/students', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roll_no, name, class_name, total_fees })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      msg.style.color = '#16a34a';
+      msg.innerText = data.message;
+      loadStudents();
+      loadAttendanceSummary();
+      loadFees();
+    } else {
       msg.style.color = '#dc2626';
-      msg.innerText = 'त्रुटि हुई!';
+      msg.innerText = data.error;
     }
   }
 
@@ -455,77 +459,157 @@
       status: document.querySelector(`input[name="att_${s.id}"]:checked`).value
     }));
     const msg = document.getElementById('att-msg');
-    try {
-      const res = await fetch('/api/attendance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ attendanceData })
-      });
-      const data = await res.json();
-      msg.style.color = res.ok ? '#16a34a' : '#dc2626';
-      msg.innerText = data.message || data.error;
-      loadAttendanceSummary();
-    } catch {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'हाजिरी सबमिट विफल!';
-    }
+    const res = await fetch('/api/attendance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ attendanceData })
+    });
+    const data = await res.json();
+    msg.style.color = res.ok ? '#16a34a' : '#dc2626';
+    msg.innerText = data.message || data.error;
+    loadAttendanceSummary();
   }
 
   async function loadFees() {
     const container = document.getElementById('fees-container');
-    try {
-      const res = await fetch('/api/fees');
-      const fees = await res.json();
-      container.innerHTML = '';
+    const res = await fetch('/api/fees');
+    const fees = await res.json();
+    container.innerHTML = '';
 
-      let listToShow = fees;
-      if (currentUser && currentUser.role === 'student') {
-        listToShow = fees.filter(f => f.name.toLowerCase() === currentUser.name.toLowerCase());
-      }
-
-      listToShow.forEach(f => {
-        const pending = Number(f.total_amount) - Number(f.paid_amount);
-        let badgeClass = 'badge-pending';
-        let badgeText = 'बकाया';
-        if (f.status === 'Paid') { badgeClass = 'badge-paid'; badgeText = 'पूर्ण जमा'; }
-        else if (f.status === 'Partial') { badgeClass = 'badge-partial'; badgeText = 'आंशिक जमा'; }
-
-        container.innerHTML += `
-          <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="color: #1e293b;">${f.name} (रोल: ${f.roll_no})</strong>
-              <span class="status-badge ${badgeClass}">${badgeText}</span>
-            </div>
-            <div style="font-size: 13px; color: #64748b; margin-top: 8px;">
-              कुल: ₹${f.total_amount} | जमा: ₹${f.paid_amount} | <strong style="color: #dc2626;">बकाया: ₹${pending}</strong>
-            </div>
-            ${currentUser.role !== 'student' && pending > 0 ? `
-              <div style="display:flex; gap:8px; margin-top:10px;">
-                <input type="number" id="pay_amt_${f.student_id}" class="form-control" placeholder="राशि" style="margin-bottom:0; padding:8px 10px; font-size:13px;">
-                <button class="btn-action btn-blue" style="width: auto; padding: 8px 16px;" onclick="payFee(${f.student_id})">जमा करें</button>
-              </div>
-            ` : ''}
-          </div>`;
-      });
-    } catch {
-      container.innerHTML = 'फीस लोड करने में त्रुटि!';
+    let listToShow = fees;
+    if (currentUser && currentUser.role === 'student') {
+      listToShow = fees.filter(f => f.name.toLowerCase() === currentUser.name.toLowerCase());
     }
+
+    listToShow.forEach(f => {
+      const pending = Number(f.total_amount) - Number(f.paid_amount);
+      let badgeClass = f.status === 'Paid' ? 'badge-paid' : (f.status === 'Partial' ? 'badge-partial' : 'badge-pending');
+      let badgeText = f.status === 'Paid' ? 'पूर्ण जमा' : (f.status === 'Partial' ? 'आंशिक जमा' : 'बकाया');
+
+      container.innerHTML += `
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color: #1e293b;">${f.name} (रोल: ${f.roll_no})</strong>
+            <span class="status-badge ${badgeClass}">${badgeText}</span>
+          </div>
+          <div style="font-size: 13px; color: #64748b; margin-top: 8px;">
+            कुल: ₹${f.total_amount} | जमा: ₹${f.paid_amount} | <strong style="color: #dc2626;">बकाया: ₹${pending}</strong>
+          </div>
+          ${currentUser.role !== 'student' && pending > 0 ? `
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <input type="number" id="pay_amt_${f.student_id}" class="form-control" placeholder="राशि" style="margin-bottom:0; padding:8px 10px; font-size:13px;">
+              <button class="btn-action btn-blue" style="width: auto; padding: 8px 16px;" onclick="payFee(${f.student_id})">जमा करें</button>
+            </div>
+          ` : ''}
+        </div>`;
+    });
   }
 
   async function payFee(studentId) {
     const input = document.getElementById(`pay_amt_${studentId}`);
-    const amount = input.value;
-    if (!amount || amount <= 0) return alert('वैध राशि दर्ज करें!');
-
     const res = await fetch('/api/fees/pay', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ student_id: studentId, amount })
+      body: JSON.stringify({ student_id: studentId, amount: input.value })
     });
-    if (res.ok) {
-      loadFees();
-    } else {
-      alert('भुगतान रिकॉर्ड विफल!');
+    if (res.ok) loadFees();
+  }
+
+  async function handleAddMarks() {
+    const student_id = document.getElementById('marks-student-select').value;
+    const subject = document.getElementById('marks-subject').value.trim();
+    const marks_obtained = document.getElementById('marks-obtained').value;
+    const total_marks = document.getElementById('marks-total').value;
+    const msg = document.getElementById('marks-add-msg');
+
+    if (!student_id || !subject || !marks_obtained) {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'कृपया सभी विवरण भरें!';
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/marks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student_id, subject, marks_obtained, total_marks })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        msg.style.color = '#16a34a';
+        msg.innerText = data.message;
+        document.getElementById('marks-subject').value = '';
+        document.getElementById('marks-obtained').value = '';
+        loadMarks();
+      } else {
+        msg.style.color = '#dc2626';
+        msg.innerText = data.error;
+      }
+    } catch {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'अंक दर्ज करने में त्रुटि!';
+    }
+  }
+
+  async function loadMarks() {
+    const container = document.getElementById('report-card-container');
+    try {
+      const res = await fetch('/api/marks');
+      const marksList = await res.json();
+      container.innerHTML = '';
+
+      let listToShow = marksList;
+      if (currentUser && currentUser.role === 'student') {
+        listToShow = marksList.filter(m => m.name.toLowerCase() === currentUser.name.toLowerCase());
+      }
+
+      if (listToShow.length === 0) {
+        container.innerHTML = '<p style="font-size: 13px; color: #94a3b8; text-align:center;">अभी कोई अंक दर्ज नहीं किए गए हैं।</p>';
+        return;
+      }
+
+      // छात्रवार ग्रुप करें
+      const grouped = {};
+      listToShow.forEach(m => {
+        if (!grouped[m.name]) grouped[m.name] = { roll: m.roll_no, class: m.class_name, subjects: [] };
+        grouped[m.name].subjects.push(m);
+      });
+
+      for (const [studentName, data] of Object.entries(grouped)) {
+        let rows = '';
+        let totalObt = 0;
+        let totalMax = 0;
+
+        data.subjects.forEach(s => {
+          totalObt += Number(s.marks_obtained);
+          totalMax += Number(s.total_marks);
+          rows += `<tr><td>${s.subject}</td><td><strong>${s.marks_obtained}</strong> / ${s.total_marks}</td></tr>`;
+        });
+
+        const percentage = Math.round((totalObt / totalMax) * 100);
+
+        container.innerHTML += `
+          <div class="card" style="border-top: 3px solid #7c3aed;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong style="font-size:15px; color:#1e293b;">${studentName}</strong><br>
+                <span style="font-size:11px; color:#64748b;">रोल: ${data.roll} • ${data.class}</span>
+              </div>
+              <div style="text-align:right;">
+                <span class="status-badge" style="background:#f3e8ff; color:#7c3aed; font-size:12px;">${percentage}%</span>
+              </div>
+            </div>
+            <table class="marks-table">
+              <thead><tr><th>विषय</th><th>प्राप्तांक</th></tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+            <div style="margin-top:10px; font-size:12px; font-weight:700; color:#475569; text-align:right;">
+              कुल योग: ${totalObt} / ${totalMax}
+            </div>
+          </div>`;
+      }
+    } catch {
+      container.innerHTML = 'रिजल्ट लोड करने में विफलता!';
     }
   }
 
