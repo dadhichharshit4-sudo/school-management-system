@@ -285,3 +285,49 @@ app.post('/api/students', async (req, res) => {
     res.status(500).json({ error: 'डेटाबेस एरर: छात्र सेव नहीं हो सका' });
   }
 });
+// 12. परीक्षा अंक दर्ज करने की API (Admin / Teacher)
+app.post('/api/marks', async (req, res) => {
+  try {
+    const { student_id, subject, marks_obtained, total_marks, exam_name } = req.body;
+    if (!student_id || !subject || marks_obtained === undefined) {
+      return res.status(400).json({ error: 'सभी फ़ील्ड्स आवश्यक हैं!' });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO marks (student_id, subject, marks_obtained, total_marks, exam_name)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [student_id, subject, Number(marks_obtained), Number(total_marks) || 100, exam_name || 'अर्धवार्षिक परीक्षा']
+    );
+
+    res.status(201).json({ message: 'अंक सफलतापूर्वक दर्ज किए गए!', mark: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'अंक सेव करने में विफलता!' });
+  }
+});
+
+// 13. छात्र रिपोर्ट कार्ड प्राप्त करने की API
+app.get('/api/marks', async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        m.id,
+        m.student_id,
+        s.name,
+        s.roll_no,
+        s.class_name,
+        m.subject,
+        m.marks_obtained,
+        m.total_marks,
+        m.exam_name
+      FROM marks m
+      JOIN students s ON m.student_id = s.id
+      ORDER BY s.roll_no ASC, m.id DESC;
+    `;
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'मार्क्स डेटा लोड करने में त्रुटि' });
+  }
+});
