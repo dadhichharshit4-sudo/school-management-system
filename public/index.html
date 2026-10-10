@@ -3,1146 +3,575 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#1a73e8">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>स्कूल मैनेजमेंट सिस्टम</title>
+  <meta name="theme-color" content="#8b0000">
+  <title>SHREE MEWAR PUBLIC SCHOOL - Admin Dashboard</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: #eef2f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
     
-    .mobile-frame { 
-      width: 100%; 
-      max-width: 430px; 
-      height: 100vh; 
-      max-height: 880px; 
-      background: #f8fafc; 
-      display: flex; 
-      flex-direction: column; 
+    body {
+      background: #f59e0b;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding-bottom: 70px;
+    }
+
+    .erp-container {
+      width: 100%;
+      max-width: 480px;
+      background: #fbf3d5;
+      min-height: 100vh;
       position: relative;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-      border-radius: 24px;
-      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0,0,0,0.15);
     }
 
-    @media (max-width: 480px) {
-      .mobile-frame { height: 100vh; max-height: 100vh; border-radius: 0; }
-      body { background: #fff; }
-    }
-
-    .app-header {
-      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+    /* शीर्ष हेडर */
+    .erp-header {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
       color: white;
-      padding: 16px 20px;
+      padding: 12px 14px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .erp-title { font-size: 16px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+    .erp-subtitle { font-size: 10px; color: #fde68a; margin-top: 2px; }
+    .erp-date-badge {
+      display: inline-block;
+      background: rgba(0,0,0,0.3);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      color: #fff;
+      margin-top: 4px;
+    }
+
+    /* क्विक एक्शन कैप्सूल बटन्स (Pills Bar) */
+    .pills-scroll-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 10px;
+      background: #fef08a;
+      border-bottom: 2px solid #f59e0b;
+      justify-content: center;
+    }
+    .pill-btn {
+      padding: 5px 10px;
+      border-radius: 16px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      white-space: nowrap;
+    }
+    .pill-blue { background: #0284c7; }
+    .pill-green { background: #16a34a; }
+    .pill-orange { background: #ea580c; }
+    .pill-teal { background: #0d9488; }
+    .pill-purple { background: #7c3aed; }
+    .pill-red { background: #dc2626; }
+    .pill-pink { background: #db2777; }
+    .pill-indigo { background: #4f46e5; }
+
+    /* डैशबोर्ड ग्रिड व कार्ड्स */
+    .dashboard-grid {
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .erp-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+    .card-head {
+      padding: 8px 12px;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(26, 115, 232, 0.2);
     }
-    .app-header h3 { font-size: 17px; font-weight: 700; }
-    .header-btns { display: flex; gap: 6px; }
-    .header-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; }
+    .card-head-blue { background: #1d4ed8; }
+    .card-head-green { background: #047857; }
+    .card-head-purple { background: #6d28d9; }
+    .card-head-orange { background: #c2410c; }
+    .card-head-teal { background: #0f766e; }
+    .card-head-red { background: #991b1b; }
 
-    .app-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 16px 85px 16px;
+    .card-body { padding: 10px 12px; }
+
+    /* मेट्रिक रो */
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 12px;
+      color: #334155;
     }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-val { font-weight: 700; font-size: 13px; }
+    .val-green { color: #16a34a; }
+    .val-red { color: #dc2626; }
+    .val-blue { color: #2563eb; }
 
-    .bottom-nav {
-      position: absolute;
-      bottom: 0;
+    /* इवेंट टाइमर बॉक्सेस */
+    .timer-container {
+      display: flex;
+      justify-content: space-around;
+      margin: 8px 0;
+      text-align: center;
+    }
+    .timer-unit {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 6px 10px;
+      min-width: 55px;
+    }
+    .timer-digit { font-size: 15px; font-weight: 800; color: #1e40af; }
+    .timer-label { font-size: 9px; color: #64748b; font-weight: 600; }
+
+    .card-btn {
       width: 100%;
-      height: 65px;
-      background: #ffffff;
-      border-top: 1px solid #e2e8f0;
+      background: #334155;
+      color: white;
+      border: none;
+      padding: 7px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    /* फ्लोटिंग बॉटम बार */
+    .erp-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: linear-gradient(135deg, #581c87, #3b0764);
+      padding: 8px 12px;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      box-shadow: 0 -4px 15px rgba(0,0,0,0.04);
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
+      z-index: 100;
     }
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #64748b;
-      font-size: 10px;
-      font-weight: 600;
-      background: none;
-      border: none;
-      cursor: pointer;
-      gap: 3px;
-    }
-    .nav-item svg { width: 19px; height: 19px; fill: currentColor; }
-    .nav-item.active { color: #1a73e8; }
-
-    .user-pill {
-      background: #e0f2fe;
-      color: #0369a1;
-      padding: 4px 10px;
+    .bottom-action-btn {
+      padding: 8px 12px;
       border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-block;
-      margin-bottom: 14px;
-    }
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      border: 1px solid #edf2f7;
-    }
-    .card-title { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
-
-    .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; margin-bottom: 10px; outline: none; background: #fff; }
-    .form-control:focus { border-color: #1a73e8; }
-    
-    .search-box {
-      background: #ffffff;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 9px 12px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .search-box input {
       border: none;
-      outline: none;
-      width: 100%;
-      font-size: 13px;
-      background: transparent;
-    }
-
-    .btn-action { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
-    .btn-blue { background: #1a73e8; }
-    .btn-green { background: #16a34a; }
-    .btn-orange { background: #ea580c; }
-    .btn-purple { background: #7c3aed; }
-    .btn-teal { background: #0d9488; }
-
-    .notice-item {
-      background: #ffffff;
-      border-left: 4px solid #1a73e8;
-      border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-    .notice-item h4 { color: #1a73e8; font-size: 15px; margin-bottom: 4px; }
-    .notice-item p { color: #475569; font-size: 13px; line-height: 1.4; }
-    .notice-item .date { color: #94a3b8; font-size: 11px; margin-top: 6px; text-align: right; }
-
-    .list-row {
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: white;
-      padding: 12px 14px;
-      border-radius: 12px;
-      margin-bottom: 8px;
-      border: 1px solid #f1f5f9;
+      gap: 4px;
     }
-    .status-badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-    .badge-paid { background: #dcfce7; color: #15803d; }
-    .badge-partial { background: #fef9c3; color: #a16207; }
-    .badge-pending { background: #fee2e2; color: #b91c1c; }
+    .btn-b-green { background: #16a34a; }
+    .btn-b-red { background: #dc2626; }
+    .btn-b-purple { background: #7c3aed; }
 
-    .progress-bar-container { background: #e2e8f0; border-radius: 10px; height: 8px; width: 100%; overflow: hidden; margin-top: 6px; }
-    .progress-fill { height: 100%; border-radius: 10px; }
-
-    .marks-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
-    .marks-table th, .marks-table td { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
-    .marks-table th { color: #64748b; font-weight: 600; }
-    
-    .action-icon-btn { background: none; border: none; cursor: pointer; font-size: 12px; padding: 2px 5px; border-radius: 4px; }
-    .edit-btn { color: #2563eb; }
-    .delete-btn { color: #dc2626; margin-left: 4px; }
+    /* फ़्लोटिंग व्हाट्सएप सपोर्ट */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 60px;
+      right: 15px;
+      background: #25d366;
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 101;
+      text-decoration: none;
+    }
 
     /* मोडल स्टाइल */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.65);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 999;
-      padding: 16px;
+      padding: 14px;
     }
-    .receipt-box {
+    .modal-box {
       background: white;
       width: 100%;
-      max-width: 380px;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 420px;
+      border-radius: 14px;
+      padding: 16px;
       max-height: 90vh;
       overflow-y: auto;
     }
-    .receipt-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 14px; }
-    .receipt-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #334155; }
-    .receipt-row.highlight { font-weight: 700; font-size: 14px; border-top: 1px solid #e2e8f0; padding-top: 8px; }
-
+    .form-control { width: 100%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 13px; margin-bottom: 8px; outline: none; }
     .hidden { display: none !important; }
-
-    @media print {
-      body * { visibility: hidden; }
-      #printable-receipt, #printable-receipt *, #printable-marksheet, #printable-marksheet * { visibility: visible; }
-      #printable-receipt, #printable-marksheet { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; box-shadow: none; border: 1px solid #ccc; }
-      .no-print { display: none !important; }
-    }
   </style>
 </head>
 <body>
 
-<div class="mobile-frame">
-  <!-- लॉगिन स्क्रीन -->
-  <div id="login-screen" style="flex: 1; display: flex; flex-direction: column;">
-    <div class="app-header" style="justify-content: center; padding: 28px 20px;">
-      <div style="text-align: center;">
-        <h3 style="font-size: 20px;">स्कूल मैनेजमेंट सिस्टम</h3>
-        <p style="font-size: 12px; opacity: 0.9; margin-top: 4px;">Admin • Teacher • Student Portal</p>
-      </div>
-    </div>
-    <div class="app-body" style="padding: 24px;">
-      <div class="card" style="margin-top: 20px;">
-        <label style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block;">ईमेल आईडी</label>
-        <input type="email" id="login-email" class="form-control" value="admin@school.com">
+<div class="erp-container">
 
-        <label style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block;">पासवर्ड</label>
-        <input type="password" id="login-password" class="form-control" value="admin123">
-
-        <button class="btn-action btn-blue" style="margin-top: 8px;" onclick="handleLogin()">लॉगिन करें</button>
-        <p id="login-msg" style="color: #dc2626; font-size: 13px; text-align: center; margin-top: 10px;"></p>
-      </div>
-    </div>
+  <!-- शीर्ष हेडर -->
+  <div class="erp-header">
+    <div class="erp-title">SHREE MEWAR PUBLIC SCHOOL</div>
+    <div class="erp-subtitle">आपके स्कूल का Admin Dashboard | शैक्षिक सत्र: 2026-27</div>
+    <div class="erp-date-badge" id="live-header-date">दिनांक: 10 Oct 2026</div>
   </div>
 
-  <!-- मेन ऐप स्क्रीन -->
-  <div id="dashboard-screen" class="hidden" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
-    <div class="app-header">
-      <h3 id="welcome-name">डैशबोर्ड</h3>
-      <div class="header-btns">
-        <button class="header-btn" onclick="openPasswordModal()">🔑 पासवर्ड</button>
-        <button class="header-btn" onclick="handleLogout()">लॉगआउट</button>
+  <!-- क्विक एक्शन पिल्स (Horizontal Badges) -->
+  <div class="pills-scroll-container">
+    <button class="pill-btn pill-blue" onclick="openSection('students')">🎓 विद्यार्थी</button>
+    <button class="pill-btn pill-green" onclick="openSection('attendance')">📋 उपस्थिति</button>
+    <button class="pill-btn pill-orange" onclick="openSection('fees')">💰 फीस प्रबंधन</button>
+    <button class="pill-btn pill-teal" onclick="openSection('homework')">📚 गृहकार्य</button>
+    <button class="pill-btn pill-purple" onclick="openSection('marks')">📜 परीक्षा / रिजल्ट</button>
+    <button class="pill-btn pill-red" onclick="openAddStudentModal()">+ नया प्रवेश</button>
+    <button class="pill-btn pill-pink" onclick="openSection('notices')">📢 सूचना प्रबंधन</button>
+    <button class="pill-btn pill-indigo" onclick="openPasswordModal()">🔑 पासवर्ड</button>
+  </div>
+
+  <!-- मुख्य डैशबोर्ड ग्रिड -->
+  <div class="dashboard-grid">
+
+    <!-- 1. आगामी मुख्य इवेंट (टाइमर) -->
+    <div class="erp-card">
+      <div class="card-head card-head-blue">
+        <span>📅 आगामी मुख्य इवेंट (विविध)</span>
+      </div>
+      <div class="card-body">
+        <div style="font-weight: 700; font-size: 13px; color: #1e3a8a; text-align: center;">विश्व मानसिक स्वास्थ्य दिवस</div>
+        <div style="font-size: 11px; color: #64748b; text-align: center; margin-bottom: 6px;">दिनांक: 10 Oct 2026</div>
+        <div class="timer-container">
+          <div class="timer-unit"><div class="timer-digit" id="t-days">00</div><div class="timer-label">दिन</div></div>
+          <div class="timer-unit"><div class="timer-digit" id="t-hours">00</div><div class="timer-label">घंटे</div></div>
+          <div class="timer-unit"><div class="timer-digit" id="t-mins">00</div><div class="timer-label">मिनट</div></div>
+          <div class="timer-unit"><div class="timer-digit" id="t-secs">00</div><div class="timer-label">सेकंड</div></div>
+        </div>
+        <button class="card-btn" style="background: #1d4ed8;" onclick="alert('कैलेंडर विवरण जल्द आ रहा है')">📅 पूरा विविध कैलेंडर देखें</button>
       </div>
     </div>
 
-    <div class="app-body">
-      <div id="user-role-badge" class="user-pill"></div>
-
-      <!-- टैब 1: नोटिस बोर्ड -->
-      <div id="section-notices">
-        <div id="create-notice-section" class="card hidden" style="border: 1px dashed #ea580c; background: #fffaf5;">
-          <div class="card-title" style="color: #ea580c;">+ नया नोटिस जारी करें</div>
-          <input type="text" id="new-notice-title" class="form-control" placeholder="नोटिस शीर्षक">
-          <textarea id="new-notice-desc" class="form-control" rows="2" placeholder="नोटिस का विवरण..."></textarea>
-          <button class="btn-action btn-orange" onclick="handleCreateNotice()">नोटिस पोस्ट करें</button>
-        </div>
-        <div class="card-title">स्कूल नोटिस बोर्ड</div>
-        <div id="notices-container">लोड हो रहा है...</div>
+    <!-- 2. छात्र सांख्यिकी -->
+    <div class="erp-card">
+      <div class="card-head card-head-green">
+        <span>👨‍🎓 छात्र सारांश</span>
       </div>
-
-      <!-- टैब 2: गृहकार्य (Homework) -->
-      <div id="section-homework" class="hidden">
-        <div id="create-hw-section" class="card hidden" style="border: 1px dashed #0d9488; background: #f0fdfa;">
-          <div class="card-title" style="color: #0d9488;">+ नया गृहकार्य (Homework) दें</div>
-          <input type="text" id="hw-subject" class="form-control" placeholder="विषय (उदा. गणित / English / विज्ञान)">
-          <input type="text" id="hw-title" class="form-control" placeholder="शीर्षक (उदा. अध्याय 5 अभ्यास प्रश्न)">
-          <textarea id="hw-desc" class="form-control" rows="2" placeholder="गृहकार्य का विस्तृत विवरण..."></textarea>
-          <label style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 4px; display: block;">जमा करने की अंतिम तिथि (Due Date)</label>
-          <input type="date" id="hw-due-date" class="form-control">
-          <button class="btn-action btn-teal" onclick="handleCreateHomework()">गृहकार्य पोस्ट करें</button>
-          <p id="hw-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
-        </div>
-        <div class="card-title">📚 दैनिक गृहकार्य (Homework)</div>
-        <div id="homework-container">लोड हो रहा है...</div>
-      </div>
-
-      <!-- टैब 3: अटेंडेंस & छात्र प्रबंधन -->
-      <div id="section-attendance" class="hidden">
-        <div id="add-student-section" class="card hidden" style="border: 1px dashed #1a73e8; background: #f8fafc;">
-          <div class="card-title" style="color: #1a73e8;">+ नया छात्र प्रवेश</div>
-          <input type="number" id="new-stud-roll" class="form-control" placeholder="रोल नंबर">
-          <input type="text" id="new-stud-name" class="form-control" placeholder="छात्र का नाम">
-          <input type="text" id="new-stud-class" class="form-control" value="Class 10-A" placeholder="कक्षा">
-          <input type="number" id="new-stud-fee" class="form-control" value="20000" placeholder="कुल वार्षिक फीस">
-          <button class="btn-action btn-blue" onclick="handleAddStudent()">छात्र सेव करें</button>
-          <p id="student-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
-        </div>
-
-        <div class="search-box">
-          <span>🔍</span>
-          <input type="text" id="search-attendance" placeholder="छात्र का नाम या रोल नंबर खोजें..." onkeyup="filterAttendanceList()">
-        </div>
-
-        <div class="card" style="border-top: 3px solid #16a34a;">
-          <div class="card-title" style="color: #16a34a; margin-bottom: 6px;">📊 उपस्थिति प्रतिशत रिपोर्ट</div>
-          <div id="attendance-summary-container">लोड हो रहा है...</div>
-        </div>
-
-        <div class="card-title" id="att-heading">दैनिक हाजिरी एवं छात्र सूची</div>
-        <div id="students-list">लोड हो रहा है...</div>
-        <div id="att-submit-box">
-          <button class="btn-action btn-green" style="margin-top: 8px;" onclick="submitAttendance()">हाजिरी सबमिट करें</button>
-          <p id="att-msg" style="font-size: 13px; margin-top: 8px; text-align: center;"></p>
-        </div>
-      </div>
-
-      <!-- टैब 4: फीस -->
-      <div id="section-fees" class="hidden">
-        <div class="search-box">
-          <span>🔍</span>
-          <input type="text" id="search-fees" placeholder="नाम या रोल नंबर से फीस खोजें..." onkeyup="filterFeesList()">
-        </div>
-        <div class="card-title" id="fee-heading">फीस विवरण</div>
-        <div id="fees-container">लोड हो रहा है...</div>
-      </div>
-
-      <!-- टैब 5: रिजल्ट / मार्क्स -->
-      <div id="section-marks" class="hidden">
-        <div id="add-marks-section" class="card hidden" style="border: 1px dashed #7c3aed; background: #faf5ff;">
-          <div class="card-title" style="color: #7c3aed;">+ परीक्षा अंक दर्ज करें</div>
-          <select id="marks-student-select" class="form-control"></select>
-          <input type="text" id="marks-subject" class="form-control" placeholder="विषय (उदा. Science / Hindi / Math)">
-          <div style="display: flex; gap: 8px;">
-            <input type="number" id="marks-obtained" class="form-control" placeholder="प्राप्तांक (उदा. 85)">
-            <input type="number" id="marks-total" class="form-control" value="100" placeholder="पूर्णांक (100)">
-          </div>
-          <button class="btn-action btn-purple" onclick="handleAddMarks()">अंक सबमिट करें</button>
-          <p id="marks-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
-        </div>
-
-        <div class="search-box">
-          <span>🔍</span>
-          <input type="text" id="search-marks" placeholder="रिजल्ट खोजने के लिए नाम या रोल नंबर दर्ज करें..." onkeyup="filterMarksList()">
-        </div>
-
-        <div class="card-title">📜 परीक्षा परिणाम / रिपोर्ट कार्ड</div>
-        <div id="report-card-container">लोड हो रहा है...</div>
+      <div class="card-body">
+        <div class="stat-row"><span>कुल नामांकित छात्र:</span><span class="stat-val val-blue" id="stat-total-students">0</span></div>
+        <div class="stat-row"><span>नए प्रवेश (सत्र 2026-27):</span><span class="stat-val val-green" id="stat-new-students">0</span></div>
+        <div class="stat-row"><span>सक्रिय छात्र (Active):</span><span class="stat-val val-green" id="stat-active-students">0</span></div>
+        <div class="stat-row"><span>छात्र उपस्थिति योग्य:</span><span class="stat-val" id="stat-eligible-students">0</span></div>
+        <button class="card-btn" style="background: #047857;" onclick="openSection('students')">👤 छात्र प्रबंधन / सूची</button>
       </div>
     </div>
 
-    <!-- बॉटम नेविगेशन बार -->
-    <div class="bottom-nav">
-      <button id="nav-btn-notices" class="nav-item active" onclick="switchTab('notices')">
-        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-        नोटिस
-      </button>
-      <button id="nav-btn-homework" class="nav-item" onclick="switchTab('homework')">
-        <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
-        गृहकार्य
-      </button>
-      <button id="nav-btn-attendance" class="nav-item" onclick="switchTab('attendance')">
-        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-        हाजिरी
-      </button>
-      <button id="nav-btn-fees" class="nav-item" onclick="switchTab('fees')">
-        <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-        फीस
-      </button>
-      <button id="nav-btn-marks" class="nav-item" onclick="switchTab('marks')">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        रिजल्ट
-      </button>
+    <!-- 3. कर्मचारी सांख्यिकी -->
+    <div class="erp-card">
+      <div class="card-head card-head-purple">
+        <span>👥 कर्मचारी (Staff)</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-row"><span>कुल कर्मचारी:</span><span class="stat-val val-blue">3</span></div>
+        <div class="stat-row"><span>शिक्षण स्टाफ (Teachers):</span><span class="stat-val">2</span></div>
+        <div class="stat-row"><span>गैर-शिक्षण स्टाफ:</span><span class="stat-val">1</span></div>
+        <button class="card-btn" style="background: #6d28d9;" onclick="alert('कर्मचारी मॉड्यूल')">👥 कर्मचारी प्रबंधन</button>
+      </div>
     </div>
+
+    <!-- 4. दैनिक उपस्थिति -->
+    <div class="erp-card">
+      <div class="card-head card-head-teal">
+        <span>📋 उपस्थिति (आज)</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-row"><span>तारीख:</span><span class="stat-val" id="att-today-date">10/10/2026</span></div>
+        <div class="stat-row"><span>उपस्थित (Present):</span><span class="stat-val val-green" id="stat-today-present">0</span></div>
+        <div class="stat-row"><span>अनुपस्थित (Absent):</span><span class="stat-val val-red" id="stat-today-absent">0</span></div>
+        <div class="stat-row"><span>उपस्थिति प्रतिशत (%):</span><span class="stat-val val-green" id="stat-today-pct">0%</span></div>
+        <button class="card-btn" style="background: #0f766e;" onclick="openSection('attendance')">🔍 विस्तृत रिपोर्ट देखें / भरें</button>
+      </div>
+    </div>
+
+    <!-- 5. फीस संग्रह -->
+    <div class="erp-card">
+      <div class="card-head card-head-orange">
+        <span>💰 फीस संग्रह सारांश</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-row"><span>कुल देय फीस:</span><span class="stat-val val-blue" id="stat-total-fees">₹0</span></div>
+        <div class="stat-row"><span>कुल जमा संग्रह:</span><span class="stat-val val-green" id="stat-collected-fees">₹0</span></div>
+        <div class="stat-row"><span>कुल बकाया राशि:</span><span class="stat-val val-red" id="stat-pending-fees">₹0</span></div>
+        <button class="card-btn" style="background: #ea580c;" onclick="openSection('fees')">💳 फीस डैशबोर्ड खोलें</button>
+      </div>
+    </div>
+
+    <!-- 6. दैनिक रोकड़ (Day Book) -->
+    <div class="erp-card">
+      <div class="card-head card-head-red">
+        <span>📖 दैनिक डे-बुक (रोकड़)</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-row"><span>कुल आवक (Cr.):</span><span class="stat-val val-green" id="db-inflow">₹0.00</span></div>
+        <div class="stat-row"><span>कुल खर्च (Dr.):</span><span class="stat-val val-red">₹0.00</span></div>
+        <div class="stat-row"><span>कैश हाथ में (Balance):</span><span class="stat-val val-green" id="db-balance">₹0.00</span></div>
+        <button class="card-btn" style="background: #991b1b;" onclick="alert('रोकड़ प्रिंट वाउचर')">🖨️ पूरी रोकड़ देखें / प्रिंट करें</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- फ़्लोटिंग व्हाट्सएप सपोर्ट -->
+  <a href="https://wa.me/919999999999" target="_blank" class="whatsapp-float" title="सहायता हेतु संपर्क करें">💬</a>
+
+  <!-- बॉटम फ्लोटिंग एक्शन बार -->
+  <div class="erp-bottom-bar">
+    <button class="bottom-action-btn btn-b-green" onclick="openAddStudentModal()">+ नया प्रवेश</button>
+    <button class="bottom-action-btn btn-b-red" onclick="openSection('fees')">₹ फीस जमा करें</button>
+    <button class="bottom-action-btn btn-b-purple" onclick="openPasswordModal()">⚙️ मास्टर सेटिंग</button>
+  </div>
+
+</div>
+
+<!-- मॉडल: छात्र सूची / हाजिरी / फीस आदि देखने का विंडो -->
+<div id="section-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+      <h3 id="sec-modal-title" style="font-size:15px; color:#1e293b;">विवरण</h3>
+      <button style="border:none; background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-weight:800; cursor:pointer;" onclick="closeSectionModal()">✕</button>
+    </div>
+    <div id="sec-modal-content">लोड हो रहा है...</div>
   </div>
 </div>
 
-<!-- पासवर्ड बदलने का मोडल -->
+<!-- मॉडल: नया प्रवेश (+ नया छात्र) -->
+<div id="add-student-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="font-size:15px; color:#16a34a;">+ नया छात्र प्रवेश (सत्र 2026-27)</h3>
+      <button style="border:none; background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-weight:800; cursor:pointer;" onclick="closeAddStudentModal()">✕</button>
+    </div>
+    <input type="number" id="inp-roll" class="form-control" placeholder="रोल नंबर (उदा. 106)">
+    <input type="text" id="inp-name" class="form-control" placeholder="छात्र का पूरा नाम">
+    <input type="text" id="inp-class" class="form-control" value="Class 10-A" placeholder="कक्षा">
+    <input type="number" id="inp-fee" class="form-control" value="20000" placeholder="वार्षिक कुल फीस (₹)">
+    <button class="card-btn" style="background:#16a34a; padding:10px;" onclick="submitNewStudent()">सुरक्षित करें (Save)</button>
+    <p id="add-stud-msg" style="font-size:12px; text-align:center; margin-top:6px;"></p>
+  </div>
+</div>
+
+<!-- मॉडल: पासवर्ड बदलना -->
 <div id="password-modal" class="modal-overlay hidden">
-  <div class="receipt-box" style="border: 2px solid #1a73e8;">
-    <div class="receipt-header">
-      <h3 style="color:#1a73e8; font-size:18px;">🔑 पासवर्ड बदलें</h3>
-      <p style="font-size:11px; color:#64748b;" id="pwd-user-email"></p>
+  <div class="modal-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="font-size:15px; color:#1d4ed8;">🔑 पासवर्ड बदलें</h3>
+      <button style="border:none; background:#e2e8f0; border-radius:50%; width:28px; height:28px; font-weight:800; cursor:pointer;" onclick="closePasswordModal()">✕</button>
     </div>
-    <label style="font-size:12px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">वर्तमान पासवर्ड</label>
-    <input type="password" id="old-pwd" class="form-control" placeholder="पुराना पासवर्ड">
-
-    <label style="font-size:12px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">नया पासवर्ड</label>
-    <input type="password" id="new-pwd" class="form-control" placeholder="कम से कम 6 अक्षर">
-
-    <button class="btn-action btn-blue" onclick="handleChangePassword()">पासवर्ड अपडेट करें</button>
-    <p id="pwd-msg" style="font-size:12px; text-align:center; margin-top:8px;"></p>
-    <button class="btn-action" style="background:#64748b; margin-top:8px;" onclick="closePasswordModal()">रद्द करें</button>
-  </div>
-</div>
-
-<!-- डिजिटल फीस रसीद मोडल -->
-<div id="receipt-modal" class="modal-overlay hidden">
-  <div class="receipt-box" id="printable-receipt">
-    <div class="receipt-header">
-      <h3 style="color:#1a73e8; font-size:18px;">श्री मेवाड़ पब्लिक स्कूल</h3>
-      <p style="font-size:11px; color:#64748b;">फीस भुगतान रसीद (Fee Receipt)</p>
-    </div>
-    <div class="receipt-row"><span>रसीद सं:</span><strong id="rcpt-no">#REC-101</strong></div>
-    <div class="receipt-row"><span>दिनांक:</span><span id="rcpt-date"></span></div>
-    <div class="receipt-row"><span>छात्र नाम:</span><strong id="rcpt-name"></strong></div>
-    <div class="receipt-row"><span>रोल नंबर:</span><span id="rcpt-roll"></span></div>
-    <div class="receipt-row"><span>कक्षा:</span><span id="rcpt-class"></span></div>
-    <hr style="border:0; border-top:1px dashed #cbd5e1; margin:10px 0;">
-    <div class="receipt-row"><span>कुल देय फीस:</span><span id="rcpt-total"></span></div>
-    <div class="receipt-row highlight"><span>कुल जमा राशि:</span><span id="rcpt-paid" style="color:#16a34a;"></span></div>
-    <div class="receipt-row highlight"><span>बकाया राशि:</span><span id="rcpt-pending" style="color:#dc2626;"></span></div>
-    <div class="receipt-row"><span>स्थिति:</span><span id="rcpt-status"></span></div>
-    <div class="no-print" style="margin-top:18px; display:flex; gap:8px;">
-      <button class="btn-action btn-blue" onclick="window.print()">🖨️ प्रिंट / PDF सेव</button>
-      <button class="btn-action" style="background:#64748b;" onclick="closeReceipt()">बंद करें</button>
-    </div>
-  </div>
-</div>
-
-<!-- आधिकारिक रिपोर्ट कार्ड / मार्कशीट मोडल -->
-<div id="marksheet-modal" class="modal-overlay hidden">
-  <div class="receipt-box" id="printable-marksheet" style="border: 2px solid #7c3aed;">
-    <div class="receipt-header">
-      <h3 style="color:#7c3aed; font-size:19px;">श्री मेवाड़ पब्लिक स्कूल</h3>
-      <p style="font-size:12px; font-weight:700; color:#1e293b; margin-top:2px;">प्रगति पत्रक (Progress Report Card)</p>
-      <p style="font-size:11px; color:#64748b;">सत्र: 2026-2027</p>
-    </div>
-    <div class="receipt-row"><span>छात्र का नाम:</span><strong id="ms-name"></strong></div>
-    <div class="receipt-row"><span>रोल नंबर:</span><span id="ms-roll"></span></div>
-    <div class="receipt-row"><span>कक्षा:</span><span id="ms-class"></span></div>
-    <div class="receipt-row"><span>परीक्षा:</span><span>अर्धवार्षिक परीक्षा</span></div>
-    <hr style="border:0; border-top:1px solid #cbd5e1; margin:10px 0;">
-    <table class="marks-table" style="margin-bottom:12px;">
-      <thead>
-        <tr style="background:#f8fafc; border-bottom:1px solid #cbd5e1;">
-          <th style="padding:6px;">विषय</th>
-          <th style="padding:6px; text-align:right;">प्राप्तांक / पूर्णांक</th>
-        </tr>
-      </thead>
-      <tbody id="ms-tbody"></tbody>
-    </table>
-    <hr style="border:0; border-top:1px solid #cbd5e1; margin:8px 0;">
-    <div class="receipt-row highlight"><span>कुल योग:</span><span id="ms-total"></span></div>
-    <div class="receipt-row highlight"><span>प्रतिशत:</span><span id="ms-percent" style="color:#7c3aed;"></span></div>
-    <div class="receipt-row"><span>परिणाम स्थिति:</span><strong id="ms-grade" style="color:#16a34a;">उत्तीर्ण (Passed)</strong></div>
-    <div style="margin-top:20px; display:flex; justify-content:space-between; font-size:11px; color:#64748b;">
-      <span>हस्ताक्षर कक्षाध्यापक</span>
-      <span>हस्ताक्षर प्रधानाचार्य</span>
-    </div>
-    <div class="no-print" style="margin-top:18px; display:flex; gap:8px;">
-      <button class="btn-action btn-purple" onclick="window.print()">🖨️ मार्कशीट प्रिंट</button>
-      <button class="btn-action" style="background:#64748b;" onclick="closeMarksheet()">बंद करें</button>
-    </div>
+    <input type="password" id="old-pwd" class="form-control" placeholder="वर्तमान पासवर्ड">
+    <input type="password" id="new-pwd" class="form-control" placeholder="नया पासवर्ड (कम से कम 6 अक्षर)">
+    <button class="card-btn" style="background:#1d4ed8; padding:10px;" onclick="submitChangePassword()">पासवर्ड अपडेट करें</button>
+    <p id="pwd-msg" style="font-size:12px; text-align:center; margin-top:6px;"></p>
   </div>
 </div>
 
 <script>
-  let currentUser = null;
   let studentsData = [];
-  let attendanceReportsData = [];
-  let rawFeesData = [];
-  let rawMarksData = [];
+  let feesData = [];
+  let attendanceReports = [];
 
-  async function handleLogin() {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+  // उल्टी गिनती टाइमर
+  function startEventTimer() {
+    const target = new Date("2026-10-15T00:00:00").getTime();
+    setInterval(() => {
+      const now = new Date().getTime();
+      const diff = target - now;
+      if (diff > 0) {
+        document.getElementById('t-days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        document.getElementById('t-hours').innerText = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+        document.getElementById('t-mins').innerText = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+        document.getElementById('t-secs').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+      }
+    }, 1000);
+  }
+
+  // लाइव डेटा लोड करना
+  async function loadDashboardData() {
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      // 1. छात्र
+      const sRes = await fetch('/api/students');
+      studentsData = await sRes.json();
+      document.getElementById('stat-total-students').innerText = studentsData.length;
+      document.getElementById('stat-active-students').innerText = studentsData.length;
+      document.getElementById('stat-eligible-students').innerText = studentsData.length;
+      document.getElementById('stat-new-students').innerText = studentsData.length;
+
+      // 2. फीस
+      const fRes = await fetch('/api/fees');
+      feesData = await fRes.json();
+      let totalFee = 0, paidFee = 0;
+      feesData.forEach(f => {
+        totalFee += Number(f.total_amount || 0);
+        paidFee += Number(f.paid_amount || 0);
       });
-      const data = await res.json();
-      if (res.ok) {
-        currentUser = data.user;
-        showDashboard(data.user);
-      } else {
-        document.getElementById('login-msg').innerText = data.error || 'लॉगिन विफल!';
-      }
-    } catch {
-      document.getElementById('login-msg').innerText = 'सर्वर से कनेक्शन विफल!';
-    }
-  }
+      const pendingFee = totalFee - paidFee;
+      document.getElementById('stat-total-fees').innerText = `₹${totalFee}`;
+      document.getElementById('stat-collected-fees').innerText = `₹${paidFee}`;
+      document.getElementById('stat-pending-fees').innerText = `₹${pendingFee}`;
+      document.getElementById('db-inflow').innerText = `₹${paidFee}.00`;
+      document.getElementById('db-balance').innerText = `₹${paidFee}.00`;
 
-  function showDashboard(user) {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('dashboard-screen').classList.remove('hidden');
-    document.getElementById('welcome-name').innerText = user.name;
-    document.getElementById('user-role-badge').innerText = `रोल: ${user.role.toUpperCase()}`;
-
-    if (user.role === 'admin' || user.role === 'teacher') {
-      document.getElementById('create-notice-section').classList.remove('hidden');
-      document.getElementById('create-hw-section').classList.remove('hidden');
-      document.getElementById('att-submit-box').classList.remove('hidden');
-      document.getElementById('add-marks-section').classList.remove('hidden');
-      if (user.role === 'admin') {
-        document.getElementById('add-student-section').classList.remove('hidden');
-      } else {
-        document.getElementById('add-student-section').classList.add('hidden');
-      }
-      document.getElementById('att-heading').innerText = 'दैनिक हाजिरी एवं छात्र सूची';
-      document.getElementById('fee-heading').innerText = 'सभी छात्र फीस रिकॉर्ड';
-    } else {
-      document.getElementById('create-notice-section').classList.add('hidden');
-      document.getElementById('create-hw-section').classList.add('hidden');
-      document.getElementById('add-student-section').classList.add('hidden');
-      document.getElementById('att-submit-box').classList.add('hidden');
-      document.getElementById('att-heading').classList.add('hidden');
-      document.getElementById('add-marks-section').classList.add('hidden');
-      document.getElementById('fee-heading').innerText = 'मेरी फीस का विवरण';
-    }
-
-    loadNotices();
-    loadHomework();
-    loadStudents();
-    loadAttendanceSummary();
-    loadFees();
-    loadMarks();
-  }
-
-  function switchTab(tab) {
-    ['notices', 'homework', 'attendance', 'fees', 'marks'].forEach(t => {
-      document.getElementById(`section-${t}`).classList.add('hidden');
-      document.getElementById(`nav-btn-${t}`).classList.remove('active');
-    });
-    document.getElementById(`section-${tab}`).classList.remove('hidden');
-    document.getElementById(`nav-btn-${tab}`).classList.add('active');
-  }
-
-  function openPasswordModal() {
-    if (!currentUser) return;
-    document.getElementById('pwd-user-email').innerText = currentUser.email;
-    document.getElementById('old-pwd').value = '';
-    document.getElementById('new-pwd').value = '';
-    document.getElementById('pwd-msg').innerText = '';
-    document.getElementById('password-modal').classList.remove('hidden');
-  }
-
-  function closePasswordModal() {
-    document.getElementById('password-modal').classList.add('hidden');
-  }
-
-  async function handleChangePassword() {
-    const oldPassword = document.getElementById('old-pwd').value;
-    const newPassword = document.getElementById('new-pwd').value;
-    const msg = document.getElementById('pwd-msg');
-
-    if (!oldPassword || !newPassword) {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'दोनों पासवर्ड फ़ील्ड भरें!';
-      return;
-    }
-    if (newPassword.length < 6) {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'नया पासवर्ड कम से कम 6 अक्षरों का होना चाहिए!';
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/auth/change-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: currentUser.id, oldPassword, newPassword })
+      // 3. हाजिरी
+      const aRes = await fetch('/api/attendance/report');
+      attendanceReports = await aRes.json();
+      let totalP = 0, totalDays = 0;
+      attendanceReports.forEach(r => {
+        totalP += Number(r.present_days || 0);
+        totalDays += Number(r.total_days || 0);
       });
-      const data = await res.json();
-      if (res.ok) {
-        msg.style.color = '#16a34a';
-        msg.innerText = data.message;
-        setTimeout(() => closePasswordModal(), 1500);
-      } else {
-        msg.style.color = '#dc2626';
-        msg.innerText = data.error;
-      }
-    } catch {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'सर्वर त्रुटि हुई!';
+      const todayPct = totalDays > 0 ? Math.round((totalP / totalDays) * 100) : 100;
+      document.getElementById('stat-today-present').innerText = totalP;
+      document.getElementById('stat-today-absent').innerText = totalDays - totalP;
+      document.getElementById('stat-today-pct').innerText = `${todayPct}%`;
+    } catch (e) {
+      console.error(e);
     }
   }
 
-  async function loadNotices() {
-    const container = document.getElementById('notices-container');
-    const res = await fetch('/api/notices');
-    const notices = await res.json();
-    container.innerHTML = '';
-    notices.forEach(n => {
-      const d = new Date(n.date).toLocaleDateString('hi-IN');
-      container.innerHTML += `
-        <div class="notice-item">
-          <h4>${n.title}</h4>
-          <p>${n.description}</p>
-          <div class="date">दिनांक: ${d}</div>
-        </div>`;
-    });
-  }
+  // मोडल नियंत्रण
+  function openSection(type) {
+    const title = document.getElementById('sec-modal-title');
+    const content = document.getElementById('sec-modal-content');
+    document.getElementById('section-modal').classList.remove('hidden');
 
-  async function handleCreateNotice() {
-    const title = document.getElementById('new-notice-title').value.trim();
-    const description = document.getElementById('new-notice-desc').value.trim();
-    if (!title || !description) return;
-    const res = await fetch('/api/notices', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description })
-    });
-    if (res.ok) {
-      document.getElementById('new-notice-title').value = '';
-      document.getElementById('new-notice-desc').value = '';
-      loadNotices();
-    }
-  }
-
-  async function loadHomework() {
-    const container = document.getElementById('homework-container');
-    try {
-      const res = await fetch('/api/homework');
-      const hwList = await res.json();
-      container.innerHTML = '';
-
-      if (hwList.length === 0) {
-        container.innerHTML = '<p style="font-size: 13px; color: #94a3b8; text-align:center;">अभी कोई गृहकार्य पोस्ट नहीं किया गया है।</p>';
-        return;
-      }
-
-      hwList.forEach(hw => {
-        const d = hw.due_date ? new Date(hw.due_date).toLocaleDateString('hi-IN') : 'कोई नहीं';
-        container.innerHTML += `
-          <div class="card" style="border-left: 4px solid #0d9488;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="color: #0d9488; font-size:15px;">${hw.subject}</strong>
-              <div>
-                <span class="status-badge" style="background:#ccfbf1; color:#0f766e;">${hw.class_name}</span>
-                ${currentUser && currentUser.role !== 'student' ? `
-                  <button class="action-icon-btn delete-btn" style="margin-left: 6px;" onclick="deleteHomework(${hw.id})">🗑️</button>
-                ` : ''}
-              </div>
-            </div>
-            <h4 style="font-size:14px; color:#1e293b; margin:6px 0 4px 0;">${hw.title}</h4>
-            <p style="font-size:13px; color:#475569; line-height:1.4;">${hw.description}</p>
-            <div style="margin-top:8px; font-size:11px; font-weight:600; color:#dc2626; text-align:right;">
-              📅 अंतिम तिथि: ${d}
-            </div>
-          </div>
-        `;
-      });
-    } catch {
-      container.innerHTML = 'गृहकार्य लोड करने में त्रुटि!';
-    }
-  }
-
-  async function deleteHomework(hwId) {
-    if (!confirm("क्या आप सचमुच यह गृहकार्य हटाना चाहते हैं?")) return;
-    try {
-      const res = await fetch(`/api/homework/${hwId}`, { method: 'DELETE' });
-      if (res.ok) loadHomework();
-    } catch {
-      alert("सर्वर त्रुटि!");
-    }
-  }
-
-  async function handleCreateHomework() {
-    const subject = document.getElementById('hw-subject').value.trim();
-    const title = document.getElementById('hw-title').value.trim();
-    const description = document.getElementById('hw-desc').value.trim();
-    const due_date = document.getElementById('hw-due-date').value;
-    const msg = document.getElementById('hw-msg');
-
-    if (!subject || !title || !description) {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'कृपया विषय, शीर्षक और विवरण भरें!';
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/homework', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ class_name: 'Class 10-A', subject, title, description, due_date })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        msg.style.color = '#16a34a';
-        msg.innerText = data.message;
-        document.getElementById('hw-subject').value = '';
-        document.getElementById('hw-title').value = '';
-        document.getElementById('hw-desc').value = '';
-        document.getElementById('hw-due-date').value = '';
-        loadHomework();
-      } else {
-        msg.style.color = '#dc2626';
-        msg.innerText = data.error;
-      }
-    } catch {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'सर्वर त्रुटि!';
-    }
-  }
-
-  async function loadStudents() {
-    try {
-      const res = await fetch('/api/students');
-      studentsData = await res.json();
-      
-      const select = document.getElementById('marks-student-select');
-      select.innerHTML = '<option value="">छात्र चुनें...</option>';
+    if (type === 'students') {
+      title.innerText = '🎓 सभी नामांकित छात्र सूची';
+      let html = '<div style="display:flex; flex-direction:column; gap:6px;">';
       studentsData.forEach(s => {
-        select.innerHTML += `<option value="${s.id}">${s.name} (${s.roll_no})</option>`;
+        html += `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #f1f5f9; font-size:12px;">
+          <span><strong>${s.name}</strong> (रोल: ${s.roll_no})</span>
+          <span style="color:#64748b;">${s.class_name}</span>
+        </div>`;
       });
-
-      renderStudentsList(studentsData);
-    } catch {
-      document.getElementById('students-list').innerHTML = 'छात्र लोड नहीं हो सके!';
+      content.innerHTML = html + '</div>';
+    } else if (type === 'fees') {
+      title.innerText = '💰 फीस संग्रह विवरण';
+      let html = '<div style="display:flex; flex-direction:column; gap:8px;">';
+      feesData.forEach(f => {
+        const pend = Number(f.total_amount) - Number(f.paid_amount);
+        html += `<div style="padding:8px; background:#f8fafc; border-radius:6px; font-size:12px;">
+          <div style="font-weight:700;">${f.name} (रोल: ${f.roll_no})</div>
+          <div style="color:#64748b; margin-top:2px;">कुल: ₹${f.total_amount} | जमा: ₹${f.paid_amount} | <span style="color:#dc2626; font-weight:700;">बकाया: ₹${pend}</span></div>
+        </div>`;
+      });
+      content.innerHTML = html + '</div>';
+    } else if (type === 'attendance') {
+      title.innerText = '📋 उपस्थिति प्रतिशत सारांश';
+      let html = '';
+      attendanceReports.forEach(r => {
+        html += `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:12px;">
+          <span>${r.name} (${r.roll_no})</span>
+          <strong style="color:#16a34a;">${r.percentage}% (${r.present_days}/${r.total_days} दिन)</strong>
+        </div>`;
+      });
+      content.innerHTML = html;
+    } else {
+      title.innerText = 'सूचना / अन्य विवरण';
+      content.innerHTML = '<p style="font-size:12px; color:#64748b; text-align:center;">यह सेक्शन लोड हो रहा है...</p>';
     }
   }
 
-  function renderStudentsList(list) {
-    const container = document.getElementById('students-list');
-    container.innerHTML = '';
+  function closeSectionModal() {
+    document.getElementById('section-modal').classList.add('hidden');
+  }
 
-    let listToShow = list;
-    if (currentUser && currentUser.role === 'student') {
-      listToShow = list.filter(s => s.name.toLowerCase() === currentUser.name.toLowerCase());
-    }
+  function openAddStudentModal() {
+    document.getElementById('add-student-modal').classList.remove('hidden');
+  }
+  function closeAddStudentModal() {
+    document.getElementById('add-student-modal').classList.add('hidden');
+  }
 
-    if (listToShow.length === 0) {
-      container.innerHTML = '<p style="font-size:12px; color:#94a3b8; text-align:center;">कोई छात्र नहीं मिला।</p>';
+  async function submitNewStudent() {
+    const roll_no = document.getElementById('inp-roll').value;
+    const name = document.getElementById('inp-name').value.trim();
+    const class_name = document.getElementById('inp-class').value.trim();
+    const total_fees = document.getElementById('inp-fee').value;
+    const msg = document.getElementById('add-stud-msg');
+
+    if (!roll_no || !name || !class_name) {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'सभी फ़ील्ड्स भरें!';
       return;
     }
-
-    listToShow.forEach(s => {
-      container.innerHTML += `
-        <div class="list-row">
-          <div>
-            <strong style="color: #1e293b; font-size: 14px;">${s.name}</strong><br>
-            <span style="font-size: 11px; color: #64748b;">रोल: ${s.roll_no} • ${s.class_name}</span>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            ${currentUser && currentUser.role !== 'student' ? `
-              <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Present" checked> P</label>
-              <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
-            ` : `<span class="status-badge badge-paid">नामांकित</span>`}
-            
-            ${currentUser && currentUser.role === 'admin' ? `
-              <button class="action-icon-btn edit-btn" title="छात्र एडिट करें" onclick="editStudent(${s.id}, '${s.name}', '${s.roll_no}', '${s.class_name}')">✏️</button>
-              <button class="action-icon-btn delete-btn" title="छात्र हटाएं" onclick="deleteStudent(${s.id})">🗑️</button>
-            ` : ''}
-          </div>
-        </div>`;
-    });
-  }
-
-  async function editStudent(studentId, oldName, oldRoll, oldClass) {
-    const newName = prompt("छात्र का नाम अपडेट करें:", oldName);
-    if (!newName) return;
-    const newRoll = prompt("रोल नंबर अपडेट करें:", oldRoll);
-    if (!newRoll) return;
-    const newClass = prompt("कक्षा अपडेट करें:", oldClass);
-    if (!newClass) return;
-
-    try {
-      const res = await fetch(`/api/students/${studentId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newName, roll_no: newRoll, class_name: newClass })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        loadStudents();
-        loadAttendanceSummary();
-        loadFees();
-        loadMarks();
-      } else {
-        alert(data.error || "अपडेट विफल!");
-      }
-    } catch {
-      alert("सर्वर त्रुटि!");
-    }
-  }
-
-  async function deleteStudent(studentId) {
-    if (!confirm("सावधानी: यह छात्र हटाने पर इसकी उपस्थिति, फीस और मार्क्स का समस्त रिकॉर्ड भी हमेशा के लिए डिलीट हो जाएगा!\nक्या आप आगे बढ़ना चाहते हैं?")) return;
-    try {
-      const res = await fetch(`/api/students/${studentId}`, { method: 'DELETE' });
-      const data = await res.json();
-      if (res.ok) {
-        loadStudents();
-        loadAttendanceSummary();
-        loadFees();
-        loadMarks();
-      } else {
-        alert(data.error || "हटाने में विफलता!");
-      }
-    } catch {
-      alert("सर्वर त्रुटि!");
-    }
-  }
-
-  async function loadAttendanceSummary() {
-    try {
-      const res = await fetch('/api/attendance/report');
-      attendanceReportsData = await res.json();
-      renderAttendanceSummary(attendanceReportsData);
-    } catch {
-      document.getElementById('attendance-summary-container').innerHTML = 'रिपोर्ट लोड करने में त्रुटि!';
-    }
-  }
-
-  function renderAttendanceSummary(list) {
-    const container = document.getElementById('attendance-summary-container');
-    container.innerHTML = '';
-
-    let listToShow = list;
-    if (currentUser && currentUser.role === 'student') {
-      listToShow = list.filter(r => r.name.toLowerCase() === currentUser.name.toLowerCase());
-    }
-
-    if (listToShow.length === 0) {
-      container.innerHTML = '<p style="font-size: 12px; color: #94a3b8;">कोई रिकॉर्ड उपलब्ध नहीं है।</p>';
-      return;
-    }
-
-    listToShow.forEach(r => {
-      const color = r.percentage >= 75 ? '#16a34a' : (r.percentage >= 50 ? '#ca8a04' : '#dc2626');
-      container.innerHTML += `
-        <div style="margin-bottom: 12px;">
-          <div style="display:flex; justify-content:space-between; font-size:13px;">
-            <strong>${r.name} (${r.roll_no})</strong>
-            <span style="font-weight:700; color:${color};">${r.percentage}% (${r.present_days}/${r.total_days} दिन)</span>
-          </div>
-          <div class="progress-bar-container">
-            <div class="progress-fill" style="width: ${r.percentage}%; background: ${color};"></div>
-          </div>
-        </div>`;
-    });
-  }
-
-  function filterAttendanceList() {
-    const query = document.getElementById('search-attendance').value.toLowerCase().trim();
-    
-    const filteredStudents = studentsData.filter(s => 
-      s.name.toLowerCase().includes(query) || s.roll_no.toString().includes(query)
-    );
-    renderStudentsList(filteredStudents);
-
-    const filteredSummary = attendanceReportsData.filter(r => 
-      r.name.toLowerCase().includes(query) || r.roll_no.toString().includes(query)
-    );
-    renderAttendanceSummary(filteredSummary);
-  }
-
-  async function handleAddStudent() {
-    const roll_no = document.getElementById('new-stud-roll').value;
-    const name = document.getElementById('new-stud-name').value.trim();
-    const class_name = document.getElementById('new-stud-class').value.trim();
-    const total_fees = document.getElementById('new-stud-fee').value;
-    const msg = document.getElementById('student-add-msg');
-
-    if (!roll_no || !name || !class_name) return;
 
     const res = await fetch('/api/students', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ roll_no, name, class_name, total_fees })
     });
-    const data = await res.json();
+    const d = await res.json();
     if (res.ok) {
       msg.style.color = '#16a34a';
-      msg.innerText = data.message;
-      loadStudents();
-      loadAttendanceSummary();
-      loadFees();
+      msg.innerText = d.message;
+      loadDashboardData();
+      setTimeout(closeAddStudentModal, 1200);
     } else {
       msg.style.color = '#dc2626';
-      msg.innerText = data.error;
+      msg.innerText = d.error;
     }
   }
 
-  async function submitAttendance() {
-    const attendanceData = studentsData.map(s => ({
-      student_id: s.id,
-      status: (document.querySelector(`input[name="att_${s.id}"]:checked`) || {}).value || 'Present'
-    }));
-    const msg = document.getElementById('att-msg');
-    const res = await fetch('/api/attendance', {
+  function openPasswordModal() {
+    document.getElementById('password-modal').classList.remove('hidden');
+  }
+  function closePasswordModal() {
+    document.getElementById('password-modal').classList.add('hidden');
+  }
+
+  async function submitChangePassword() {
+    const oldPassword = document.getElementById('old-pwd').value;
+    const newPassword = document.getElementById('new-pwd').value;
+    const msg = document.getElementById('pwd-msg');
+    const res = await fetch('/api/auth/change-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ attendanceData })
+      body: JSON.stringify({ userId: 1, oldPassword, newPassword })
     });
-    const data = await res.json();
+    const d = await res.json();
     msg.style.color = res.ok ? '#16a34a' : '#dc2626';
-    msg.innerText = data.message || data.error;
-    loadAttendanceSummary();
+    msg.innerText = d.message || d.error;
+    if (res.ok) setTimeout(closePasswordModal, 1200);
   }
 
-  async function loadFees() {
-    try {
-      const res = await fetch('/api/fees');
-      rawFeesData = await res.json();
-      renderFeesList(rawFeesData);
-    } catch {
-      document.getElementById('fees-container').innerHTML = 'फीस लोड करने में त्रुटि!';
-    }
-  }
-
-  function renderFeesList(fees) {
-    const container = document.getElementById('fees-container');
-    container.innerHTML = '';
-
-    let listToShow = fees;
-    if (currentUser && currentUser.role === 'student') {
-      listToShow = fees.filter(f => f.name.toLowerCase() === currentUser.name.toLowerCase());
-    }
-
-    if (listToShow.length === 0) {
-      container.innerHTML = '<p style="font-size:13px; color:#94a3b8; text-align:center;">कोई रिकॉर्ड नहीं मिला।</p>';
-      return;
-    }
-
-    listToShow.forEach(f => {
-      const pending = Number(f.total_amount) - Number(f.paid_amount);
-      let badgeClass = f.status === 'Paid' ? 'badge-paid' : (f.status === 'Partial' ? 'badge-partial' : 'badge-pending');
-      let badgeText = f.status === 'Paid' ? 'पूर्ण जमा' : (f.status === 'Partial' ? 'आंशिक जमा' : 'बकाया');
-
-      container.innerHTML += `
-        <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <strong style="color: #1e293b;">${f.name} (रोल: ${f.roll_no})</strong>
-            <div>
-              <span class="status-badge ${badgeClass}">${badgeText}</span>
-              <button class="action-icon-btn" style="background:#e0f2fe; color:#0369a1; padding:3px 8px; font-weight:600; margin-left:4px;" onclick='showReceipt(${JSON.stringify(f)})'>🧾 रसीद</button>
-            </div>
-          </div>
-          <div style="font-size: 13px; color: #64748b; margin-top: 8px;">
-            कुल: ₹${f.total_amount} | जमा: ₹${f.paid_amount} | <strong style="color: #dc2626;">बकाया: ₹${pending}</strong>
-          </div>
-          ${currentUser.role !== 'student' && pending > 0 ? `
-            <div style="display:flex; gap:8px; margin-top:10px;">
-              <input type="number" id="pay_amt_${f.student_id}" class="form-control" placeholder="राशि" style="margin-bottom:0; padding:8px 10px; font-size:13px;">
-              <button class="btn-action btn-blue" style="width: auto; padding: 8px 16px;" onclick="payFee(${f.student_id})">जमा करें</button>
-            </div>
-          ` : ''}
-        </div>`;
-    });
-  }
-
-  function filterFeesList() {
-    const query = document.getElementById('search-fees').value.toLowerCase().trim();
-    const filtered = rawFeesData.filter(f =>
-      f.name.toLowerCase().includes(query) || f.roll_no.toString().includes(query)
-    );
-    renderFeesList(filtered);
-  }
-
-  async function payFee(studentId) {
-    const input = document.getElementById(`pay_amt_${studentId}`);
-    const res = await fetch('/api/fees/pay', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ student_id: studentId, amount: input.value })
-    });
-    if (res.ok) loadFees();
-  }
-
-  function showReceipt(f) {
-    const pending = Number(f.total_amount) - Number(f.paid_amount);
-    document.getElementById('rcpt-no').innerText = `#REC-${f.student_id}${Date.now().toString().slice(-4)}`;
-    document.getElementById('rcpt-date').innerText = new Date().toLocaleDateString('hi-IN');
-    document.getElementById('rcpt-name').innerText = f.name;
-    document.getElementById('rcpt-roll').innerText = f.roll_no;
-    document.getElementById('rcpt-class').innerText = f.class_name || 'कक्षा 10-A';
-    document.getElementById('rcpt-total').innerText = `₹${f.total_amount}`;
-    document.getElementById('rcpt-paid').innerText = `₹${f.paid_amount}`;
-    document.getElementById('rcpt-pending').innerText = `₹${pending}`;
-    document.getElementById('rcpt-status').innerText = f.status === 'Paid' ? 'पूर्ण भुगतान' : (f.status === 'Partial' ? 'आंशिक भुगतान' : 'लंबित');
-    document.getElementById('receipt-modal').classList.remove('hidden');
-  }
-
-  function closeReceipt() {
-    document.getElementById('receipt-modal').classList.add('hidden');
-  }
-
-  async function handleAddMarks() {
-    const student_id = document.getElementById('marks-student-select').value;
-    const subject = document.getElementById('marks-subject').value.trim();
-    const marks_obtained = document.getElementById('marks-obtained').value;
-    const total_marks = document.getElementById('marks-total').value;
-    const msg = document.getElementById('marks-add-msg');
-
-    if (!student_id || !subject || !marks_obtained) {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'कृपया सभी विवरण भरें!';
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/marks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ student_id, subject, marks_obtained, total_marks })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        msg.style.color = '#16a34a';
-        msg.innerText = data.message;
-        document.getElementById('marks-subject').value = '';
-        document.getElementById('marks-obtained').value = '';
-        loadMarks();
-      } else {
-        msg.style.color = '#dc2626';
-        msg.innerText = data.error;
-      }
-    } catch {
-      msg.style.color = '#dc2626';
-      msg.innerText = 'अंक दर्ज करने में त्रुटि!';
-    }
-  }
-
-  async function editMark(markId, currentMarks, totalMarks) {
-    const newMarks = prompt("नया प्राप्तांक दर्ज करें:", currentMarks);
-    if (newMarks === null || newMarks.trim() === '') return;
-    try {
-      const res = await fetch(`/api/marks/${markId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ marks_obtained: newMarks, total_marks: totalMarks })
-      });
-      if (res.ok) loadMarks();
-    } catch {
-      alert("सर्वर त्रुटि!");
-    }
-  }
-
-  async function deleteMark(markId) {
-    if (!confirm("क्या आप सचमुच यह विषय रिकॉर्ड हटाना चाहते हैं?")) return;
-    try {
-      const res = await fetch(`/api/marks/${markId}`, { method: 'DELETE' });
-      if (res.ok) loadMarks();
-    } catch {
-      alert("सर्वर त्रुटि!");
-    }
-  }
-
-  function showMarksheet(studentName, data) {
-    document.getElementById('ms-name').innerText = studentName;
-    document.getElementById('ms-roll').innerText = data.roll;
-    document.getElementById('ms-class').innerText = data.class;
-
-    let rows = '';
-    let totalObt = 0;
-    let totalMax = 0;
-
-    data.subjects.forEach(s => {
-      totalObt += Number(s.marks_obtained);
-      totalMax += Number(s.total_marks);
-      rows += `
-        <tr>
-          <td style="padding:6px; font-weight:600;">${s.subject}</td>
-          <td style="padding:6px; text-align:right;">${s.marks_obtained} / ${s.total_marks}</td>
-        </tr>`;
-    });
-
-    const percentage = Math.round((totalObt / totalMax) * 100);
-    document.getElementById('ms-tbody').innerHTML = rows;
-    document.getElementById('ms-total').innerText = `${totalObt} / ${totalMax}`;
-    document.getElementById('ms-percent').innerText = `${percentage}%`;
-    document.getElementById('marksheet-modal').classList.remove('hidden');
-  }
-
-  function closeMarksheet() {
-    document.getElementById('marksheet-modal').classList.add('hidden');
-  }
-
-  async function loadMarks() {
-    try {
-      const res = await fetch('/api/marks');
-      rawMarksData = await res.json();
-      renderMarksList(rawMarksData);
-    } catch {
-      document.getElementById('report-card-container').innerHTML = 'रिजल्ट लोड करने में विफलता!';
-    }
-  }
-
-  function renderMarksList(marksList) {
-    const container = document.getElementById('report-card-container');
-    container.innerHTML = '';
-
-    let listToShow = marksList;
-    if (currentUser && currentUser.role === 'student') {
-      listToShow = marksList.filter(m => m.name.toLowerCase() === currentUser.name.toLowerCase());
-    }
-
-    if (listToShow.length === 0) {
-      container.innerHTML = '<p style="font-size: 13px; color: #94a3b8; text-align:center;">कोई अंक या छात्र नहीं मिला।</p>';
-      return;
-    }
-
-    const grouped = {};
-    listToShow.forEach(m => {
-      if (!grouped[m.name]) grouped[m.name] = { roll: m.roll_no, class: m.class_name, subjects: [] };
-      grouped[m.name].subjects.push(m);
-    });
-
-    for (const [studentName, data] of Object.entries(grouped)) {
-      let rows = '';
-      let totalObt = 0;
-      let totalMax = 0;
-
-      data.subjects.forEach(s => {
-        totalObt += Number(s.marks_obtained);
-        totalMax += Number(s.total_marks);
-        rows += `
-          <tr>
-            <td>${s.subject}</td>
-            <td><strong>${s.marks_obtained}</strong> / ${s.total_marks}</td>
-            ${currentUser && currentUser.role !== 'student' ? `
-              <td style="text-align: right;">
-                <button class="action-icon-btn edit-btn" onclick="editMark(${s.id}, ${s.marks_obtained},${s.total_marks})">✏️</button>
-                <button class="action-icon-btn delete-btn" onclick="deleteMark(${s.id})">🗑️</button>
-              </td>
-            ` : ''}
-          </tr>`;
-      });
-
-      const percentage = Math.round((totalObt / totalMax) * 100);
-
-      container.innerHTML += `
-        <div class="card" style="border-top: 3px solid #7c3aed;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="font-size:15px; color:#1e293b;">${studentName}</strong><br>
-              <span style="font-size:11px; color:#64748b;">रोल: ${data.roll} • ${data.class}</span>
-            </div>
-            <div style="text-align:right;">
-              <span class="status-badge" style="background:#f3e8ff; color:#7c3aed; font-size:12px;">${percentage}%</span>
-              <button class="action-icon-btn" style="background:#ede9fe; color:#6d28d9; padding:3px 8px; font-weight:600; margin-left:4px;" onclick='showMarksheet("${studentName}", ${JSON.stringify(data)})'>📜 प्रिंट</button>
-            </div>
-          </div>
-          <table class="marks-table">
-            <thead>
-              <tr>
-                <th>विषय</th>
-                <th>प्राप्तांक</th>
-                ${currentUser && currentUser.role !== 'student' ? '<th style="text-align:right;">क्रिया</th>' : ''}
-              </tr>
-            </thead>
-            <tbody>${rows}</tbody>
-          </table>
-          <div style="margin-top:10px; font-size:12px; font-weight:700; color:#475569; text-align:right;">
-            कुल योग: ${totalObt} / ${totalMax}
-          </div>
-        </div>`;
-    }
-  }
-
-  function filterMarksList() {
-    const query = document.getElementById('search-marks').value.toLowerCase().trim();
-    const filtered = rawMarksData.filter(m =>
-      m.name.toLowerCase().includes(query) || m.roll_no.toString().includes(query)
-    );
-    renderMarksList(filtered);
-  }
-
-  function handleLogout() {
-    currentUser = null;
-    document.getElementById('dashboard-screen').classList.add('hidden');
-    document.getElementById('login-screen').classList.remove('hidden');
-  }
+  window.onload = () => {
+    startEventTimer();
+    loadDashboardData();
+  };
 </script>
 
 </body>
