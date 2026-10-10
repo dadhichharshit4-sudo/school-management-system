@@ -263,7 +263,7 @@
         <div id="homework-container">लोड हो रहा है...</div>
       </div>
 
-      <!-- टैब 3: अटेंडेंस -->
+      <!-- टैब 3: अटेंडेंस & छात्र प्रबंधन -->
       <div id="section-attendance" class="hidden">
         <div id="add-student-section" class="card hidden" style="border: 1px dashed #1a73e8; background: #f8fafc;">
           <div class="card-title" style="color: #1a73e8;">+ नया छात्र प्रवेश</div>
@@ -275,7 +275,6 @@
           <p id="student-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
         </div>
 
-        <!-- छात्र खोज बार (अटेंडेंस) -->
         <div class="search-box">
           <span>🔍</span>
           <input type="text" id="search-attendance" placeholder="छात्र का नाम या रोल नंबर खोजें..." onkeyup="filterAttendanceList()">
@@ -286,7 +285,7 @@
           <div id="attendance-summary-container">लोड हो रहा है...</div>
         </div>
 
-        <div class="card-title" id="att-heading">दैनिक हाजिरी दर्ज करें</div>
+        <div class="card-title" id="att-heading">दैनिक हाजिरी एवं छात्र सूची</div>
         <div id="students-list">लोड हो रहा है...</div>
         <div id="att-submit-box">
           <button class="btn-action btn-green" style="margin-top: 8px;" onclick="submitAttendance()">हाजिरी सबमिट करें</button>
@@ -296,7 +295,6 @@
 
       <!-- टैब 4: फीस -->
       <div id="section-fees" class="hidden">
-        <!-- छात्र खोज बार (फीस) -->
         <div class="search-box">
           <span>🔍</span>
           <input type="text" id="search-fees" placeholder="नाम या रोल नंबर से फीस खोजें..." onkeyup="filterFeesList()">
@@ -319,7 +317,6 @@
           <p id="marks-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
         </div>
 
-        <!-- छात्र खोज बार (रिजल्ट) -->
         <div class="search-box">
           <span>🔍</span>
           <input type="text" id="search-marks" placeholder="रिजल्ट खोजने के लिए नाम या रोल नंबर दर्ज करें..." onkeyup="filterMarksList()">
@@ -480,7 +477,7 @@
       } else {
         document.getElementById('add-student-section').classList.add('hidden');
       }
-      document.getElementById('att-heading').innerText = 'दैनिक हाजिरी दर्ज करें';
+      document.getElementById('att-heading').innerText = 'दैनिक हाजिरी एवं छात्र सूची';
       document.getElementById('fee-heading').innerText = 'सभी छात्र फीस रिकॉर्ड';
     } else {
       document.getElementById('create-notice-section').classList.add('hidden');
@@ -715,14 +712,65 @@
             <strong style="color: #1e293b; font-size: 14px;">${s.name}</strong><br>
             <span style="font-size: 11px; color: #64748b;">रोल: ${s.roll_no} • ${s.class_name}</span>
           </div>
-          ${currentUser.role !== 'student' ? `
-            <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            ${currentUser && currentUser.role !== 'student' ? `
               <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Present" checked> P</label>
-              <label style="font-size: 13px; font-weight:600; margin-left: 10px; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
-            </div>
-          ` : `<span class="status-badge badge-paid">नामांकित</span>`}
+              <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
+            ` : `<span class="status-badge badge-paid">नामांकित</span>`}
+            
+            ${currentUser && currentUser.role === 'admin' ? `
+              <button class="action-icon-btn edit-btn" title="छात्र एडिट करें" onclick="editStudent(${s.id}, '${s.name}', '${s.roll_no}', '${s.class_name}')">✏️</button>
+              <button class="action-icon-btn delete-btn" title="छात्र हटाएं" onclick="deleteStudent(${s.id})">🗑️</button>
+            ` : ''}
+          </div>
         </div>`;
     });
+  }
+
+  async function editStudent(studentId, oldName, oldRoll, oldClass) {
+    const newName = prompt("छात्र का नाम अपडेट करें:", oldName);
+    if (!newName) return;
+    const newRoll = prompt("रोल नंबर अपडेट करें:", oldRoll);
+    if (!newRoll) return;
+    const newClass = prompt("कक्षा अपडेट करें:", oldClass);
+    if (!newClass) return;
+
+    try {
+      const res = await fetch(`/api/students/${studentId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName, roll_no: newRoll, class_name: newClass })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        loadStudents();
+        loadAttendanceSummary();
+        loadFees();
+        loadMarks();
+      } else {
+        alert(data.error || "अपडेट विफल!");
+      }
+    } catch {
+      alert("सर्वर त्रुटि!");
+    }
+  }
+
+  async function deleteStudent(studentId) {
+    if (!confirm("सावधानी: यह छात्र हटाने पर इसकी उपस्थिति, फीस और मार्क्स का समस्त रिकॉर्ड भी हमेशा के लिए डिलीट हो जाएगा!\nक्या आप आगे बढ़ना चाहते हैं?")) return;
+    try {
+      const res = await fetch(`/api/students/${studentId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (res.ok) {
+        loadStudents();
+        loadAttendanceSummary();
+        loadFees();
+        loadMarks();
+      } else {
+        alert(data.error || "हटाने में विफलता!");
+      }
+    } catch {
+      alert("सर्वर त्रुटि!");
+    }
   }
 
   async function loadAttendanceSummary() {
