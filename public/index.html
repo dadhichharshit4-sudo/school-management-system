@@ -11,7 +11,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: #eef2f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
     
-    /* मोबाइल फ्रेम */
     .mobile-frame { 
       width: 100%; 
       max-width: 430px; 
@@ -31,7 +30,6 @@
       body { background: #fff; }
     }
 
-    /* हेडर */
     .app-header {
       background: linear-gradient(135deg, #1a73e8, #0d47a1);
       color: white;
@@ -44,14 +42,12 @@
     .app-header h3 { font-size: 18px; font-weight: 700; }
     .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; }
 
-    /* स्क्रॉलेबल कंटेंट बॉडी */
     .app-body {
       flex: 1;
       overflow-y: auto;
       padding: 16px 16px 85px 16px;
     }
 
-    /* बॉटम नेविगेशन */
     .bottom-nav {
       position: absolute;
       bottom: 0;
@@ -79,7 +75,6 @@
     .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
     .nav-item.active { color: #1a73e8; }
 
-    /* कार्ड्स और कंपोनेंट्स */
     .user-pill {
       background: #e0f2fe;
       color: #0369a1;
@@ -100,15 +95,12 @@
     }
     .card-title { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
 
-    /* फॉर्म कंट्रोल्स */
     .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; margin-bottom: 10px; outline: none; background: #fff; }
-    .form-control:focus { border-color: #1a73e8; }
     .btn-action { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
     .btn-blue { background: #1a73e8; }
     .btn-green { background: #16a34a; }
     .btn-orange { background: #ea580c; }
 
-    /* लिस्ट कार्ड्स */
     .notice-item {
       background: #ffffff;
       border-left: 4px solid #1a73e8;
@@ -136,13 +128,29 @@
     .badge-partial { background: #fef9c3; color: #a16207; }
     .badge-pending { background: #fee2e2; color: #b91c1c; }
 
+    /* प्रोग्रेस बार */
+    .progress-bar-container {
+      background: #e2e8f0;
+      border-radius: 10px;
+      height: 8px;
+      width: 100%;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #16a34a;
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
 <div class="mobile-frame">
-  <!-- 1. लॉगिन स्क्रीन -->
+  <!-- लॉगिन स्क्रीन -->
   <div id="login-screen" style="flex: 1; display: flex; flex-direction: column;">
     <div class="app-header" style="justify-content: center; padding: 28px 20px;">
       <div style="text-align: center;">
@@ -164,7 +172,7 @@
     </div>
   </div>
 
-  <!-- 2. मेन ऐप स्क्रीन -->
+  <!-- मेन ऐप स्क्रीन -->
   <div id="dashboard-screen" class="hidden" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
     <div class="app-header">
       <h3 id="welcome-name">डैशबोर्ड</h3>
@@ -198,7 +206,13 @@
           <p id="student-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
         </div>
 
-        <div class="card-title" id="att-heading">हाजिरी</div>
+        <!-- उपस्थिति रिपोर्ट / प्रतिशत सारांश -->
+        <div class="card" style="border-top: 3px solid #16a34a;">
+          <div class="card-title" style="color: #16a34a; margin-bottom: 6px;">📊 उपस्थिति प्रतिशत रिपोर्ट</div>
+          <div id="attendance-summary-container">लोड हो रहा है...</div>
+        </div>
+
+        <div class="card-title" id="att-heading">दैनिक हाजिरी दर्ज करें</div>
         <div id="students-list">लोड हो रहा है...</div>
         <div id="att-submit-box">
           <button class="btn-action btn-green" style="margin-top: 8px;" onclick="submitAttendance()">हाजिरी सबमिट करें</button>
@@ -266,24 +280,25 @@
       document.getElementById('create-notice-section').classList.remove('hidden');
       document.getElementById('add-student-section').classList.remove('hidden');
       document.getElementById('att-submit-box').classList.remove('hidden');
-      document.getElementById('att-heading').innerText = 'कक्षा 10-A की हाजिरी दर्ज करें';
+      document.getElementById('att-heading').innerText = 'दैनिक हाजिरी दर्ज करें';
       document.getElementById('fee-heading').innerText = 'सभी छात्र फीस रिकॉर्ड (Admin)';
     } else if (user.role === 'teacher') {
       document.getElementById('create-notice-section').classList.remove('hidden');
       document.getElementById('add-student-section').classList.add('hidden');
       document.getElementById('att-submit-box').classList.remove('hidden');
-      document.getElementById('att-heading').innerText = 'कक्षा 10-A की हाजिरी दर्ज करें';
+      document.getElementById('att-heading').innerText = 'दैनिक हाजिरी दर्ज करें';
       document.getElementById('fee-heading').innerText = 'सभी छात्र फीस रिकॉर्ड';
     } else {
       document.getElementById('create-notice-section').classList.add('hidden');
       document.getElementById('add-student-section').classList.add('hidden');
       document.getElementById('att-submit-box').classList.add('hidden');
-      document.getElementById('att-heading').innerText = 'आपकी उपस्थिति स्टेटस';
+      document.getElementById('att-heading').classList.add('hidden');
       document.getElementById('fee-heading').innerText = 'मेरी फीस का विवरण';
     }
 
     loadNotices();
     loadStudents();
+    loadAttendanceSummary();
     loadFees();
   }
 
@@ -352,11 +367,47 @@
                 <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Present" checked> P</label>
                 <label style="font-size: 13px; font-weight:600; margin-left: 10px; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
               </div>
-            ` : `<span class="status-badge badge-paid">हाजिरी दर्ज</span>`}
+            ` : `<span class="status-badge badge-paid">नामांकित</span>`}
           </div>`;
       });
     } catch {
       container.innerHTML = 'छात्र लोड नहीं हो सके!';
+    }
+  }
+
+  async function loadAttendanceSummary() {
+    const container = document.getElementById('attendance-summary-container');
+    try {
+      const res = await fetch('/api/attendance/report');
+      const reports = await res.json();
+      container.innerHTML = '';
+
+      let listToShow = reports;
+      if (currentUser && currentUser.role === 'student') {
+        listToShow = reports.filter(r => r.name.toLowerCase() === currentUser.name.toLowerCase());
+      }
+
+      if (listToShow.length === 0) {
+        container.innerHTML = '<p style="font-size: 12px; color: #94a3b8;">कोई रिकॉर्ड उपलब्ध नहीं है।</p>';
+        return;
+      }
+
+      listToShow.forEach(r => {
+        const color = r.percentage >= 75 ? '#16a34a' : (r.percentage >= 50 ? '#ca8a04' : '#dc2626');
+        container.innerHTML += `
+          <div style="margin-bottom: 12px;">
+            <div style="display:flex; justify-content:space-between; font-size:13px;">
+              <strong>${r.name} (${r.roll_no})</strong>
+              <span style="font-weight:700; color:${color};">${r.percentage}% (${r.present_days}/${r.total_days} दिन)</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-fill" style="width: ${r.percentage}%; background: ${color};"></div>
+            </div>
+          </div>
+        `;
+      });
+    } catch {
+      container.innerHTML = 'रिपोर्ट लोड करने में त्रुटि!';
     }
   }
 
@@ -386,6 +437,7 @@
         document.getElementById('new-stud-roll').value = '';
         document.getElementById('new-stud-name').value = '';
         loadStudents();
+        loadAttendanceSummary();
         loadFees();
       } else {
         msg.style.color = '#dc2626';
@@ -412,6 +464,7 @@
       const data = await res.json();
       msg.style.color = res.ok ? '#16a34a' : '#dc2626';
       msg.innerText = data.message || data.error;
+      loadAttendanceSummary();
     } catch {
       msg.style.color = '#dc2626';
       msg.innerText = 'हाजिरी सबमिट विफल!';
