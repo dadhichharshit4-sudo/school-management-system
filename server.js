@@ -389,3 +389,14 @@ app.get('/api/homework', async (req, res) => {
     res.status(500).json({ error: 'होमवर्क लोड करने में विफलता!' });
   }
 });
+// 18. होमवर्क डिलीट करने की API (DELETE /api/homework/:id)
+app.delete('/api/homework/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query('DELETE FROM homework WHERE id = $1', [id]);
+    res.json({ message: 'गृहकार्य सफलतापूर्वक हटा दिया गया!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'होमवर्क हटाने में त्रुटि!' });
+  }
+});
