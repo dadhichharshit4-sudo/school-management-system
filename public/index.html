@@ -2,112 +2,231 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a73e8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>स्कूल मैनेजमेंट सिस्टम</title>
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-    body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
-    .mobile-frame { width: 100%; max-width: 420px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; min-height: 580px; display: flex; flex-direction: column; }
-    .header { background: #1a73e8; color: white; padding: 18px; }
-    .content { padding: 18px; flex-grow: 1; overflow-y: auto; max-height: 80vh; }
-    .nav-tabs { display: flex; gap: 6px; margin-bottom: 15px; }
-    .tab-btn { flex: 1; padding: 8px; border: 1px solid #1a73e8; background: white; color: #1a73e8; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
-    .tab-btn.active { background: #1a73e8; color: white; }
-    .form-group { margin-bottom: 10px; }
-    input, textarea { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; outline: none; }
-    button.primary-btn { width: 100%; padding: 11px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; }
-    .notice-card { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 12px; border-radius: 6px; margin-bottom: 12px; }
-    .notice-title { font-weight: bold; color: #1a73e8; font-size: 15px; }
-    .notice-desc { font-size: 13px; color: #333; margin-top: 4px; }
-    .notice-date { font-size: 11px; color: #777; margin-top: 6px; text-align: right; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: #eef2f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    
+    /* मोबाइल फ्रेम */
+    .mobile-frame { 
+      width: 100%; 
+      max-width: 430px; 
+      height: 100vh; 
+      max-height: 880px; 
+      background: #f8fafc; 
+      display: flex; 
+      flex-direction: column; 
+      position: relative;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 480px) {
+      .mobile-frame { height: 100vh; max-height: 100vh; border-radius: 0; }
+      body { background: #fff; }
+    }
+
+    /* हेडर */
+    .app-header {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(26, 115, 232, 0.2);
+    }
+    .app-header h3 { font-size: 18px; font-weight: 700; }
+    .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+    /* स्क्रॉलेबल कंटेंट बॉडी */
+    .app-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 16px 85px 16px;
+    }
+
+    /* बॉटम नेविगेशन */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 65px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.04);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      gap: 3px;
+    }
+    .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+    .nav-item.active { color: #1a73e8; }
+
+    /* कार्ड्स और कंपोनेंट्स */
+    .user-pill {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid #edf2f7;
+    }
+    .card-title { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
+
+    /* फॉर्म कंट्रोल्स */
+    .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; margin-bottom: 10px; outline: none; background: #fff; }
+    .form-control:focus { border-color: #1a73e8; }
+    .btn-action { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-blue { background: #1a73e8; }
+    .btn-green { background: #16a34a; }
+    .btn-orange { background: #ea580c; }
+
+    /* लिस्ट कार्ड्स */
+    .notice-item {
+      background: #ffffff;
+      border-left: 4px solid #1a73e8;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .notice-item h4 { color: #1a73e8; font-size: 15px; margin-bottom: 4px; }
+    .notice-item p { color: #475569; font-size: 13px; line-height: 1.4; }
+    .notice-item .date { color: #94a3b8; font-size: 11px; margin-top: 6px; text-align: right; }
+
+    .list-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      border: 1px solid #f1f5f9;
+    }
+    .status-badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+    .badge-paid { background: #dcfce7; color: #15803d; }
+    .badge-partial { background: #fef9c3; color: #a16207; }
+    .badge-pending { background: #fee2e2; color: #b91c1c; }
+
     .hidden { display: none !important; }
-    .user-badge { background: #e6f4ea; color: #137333; padding: 4px 8px; border-radius: 12px; font-size: 12px; display: inline-block; margin-bottom: 12px; font-weight: 600; }
-    .admin-box { background: #fdf2e9; border: 1px dashed #e67e22; border-radius: 10px; padding: 12px; margin-bottom: 15px; }
-    .student-box { background: #eef5fc; border: 1px dashed #1a73e8; border-radius: 10px; padding: 12px; margin-bottom: 15px; }
-    .student-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 8px; margin-bottom: 8px; border: 1px solid #eee; }
-    .fee-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
-    .badge-paid { background: #e6f4ea; color: #137333; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-    .badge-partial { background: #fef7e0; color: #b06000; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-    .badge-pending { background: #fce8e6; color: #c5221f; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
   </style>
 </head>
 <body>
 
 <div class="mobile-frame">
-  <!-- लॉगिन स्क्रीन -->
-  <div id="login-screen">
-    <div class="header" style="text-align: center;">
-      <h2>स्कूल ऐप लॉगिन</h2>
-      <p style="font-size: 12px; margin-top: 4px;">Admin / Teacher / Student</p>
+  <!-- 1. लॉगिन स्क्रीन -->
+  <div id="login-screen" style="flex: 1; display: flex; flex-direction: column;">
+    <div class="app-header" style="justify-content: center; padding: 28px 20px;">
+      <div style="text-align: center;">
+        <h3 style="font-size: 20px;">स्कूल मैनेजमेंट सिस्टम</h3>
+        <p style="font-size: 12px; opacity: 0.9; margin-top: 4px;">Admin • Teacher • Student Portal</p>
+      </div>
     </div>
-    <div class="content">
-      <div class="form-group">
-        <label style="font-size: 13px; font-weight: 600;">ईमेल</label>
-        <input type="email" id="login-email" value="admin@school.com">
+    <div class="app-body" style="padding: 24px;">
+      <div class="card" style="margin-top: 20px;">
+        <label style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block;">ईमेल आईडी</label>
+        <input type="email" id="login-email" class="form-control" value="admin@school.com">
+
+        <label style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px; display: block;">पासवर्ड</label>
+        <input type="password" id="login-password" class="form-control" value="admin123">
+
+        <button class="btn-action btn-blue" style="margin-top: 8px;" onclick="handleLogin()">लॉगिन करें</button>
+        <p id="login-msg" style="color: #dc2626; font-size: 13px; text-align: center; margin-top: 10px;"></p>
       </div>
-      <div class="form-group">
-        <label style="font-size: 13px; font-weight: 600;">पासवर्ड</label>
-        <input type="password" id="login-password" value="admin123">
-      </div>
-      <button class="primary-btn" onclick="handleLogin()">लॉगिन करें</button>
-      <p id="login-msg" style="color: red; font-size: 13px; margin-top: 10px; text-align: center;"></p>
     </div>
   </div>
 
-  <!-- डैशबोर्ड स्क्रीन -->
-  <div id="dashboard-screen" class="hidden">
-    <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <!-- 2. मेन ऐप स्क्रीन -->
+  <div id="dashboard-screen" class="hidden" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
+    <div class="app-header">
       <h3 id="welcome-name">डैशबोर्ड</h3>
-      <a href="#" onclick="handleLogout()" style="color: white; font-size: 12px; text-decoration: underline;">लॉगआउट</a>
+      <button class="logout-btn" onclick="handleLogout()">लॉगआउट</button>
     </div>
 
-    <div class="content">
-      <div id="user-role-badge" class="user-badge"></div>
+    <div class="app-body">
+      <div id="user-role-badge" class="user-pill"></div>
 
-      <!-- नेविगेशन टैब्स -->
-      <div class="nav-tabs">
-        <button id="tab-notices-btn" class="tab-btn active" onclick="switchTab('notices')">नोटिस</button>
-        <button id="tab-attendance-btn" class="tab-btn" onclick="switchTab('attendance')">अटेंडेंस</button>
-        <button id="tab-fees-btn" class="tab-btn" onclick="switchTab('fees')">फीस</button>
-      </div>
-
-      <!-- 1. नोटिस सेक्शन -->
+      <!-- टैब 1: नोटिस बोर्ड -->
       <div id="section-notices">
-        <div id="create-notice-section" class="admin-box hidden">
-          <h5 style="color: #d35400; margin-bottom: 8px;">+ नया नोटिस जारी करें</h5>
-          <div class="form-group"><input type="text" id="new-notice-title" placeholder="नोटिस का शीर्षक"></div>
-          <div class="form-group"><textarea id="new-notice-desc" rows="2" placeholder="विवरण..."></textarea></div>
-          <button class="primary-btn" style="background: #e67e22;" onclick="handleCreateNotice()">नोटिस पोस्ट करें</button>
+        <div id="create-notice-section" class="card hidden" style="border: 1px dashed #ea580c; background: #fffaf5;">
+          <div class="card-title" style="color: #ea580c;">+ नया नोटिस जारी करें</div>
+          <input type="text" id="new-notice-title" class="form-control" placeholder="नोटिस शीर्षक">
+          <textarea id="new-notice-desc" class="form-control" rows="2" placeholder="नोटिस का विवरण..."></textarea>
+          <button class="btn-action btn-orange" onclick="handleCreateNotice()">नोटिस पोस्ट करें</button>
         </div>
+        <div class="card-title">स्कूल नोटिस बोर्ड</div>
         <div id="notices-container">लोड हो रहा है...</div>
       </div>
 
-      <!-- 2. अटेंडेंस और छात्र प्रबंधन सेक्शन -->
+      <!-- टैब 2: अटेंडेंस -->
       <div id="section-attendance" class="hidden">
-        <!-- केवल एडमिन के लिए नया छात्र जोड़ने का फॉर्म -->
-        <div id="add-student-section" class="student-box hidden">
-          <h5 style="color: #1a73e8; margin-bottom: 8px;">+ नया छात्र प्रवेश (Add Student)</h5>
-          <div class="form-group"><input type="number" id="new-stud-roll" placeholder="रोल नंबर (उदा. 104)"></div>
-          <div class="form-group"><input type="text" id="new-stud-name" placeholder="छात्र का नाम"></div>
-          <div class="form-group"><input type="text" id="new-stud-class" value="Class 10-A" placeholder="कक्षा"></div>
-          <div class="form-group"><input type="number" id="new-stud-fee" value="20000" placeholder="कुल वार्षिक फीस (₹)"></div>
-          <button class="primary-btn" onclick="handleAddStudent()">छात्र सेव करें</button>
+        <div id="add-student-section" class="card hidden" style="border: 1px dashed #1a73e8; background: #f8fafc;">
+          <div class="card-title" style="color: #1a73e8;">+ नया छात्र प्रवेश</div>
+          <input type="number" id="new-stud-roll" class="form-control" placeholder="रोल नंबर">
+          <input type="text" id="new-stud-name" class="form-control" placeholder="छात्र का नाम">
+          <input type="text" id="new-stud-class" class="form-control" value="Class 10-A" placeholder="कक्षा">
+          <input type="number" id="new-stud-fee" class="form-control" value="20000" placeholder="कुल वार्षिक फीस">
+          <button class="btn-action btn-blue" onclick="handleAddStudent()">छात्र सेव करें</button>
           <p id="student-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
         </div>
 
-        <h4 id="att-heading" style="margin-bottom: 12px; color: #333;">कक्षा 10-A की हाजिरी</h4>
+        <div class="card-title" id="att-heading">हाजिरी</div>
         <div id="students-list">लोड हो रहा है...</div>
         <div id="att-submit-box">
-          <button class="primary-btn" style="margin-top: 12px; background: #2e7d32;" onclick="submitAttendance()">हाजिरी सबमिट करें</button>
+          <button class="btn-action btn-green" style="margin-top: 8px;" onclick="submitAttendance()">हाजिरी सबमिट करें</button>
           <p id="att-msg" style="font-size: 13px; margin-top: 8px; text-align: center;"></p>
         </div>
       </div>
 
-      <!-- 3. फीस सेक्शन -->
+      <!-- टैब 3: फीस -->
       <div id="section-fees" class="hidden">
-        <h4 id="fee-heading" style="margin-bottom: 12px; color: #333;">फीस विवरण</h4>
+        <div class="card-title" id="fee-heading">फीस विवरण</div>
         <div id="fees-container">लोड हो रहा है...</div>
       </div>
+    </div>
+
+    <!-- बॉटम नेविगेशन बार -->
+    <div class="bottom-nav">
+      <button id="nav-btn-notices" class="nav-item active" onclick="switchTab('notices')">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+        नोटिस
+      </button>
+      <button id="nav-btn-attendance" class="nav-item" onclick="switchTab('attendance')">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+        हाजिरी
+      </button>
+      <button id="nav-btn-fees" class="nav-item" onclick="switchTab('fees')">
+        <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        फीस
+      </button>
     </div>
   </div>
 </div>
@@ -171,10 +290,10 @@
   function switchTab(tab) {
     ['notices', 'attendance', 'fees'].forEach(t => {
       document.getElementById(`section-${t}`).classList.add('hidden');
-      document.getElementById(`tab-${t}-btn`).classList.remove('active');
+      document.getElementById(`nav-btn-${t}`).classList.remove('active');
     });
     document.getElementById(`section-${tab}`).classList.remove('hidden');
-    document.getElementById(`tab-${tab}-btn`).classList.add('active');
+    document.getElementById(`nav-btn-${tab}`).classList.add('active');
   }
 
   async function loadNotices() {
@@ -185,10 +304,10 @@
     notices.forEach(n => {
       const d = new Date(n.date).toLocaleDateString('hi-IN');
       container.innerHTML += `
-        <div class="notice-card">
-          <div class="notice-title">${n.title}</div>
-          <div class="notice-desc">${n.description}</div>
-          <div class="notice-date">दिनांक: ${d}</div>
+        <div class="notice-item">
+          <h4>${n.title}</h4>
+          <p>${n.description}</p>
+          <div class="date">दिनांक: ${d}</div>
         </div>`;
     });
   }
@@ -223,21 +342,21 @@
 
       listToShow.forEach(s => {
         container.innerHTML += `
-          <div class="student-row">
-            <div class="student-info">
-              <strong>${s.name}</strong><br>
-              <span style="font-size: 11px; color: #666;">रोल: ${s.roll_no} | ${s.class_name}</span>
+          <div class="list-row">
+            <div>
+              <strong style="color: #1e293b; font-size: 14px;">${s.name}</strong><br>
+              <span style="font-size: 11px; color: #64748b;">रोल: ${s.roll_no} • ${s.class_name}</span>
             </div>
             ${currentUser.role !== 'student' ? `
               <div>
-                <label><input type="radio" name="att_${s.id}" value="Present" checked> P</label>
-                <label style="margin-left: 6px;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
+                <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Present" checked> P</label>
+                <label style="font-size: 13px; font-weight:600; margin-left: 10px; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
               </div>
-            ` : `<span class="badge-paid" style="font-size:12px;">हाजिरी दर्ज</span>`}
+            ` : `<span class="status-badge badge-paid">हाजिरी दर्ज</span>`}
           </div>`;
       });
     } catch {
-      container.innerHTML = 'छात्र डेटा लोड नहीं हो सका!';
+      container.innerHTML = 'छात्र लोड नहीं हो सके!';
     }
   }
 
@@ -249,7 +368,7 @@
     const msg = document.getElementById('student-add-msg');
 
     if (!roll_no || !name || !class_name) {
-      msg.style.color = 'red';
+      msg.style.color = '#dc2626';
       msg.innerText = 'कृपया सभी विवरण भरें!';
       return;
     }
@@ -262,19 +381,19 @@
       });
       const data = await res.json();
       if (res.ok) {
-        msg.style.color = 'green';
+        msg.style.color = '#16a34a';
         msg.innerText = data.message;
         document.getElementById('new-stud-roll').value = '';
         document.getElementById('new-stud-name').value = '';
         loadStudents();
         loadFees();
       } else {
-        msg.style.color = 'red';
+        msg.style.color = '#dc2626';
         msg.innerText = data.error;
       }
     } catch {
-      msg.style.color = 'red';
-      msg.innerText = 'छात्र जोड़ने में सर्वर त्रुटि!';
+      msg.style.color = '#dc2626';
+      msg.innerText = 'त्रुटि हुई!';
     }
   }
 
@@ -291,10 +410,10 @@
         body: JSON.stringify({ attendanceData })
       });
       const data = await res.json();
-      msg.style.color = res.ok ? 'green' : 'red';
+      msg.style.color = res.ok ? '#16a34a' : '#dc2626';
       msg.innerText = data.message || data.error;
     } catch {
-      msg.style.color = 'red';
+      msg.style.color = '#dc2626';
       msg.innerText = 'हाजिरी सबमिट विफल!';
     }
   }
@@ -319,31 +438,31 @@
         else if (f.status === 'Partial') { badgeClass = 'badge-partial'; badgeText = 'आंशिक जमा'; }
 
         container.innerHTML += `
-          <div class="fee-card">
+          <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong>${f.name} (रोल: ${f.roll_no})</strong>
-              <span class="${badgeClass}">${badgeText}</span>
+              <strong style="color: #1e293b;">${f.name} (रोल: ${f.roll_no})</strong>
+              <span class="status-badge ${badgeClass}">${badgeText}</span>
             </div>
-            <div style="font-size: 13px; color: #555; margin-top: 6px;">
-              कुल: ₹${f.total_amount} | जमा: ₹${f.paid_amount} | <strong>बकाया: ₹${pending}</strong>
+            <div style="font-size: 13px; color: #64748b; margin-top: 8px;">
+              कुल: ₹${f.total_amount} | जमा: ₹${f.paid_amount} | <strong style="color: #dc2626;">बकाया: ₹${pending}</strong>
             </div>
             ${currentUser.role !== 'student' && pending > 0 ? `
-              <div style="display:flex; gap:6px; margin-top:8px;">
-                <input type="number" id="pay_amt_${f.student_id}" placeholder="राशि दर्ज करें" style="padding:6px; font-size:12px;">
-                <button style="padding:6px 12px; background:#1a73e8; color:white; border:none; border-radius:6px; cursor:pointer;" onclick="payFee(${f.student_id})">जमा करें</button>
+              <div style="display:flex; gap:8px; margin-top:10px;">
+                <input type="number" id="pay_amt_${f.student_id}" class="form-control" placeholder="राशि" style="margin-bottom:0; padding:8px 10px; font-size:13px;">
+                <button class="btn-action btn-blue" style="width: auto; padding: 8px 16px;" onclick="payFee(${f.student_id})">जमा करें</button>
               </div>
             ` : ''}
           </div>`;
       });
     } catch {
-      container.innerHTML = 'फीस डेटा लोड नहीं हो सका!';
+      container.innerHTML = 'फीस लोड करने में त्रुटि!';
     }
   }
 
   async function payFee(studentId) {
     const input = document.getElementById(`pay_amt_${studentId}`);
     const amount = input.value;
-    if (!amount || amount <= 0) return alert('कृपया वैध राशि दर्ज करें!');
+    if (!amount || amount <= 0) return alert('वैध राशि दर्ज करें!');
 
     const res = await fetch('/api/fees/pay', {
       method: 'POST',
@@ -353,7 +472,7 @@
     if (res.ok) {
       loadFees();
     } else {
-      alert('भुगतान रिकॉर्ड करने में विफल!');
+      alert('भुगतान रिकॉर्ड विफल!');
     }
   }
 
