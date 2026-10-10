@@ -590,7 +590,7 @@
       document.getElementById('b-total-val').innerText = tot;
     }
 
-    // Render Table with Double Click Editing check (02:52 in video)
+   // Render Table with ALL editable columns
     function renderStudentsTable(list) {
       const tbody = document.getElementById('std-tbody');
       tbody.innerHTML = '';
@@ -600,23 +600,28 @@
         return;
       }
 
-      list.forEach((s, idx) => {
+      list.forEach((s) => {
         const admNo = 700 + Number(s.id);
-        const gender = (idx % 2 === 0) ? 'Male' : 'Female';
+        const fName = s.father_name || 'श्री देविलाल जी';
+        const mName = s.mother_name || 'श्रीमती सरिता देवी';
+        const mob = s.mobile_no || '9876543210';
+        const gndr = s.gender || 'Male';
+        const sec = s.section || 'A';
+
         tbody.innerHTML += `
           <tr>
             <td style="text-align:center;">👤</td>
-            <td class="editable-cell" ondblclick="handleCellDblClick(${s.id}, 'roll_no', '${s.roll_no}')"><strong>${admNo}</strong></td>
+            <td><strong>${admNo}</strong></td>
             <td>10/10/2026</td>
-            <td class="editable-cell" ondblclick="handleCellDblClick(${s.id}, 'name', '${s.name}')"><strong>${s.name}</strong></td>
-            <td class="editable-cell" ondblclick="handleCellDblClick(${s.id}, 'roll_no', '${s.roll_no}')">${s.roll_no}</td>
-            <td>${s.class_name || '8th'}</td>
-            <td>A</td>
+            <td class="editable-cell" title="डबल-क्लिक करके नाम बदलें" ondblclick="handleCellDblClick(${s.id}, 'name', '${s.name}')"><strong>${s.name}</strong></td>
+            <td class="editable-cell" title="डबल-क्लिक करके रोल नंबर बदलें" ondblclick="handleCellDblClick(${s.id}, 'roll_no', '${s.roll_no}')">${s.roll_no}</td>
+            <td class="editable-cell" title="डबल-क्लिक करके क्लास बदलें" ondblclick="handleCellDblClick(${s.id}, 'class_name', '${s.class_name || '8th'}')">${s.class_name || '8th'}</td>
+            <td class="editable-cell" title="डबल-क्लिक करके सेक्शन बदलें" ondblclick="handleCellDblClick(${s.id}, 'section', '${sec}')">${sec}</td>
             <td><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:700;">सक्रिय</span></td>
-            <td>${gender}</td>
-            <td>श्री देविलाल जी</td>
-            <td>श्रीमती सरिता देवी</td>
-            <td class="editable-cell" ondblclick="handleCellDblClick(${s.id}, 'mobile', '9876543210')">9876543210</td>
+            <td class="editable-cell" title="डबल-क्लिक करके जेंडर बदलें" ondblclick="handleCellDblClick(${s.id}, 'gender', '${gndr}')">${gndr}</td>
+            <td class="editable-cell" title="डबल-क्लिक करके पिता का नाम बदलें" ondblclick="handleCellDblClick(${s.id}, 'father_name', '${fName}')">${fName}</td>
+            <td class="editable-cell" title="डबल-क्लिक करके माता का नाम बदलें" ondblclick="handleCellDblClick(${s.id}, 'mother_name', '${mName}')">${mName}</td>
+            <td class="editable-cell" title="डबल-क्लिक करके मोबाइल नंबर बदलें" ondblclick="handleCellDblClick(${s.id}, 'mobile_no', '${mob}')">${mob}</td>
             <td>
               <button class="std-btn std-btn-blue" style="padding:2px 6px; font-size:11px;" onclick="showScreen('id-cards')">🪪 ID</button>
               <button class="std-btn std-btn-red" style="padding:2px 6px; font-size:11px;" onclick="deleteStudent(${s.id})">🗑️</button>
@@ -626,44 +631,46 @@
       });
     }
 
-    // Double-click inline check
-    function handleCellDblClick(id, field, currentVal) {
+    // किसी भी फ़ील्ड को इनलाइन डबल-क्लिक से अपडेट करना
+    async function handleCellDblClick(id, fieldName, currentVal) {
       const selectedClass = document.getElementById('filter-class').value;
       if (!selectedClass) {
-        // अगर सभी कक्षाएं चुनी हैं, तो वही सुरक्षा सूचना दिखाएं
         document.getElementById('class-alert-modal').classList.remove('hidden');
         return;
       }
 
-      const newVal = prompt(`नया ${field} दर्ज करें:`, currentVal);
+      const labels = {
+        name: "छात्र का नाम",
+        roll_no: "रोल नंबर",
+        class_name: "कक्षा",
+        section: "सेक्शन",
+        gender: "लिंग (Male/Female)",
+        father_name: "पिता का नाम (Father Name)",
+        mother_name: "माता का नाम (Mother Name)",
+        mobile_no: "मोबाइल नंबर (Mobile No)"
+      };
+
+      const promptLabel = labels[fieldName] || fieldName;
+      const newVal = prompt(`नया ${promptLabel} दर्ज करें:`, currentVal);
       if (newVal === null || newVal.trim() === '') return;
 
-      const student = students.find(s => s.id === id);
-      const updatedName = field === 'name' ? newVal : student.name;
-      const updatedRoll = field === 'roll_no' ? newVal : student.roll_no;
+      const payload = {};
+      payload[fieldName] = newVal.trim();
 
-      fetch(`/api/students/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: updatedName, roll_no: updatedRoll, class_name: student.class_name || '8th' })
-      }).then(() => loadData());
-    }
-
-    function closeClassAlert() {
-      document.getElementById('class-alert-modal').classList.add('hidden');
-    }
-
-    function filterStudentsTable() {
-      const q = document.getElementById('std-search-input').value.toLowerCase().trim();
-      const cls = document.getElementById('filter-class').value;
-
-      const filtered = students.filter(s => {
-        const matchesQ = s.name.toLowerCase().includes(q) || s.roll_no.toString().includes(q);
-        const matchesCls = cls === '' || (s.class_name || '8th') === cls;
-        return matchesQ && matchesCls;
-      });
-
-      renderStudentsTable(filtered);
+      try {
+        const res = await fetch(`/api/students/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          loadData();
+        } else {
+          alert("अपडेट करने में त्रुटि!");
+        }
+      } catch {
+        alert("सर्वर से कनेक्शन विफल!");
+      }
     }
 
     // Save Admission Form
