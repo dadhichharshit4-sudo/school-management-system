@@ -96,6 +96,7 @@
     .card-title { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
 
     .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; margin-bottom: 10px; outline: none; background: #fff; }
+    .form-control:focus { border-color: #1a73e8; }
     .btn-action { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
     .btn-blue { background: #1a73e8; }
     .btn-green { background: #16a34a; }
@@ -136,18 +137,41 @@
     .marks-table th, .marks-table td { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
     .marks-table th { color: #64748b; font-weight: 600; }
     
-    .action-icon-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 12px;
-      padding: 2px 5px;
-      border-radius: 4px;
-    }
+    .action-icon-btn { background: none; border: none; cursor: pointer; font-size: 12px; padding: 2px 5px; border-radius: 4px; }
     .edit-btn { color: #2563eb; }
     .delete-btn { color: #dc2626; margin-left: 4px; }
 
+    /* रसीद मोडल स्टाइल */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 16px;
+    }
+    .receipt-box {
+      background: white;
+      width: 100%;
+      max-width: 360px;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .receipt-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 14px; }
+    .receipt-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: #334155; }
+    .receipt-row.highlight { font-weight: 700; font-size: 14px; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+
     .hidden { display: none !important; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-receipt, #printable-receipt * { visibility: visible; }
+      #printable-receipt { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; box-shadow: none; border: 1px solid #ccc; }
+      .no-print { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -247,7 +271,7 @@
       </div>
     </div>
 
-    <!-- 4 टैब्स वाला बॉटम नेविगेशन बार -->
+    <!-- बॉटम नेविगेशन बार -->
     <div class="bottom-nav">
       <button id="nav-btn-notices" class="nav-item active" onclick="switchTab('notices')">
         <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
@@ -265,6 +289,30 @@
         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
         रिजल्ट
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- डिजिटल फीस रसीद मोडल -->
+<div id="receipt-modal" class="modal-overlay hidden">
+  <div class="receipt-box" id="printable-receipt">
+    <div class="receipt-header">
+      <h3 style="color:#1a73e8; font-size:18px;">श्री मेवाड़ पब्लिक स्कूल</h3>
+      <p style="font-size:11px; color:#64748b;">फीस भुगतान रसीद (Fee Receipt)</p>
+    </div>
+    <div class="receipt-row"><span>रसीद सं:</span><strong id="rcpt-no">#REC-101</strong></div>
+    <div class="receipt-row"><span>दिनांक:</span><span id="rcpt-date"></span></div>
+    <div class="receipt-row"><span>छात्र नाम:</span><strong id="rcpt-name"></strong></div>
+    <div class="receipt-row"><span>रोल नंबर:</span><span id="rcpt-roll"></span></div>
+    <div class="receipt-row"><span>कक्षा:</span><span id="rcpt-class"></span></div>
+    <hr style="border:0; border-top:1px dashed #cbd5e1; margin:10px 0;">
+    <div class="receipt-row"><span>कुल देय फीस:</span><span id="rcpt-total"></span></div>
+    <div class="receipt-row highlight"><span>कुल जमा राशि:</span><span id="rcpt-paid" style="color:#16a34a;"></span></div>
+    <div class="receipt-row highlight"><span>बकाया राशि:</span><span id="rcpt-pending" style="color:#dc2626;"></span></div>
+    <div class="receipt-row"><span>स्थिति:</span><span id="rcpt-status"></span></div>
+    <div class="no-print" style="margin-top:18px; display:flex; gap:8px;">
+      <button class="btn-action btn-blue" onclick="window.print()">🖨️ प्रिंट / PDF सेव</button>
+      <button class="btn-action" style="background:#64748b;" onclick="closeReceipt()">बंद करें</button>
     </div>
   </div>
 </div>
@@ -500,7 +548,10 @@
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <strong style="color: #1e293b;">${f.name} (रोल: ${f.roll_no})</strong>
-            <span class="status-badge ${badgeClass}">${badgeText}</span>
+            <div>
+              <span class="status-badge ${badgeClass}">${badgeText}</span>
+              <button class="action-icon-btn" style="background:#e0f2fe; color:#0369a1; padding:3px 8px; font-weight:600; margin-left:4px;" onclick='showReceipt(${JSON.stringify(f)})'>🧾 रसीद</button>
+            </div>
           </div>
           <div style="font-size: 13px; color: #64748b; margin-top: 8px;">
             कुल: ₹${f.total_amount} | जमा: ₹${f.paid_amount} | <strong style="color: #dc2626;">बकाया: ₹${pending}</strong>
@@ -523,6 +574,24 @@
       body: JSON.stringify({ student_id: studentId, amount: input.value })
     });
     if (res.ok) loadFees();
+  }
+
+  function showReceipt(f) {
+    const pending = Number(f.total_amount) - Number(f.paid_amount);
+    document.getElementById('rcpt-no').innerText = `#REC-${f.student_id}${Date.now().toString().slice(-4)}`;
+    document.getElementById('rcpt-date').innerText = new Date().toLocaleDateString('hi-IN');
+    document.getElementById('rcpt-name').innerText = f.name;
+    document.getElementById('rcpt-roll').innerText = f.roll_no;
+    document.getElementById('rcpt-class').innerText = f.class_name || 'कक्षा 10-A';
+    document.getElementById('rcpt-total').innerText = `₹${f.total_amount}`;
+    document.getElementById('rcpt-paid').innerText = `₹${f.paid_amount}`;
+    document.getElementById('rcpt-pending').innerText = `₹${pending}`;
+    document.getElementById('rcpt-status').innerText = f.status === 'Paid' ? 'पूर्ण भुगतान' : (f.status === 'Partial' ? 'आंशिक भुगतान' : 'लंबित');
+    document.getElementById('receipt-modal').classList.remove('hidden');
+  }
+
+  function closeReceipt() {
+    document.getElementById('receipt-modal').classList.add('hidden');
   }
 
   async function handleAddMarks() {
@@ -570,11 +639,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ marks_obtained: newMarks, total_marks: totalMarks })
       });
-      if (res.ok) {
-        loadMarks();
-      } else {
-        alert("अंक अपडेट करने में त्रुटि!");
-      }
+      if (res.ok) loadMarks();
     } catch {
       alert("सर्वर त्रुटि!");
     }
@@ -584,11 +649,7 @@
     if (!confirm("क्या आप सचमुच यह विषय रिकॉर्ड हटाना चाहते हैं?")) return;
     try {
       const res = await fetch(`/api/marks/${markId}`, { method: 'DELETE' });
-      if (res.ok) {
-        loadMarks();
-      } else {
-        alert("हटाने में विफलता!");
-      }
+      if (res.ok) loadMarks();
     } catch {
       alert("सर्वर त्रुटि!");
     }
