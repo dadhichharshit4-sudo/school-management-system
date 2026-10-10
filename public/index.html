@@ -39,8 +39,9 @@
       align-items: center;
       box-shadow: 0 2px 10px rgba(26, 115, 232, 0.2);
     }
-    .app-header h3 { font-size: 18px; font-weight: 700; }
-    .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .app-header h3 { font-size: 17px; font-weight: 700; }
+    .header-btns { display: flex; gap: 6px; }
+    .header-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; }
 
     .app-body {
       flex: 1;
@@ -206,7 +207,10 @@
   <div id="dashboard-screen" class="hidden" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
     <div class="app-header">
       <h3 id="welcome-name">डैशबोर्ड</h3>
-      <button class="logout-btn" onclick="handleLogout()">लॉगआउट</button>
+      <div class="header-btns">
+        <button class="header-btn" onclick="openPasswordModal()">🔑 पासवर्ड</button>
+        <button class="header-btn" onclick="handleLogout()">लॉगआउट</button>
+      </div>
     </div>
 
     <div class="app-body">
@@ -313,6 +317,25 @@
         रिजल्ट
       </button>
     </div>
+  </div>
+</div>
+
+<!-- पासवर्ड बदलने का मोडल -->
+<div id="password-modal" class="modal-overlay hidden">
+  <div class="receipt-box" style="border: 2px solid #1a73e8;">
+    <div class="receipt-header">
+      <h3 style="color:#1a73e8; font-size:18px;">🔑 पासवर्ड बदलें</h3>
+      <p style="font-size:11px; color:#64748b;" id="pwd-user-email"></p>
+    </div>
+    <label style="font-size:12px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">वर्तमान पासवर्ड</label>
+    <input type="password" id="old-pwd" class="form-control" placeholder="पुराना पासवर्ड">
+
+    <label style="font-size:12px; font-weight:700; color:#475569; display:block; margin-bottom:4px;">नया पासवर्ड</label>
+    <input type="password" id="new-pwd" class="form-control" placeholder="कम से कम 6 अक्षर">
+
+    <button class="btn-action btn-blue" onclick="handleChangePassword()">पासवर्ड अपडेट करें</button>
+    <p id="pwd-msg" style="font-size:12px; text-align:center; margin-top:8px;"></p>
+    <button class="btn-action" style="background:#64748b; margin-top:8px;" onclick="closePasswordModal()">रद्द करें</button>
   </div>
 </div>
 
@@ -447,6 +470,56 @@
     document.getElementById(`nav-btn-${tab}`).classList.add('active');
   }
 
+  function openPasswordModal() {
+    if (!currentUser) return;
+    document.getElementById('pwd-user-email').innerText = currentUser.email;
+    document.getElementById('old-pwd').value = '';
+    document.getElementById('new-pwd').value = '';
+    document.getElementById('pwd-msg').innerText = '';
+    document.getElementById('password-modal').classList.remove('hidden');
+  }
+
+  function closePasswordModal() {
+    document.getElementById('password-modal').classList.add('hidden');
+  }
+
+  async function handleChangePassword() {
+    const oldPassword = document.getElementById('old-pwd').value;
+    const newPassword = document.getElementById('new-pwd').value;
+    const msg = document.getElementById('pwd-msg');
+
+    if (!oldPassword || !newPassword) {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'दोनों पासवर्ड फ़ील्ड भरें!';
+      return;
+    }
+    if (newPassword.length < 6) {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'नया पासवर्ड कम से कम 6 अक्षरों का होना चाहिए!';
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: currentUser.id, oldPassword, newPassword })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        msg.style.color = '#16a34a';
+        msg.innerText = data.message;
+        setTimeout(() => closePasswordModal(), 1500);
+      } else {
+        msg.style.color = '#dc2626';
+        msg.innerText = data.error;
+      }
+    } catch {
+      msg.style.color = '#dc2626';
+      msg.innerText = 'सर्वर त्रुटि हुई!';
+    }
+  }
+
   async function loadNotices() {
     const container = document.getElementById('notices-container');
     const res = await fetch('/api/notices');
@@ -479,7 +552,6 @@
     }
   }
 
-  /* गृहकार्य (Homework) फंक्शन्स */
   async function loadHomework() {
     const container = document.getElementById('homework-container');
     try {
@@ -522,11 +594,7 @@
     if (!confirm("क्या आप सचमुच यह गृहकार्य हटाना चाहते हैं?")) return;
     try {
       const res = await fetch(`/api/homework/${hwId}`, { method: 'DELETE' });
-      if (res.ok) {
-        loadHomework();
-      } else {
-        alert("गृहकार्य हटाने में विफलता!");
-      }
+      if (res.ok) loadHomework();
     } catch {
       alert("सर्वर त्रुटि!");
     }
