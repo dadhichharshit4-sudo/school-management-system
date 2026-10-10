@@ -98,6 +98,25 @@
 
     .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; margin-bottom: 10px; outline: none; background: #fff; }
     .form-control:focus { border-color: #1a73e8; }
+    
+    .search-box {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 9px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .search-box input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 13px;
+      background: transparent;
+    }
+
     .btn-action { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
     .btn-blue { background: #1a73e8; }
     .btn-green { background: #16a34a; }
@@ -256,6 +275,12 @@
           <p id="student-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
         </div>
 
+        <!-- छात्र खोज बार (अटेंडेंस) -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="search-attendance" placeholder="छात्र का नाम या रोल नंबर खोजें..." onkeyup="filterAttendanceList()">
+        </div>
+
         <div class="card" style="border-top: 3px solid #16a34a;">
           <div class="card-title" style="color: #16a34a; margin-bottom: 6px;">📊 उपस्थिति प्रतिशत रिपोर्ट</div>
           <div id="attendance-summary-container">लोड हो रहा है...</div>
@@ -271,6 +296,11 @@
 
       <!-- टैब 4: फीस -->
       <div id="section-fees" class="hidden">
+        <!-- छात्र खोज बार (फीस) -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="search-fees" placeholder="नाम या रोल नंबर से फीस खोजें..." onkeyup="filterFeesList()">
+        </div>
         <div class="card-title" id="fee-heading">फीस विवरण</div>
         <div id="fees-container">लोड हो रहा है...</div>
       </div>
@@ -287,6 +317,12 @@
           </div>
           <button class="btn-action btn-purple" onclick="handleAddMarks()">अंक सबमिट करें</button>
           <p id="marks-add-msg" style="font-size: 12px; margin-top: 6px; text-align: center;"></p>
+        </div>
+
+        <!-- छात्र खोज बार (रिजल्ट) -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="search-marks" placeholder="रिजल्ट खोजने के लिए नाम या रोल नंबर दर्ज करें..." onkeyup="filterMarksList()">
         </div>
 
         <div class="card-title">📜 परीक्षा परिणाम / रिपोर्ट कार्ड</div>
@@ -403,6 +439,9 @@
 <script>
   let currentUser = null;
   let studentsData = [];
+  let attendanceReportsData = [];
+  let rawFeesData = [];
+  let rawMarksData = [];
 
   async function handleLogin() {
     const email = document.getElementById('login-email').value;
@@ -639,71 +678,104 @@
   }
 
   async function loadStudents() {
-    const container = document.getElementById('students-list');
-    const select = document.getElementById('marks-student-select');
     try {
       const res = await fetch('/api/students');
       studentsData = await res.json();
-      container.innerHTML = '';
+      
+      const select = document.getElementById('marks-student-select');
       select.innerHTML = '<option value="">छात्र चुनें...</option>';
-
-      let listToShow = studentsData;
-      if (currentUser && currentUser.role === 'student') {
-        listToShow = studentsData.filter(s => s.name.toLowerCase() === currentUser.name.toLowerCase());
-      }
-
       studentsData.forEach(s => {
         select.innerHTML += `<option value="${s.id}">${s.name} (${s.roll_no})</option>`;
       });
 
-      listToShow.forEach(s => {
-        container.innerHTML += `
-          <div class="list-row">
-            <div>
-              <strong style="color: #1e293b; font-size: 14px;">${s.name}</strong><br>
-              <span style="font-size: 11px; color: #64748b;">रोल: ${s.roll_no} • ${s.class_name}</span>
-            </div>
-            ${currentUser.role !== 'student' ? `
-              <div>
-                <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Present" checked> P</label>
-                <label style="font-size: 13px; font-weight:600; margin-left: 10px; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
-              </div>
-            ` : `<span class="status-badge badge-paid">नामांकित</span>`}
-          </div>`;
-      });
+      renderStudentsList(studentsData);
     } catch {
-      container.innerHTML = 'छात्र लोड नहीं हो सके!';
+      document.getElementById('students-list').innerHTML = 'छात्र लोड नहीं हो सके!';
     }
   }
 
+  function renderStudentsList(list) {
+    const container = document.getElementById('students-list');
+    container.innerHTML = '';
+
+    let listToShow = list;
+    if (currentUser && currentUser.role === 'student') {
+      listToShow = list.filter(s => s.name.toLowerCase() === currentUser.name.toLowerCase());
+    }
+
+    if (listToShow.length === 0) {
+      container.innerHTML = '<p style="font-size:12px; color:#94a3b8; text-align:center;">कोई छात्र नहीं मिला।</p>';
+      return;
+    }
+
+    listToShow.forEach(s => {
+      container.innerHTML += `
+        <div class="list-row">
+          <div>
+            <strong style="color: #1e293b; font-size: 14px;">${s.name}</strong><br>
+            <span style="font-size: 11px; color: #64748b;">रोल: ${s.roll_no} • ${s.class_name}</span>
+          </div>
+          ${currentUser.role !== 'student' ? `
+            <div>
+              <label style="font-size: 13px; font-weight:600; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Present" checked> P</label>
+              <label style="font-size: 13px; font-weight:600; margin-left: 10px; cursor:pointer;"><input type="radio" name="att_${s.id}" value="Absent"> A</label>
+            </div>
+          ` : `<span class="status-badge badge-paid">नामांकित</span>`}
+        </div>`;
+    });
+  }
+
   async function loadAttendanceSummary() {
-    const container = document.getElementById('attendance-summary-container');
     try {
       const res = await fetch('/api/attendance/report');
-      const reports = await res.json();
-      container.innerHTML = '';
-
-      let listToShow = reports;
-      if (currentUser && currentUser.role === 'student') {
-        listToShow = reports.filter(r => r.name.toLowerCase() === currentUser.name.toLowerCase());
-      }
-
-      listToShow.forEach(r => {
-        const color = r.percentage >= 75 ? '#16a34a' : (r.percentage >= 50 ? '#ca8a04' : '#dc2626');
-        container.innerHTML += `
-          <div style="margin-bottom: 12px;">
-            <div style="display:flex; justify-content:space-between; font-size:13px;">
-              <strong>${r.name} (${r.roll_no})</strong>
-              <span style="font-weight:700; color:${color};">${r.percentage}% (${r.present_days}/${r.total_days} दिन)</span>
-            </div>
-            <div class="progress-bar-container">
-              <div class="progress-fill" style="width: ${r.percentage}%; background: ${color};"></div>
-            </div>
-          </div>`;
-      });
+      attendanceReportsData = await res.json();
+      renderAttendanceSummary(attendanceReportsData);
     } catch {
-      container.innerHTML = 'रिपोर्ट लोड करने में त्रुटि!';
+      document.getElementById('attendance-summary-container').innerHTML = 'रिपोर्ट लोड करने में त्रुटि!';
     }
+  }
+
+  function renderAttendanceSummary(list) {
+    const container = document.getElementById('attendance-summary-container');
+    container.innerHTML = '';
+
+    let listToShow = list;
+    if (currentUser && currentUser.role === 'student') {
+      listToShow = list.filter(r => r.name.toLowerCase() === currentUser.name.toLowerCase());
+    }
+
+    if (listToShow.length === 0) {
+      container.innerHTML = '<p style="font-size: 12px; color: #94a3b8;">कोई रिकॉर्ड उपलब्ध नहीं है।</p>';
+      return;
+    }
+
+    listToShow.forEach(r => {
+      const color = r.percentage >= 75 ? '#16a34a' : (r.percentage >= 50 ? '#ca8a04' : '#dc2626');
+      container.innerHTML += `
+        <div style="margin-bottom: 12px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <strong>${r.name} (${r.roll_no})</strong>
+            <span style="font-weight:700; color:${color};">${r.percentage}% (${r.present_days}/${r.total_days} दिन)</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-fill" style="width: ${r.percentage}%; background: ${color};"></div>
+          </div>
+        </div>`;
+    });
+  }
+
+  function filterAttendanceList() {
+    const query = document.getElementById('search-attendance').value.toLowerCase().trim();
+    
+    const filteredStudents = studentsData.filter(s => 
+      s.name.toLowerCase().includes(query) || s.roll_no.toString().includes(query)
+    );
+    renderStudentsList(filteredStudents);
+
+    const filteredSummary = attendanceReportsData.filter(r => 
+      r.name.toLowerCase().includes(query) || r.roll_no.toString().includes(query)
+    );
+    renderAttendanceSummary(filteredSummary);
   }
 
   async function handleAddStudent() {
@@ -736,7 +808,7 @@
   async function submitAttendance() {
     const attendanceData = studentsData.map(s => ({
       student_id: s.id,
-      status: document.querySelector(`input[name="att_${s.id}"]:checked`).value
+      status: (document.querySelector(`input[name="att_${s.id}"]:checked`) || {}).value || 'Present'
     }));
     const msg = document.getElementById('att-msg');
     const res = await fetch('/api/attendance', {
@@ -751,14 +823,27 @@
   }
 
   async function loadFees() {
+    try {
+      const res = await fetch('/api/fees');
+      rawFeesData = await res.json();
+      renderFeesList(rawFeesData);
+    } catch {
+      document.getElementById('fees-container').innerHTML = 'फीस लोड करने में त्रुटि!';
+    }
+  }
+
+  function renderFeesList(fees) {
     const container = document.getElementById('fees-container');
-    const res = await fetch('/api/fees');
-    const fees = await res.json();
     container.innerHTML = '';
 
     let listToShow = fees;
     if (currentUser && currentUser.role === 'student') {
       listToShow = fees.filter(f => f.name.toLowerCase() === currentUser.name.toLowerCase());
+    }
+
+    if (listToShow.length === 0) {
+      container.innerHTML = '<p style="font-size:13px; color:#94a3b8; text-align:center;">कोई रिकॉर्ड नहीं मिला।</p>';
+      return;
     }
 
     listToShow.forEach(f => {
@@ -786,6 +871,14 @@
           ` : ''}
         </div>`;
     });
+  }
+
+  function filterFeesList() {
+    const query = document.getElementById('search-fees').value.toLowerCase().trim();
+    const filtered = rawFeesData.filter(f =>
+      f.name.toLowerCase().includes(query) || f.roll_no.toString().includes(query)
+    );
+    renderFeesList(filtered);
   }
 
   async function payFee(studentId) {
@@ -908,81 +1001,93 @@
   }
 
   async function loadMarks() {
-    const container = document.getElementById('report-card-container');
     try {
       const res = await fetch('/api/marks');
-      const marksList = await res.json();
-      container.innerHTML = '';
+      rawMarksData = await res.json();
+      renderMarksList(rawMarksData);
+    } catch {
+      document.getElementById('report-card-container').innerHTML = 'रिजल्ट लोड करने में विफलता!';
+    }
+  }
 
-      let listToShow = marksList;
-      if (currentUser && currentUser.role === 'student') {
-        listToShow = marksList.filter(m => m.name.toLowerCase() === currentUser.name.toLowerCase());
-      }
+  function renderMarksList(marksList) {
+    const container = document.getElementById('report-card-container');
+    container.innerHTML = '';
 
-      if (listToShow.length === 0) {
-        container.innerHTML = '<p style="font-size: 13px; color: #94a3b8; text-align:center;">अभी कोई अंक दर्ज नहीं किए गए हैं।</p>';
-        return;
-      }
+    let listToShow = marksList;
+    if (currentUser && currentUser.role === 'student') {
+      listToShow = marksList.filter(m => m.name.toLowerCase() === currentUser.name.toLowerCase());
+    }
 
-      const grouped = {};
-      listToShow.forEach(m => {
-        if (!grouped[m.name]) grouped[m.name] = { roll: m.roll_no, class: m.class_name, subjects: [] };
-        grouped[m.name].subjects.push(m);
+    if (listToShow.length === 0) {
+      container.innerHTML = '<p style="font-size: 13px; color: #94a3b8; text-align:center;">कोई अंक या छात्र नहीं मिला।</p>';
+      return;
+    }
+
+    const grouped = {};
+    listToShow.forEach(m => {
+      if (!grouped[m.name]) grouped[m.name] = { roll: m.roll_no, class: m.class_name, subjects: [] };
+      grouped[m.name].subjects.push(m);
+    });
+
+    for (const [studentName, data] of Object.entries(grouped)) {
+      let rows = '';
+      let totalObt = 0;
+      let totalMax = 0;
+
+      data.subjects.forEach(s => {
+        totalObt += Number(s.marks_obtained);
+        totalMax += Number(s.total_marks);
+        rows += `
+          <tr>
+            <td>${s.subject}</td>
+            <td><strong>${s.marks_obtained}</strong> / ${s.total_marks}</td>
+            ${currentUser && currentUser.role !== 'student' ? `
+              <td style="text-align: right;">
+                <button class="action-icon-btn edit-btn" onclick="editMark(${s.id}, ${s.marks_obtained},${s.total_marks})">✏️</button>
+                <button class="action-icon-btn delete-btn" onclick="deleteMark(${s.id})">🗑️</button>
+              </td>
+            ` : ''}
+          </tr>`;
       });
 
-      for (const [studentName, data] of Object.entries(grouped)) {
-        let rows = '';
-        let totalObt = 0;
-        let totalMax = 0;
+      const percentage = Math.round((totalObt / totalMax) * 100);
 
-        data.subjects.forEach(s => {
-          totalObt += Number(s.marks_obtained);
-          totalMax += Number(s.total_marks);
-          rows += `
-            <tr>
-              <td>${s.subject}</td>
-              <td><strong>${s.marks_obtained}</strong> / ${s.total_marks}</td>
-              ${currentUser && currentUser.role !== 'student' ? `
-                <td style="text-align: right;">
-                  <button class="action-icon-btn edit-btn" onclick="editMark(${s.id}, ${s.marks_obtained},${s.total_marks})">✏️</button>
-                  <button class="action-icon-btn delete-btn" onclick="deleteMark(${s.id})">🗑️</button>
-                </td>
-              ` : ''}
-            </tr>`;
-        });
-
-        const percentage = Math.round((totalObt / totalMax) * 100);
-
-        container.innerHTML += `
-          <div class="card" style="border-top: 3px solid #7c3aed;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <strong style="font-size:15px; color:#1e293b;">${studentName}</strong><br>
-                <span style="font-size:11px; color:#64748b;">रोल: ${data.roll} • ${data.class}</span>
-              </div>
-              <div style="text-align:right;">
-                <span class="status-badge" style="background:#f3e8ff; color:#7c3aed; font-size:12px;">${percentage}%</span>
-                <button class="action-icon-btn" style="background:#ede9fe; color:#6d28d9; padding:3px 8px; font-weight:600; margin-left:4px;" onclick='showMarksheet("${studentName}", ${JSON.stringify(data)})'>📜 प्रिंट</button>
-              </div>
+      container.innerHTML += `
+        <div class="card" style="border-top: 3px solid #7c3aed;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="font-size:15px; color:#1e293b;">${studentName}</strong><br>
+              <span style="font-size:11px; color:#64748b;">रोल: ${data.roll} • ${data.class}</span>
             </div>
-            <table class="marks-table">
-              <thead>
-                <tr>
-                  <th>विषय</th>
-                  <th>प्राप्तांक</th>
-                  ${currentUser && currentUser.role !== 'student' ? '<th style="text-align:right;">क्रिया</th>' : ''}
-                </tr>
-              </thead>
-              <tbody>${rows}</tbody>
-            </table>
-            <div style="margin-top:10px; font-size:12px; font-weight:700; color:#475569; text-align:right;">
-              कुल योग: ${totalObt} / ${totalMax}
+            <div style="text-align:right;">
+              <span class="status-badge" style="background:#f3e8ff; color:#7c3aed; font-size:12px;">${percentage}%</span>
+              <button class="action-icon-btn" style="background:#ede9fe; color:#6d28d9; padding:3px 8px; font-weight:600; margin-left:4px;" onclick='showMarksheet("${studentName}", ${JSON.stringify(data)})'>📜 प्रिंट</button>
             </div>
-          </div>`;
-      }
-    } catch {
-      container.innerHTML = 'रिजल्ट लोड करने में विफलता!';
+          </div>
+          <table class="marks-table">
+            <thead>
+              <tr>
+                <th>विषय</th>
+                <th>प्राप्तांक</th>
+                ${currentUser && currentUser.role !== 'student' ? '<th style="text-align:right;">क्रिया</th>' : ''}
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div style="margin-top:10px; font-size:12px; font-weight:700; color:#475569; text-align:right;">
+            कुल योग: ${totalObt} / ${totalMax}
+          </div>
+        </div>`;
     }
+  }
+
+  function filterMarksList() {
+    const query = document.getElementById('search-marks').value.toLowerCase().trim();
+    const filtered = rawMarksData.filter(m =>
+      m.name.toLowerCase().includes(query) || m.roll_no.toString().includes(query)
+    );
+    renderMarksList(filtered);
   }
 
   function handleLogout() {
