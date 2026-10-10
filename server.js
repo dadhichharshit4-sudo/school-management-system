@@ -358,3 +358,34 @@ app.delete('/api/marks/:id', async (req, res) => {
     res.status(500).json({ error: 'मार्क्स डिलीट करने में त्रुटि' });
   }
 });
+// 16. नया होमवर्क पोस्ट करने की API (Admin / Teacher)
+app.post('/api/homework', async (req, res) => {
+  try {
+    const { class_name, subject, title, description, due_date } = req.body;
+    if (!subject || !title || !description) {
+      return res.status(400).json({ error: 'सभी विवरण भरना अनिवार्य है!' });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO homework (class_name, subject, title, description, due_date)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [class_name || 'Class 10-A', subject, title, description, due_date || new Date()]
+    );
+
+    res.status(201).json({ message: 'गृहकार्य सफलतापूर्वक पोस्ट किया गया!', homework: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'होमवर्क सेव करने में त्रुटि!' });
+  }
+});
+
+// 17. होमवर्क सूची प्राप्त करने की API
+app.get('/api/homework', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM homework ORDER BY id DESC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'होमवर्क लोड करने में विफलता!' });
+  }
+});
