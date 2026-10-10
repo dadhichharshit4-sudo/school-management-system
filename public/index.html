@@ -96,7 +96,6 @@
     .card-title { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
 
     .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; margin-bottom: 10px; outline: none; background: #fff; }
-    .form-control:focus { border-color: #1a73e8; }
     .btn-action { width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
     .btn-blue { background: #1a73e8; }
     .btn-green { background: #16a34a; }
@@ -136,6 +135,17 @@
     .marks-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
     .marks-table th, .marks-table td { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
     .marks-table th { color: #64748b; font-weight: 600; }
+    
+    .action-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    .edit-btn { color: #2563eb; }
+    .delete-btn { color: #dc2626; margin-left: 4px; }
 
     .hidden { display: none !important; }
   </style>
@@ -223,7 +233,7 @@
         <div id="add-marks-section" class="card hidden" style="border: 1px dashed #7c3aed; background: #faf5ff;">
           <div class="card-title" style="color: #7c3aed;">+ परीक्षा अंक दर्ज करें</div>
           <select id="marks-student-select" class="form-control"></select>
-          <input type="text" id="marks-subject" class="form-control" placeholder="विषय (उदा. गणित / English / Science)">
+          <input type="text" id="marks-subject" class="form-control" placeholder="विषय (उदा. Science / Hindi / Math)">
           <div style="display: flex; gap: 8px;">
             <input type="number" id="marks-obtained" class="form-control" placeholder="प्राप्तांक (उदा. 85)">
             <input type="number" id="marks-total" class="form-control" value="100" placeholder="पूर्णांक (100)">
@@ -551,6 +561,39 @@
     }
   }
 
+  async function editMark(markId, currentMarks, totalMarks) {
+    const newMarks = prompt("नया प्राप्तांक दर्ज करें:", currentMarks);
+    if (newMarks === null || newMarks.trim() === '') return;
+    try {
+      const res = await fetch(`/api/marks/${markId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ marks_obtained: newMarks, total_marks: totalMarks })
+      });
+      if (res.ok) {
+        loadMarks();
+      } else {
+        alert("अंक अपडेट करने में त्रुटि!");
+      }
+    } catch {
+      alert("सर्वर त्रुटि!");
+    }
+  }
+
+  async function deleteMark(markId) {
+    if (!confirm("क्या आप सचमुच यह विषय रिकॉर्ड हटाना चाहते हैं?")) return;
+    try {
+      const res = await fetch(`/api/marks/${markId}`, { method: 'DELETE' });
+      if (res.ok) {
+        loadMarks();
+      } else {
+        alert("हटाने में विफलता!");
+      }
+    } catch {
+      alert("सर्वर त्रुटि!");
+    }
+  }
+
   async function loadMarks() {
     const container = document.getElementById('report-card-container');
     try {
@@ -568,7 +611,6 @@
         return;
       }
 
-      // छात्रवार ग्रुप करें
       const grouped = {};
       listToShow.forEach(m => {
         if (!grouped[m.name]) grouped[m.name] = { roll: m.roll_no, class: m.class_name, subjects: [] };
@@ -583,7 +625,17 @@
         data.subjects.forEach(s => {
           totalObt += Number(s.marks_obtained);
           totalMax += Number(s.total_marks);
-          rows += `<tr><td>${s.subject}</td><td><strong>${s.marks_obtained}</strong> / ${s.total_marks}</td></tr>`;
+          rows += `
+            <tr>
+              <td>${s.subject}</td>
+              <td><strong>${s.marks_obtained}</strong> / ${s.total_marks}</td>
+              ${currentUser && currentUser.role !== 'student' ? `
+                <td style="text-align: right;">
+                  <button class="action-icon-btn edit-btn" onclick="editMark(${s.id}, ${s.marks_obtained},${s.total_marks})">✏️</button>
+                  <button class="action-icon-btn delete-btn" onclick="deleteMark(${s.id})">🗑️</button>
+                </td>
+              ` : ''}
+            </tr>`;
         });
 
         const percentage = Math.round((totalObt / totalMax) * 100);
@@ -600,7 +652,13 @@
               </div>
             </div>
             <table class="marks-table">
-              <thead><tr><th>विषय</th><th>प्राप्तांक</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>विषय</th>
+                  <th>प्राप्तांक</th>
+                  ${currentUser && currentUser.role !== 'student' ? '<th style="text-align:right;">क्रिया</th>' : ''}
+                </tr>
+              </thead>
               <tbody>${rows}</tbody>
             </table>
             <div style="margin-top:10px; font-size:12px; font-weight:700; color:#475569; text-align:right;">
