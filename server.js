@@ -429,24 +429,31 @@ app.post('/api/auth/change-password', async (req, res) => {
     res.status(500).json({ error: 'पासवर्ड अपडेट करने में विफलता!' });
   }
 });
-// 20. छात्र विवरण अपडेट करने की API (PUT /api/students/:id)
+// 20. छात्र का कोई भी विवरण (Name, Roll, Class, Father, Mother, Mobile) अपडेट करने की API
 app.put('/api/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, roll_no, class_name } = req.body;
-    if (!name || !roll_no || !class_name) {
-      return res.status(400).json({ error: 'सभी फ़ील्ड्स आवश्यक हैं!' });
-    }
+    const { name, roll_no, class_name, father_name, mother_name, mobile_no, gender, section, address } = req.body;
 
     const result = await pool.query(
-      'UPDATE students SET name = $1, roll_no = $2, class_name = $3 WHERE id = $4 RETURNING *',
-      [name, roll_no, class_name, id]
+      `UPDATE students 
+       SET name = COALESCE($1, name),
+           roll_no = COALESCE($2, roll_no),
+           class_name = COALESCE($3, class_name),
+           father_name = COALESCE($4, father_name),
+           mother_name = COALESCE($5, mother_name),
+           mobile_no = COALESCE($6, mobile_no),
+           gender = COALESCE($7, gender),
+           section = COALESCE($8, section),
+           address = COALESCE($9, address)
+       WHERE id = $10 RETURNING *`,
+      [name, roll_no, class_name, father_name, mother_name, mobile_no, gender, section, address, id]
     );
 
-    res.json({ message: 'छात्र विवरण सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
+    res.json({ message: 'विवरण सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'छात्र अपडेट करने में त्रुटि!' });
+    res.status(500).json({ error: 'अपडेट करने में त्रुटि!' });
   }
 });
 
