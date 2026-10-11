@@ -429,31 +429,42 @@ app.post('/api/auth/change-password', async (req, res) => {
     res.status(500).json({ error: 'पासवर्ड अपडेट करने में विफलता!' });
   }
 });
-// 20. छात्र का कोई भी विवरण (Name, Roll, Class, Father, Mother, Mobile) अपडेट करने की API
+// छात्र का कोई भी सेल सीधे इनलाइन अपडेट करने की API (PUT /api/students/:id)
 app.put('/api/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, roll_no, class_name, father_name, mother_name, mobile_no, gender, section, address } = req.body;
+    const updates = req.body;
 
-    const result = await pool.query(
-      `UPDATE students 
-       SET name = COALESCE($1, name),
-           roll_no = COALESCE($2, roll_no),
-           class_name = COALESCE($3, class_name),
-           father_name = COALESCE($4, father_name),
-           mother_name = COALESCE($5, mother_name),
-           mobile_no = COALESCE($6, mobile_no),
-           gender = COALESCE($7, gender),
-           section = COALESCE($8, section),
-           address = COALESCE($9, address)
-       WHERE id = $10 RETURNING *`,
-      [name, roll_no, class_name, father_name, mother_name, mobile_no, gender, section, address, id]
-    );
+    const allowedColumns = [
+      'name', 'roll_no', 'class_name', 'section', 'gender',
+      'father_name', 'mother_name', 'mobile_no', 'address',
+      'dob', 'rte', 'aadhaar_no', 'jan_aadhaar_no', 'status', 'documents'
+    ];
 
-    res.json({ message: 'विवरण सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
+    const fields = [];
+    const values = [];
+    let idx = 1;
+
+    for (const key of Object.keys(updates)) {
+      if (allowedColumns.includes(key)) {
+        fields.push(`${key} = $${idx}`);
+        values.push(updates[key]);
+        idx++;
+      }
+    }
+
+    if (fields.length === 0) {
+      return res.status(400).json({ error: 'अपडेट के लिए कोई मान्य फ़ील्ड नहीं मिली!' });
+    }
+
+    values.push(id);
+    const query = `UPDATE students SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`;
+    const result = await pool.query(query, values);
+
+    res.json({ message: 'सेल सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'अपडेट करने में त्रुटि!' });
+    res.status(500).json({ error: 'इनलाइन अपडेट में त्रुटि!' });
   }
 });
 
