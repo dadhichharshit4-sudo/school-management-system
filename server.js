@@ -227,3 +227,112 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running smoothly on port ${PORT}`);
 });
+/* ==========================================
+   2.1 STAFF / EMPLOYEE APIS (कर्मचारी मॉड्यूल)
+========================================== */
+
+// सभी कर्मचारियों की सूची (GET /api/employees)
+app.get('/api/employees', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM employees ORDER BY id ASC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Fetch Employees Error:', err);
+    res.status(500).json({ error: 'कर्मचारी डेटा लोड करने में त्रुटि!' });
+  }
+});
+
+// नया कर्मचारी जोड़ें (POST /api/employees)
+app.post('/api/employees', async (req, res) => {
+  try {
+    const {
+      emp_code, name, designation, department,
+      mobile_no, email, salary, joining_date,
+      qualification, address, photo_url
+    } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ error: 'कर्मचारी का नाम अनिवार्य है!' });
+    }
+
+    const query = `
+      INSERT INTO employees (
+        emp_code, name, designation, department,
+        mobile_no, email, salary, joining_date,
+        qualification, address, photo_url, status
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'Active')
+      RETURNING *;
+    `;
+
+    const values = [
+      emp_code || `EMP-${Math.floor(100 + Math.random() * 900)}`,
+      name,
+      designation || 'Teacher',
+      department || 'Teaching',
+      mobile_no || '9876543210',
+      email || '',
+      Number(salary) || 25000,
+      joining_date || '01/07/2026',
+      qualification || '',
+      address || 'सिंहपुर',
+      photo_url || ''
+    ];
+
+    const result = await pool.query(query, values);
+    res.json({ message: 'कर्मचारी रिकॉर्ड सुरक्षित हुआ!', employee: result.rows[0] });
+  } catch (err) {
+    console.error('Save Employee Error:', err);
+    res.status(500).json({ error: `कर्मचारी सेव करने में त्रुटि: ${err.message}` });
+  }
+});
+
+// इनलाइन सेल अपडेट (PUT /api/employees/:id)
+app.put('/api/employees/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    const allowedColumns = [
+      'emp_code', 'name', 'designation', 'department',
+      'mobile_no', 'email', 'salary', 'joining_date',
+      'qualification', 'address', 'photo_url', 'status'
+    ];
+
+    const fields = [];
+    const values = [];
+    let idx = 1;
+
+    for (const key of Object.keys(updates)) {
+      if (allowedColumns.includes(key)) {
+        fields.push(`${key} = $${idx}`);
+        values.push(updates[key]);
+        idx++;
+      }
+    }
+
+    if (fields.length === 0) {
+      return res.status(400).json({ error: 'अपडेट के लिए मान्य फ़ील्ड नहीं मिली!' });
+    }
+
+    values.push(id);
+    const query = `UPDATE employees SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`;
+    const result = await pool.query(query, values);
+
+    res.json({ message: 'कर्मचारी डेटा अपडेट हुआ!', employee: result.rows[0] });
+  } catch (err) {
+    console.error('Update Employee Error:', err);
+    res.status(500).json({ error: 'अपडेट में त्रुटि!' });
+  }
+});
+
+// कर्मचारी हटाएं (DELETE /api/employees/:id)
+app.delete('/api/employees/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query('DELETE FROM employees WHERE id = $1', [id]);
+    res.json({ message: 'कर्मचारी रिकॉर्ड सफलतापूर्वक हटा दिया गया!' });
+  } catch (err) {
+    console.error('Delete Employee Error:', err);
+    res.status(500).json({ error: 'डिलीट में त्रुटि!' });
+  }
+});
