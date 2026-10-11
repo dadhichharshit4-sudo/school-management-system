@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHREE MEWAR PUBLIC SCHOOL - Management ERP</title>
+  <title>SHREE MEWAR PUBLIC SCHOOL - Students Directory</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     body { background: #fdf6e2; color: #1e293b; min-height: 100vh; }
@@ -30,13 +30,13 @@
     .lang-badge { background: rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
     .btn-nav-top { background: #ea580c; color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-    /* 1. LOGIN OPTIONS SCREEN */
+    /* 1. LOGIN SCREEN */
     .login-container { max-width: 1000px; margin: 30px auto; padding: 20px; }
     .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
     .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .btn-role-login { width: 100%; padding: 9px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; color: white; cursor: pointer; margin-top: 14px; }
 
-    /* 1.1 DEDICATED ADMIN LOGIN PAGE */
+    /* 1.1 RAJASTHAN ADMIN LOGIN */
     .admin-login-wrapper {
       min-height: 85vh;
       display: flex;
@@ -55,11 +55,10 @@
       text-align: center;
       border: 3px solid #ffedd5;
     }
-    .admin-login-box h3 { color: #991b1b; font-size: 20px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .admin-login-box h3 { color: #991b1b; font-size: 20px; font-weight: 800; margin-bottom: 20px; }
     .form-group-login { text-align: left; margin-bottom: 14px; }
     .form-group-login label { font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
     .input-login { width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
-    .input-login:focus { border-color: #ea580c; }
     .btn-admin-submit { width: 100%; padding: 11px; background: #991b1b; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 10px; }
 
     /* 2. DASHBOARD SCREEN */
@@ -80,8 +79,8 @@
     .stat-row:last-child { border-bottom: none; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* 3. STUDENTS (VIDYARTHI) DIRECTORY SCREEN */
-    .students-full-container { max-width: 1400px; margin: 16px auto; padding: 0 16px; }
+    /* 3. STUDENTS DIRECTORY (`students.php`) */
+    .students-full-container { max-width: 1440px; margin: 16px auto; padding: 0 16px; }
     .tip-box { background: #eff6ff; border: 1px dashed #3b82f6; border-radius: 8px; padding: 9px 14px; font-size: 12.5px; color: #1e40af; text-align: center; margin-bottom: 14px; }
     .students-action-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px; }
     .std-btn { padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; color: white; border: none; cursor: pointer; }
@@ -97,66 +96,31 @@
     .sum-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
 
     .search-input-big { width: 100%; padding: 10px 16px; border: 2px solid #fed7aa; border-radius: 20px; font-size: 13px; outline: none; background: white; margin-bottom: 14px; }
-    .table-responsive { background: white; border: 1px solid #cbd5e1; border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
-    .custom-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
-    .custom-table th { background: #78350f; color: white; padding: 10px 8px; font-weight: 700; white-space: nowrap; border: 1px solid #92400e; }
-    .custom-table td { padding: 8px; border: 1px solid #e2e8f0; vertical-align: middle; white-space: nowrap; }
+    
+    /* Spreadsheet Table */
+    .table-responsive { background: white; border: 1.5px solid #cbd5e1; border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+    .custom-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left; }
+    .custom-table th { background: #78350f; color: white; padding: 9px 8px; font-weight: 700; white-space: nowrap; border: 1px solid #92400e; }
+    .custom-table td { padding: 6px 8px; border: 1px solid #e2e8f0; vertical-align: middle; white-space: nowrap; }
     .custom-table tr:nth-child(even) { background: #fffbeb; }
-    .editable-cell { cursor: pointer; transition: background 0.2s; }
+
+    /* Editable Cell UI */
+    .editable-cell { cursor: pointer; transition: background 0.15s; }
     .editable-cell:hover { background: #fef08a !important; }
+    .cell-input { width: 100%; min-width: 80px; padding: 3px 6px; font-size: 11.5px; border: 1.5px solid #0284c7; border-radius: 4px; outline: none; background: #fff; }
 
-    /* 4. ADMISSION FORM SCREEN (add_student.php style) */
-    .form-sheet-container { max-width: 950px; margin: 20px auto; background: white; border-radius: 12px; border: 2px solid #fed7aa; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-    .form-sheet-header { text-align: center; border-bottom: 2px solid #fee2e2; padding-bottom: 14px; margin-bottom: 20px; }
-    .form-sheet-header h2 { color: #991b1b; font-size: 20px; font-weight: 800; }
-    .form-section-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #fafafa; }
-    .form-section-title { font-size: 14px; font-weight: 700; color: #7c2d12; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
-    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 10px; }
-    .form-row label { font-size: 11px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
-    .form-input { width: 100%; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 12px; outline: none; background: white; }
+    /* Action Badges in Table */
+    .btn-table-action { border: none; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; padding: 2.5px 6px; cursor: pointer; display: block; width: 100%; margin-bottom: 2px; text-align: center; }
+    .b-deact { background: #dc2626; }
+    .b-view { background: #0284c7; }
+    .b-del { background: #991b1b; }
+    .b-call { background: #16a34a; }
 
-    /* 5. ID CARD PREVIEW & GENERATION */
-    .id-card-generator-wrapper { max-width: 1000px; margin: 20px auto; padding: 0 16px; }
-    .id-card-box {
-      width: 340px;
-      height: 215px;
-      background: white;
-      border: 2px solid #991b1b;
-      border-radius: 12px;
-      overflow: hidden;
-      margin: 14px auto;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      position: relative;
-    }
-    .id-head { background: #991b1b; color: white; padding: 6px; text-align: center; }
-    .id-head h4 { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; }
-    .id-head p { font-size: 9px; color: #fef08a; }
-    .id-body { display: flex; padding: 10px; gap: 12px; align-items: center; }
-    .id-photo { width: 75px; height: 95px; background: #e2e8f0; border: 1.5px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-    .id-details { font-size: 10px; line-height: 1.5; color: #1e293b; }
-    .id-details strong { color: #000; font-size: 11px; }
-
-    /* ALERT MODAL */
-    .alert-modal-box {
-      background: white;
-      width: 100%;
-      max-width: 420px;
-      border-radius: 14px;
-      padding: 24px;
-      text-align: center;
-      border-top: 6px solid #dc2626;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    }
+    /* Modal */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
+    .alert-modal-box { background: white; width: 100%; max-width: 420px; border-radius: 14px; padding: 24px; text-align: center; border-top: 6px solid #dc2626; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
 
     .hidden { display: none !important; }
-
-    @media print {
-      body * { visibility: hidden; }
-      #printable-id-card, #printable-id-card * { visibility: visible; }
-      #printable-id-card { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; border: 1px solid #ccc; }
-      .no-print { display: none !important; }
-    }
   </style>
 </head>
 <body>
@@ -189,70 +153,69 @@
         <div style="font-size:32px;">👑</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Super Admin</h3>
         <p style="font-size:12px; color:#64748b;">Central Management</p>
-        <button class="btn-role-login" style="background:#ea580c;" onclick="openDedicatedLogin('Super Admin')">Login</button>
+        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('admin-login')">Login</button>
       </div>
 
       <div class="login-role-card">
         <div style="font-size:32px;">🏫</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Admin Login</h3>
         <p style="font-size:12px; color:#64748b;">School Administration</p>
-        <button class="btn-role-login" style="background:#ea580c;" onclick="openDedicatedLogin('Admin')">Login</button>
+        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('admin-login')">Login</button>
       </div>
 
       <div class="login-role-card">
         <div style="font-size:32px;">💼</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Non-Teaching Staff</h3>
-        <p style="font-size:12px; color:#64748b;">Accounts, HR & Front Desk</p>
-        <button class="btn-role-login" style="background:#0284c7;" onclick="openDedicatedLogin('Staff')">Access Hub</button>
+        <p style="font-size:12px; color:#64748b;">Accounts & Front Desk</p>
+        <button class="btn-role-login" style="background:#0284c7;" onclick="showScreen('admin-login')">Access Hub</button>
       </div>
 
       <div class="login-role-card">
         <div style="font-size:32px;">📚</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Teaching Staff</h3>
         <p style="font-size:12px; color:#64748b;">Educators & Coordinators</p>
-        <button class="btn-role-login" style="background:#0d9488;" onclick="openDedicatedLogin('Teacher')">Access Hub</button>
+        <button class="btn-role-login" style="background:#0d9488;" onclick="showScreen('admin-login')">Access Hub</button>
       </div>
 
       <div class="login-role-card">
         <div style="font-size:32px;">🤝</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Franchise</h3>
         <p style="font-size:12px; color:#64748b;">Partner Dashboard</p>
-        <button class="btn-role-login" style="background:#4f46e5;" onclick="openDedicatedLogin('Franchise')">Login</button>
+        <button class="btn-role-login" style="background:#4f46e5;" onclick="showScreen('admin-login')">Login</button>
       </div>
 
       <div class="login-role-card">
         <div style="font-size:32px;">👨‍👩‍👦</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Parent / Student</h3>
         <p style="font-size:12px; color:#64748b;">Results & Fee Slips</p>
-        <button class="btn-role-login" style="background:#ea580c;" onclick="openDedicatedLogin('Student')">Login</button>
+        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('admin-login')">Login</button>
       </div>
     </div>
   </div>
 
-  <!-- SCREEN 1.1: DEDICATED ADMIN LOGIN PAGE (वीडियो में 00:05 जैसा) -->
+  <!-- SCREEN 1.1: RAJASTHAN ADMIN LOGIN -->
   <div id="screen-admin-login" class="admin-login-wrapper hidden">
     <div class="admin-login-box">
       <h3>👑 Rajasthan Admin Login 👑</h3>
       <div class="form-group-login">
         <label>School ID</label>
-        <input type="text" class="input-login" id="adm-school-id" value="PS6452">
+        <input type="text" class="input-login" value="PS6452">
       </div>
       <div class="form-group-login">
         <label>Admin Username</label>
-        <input type="text" class="input-login" id="adm-username" value="RATNESH KUMAR SHARMA">
+        <input type="text" class="input-login" value="RATNESH KUMAR SHARMA">
       </div>
       <div class="form-group-login">
         <label>Password</label>
-        <input type="password" class="input-login" id="adm-pwd" value="••••••••">
+        <input type="password" class="input-login" value="••••••••">
       </div>
       <div class="form-group-login">
         <label>सत्र चुनें</label>
-        <select class="input-login" id="adm-session">
+        <select class="input-login">
           <option value="2026-27">2026-27</option>
-          <option value="2025-26">2025-26</option>
         </select>
       </div>
-      <button class="btn-admin-submit" onclick="submitAdminLogin()">Login</button>
+      <button class="btn-admin-submit" onclick="showScreen('dashboard')">Login</button>
       <button class="btn-nav-top" style="background:#64748b; width:100%; margin-top:8px;" onclick="showScreen('login')">वापस (Back)</button>
     </div>
   </div>
@@ -265,16 +228,16 @@
       <button class="pill-btn pill-orange" onclick="showScreen('students')">💰 फीस प्रबंधन</button>
       <button class="pill-btn pill-teal" onclick="showScreen('students')">📚 गृहकार्य</button>
       <button class="pill-btn pill-purple" onclick="showScreen('students')">📜 परीक्षा / रिजल्ट</button>
-      <button class="pill-btn pill-red" onclick="showScreen('admission')">+ नया प्रवेश</button>
+      <button class="pill-btn pill-red" onclick="showScreen('students')">+ नया प्रवेश</button>
     </div>
 
     <div class="dashboard-grid-full">
       <div class="erp-card">
-        <div class="card-head" style="background:#1d4ed8;"><span>📅 आगामी मुख्य इवेंट (विविध)</span></div>
+        <div class="card-head" style="background:#1d4ed8;"><span>📅 आगामी मुख्य इवेंट</span></div>
         <div class="card-body">
           <div style="font-weight:700; color:#1e40af; text-align:center;">विश्व मानसिक स्वास्थ्य दिवस</div>
           <div style="font-size:11px; color:#64748b; text-align:center; margin:4px 0 10px;">10 Oct 2026</div>
-          <button class="card-btn" style="background:#1d4ed8;" onclick="showScreen('students')">विविध कैलेंडर</button>
+          <button class="card-btn" style="background:#1d4ed8;" onclick="showScreen('students')">कैलेंडर देखें</button>
         </div>
       </div>
 
@@ -286,36 +249,28 @@
           <button class="card-btn" style="background:#047857;" onclick="showScreen('students')">👤 छात्र प्रबंधन / सूची खोलें</button>
         </div>
       </div>
-
-      <div class="erp-card">
-        <div class="card-head" style="background:#6d28d9;"><span>👥 कर्मचारी सांख्यिकी</span></div>
-        <div class="card-body">
-          <div class="stat-row"><span>कुल कर्मचारी:</span><strong>3</strong></div>
-          <div class="stat-row"><span>शिक्षण स्टाफ:</span><strong>2</strong></div>
-          <button class="card-btn" style="background:#6d28d9;">कर्मचारी प्रबंधन</button>
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- SCREEN 3: STUDENTS DIRECTORY / TABLE VIEW (`students.php`) -->
+  <!-- SCREEN 3: STUDENTS DIRECTORY (`students.php`) -->
   <div id="screen-students" class="students-full-container hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <button class="std-btn std-btn-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
       <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | श्री मेवाड़ पब्लिक स्कूल</div>
     </div>
 
+    <!-- सुरक्षा टिप बॉक्स -->
     <div class="tip-box">
       ✏️ टिप: टेबल में किसी भी जानकारी (जैसे नाम, क्लास, नंबर) को तुरंत एडिट करने के लिए उस पर <strong>डबल-क्लिक (Double-Click)</strong> करें!
     </div>
 
     <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">📖 सभी छात्रों की सूची 📖</h2>
 
-    <!-- Actions Bar (वीडियो में 01:00 जैसा) -->
+    <!-- Actions Bar -->
     <div class="students-action-bar">
-      <button class="std-btn std-btn-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
-      <button class="std-btn std-btn-orange" onclick="showScreen('edit-search')">✏️ छात्र संपादित करें</button>
-      <button class="std-btn std-btn-blue" onclick="showScreen('id-cards')">🪪 ID कार्ड जनरेट करें</button>
+      <button class="std-btn std-btn-green" onclick="addNewStudentDirect()">➕ नया छात्र जोड़ें</button>
+      <button class="std-btn std-btn-orange" onclick="alert('सूची से डबल-क्लिक करके सीधे एडिट करें')">✏️ छात्र संपादित करें</button>
+      <button class="std-btn std-btn-blue" onclick="alert('ID कार्ड मॉड्यूल चालू है')">🪪 ID कार्ड जनरेट करें</button>
       <button class="std-btn std-btn-purple">📄 नामांकन रिपोर्ट (Report)</button>
       <button class="std-btn std-btn-red">📑 कस्टम रिपोर्ट</button>
     </div>
@@ -324,18 +279,20 @@
     <div class="filter-panel">
       <select class="filter-control" id="filter-class" onchange="filterStudentsTable()">
         <option value="">-- सभी कक्षाएं --</option>
-        <option value="8th">Class 8th</option>
+        <option value="8th">8th</option>
         <option value="Class 10-A">Class 10-A</option>
-        <option value="PP.4+">Class PP.4+</option>
-        <option value="PP.5+">Class PP.5+</option>
+        <option value="PP.4+">PP.4+</option>
+        <option value="PP.5+">PP.5+</option>
+        <option value="1st">1st</option>
       </select>
       <select class="filter-control" id="filter-sec" onchange="filterStudentsTable()">
         <option value="">-- सभी सेक्शन --</option>
         <option value="A">Section A</option>
         <option value="B">Section B</option>
       </select>
-      <select class="filter-control">
-        <option value="active">सक्रिय (Active)</option>
+      <select class="filter-control" id="filter-status" onchange="filterStudentsTable()">
+        <option value="Active">सक्रिय (Active)</option>
+        <option value="all">सभी (All)</option>
       </select>
       <label style="font-size:12px; font-weight:700; display:flex; align-items:center; gap:4px;">
         <input type="checkbox" id="rte-toggle" onchange="filterStudentsTable()"> RTE Students Only
@@ -343,21 +300,22 @@
       <button class="std-btn std-btn-green" style="margin-left:auto;">📥 Excel (पूरा डेटा)</button>
     </div>
 
-    <!-- Badges Row -->
+    <!-- Summary Badges -->
     <div class="summary-badges-bar">
       <span class="sum-badge" style="background:#0284c7;">👦 लड़के (Boys): <span id="b-boys-val">0</span></span>
       <span class="sum-badge" style="background:#db2777;">👧 लड़कियां (Girls): <span id="b-girls-val">0</span></span>
       <span class="sum-badge" style="background:#7c2d12;">👥 कुल छात्र (Total): <span id="b-total-val">0</span></span>
     </div>
 
-    <!-- Live Search -->
+    <!-- Live Search Box -->
     <input type="text" id="std-search-input" class="search-input-big" placeholder="🔍 नाम, पिता का नाम, प्रवेश क्रमांक या मोबाइल नंबर से खोजें..." onkeyup="filterStudentsTable()">
 
-    <!-- Main Table -->
+    <!-- 18-Columns Spreadsheet Table -->
     <div class="table-responsive">
       <table class="custom-table">
         <thead>
           <tr>
+            <th>SR.</th>
             <th>PHOTO</th>
             <th>ADMISSION NO.</th>
             <th>ADMISSION DATE</th>
@@ -367,167 +325,26 @@
             <th>SECTION</th>
             <th>स्थिति</th>
             <th>GENDER</th>
+            <th>RTE</th>
             <th>FATHER'S NAME</th>
             <th>MOTHER'S NAME</th>
             <th>MOBILE NO.</th>
+            <th>DOB</th>
+            <th>AADHAAR NO.</th>
+            <th>JANAADHAAR NO.</th>
+            <th>ADDRESS</th>
+            <th>DOCUMENTS</th>
             <th>ACTION</th>
           </tr>
         </thead>
-        <tbody id="std-tbody"></tbody>
+        <tbody id="std-tbody">
+          <!-- Live Loaded Rows -->
+        </tbody>
       </table>
     </div>
   </div>
 
-  <!-- SCREEN 4: FULL ADMISSION FORM (`add_student.php` - वीडियो में 01:08 जैसा) -->
-  <div id="screen-admission" class="form-sheet-container hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="std-btn std-btn-orange" onclick="showScreen('students')">⬅ वापस (छात्र सूची)</button>
-      <div style="font-weight:700; color:#78350f;">सत्र: 2026-27 | छात्र प्रवेश फॉर्म</div>
-    </div>
-
-    <div class="form-sheet-header">
-      <h2>⭐ छात्र प्रवेश फॉर्म (New Admission) ⭐</h2>
-    </div>
-
-    <!-- 1. प्रवेश विवरण -->
-    <div class="form-section-card">
-      <div class="form-section-title">1. प्रवेश विवरण</div>
-      <div class="form-row">
-        <div><label>प्रवेश क्रमांक (Scholar No)</label><input type="text" id="adm-sr-no" class="form-input" value="759"></div>
-        <div><label>रोल नंबर (Roll No)</label><input type="number" id="adm-roll" class="form-input" placeholder="उदा. 106"></div>
-        <div><label>प्रवेश तिथि (Admission Date)</label><input type="date" id="adm-date" class="form-input"></div>
-      </div>
-    </div>
-
-    <!-- 2. व्यक्तिगत विवरण -->
-    <div class="form-section-card">
-      <div class="form-section-title">2. छात्र का व्यक्तिगत विवरण</div>
-      <div class="form-row">
-        <div><label>पहला नाम</label><input type="text" id="adm-fname" class="form-input" placeholder="First Name"></div>
-        <div><label>मध्य नाम</label><input type="text" id="adm-mname" class="form-input" placeholder="Middle Name"></div>
-        <div><label>अंतिम नाम</label><input type="text" id="adm-lname" class="form-input" placeholder="Last Name"></div>
-      </div>
-      <div class="form-row">
-        <div>
-          <label>कक्षा (Class)</label>
-          <select id="adm-class" class="form-input">
-            <option value="8th">8th</option>
-            <option value="Class 10-A">Class 10-A</option>
-            <option value="PP.4+">PP.4+</option>
-            <option value="PP.5+">PP.5+</option>
-          </select>
-        </div>
-        <div>
-          <label>लिंग (Gender)</label>
-          <select id="adm-gender" class="form-input">
-            <option value="Male">Male (लड़का)</option>
-            <option value="Female">Female (लड़की)</option>
-          </select>
-        </div>
-        <div><label>जन्मतिथि (DOB)</label><input type="date" id="adm-dob" class="form-input"></div>
-      </div>
-    </div>
-
-    <!-- 3. माता-पिता का विवरण -->
-    <div class="form-section-card">
-      <div class="form-section-title">3. माता-पिता / अभिभावक का विवरण</div>
-      <div class="form-row">
-        <div><label>पिता का नाम</label><input type="text" id="adm-father" class="form-input" placeholder="Father's Name"></div>
-        <div><label>माता का नाम</label><input type="text" id="adm-mother" class="form-input" placeholder="Mother's Name"></div>
-        <div><label>मोबाइल नंबर</label><input type="number" id="adm-mobile" class="form-input" placeholder="Mobile No"></div>
-      </div>
-    </div>
-
-    <!-- 4. पता & शुल्क -->
-    <div class="form-section-card">
-      <div class="form-section-title">4. पता एवं शुल्क विवरण</div>
-      <div class="form-row">
-        <div><label>पता लाइन (Address)</label><input type="text" id="adm-address" class="form-input" placeholder="Village / Town"></div>
-        <div><label>कुल वार्षिक फीस (₹)</label><input type="number" id="adm-fee" class="form-input" value="20000"></div>
-      </div>
-    </div>
-
-    <button class="std-btn std-btn-green" style="width:100%; padding:14px; font-size:15px;" onclick="saveFullAdmission()">💾 रिकॉर्ड सेव करें (Save Record)</button>
-  </div>
-
-  <!-- SCREEN 5: ID CARD GENERATOR (`generate_all_id_cards.php` - वीडियो में 02:08 जैसा) -->
-  <div id="screen-id-cards" class="id-card-generator-wrapper hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <button class="std-btn std-btn-orange" onclick="showScreen('students')">⬅ वापस (छात्र सूची)</button>
-      <h3 style="color:#7f1d1d;">🪪 ID कार्ड प्रबंधन (Advance Control)</h3>
-    </div>
-
-    <div class="filter-panel">
-      <select class="filter-control" id="id-filter-class" onchange="renderIdCardStudentsList()">
-        <option value="">-- कक्षा चुनें --</option>
-        <option value="8th">8th</option>
-        <option value="Class 10-A">Class 10-A</option>
-        <option value="PP.4+">PP.4+</option>
-      </select>
-      <select class="filter-control" id="id-filter-sec">
-        <option value="A">Section A</option>
-      </select>
-      <button class="std-btn std-btn-blue" onclick="generateSelectedIdCard()">🪪 चुने गए छात्र का ID कार्ड बनाएं</button>
-    </div>
-
-    <div class="table-responsive">
-      <table class="custom-table">
-        <thead>
-          <tr>
-            <th>चुनें (Select)</th>
-            <th>विद्यार्थी नाम (Student Name)</th>
-            <th>रोल नं</th>
-            <th>कक्षा</th>
-            <th>पिता का नाम</th>
-          </tr>
-        </thead>
-        <tbody id="id-students-tbody"></tbody>
-      </table>
-    </div>
-
-    <!-- Generated ID Card Display Modal -->
-    <div id="id-preview-modal" class="modal-overlay hidden">
-      <div style="background:white; border-radius:14px; padding:20px; text-align:center;">
-        <h3 style="margin-bottom:10px; color:#1e40af;">ID Card Preview (Advance)</h3>
-        <div class="id-card-box" id="printable-id-card">
-          <div class="id-head">
-            <h4>SHREE MEWAR PUBLIC SCHOOL</h4>
-            <p>Session 2026-27 | Identity Card</p>
-          </div>
-          <div class="id-body">
-            <div class="id-photo">👤</div>
-            <div class="id-details">
-              <strong>नाम:</strong> <span id="idc-name">RAHUL SHARMA</span><br>
-              <strong>पिता:</strong> <span id="idc-father">SH. DEVILAL</span><br>
-              <strong>कक्षा:</strong> <span id="idc-class">8th - A</span><br>
-              <strong>रोल नं:</strong> <span id="idc-roll">101</span><br>
-              <strong>मो:</strong> <span id="idc-mobile">9876543210</span><br>
-              <strong>पता:</strong> <span id="idc-addr">Chittorgarh</span>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:14px; display:flex; gap:8px; justify-content:center;">
-          <button class="std-btn std-btn-green" onclick="window.print()">🖨️ प्रिंट निकालें</button>
-          <button class="std-btn" style="background:#64748b;" onclick="closeIdPreview()">बंद करें</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 6: EDIT SEARCH PORTAL (वीडियो में 01:58 जैसा) -->
-  <div id="screen-edit-search" class="form-sheet-container hidden" style="max-width:650px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <button class="std-btn std-btn-orange" onclick="showScreen('students')">⬅ वापस</button>
-      <h3 style="color:#7f1d1d;">छात्र डेटा संपादित करें</h3>
-    </div>
-    <div class="form-section-card">
-      <label style="font-size:12px; font-weight:700; margin-bottom:6px; display:block;">🔍 छात्र खोजें (नाम / Scholar No / Roll No / पिता का नाम)</label>
-      <input type="text" id="edit-search-query" class="form-input" placeholder="खोजने के लिए टाइप करें..." onkeyup="searchStudentToEdit()">
-    </div>
-    <div id="edit-search-results"></div>
-  </div>
-
-  <!-- SECURITY ALERT MODAL (वीडियो में 02:52 वाला अलर्ट) -->
+  <!-- SECURITY ALERT MODAL (02:52 वीडियो जैसा) -->
   <div id="class-alert-modal" class="modal-overlay hidden">
     <div class="alert-modal-box">
       <div style="font-size:36px; margin-bottom:10px;">⚠️</div>
@@ -542,31 +359,17 @@
   <script>
     let students = [];
 
-    // Screen Switching
     function showScreen(screenId) {
-      const screens = ['login', 'admin-login', 'dashboard', 'students', 'admission', 'id-cards', 'edit-search'];
-      screens.forEach(s => {
+      ['login', 'admin-login', 'dashboard', 'students'].forEach(s => {
         const el = document.getElementById(`screen-${s}`);
         if (el) el.classList.add('hidden');
       });
-
       const target = document.getElementById(`screen-${screenId}`);
       if (target) target.classList.remove('hidden');
 
-      if (screenId === 'students' || screenId === 'dashboard') {
-        loadData();
-      }
+      if (screenId === 'students' || screenId === 'dashboard') loadData();
     }
 
-    function openDedicatedLogin(role) {
-      showScreen('admin-login');
-    }
-
-    function submitAdminLogin() {
-      showScreen('dashboard');
-    }
-
-    // Load Live Supabase Students
     async function loadData() {
       try {
         const res = await fetch('/api/students');
@@ -574,7 +377,7 @@
         updateCounts(students);
         renderStudentsTable(students);
       } catch (e) {
-        console.error(e);
+        console.error("Data Load Error:", e);
       }
     }
 
@@ -583,158 +386,177 @@
       document.getElementById('d-tot-std').innerText = tot;
       document.getElementById('d-act-std').innerText = tot;
 
-      const boys = Math.ceil(tot / 2);
-      const girls = Math.floor(tot / 2);
-      document.getElementById('b-boys-val').innerText = boys;
-      document.getElementById('b-girls-val').innerText = girls;
+      let b = 0, g = 0;
+      list.forEach(s => {
+        if ((s.gender || 'Male').toLowerCase() === 'female') g++;
+        else b++;
+      });
+      document.getElementById('b-boys-val').innerText = b;
+      document.getElementById('b-girls-val').innerText = g;
       document.getElementById('b-total-val').innerText = tot;
     }
 
-   // Render Table with ALL editable columns
+    // Render Table with Inline Double-Click Support
     function renderStudentsTable(list) {
       const tbody = document.getElementById('std-tbody');
       tbody.innerHTML = '';
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="13" style="text-align:center; padding:18px;">कोई छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="20" style="text-align:center; padding:18px;">कोई छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
         return;
       }
 
-      list.forEach((s) => {
+      list.forEach((s, idx) => {
         const admNo = 700 + Number(s.id);
         const fName = s.father_name || 'श्री देविलाल जी';
         const mName = s.mother_name || 'श्रीमती सरिता देवी';
         const mob = s.mobile_no || '9876543210';
         const gndr = s.gender || 'Male';
         const sec = s.section || 'A';
+        const dob = s.dob || '01/01/2012';
+        const rte = s.rte || 'NO';
+        const aadh = s.aadhaar_no || '';
+        const janAadh = s.jan_aadhaar_no || '';
+        const addr = s.address || 'सिंहपुर';
+        const doc = s.documents || 'कोई नहीं';
+        const stat = s.status || 'Active';
 
         tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;">👤</td>
+          <tr id="row-${s.id}">
+            <td>${idx + 1}</td>
+            <td style="text-align:center;">
+              <span style="font-size:16px;">👤</span>
+            </td>
             <td><strong>${admNo}</strong></td>
             <td>10/10/2026</td>
-            <td class="editable-cell" title="डबल-क्लिक करके नाम बदलें" ondblclick="handleCellDblClick(${s.id}, 'name', '${s.name}')"><strong>${s.name}</strong></td>
-            <td class="editable-cell" title="डबल-क्लिक करके रोल नंबर बदलें" ondblclick="handleCellDblClick(${s.id}, 'roll_no', '${s.roll_no}')">${s.roll_no}</td>
-            <td class="editable-cell" title="डबल-क्लिक करके क्लास बदलें" ondblclick="handleCellDblClick(${s.id}, 'class_name', '${s.class_name || '8th'}')">${s.class_name || '8th'}</td>
-            <td class="editable-cell" title="डबल-क्लिक करके सेक्शन बदलें" ondblclick="handleCellDblClick(${s.id}, 'section', '${sec}')">${sec}</td>
-            <td><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:700;">सक्रिय</span></td>
-            <td class="editable-cell" title="डबल-क्लिक करके जेंडर बदलें" ondblclick="handleCellDblClick(${s.id}, 'gender', '${gndr}')">${gndr}</td>
-            <td class="editable-cell" title="डबल-क्लिक करके पिता का नाम बदलें" ondblclick="handleCellDblClick(${s.id}, 'father_name', '${fName}')">${fName}</td>
-            <td class="editable-cell" title="डबल-क्लिक करके माता का नाम बदलें" ondblclick="handleCellDblClick(${s.id}, 'mother_name', '${mName}')">${mName}</td>
-            <td class="editable-cell" title="डबल-क्लिक करके मोबाइल नंबर बदलें" ondblclick="handleCellDblClick(${s.id}, 'mobile_no', '${mob}')">${mob}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'name', this)">${s.name}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'roll_no', this)">${s.roll_no}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'class_name', this)">${s.class_name || '8th'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'section', this)">${sec}</td>
+            <td><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:700;">${stat}</span></td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'gender', this)">${gndr}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'rte', this)">${rte}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'father_name', this)">${fName}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mother_name', this)">${mName}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mobile_no', this)">${mob}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'dob', this)">${dob}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'aadhaar_no', this)">${aadh}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'jan_aadhaar_no', this)">${janAadh}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'address', this)">${addr}</td>
+            <td>${doc}</td>
             <td>
-              <button class="std-btn std-btn-blue" style="padding:2px 6px; font-size:11px;" onclick="showScreen('id-cards')">🪪 ID</button>
-              <button class="std-btn std-btn-red" style="padding:2px 6px; font-size:11px;" onclick="deleteStudent(${s.id})">🗑️</button>
+              <button class="btn-table-action b-deact" onclick="toggleDeactivate(${s.id})">Deactivate</button>
+              <button class="btn-table-action b-view" onclick="alert('छात्र: ${s.name}')">👁️ विवरण</button>
+              <button class="btn-table-action b-del" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
+              <a href="tel:${mob}" class="btn-table-action b-call" style="text-decoration:none;">📞 कॉल</a>
             </td>
           </tr>
         `;
       });
     }
 
-    // किसी भी फ़ील्ड को इनलाइन डबल-क्लिक से अपडेट करना
-    async function handleCellDblClick(id, fieldName, currentVal) {
+    // इनलाइन स्प्रेडशीट एडिटिंग लॉजिक
+    function makeCellEditable(id, columnKey, cellElement) {
       const selectedClass = document.getElementById('filter-class').value;
       if (!selectedClass) {
         document.getElementById('class-alert-modal').classList.remove('hidden');
         return;
       }
 
-      const labels = {
-        name: "छात्र का नाम",
-        roll_no: "रोल नंबर",
-        class_name: "कक्षा",
-        section: "सेक्शन",
-        gender: "लिंग (Male/Female)",
-        father_name: "पिता का नाम (Father Name)",
-        mother_name: "माता का नाम (Mother Name)",
-        mobile_no: "मोबाइल नंबर (Mobile No)"
+      if (cellElement.querySelector('input')) return;
+
+      const originalVal = cellElement.innerText.trim();
+      cellElement.innerHTML = `<input type="text" class="cell-input" value="${originalVal}" />`;
+      const input = cellElement.querySelector('input');
+      input.focus();
+      input.select();
+
+      const saveHandler = async () => {
+        const newVal = input.value.trim();
+        if (newVal === originalVal) {
+          cellElement.innerText = originalVal;
+          return;
+        }
+
+        cellElement.innerText = newVal;
+        const payload = {};
+        payload[columnKey] = newVal;
+
+        try {
+          const res = await fetch(`/api/students/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) {
+            alert("अपडेट विफल!");
+            cellElement.innerText = originalVal;
+          }
+        } catch {
+          alert("सर्वर कनेक्शन विफल!");
+          cellElement.innerText = originalVal;
+        }
       };
 
-      const promptLabel = labels[fieldName] || fieldName;
-      const newVal = prompt(`नया ${promptLabel} दर्ज करें:`, currentVal);
-      if (newVal === null || newVal.trim() === '') return;
-
-      const payload = {};
-      payload[fieldName] = newVal.trim();
-
-      try {
-        const res = await fetch(`/api/students/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (res.ok) {
-          loadData();
-        } else {
-          alert("अपडेट करने में त्रुटि!");
-        }
-      } catch {
-        alert("सर्वर से कनेक्शन विफल!");
-      }
+      input.addEventListener('blur', saveHandler, { once: true });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') input.blur();
+        if (e.key === 'Escape') cellElement.innerText = originalVal;
+      });
     }
 
-    // Save Admission Form
-    async function saveFullAdmission() {
-      const name = document.getElementById('adm-fname').value.trim();
-      const roll_no = document.getElementById('adm-roll').value;
-      const class_name = document.getElementById('adm-class').value;
-      const total_fees = document.getElementById('adm-fee').value;
+    function closeClassAlert() {
+      document.getElementById('class-alert-modal').classList.add('hidden');
+    }
 
-      if (!name || !roll_no) {
-        alert("कृपया छात्र का नाम और रोल नंबर अवश्य भरें!");
-        return;
-      }
+    function filterStudentsTable() {
+      const q = document.getElementById('std-search-input').value.toLowerCase().trim();
+      const cls = document.getElementById('filter-class').value;
+      const sec = document.getElementById('filter-sec').value;
+      const stat = document.getElementById('filter-status').value;
+      const rteOnly = document.getElementById('rte-toggle').checked;
+
+      const filtered = students.filter(s => {
+        const matchesQ = (s.name || '').toLowerCase().includes(q) ||
+                         (s.roll_no || '').toString().includes(q) ||
+                         (s.father_name || '').toLowerCase().includes(q) ||
+                         (s.mobile_no || '').includes(q);
+        const matchesCls = cls === '' || (s.class_name || '8th') === cls;
+        const matchesSec = sec === '' || (s.section || 'A') === sec;
+        const matchesStat = stat === 'all' || (s.status || 'Active') === stat;
+        const matchesRte = !rteOnly || (s.rte || 'NO').toUpperCase() === 'YES';
+
+        return matchesQ && matchesCls && matchesSec && matchesStat && matchesRte;
+      });
+
+      renderStudentsTable(filtered);
+    }
+
+    async function addNewStudentDirect() {
+      const name = prompt("छात्र का नाम:");
+      if (!name) return;
+      const roll_no = prompt("रोल नंबर:");
+      if (!roll_no) return;
+      const class_name = prompt("कक्षा:", "8th");
 
       const res = await fetch('/api/students', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, roll_no, class_name, total_fees })
+        body: JSON.stringify({ name, roll_no, class_name, total_fees: 20000 })
       });
-
-      if (res.ok) {
-        alert("छात्र प्रवेश सफलतापूर्वक दर्ज किया गया!");
-        showScreen('students');
-      } else {
-        alert("प्रवेश सेव करने में त्रुटि!");
-      }
+      if (res.ok) loadData();
     }
 
-    // ID Cards Module
-    function renderIdCardStudentsList() {
-      const cls = document.getElementById('id-filter-class').value;
-      const tbody = document.getElementById('id-students-tbody');
-      tbody.innerHTML = '';
-
-      const filtered = cls ? students.filter(s => (s.class_name || '8th') === cls) : students;
-      filtered.forEach(s => {
-        tbody.innerHTML += `
-          <tr>
-            <td><input type="radio" name="sel-id-stud" value="${s.id}"></td>
-            <td><strong>${s.name}</strong></td>
-            <td>${s.roll_no}</td>
-            <td>${s.class_name || '8th'}</td>
-            <td>श्री देविलाल जी</td>
-          </tr>
-        `;
+    async function toggleDeactivate(id) {
+      if (!confirm("क्या आप इस छात्र को डिएक्टिवेट/एक्टिवेट करना चाहते हैं?")) return;
+      const s = students.find(item => item.id === id);
+      const newStatus = (s.status || 'Active') === 'Active' ? 'Inactive' : 'Active';
+      await fetch(`/api/students/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
       });
-    }
-
-    function generateSelectedIdCard() {
-      const selected = document.querySelector('input[name="sel-id-stud"]:checked');
-      if (!selected) {
-        alert("कृपया किसी एक छात्र को चुनें!");
-        return;
-      }
-
-      const stud = students.find(s => s.id == selected.value);
-      document.getElementById('idc-name').innerText = stud.name;
-      document.getElementById('idc-roll').innerText = stud.roll_no;
-      document.getElementById('idc-class').innerText = stud.class_name || '8th - A';
-      document.getElementById('id-preview-modal').classList.remove('hidden');
-    }
-
-    function closeIdPreview() {
-      document.getElementById('id-preview-modal').classList.add('hidden');
+      loadData();
     }
 
     async function deleteStudent(id) {
@@ -743,26 +565,6 @@
       if (res.ok) loadData();
     }
 
-    // Search & Edit Module
-    function searchStudentToEdit() {
-      const q = document.getElementById('edit-search-query').value.toLowerCase().trim();
-      const container = document.getElementById('edit-search-results');
-      if (!q) { container.innerHTML = ''; return; }
-
-      const matches = students.filter(s => s.name.toLowerCase().includes(q) || s.roll_no.toString().includes(q));
-      let html = '<div style="margin-top:10px;">';
-      matches.forEach(m => {
-        html += `
-          <div style="background:white; padding:10px; border:1px solid #cbd5e1; border-radius:6px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-            <div><strong>${m.name}</strong> (रोल: ${m.roll_no} | ${m.class_name || '8th'})</div>
-            <button class="std-btn std-btn-orange" style="padding:4px 10px;" onclick="handleCellDblClick(${m.id}, 'name', '${m.name}')">✏️ एडिट</button>
-          </div>
-        `;
-      });
-      container.innerHTML = html + '</div>';
-    }
-
-    // Init
     window.onload = () => {
       showScreen('login');
       loadData();
