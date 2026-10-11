@@ -196,42 +196,8 @@ app.delete('/api/students/:id', async (req, res) => {
 });
 
 /* ==========================================
-   3. FEES & ATTENDANCE APIS
+   3. EMPLOYEES / STAFF APIS (कर्मचारी मॉड्यूल)
 ========================================== */
-app.get('/api/fees', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM fees');
-    res.json(result.rows);
-  } catch (err) {
-    res.json([]);
-  }
-});
-
-app.get('/api/attendance/report', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM attendance');
-    res.json(result.rows);
-  } catch (err) {
-    res.json([]);
-  }
-});
-
-/* ==========================================
-   4. SPA ROUTING (Node 24 / Express New Safe Handler)
-========================================== */
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Server is running smoothly on port ${PORT}`);
-});
-/* ==========================================
-   2.1 STAFF / EMPLOYEE APIS (कर्मचारी मॉड्यूल)
-========================================== */
-
-// सभी कर्मचारियों की सूची (GET /api/employees)
 app.get('/api/employees', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM employees ORDER BY id ASC');
@@ -242,7 +208,6 @@ app.get('/api/employees', async (req, res) => {
   }
 });
 
-// नया कर्मचारी जोड़ें (POST /api/employees)
 app.post('/api/employees', async (req, res) => {
   try {
     const {
@@ -286,7 +251,6 @@ app.post('/api/employees', async (req, res) => {
   }
 });
 
-// इनलाइन सेल अपडेट (PUT /api/employees/:id)
 app.put('/api/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -325,7 +289,6 @@ app.put('/api/employees/:id', async (req, res) => {
   }
 });
 
-// कर्मचारी हटाएं (DELETE /api/employees/:id)
 app.delete('/api/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -335,4 +298,37 @@ app.delete('/api/employees/:id', async (req, res) => {
     console.error('Delete Employee Error:', err);
     res.status(500).json({ error: 'डिलीट में त्रुटि!' });
   }
+});
+
+/* ==========================================
+   4. FEES & ATTENDANCE APIS
+========================================== */
+app.get('/api/fees', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM fees');
+    res.json(result.rows);
+  } catch (err) {
+    res.json([]);
+  }
+});
+
+app.get('/api/attendance/report', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM attendance');
+    res.json(result.rows);
+  } catch (err) {
+    res.json([]);
+  }
+});
+
+/* ==========================================
+   5. SPA ROUTING (Safe Handler)
+========================================== */
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server is running smoothly on port ${PORT}`);
 });
