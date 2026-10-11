@@ -249,40 +249,56 @@ app.post('/api/fees/pay', async (req, res) => {
     res.status(500).json({ error: 'फीस अपडेट करने में सर्वर एरर' });
   }
 });
-// 10. नया छात्र जोड़ने की API (POST /api/students)
+// पूरा विस्तृत छात्र प्रवेश फ़ॉर्म सेव करने की API (POST /api/students)
 app.post('/api/students', async (req, res) => {
   try {
-    const { roll_no, name, class_name, total_fees } = req.body;
+    const {
+      scholar_no, roll_no, admission_date,
+      name, class_name, section, gender, dob, religion, category, caste,
+      aadhaar_no, jan_aadhaar_no, pen_no, nic_id,
+      father_name, mother_name, mobile_no, address,
+      rte, bus_facility, installment_plan, total_fees
+    } = req.body;
 
-    if (!roll_no || !name || !class_name) {
-      return res.status(400).json({ error: 'रोल नंबर, नाम और कक्षा आवश्यक हैं!' });
+    if (!name || !roll_no) {
+      return res.status(400).json({ error: 'छात्र का नाम और रोल नंबर अनिवार्य हैं!' });
     }
 
-    // 1. छात्र को students टेबल में जोड़ें
-    const studentRes = await pool.query(
-      'INSERT INTO students (roll_no, name, class_name) VALUES ($1, $2, $3) RETURNING *',
-      [roll_no, name, class_name]
-    );
+    const query = `
+      INSERT INTO students (
+        scholar_no, roll_no, admission_date,
+        name, class_name, section, gender, dob, religion, category, caste,
+        aadhaar_no, jan_aadhaar_no, pen_no, nic_id,
+        father_name, mother_name, mobile_no, address,
+        rte, bus_facility, installment_plan, total_fees, status
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,
+        $12, $13, $14, $15, $16, $17, $18, $19,
+        $20, $21, $22, $23, 'Active'
+      ) RETURNING *;
+    `;
 
-    const newStudent = studentRes.rows[0];
-    const feeAmount = Number(total_fees) || 20000;
+    const values = [
+      scholar_no || '759', roll_no, admission_date || '10/10/2026',
+      name, class_name || '8th', section || 'A', gender || 'Male', dob || '01/01/2012', religion || 'हिन्दू', category || 'GEN', caste || '',
+      aadhaar_no || '', jan_aadhaar_no || '', pen_no || '', nic_id || '',
+      father_name || 'श्री देविलाल जी', mother_name || 'श्रीमती सरिता देवी', mobile_no || '9876543210', address || 'सिंहपुर',
+      rte || 'NO', bus_facility || 'NO', installment_plan || 'Full Payment', total_fees || 20000
+    ];
 
-    // 2. उसी छात्र के लिए फीस टेबल में रिकॉर्ड बनाएँ
+    const result = await pool.query(query, values);
+    const newStudent = result.rows[0];
+
+    // फ़ीस रिकॉर्ड भी अपने आप बन जाए
     await pool.query(
-      'INSERT INTO fees (student_id, total_amount, paid_amount, status) VALUES ($1, $2, 0, $3)',
-      [newStudent.id, feeAmount, 'Pending']
+      'INSERT INTO fees (student_id, total_amount, paid_amount, status) VALUES ($1, $2, $3, $4)',
+      [newStudent.id, total_fees || 20000, 0, 'Pending']
     );
 
-    res.status(201).json({
-      message: 'नया छात्र और फीस रिकॉर्ड सफलतापूर्वक जुड़ गया!',
-      student: newStudent
-    });
+    res.json({ message: 'छात्र प्रवेश रिकॉर्ड सफलतापूर्वक सुरक्षित हुआ!', student: newStudent });
   } catch (err) {
-    if (err.code === '23505') {
-      return res.status(400).json({ error: 'यह रोल नंबर पहले से मौजूद है!' });
-    }
-    console.error(err.message);
-    res.status(500).json({ error: 'डेटाबेस एरर: छात्र सेव नहीं हो सका' });
+    console.error(err);
+    res.status(500).json({ error: 'प्रवेश रिकॉर्ड सेव करने में त्रुटि!' });
   }
 });
 // 12. परीक्षा अंक दर्ज करने की API (Admin / Teacher)
