@@ -28,9 +28,7 @@ pool.connect((err, client, release) => {
   else { console.log('Connected to PostgreSQL Database successfully!'); release(); }
 });
 
-/* ==========================================
-   1. AUTHENTICATION APIS
-========================================== */
+/* 1. AUTH APIS */
 app.post('/api/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -46,9 +44,7 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-/* ==========================================
-   2. STUDENTS APIS
-========================================== */
+/* 2. STUDENTS APIS */
 app.get('/api/students', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM students ORDER BY id ASC');
@@ -141,9 +137,7 @@ app.delete('/api/students/:id', async (req, res) => {
   }
 });
 
-/* ==========================================
-   3. EMPLOYEES APIS
-========================================== */
+/* 3. EMPLOYEES APIS */
 app.get('/api/employees', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM employees ORDER BY id ASC');
@@ -210,11 +204,7 @@ app.delete('/api/employees/:id', async (req, res) => {
   }
 });
 
-/* ==========================================
-   4. ATTENDANCE APIS (उपस्थिति प्रबंधन)
-========================================== */
-
-// तारीख और क्लास के अनुसार उपस्थिति फेच करें (GET /api/attendance?date=...&class_name=...&section=...)
+/* 4. ADVANCED ATTENDANCE APIS */
 app.get('/api/attendance', async (req, res) => {
   try {
     const { date, class_name, section } = req.query;
@@ -234,12 +224,10 @@ app.get('/api/attendance', async (req, res) => {
     const result = await pool.query(query, values);
     res.json(result.rows);
   } catch (err) {
-    console.error('Fetch Attendance Error:', err);
     res.status(500).json({ error: 'उपस्थिति लोड करने में त्रुटि!' });
   }
 });
 
-// बल्क उपस्थिति सुरक्षित सेव करें (POST /api/attendance/bulk)
 app.post('/api/attendance/bulk', async (req, res) => {
   try {
     const { attendance_date, records } = req.body;
@@ -249,30 +237,28 @@ app.post('/api/attendance/bulk', async (req, res) => {
 
     for (const item of records) {
       const query = `
-        INSERT INTO attendance (student_id, class_name, section, attendance_date, status)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO attendance (student_id, class_name, section, attendance_date, status, remarks)
+        VALUES ($1, $2, $3, $4, $5, $6)
         ON CONFLICT (student_id, attendance_date)
-        DO UPDATE SET status = EXCLUDED.status;
+        DO UPDATE SET status = EXCLUDED.status, remarks = EXCLUDED.remarks;
       `;
       await pool.query(query, [
         item.student_id,
         item.class_name || '8th',
         item.section || 'A',
         attendance_date,
-        item.status || 'Present'
+        item.status || 'Present',
+        item.remarks || ''
       ]);
     }
 
     res.json({ message: 'उपस्थिति सफलतापूर्वक सुरक्षित हुई!' });
   } catch (err) {
-    console.error('Bulk Attendance Error:', err);
     res.status(500).json({ error: `उपस्थिति सेव करने में त्रुटि: ${err.message}` });
   }
 });
 
-/* ==========================================
-   5. SPA ROUTING
-========================================== */
+/* 5. SPA ROUTING */
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
