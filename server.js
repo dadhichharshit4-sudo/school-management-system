@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// इनबिल्ट CORS हेडर्स (बिना किसी बाहरी पैकेज के)
+// इनबिल्ट CORS हेडर्स
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -31,7 +31,6 @@ const pool = new Pool({
   }
 });
 
-// Database Connection Check
 pool.connect((err, client, release) => {
   if (err) {
     console.error('Database connection error:', err.stack);
@@ -62,8 +61,6 @@ app.post('/api/auth/login', async (req, res) => {
 /* ==========================================
    2. STUDENTS APIS (विद्यार्थी मॉड्यूल)
 ========================================== */
-
-// सभी छात्रों की सूची प्राप्त करें (GET /api/students)
 app.get('/api/students', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM students ORDER BY id ASC');
@@ -74,7 +71,6 @@ app.get('/api/students', async (req, res) => {
   }
 });
 
-// नया छात्र प्रवेश फ़ॉर्म सेव करें (POST /api/students)
 app.post('/api/students', async (req, res) => {
   try {
     const {
@@ -149,7 +145,6 @@ app.post('/api/students', async (req, res) => {
   }
 });
 
-// इनलाइन सेल अपडेट (PUT /api/students/:id)
 app.put('/api/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -188,7 +183,6 @@ app.put('/api/students/:id', async (req, res) => {
   }
 });
 
-// छात्र रिकॉर्ड डिलीट करें (DELETE /api/students/:id)
 app.delete('/api/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -223,9 +217,9 @@ app.get('/api/attendance/report', async (req, res) => {
 });
 
 /* ==========================================
-   4. SPA ROUTING FALLBACK
+   4. SPA ROUTING (Node 24 / Express New Safe Handler)
 ========================================== */
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
