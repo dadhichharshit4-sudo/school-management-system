@@ -1,15 +1,24 @@
 const express = require('express');
-const cors = require('cors');
 const { Pool } = require('pg');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Body Parsers (Photo / Base64 अपलोड के लिए 50mb लिमिट)
-app.use(cors());
+// Body Parsers (Photo / Base64 के लिए 50mb लिमिट)
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// इनबिल्ट CORS हेडर्स (बिना किसी बाहरी पैकेज के)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,7 +47,6 @@ pool.connect((err, client, release) => {
 app.post('/api/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    // डेमो एडमिन क्रेडेंशियल्स या डेटाबेस चेक
     if (email && password) {
       return res.json({ 
         message: 'Login successful', 
@@ -66,7 +74,7 @@ app.get('/api/students', async (req, res) => {
   }
 });
 
-// पूरा विस्तृत छात्र प्रवेश फ़ॉर्म सेव करें (POST /api/students)
+// नया छात्र प्रवेश फ़ॉर्म सेव करें (POST /api/students)
 app.post('/api/students', async (req, res) => {
   try {
     const {
@@ -125,14 +133,13 @@ app.post('/api/students', async (req, res) => {
     const result = await pool.query(query, values);
     const newStudent = result.rows[0];
 
-    // फीस टेबल में भी प्रारंभिक रिकॉर्ड दर्ज करें
     try {
       await pool.query(
         'INSERT INTO fees (student_id, total_amount, paid_amount, status) VALUES ($1, $2, $3, $4)',
         [newStudent.id, Number(total_fees) || 20000, 0, 'Pending']
       );
     } catch (feeErr) {
-      console.warn('Fee table sync skipped/warning:', feeErr.message);
+      console.warn('Fee insert warning:', feeErr.message);
     }
 
     res.json({ message: 'छात्र प्रवेश रिकॉर्ड सफलतापूर्वक सुरक्षित हुआ!', student: newStudent });
@@ -142,7 +149,7 @@ app.post('/api/students', async (req, res) => {
   }
 });
 
-// छात्र का कोई भी सेल (नाम, रोल, स्कॉलर नं, फोटो, पिता का नाम आदि) इनलाइन अपडेट करें (PUT /api/students/:id)
+// इनलाइन सेल अपडेट (PUT /api/students/:id)
 app.put('/api/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
