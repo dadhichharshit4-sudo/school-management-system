@@ -30,7 +30,7 @@
     .lang-badge { background: rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
     .btn-nav-top { background: #ea580c; color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-    /* 1. LOGIN */
+    /* LOGIN */
     .login-container { max-width: 1000px; margin: 30px auto; padding: 20px; }
     .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
     .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
@@ -63,7 +63,7 @@
     .stat-row:last-child { border-bottom: none; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* COMMON DIRECTORY CONTAINERS */
+    /* DIRECTORIES */
     .directory-container { max-width: 1440px; margin: 16px auto; padding: 0 16px; }
     .tip-box { background: #eff6ff; border: 1px dashed #3b82f6; border-radius: 8px; padding: 9px 14px; font-size: 12.5px; color: #1e40af; text-align: center; margin-bottom: 14px; }
     .action-bar-flex { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px; }
@@ -486,36 +486,6 @@
         <tbody id="id-students-tbody"></tbody>
       </table>
     </div>
-
-    <div id="id-preview-modal" class="modal-overlay hidden">
-      <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:440px; width:100%;">
-        <h3 style="margin-bottom:12px; color:#1e40af; font-size:16px;">Student ID Card Preview</h3>
-        <div id="printable-id-card-area">
-          <div class="id-card-box">
-            <div class="id-card-header">
-              <h4>SHREE MEWAR PUBLIC SCHOOL</h4>
-              <p>Singhpur, Chittorgarh | Session 2026-27</p>
-            </div>
-            <div class="id-card-body">
-              <div class="id-card-photo" id="idc-photo-box">👤</div>
-              <div class="id-card-details">
-                <strong>नाम:</strong> <span id="idc-name">RAHUL SHARMA</span><br>
-                <strong>स्कॉलर नं:</strong> <span id="idc-scholar">759</span><br>
-                <strong>पिता:</strong> <span id="idc-father">SH. DEVILAL</span><br>
-                <strong>कक्षा:</strong> <span id="idc-class">8th - A</span><br>
-                <strong>रोल नं:</strong> <span id="idc-roll">101</span><br>
-                <strong>मो:</strong> <span id="idc-mobile">9876543210</span><br>
-                <strong>पता:</strong> <span id="idc-addr">Singhpur</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:16px; display:flex; gap:10px; justify-content:center;" class="no-print">
-          <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ प्रिंट निकालें</button>
-          <button class="btn-action-pill" style="background:#64748b;" onclick="closeIdPreview()">बंद करें</button>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- SCREEN 6: EMPLOYEE MANAGEMENT (`employee_management.php`) -->
@@ -630,6 +600,37 @@
       💾 कर्मचारी रिकॉर्ड सेव करें (Save Staff)
     </button>
     <p id="emp-add-msg" style="text-align:center; font-size:13px; font-weight:700; margin-top:8px;"></p>
+  </div>
+
+  <!-- UNIVERSAL ID CARD PREVIEW MODAL (STUDENT & STAFF) -->
+  <div id="id-preview-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:440px; width:100%;">
+      <h3 style="margin-bottom:12px; color:#1e40af; font-size:16px;">Identity Card Preview</h3>
+      <div id="printable-id-card-area">
+        <div class="id-card-box">
+          <div class="id-card-header">
+            <h4>SHREE MEWAR PUBLIC SCHOOL</h4>
+            <p>Singhpur, Chittorgarh | Session 2026-27</p>
+          </div>
+          <div class="id-card-body">
+            <div class="id-card-photo" id="idc-photo-box">👤</div>
+            <div class="id-card-details">
+              <strong>नाम:</strong> <span id="idc-name">RAHUL SHARMA</span><br>
+              <strong>स्कॉलर/कोड:</strong> <span id="idc-scholar">759</span><br>
+              <strong>पिता/पद:</strong> <span id="idc-father">SH. DEVILAL</span><br>
+              <strong>कक्षा/विभाग:</strong> <span id="idc-class">8th - A</span><br>
+              <strong>रोल नं/टाइप:</strong> <span id="idc-roll">101</span><br>
+              <strong>मो:</strong> <span id="idc-mobile">9876543210</span><br>
+              <strong>पता:</strong> <span id="idc-addr">Singhpur</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ प्रिंट निकालें</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="closeIdPreview()">बंद करें</button>
+      </div>
+    </div>
   </div>
 
   <!-- HIDDEN FILE INPUT -->
@@ -1015,8 +1016,6 @@
             <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'qualification', this)">${e.qualification || 'B.Ed'}</td>
             <td><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:700;">${e.status || 'Active'}</span></td>
             <td>
-              <button class="btn-table-action b-deact" onclick="toggleEmpStatus(${e.id})">Deactivate</button>
-              <button class="btn-table-action b-del" onclick="deleteEmployee(${e.id})">🗑️ हटाएं</button>
               <button class="btn-table-action" style="background:#0284c7;" onclick="generateStaffIdCard(${e.id})">🪪 ID कार्ड</button>
               <button class="btn-table-action b-deact" onclick="toggleEmpStatus(${e.id})">Deactivate</button>
               <button class="btn-table-action b-del" onclick="deleteEmployee(${e.id})">🗑️ हटाएं</button>
@@ -1153,7 +1152,6 @@
         return;
       }
 
-      // अगर किसी खास कर्मचारी की ID नहीं दी गई, तो पहला उपलब्ध कर्मचारी चुनें
       const emp = empId ? employees.find(e => e.id == empId) : employees[0];
       if (!emp) return;
 
