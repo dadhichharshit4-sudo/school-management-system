@@ -30,13 +30,13 @@
     .lang-badge { background: rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
     .btn-nav-top { background: #ea580c; color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-    /* 1. LOGIN SCREEN */
+    /* 1. LOGIN */
     .login-container { max-width: 1000px; margin: 30px auto; padding: 20px; }
     .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
     .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .btn-role-login { width: 100%; padding: 9px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; color: white; cursor: pointer; margin-top: 14px; }
 
-    /* RAJASTHAN ADMIN LOGIN */
+    /* ADMIN LOGIN */
     .admin-login-wrapper { min-height: 85vh; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #ea580c 0%, #c2410c 45%, #7c2d12 100%); padding: 20px; }
     .admin-login-box { background: white; width: 100%; max-width: 380px; border-radius: 16px; padding: 28px 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.25); text-align: center; border: 3px solid #ffedd5; }
     .admin-login-box h3 { color: #991b1b; font-size: 20px; font-weight: 800; margin-bottom: 20px; }
@@ -63,7 +63,7 @@
     .stat-row:last-child { border-bottom: none; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* STUDENTS DIRECTORY */
+    /* STUDENTS DIRECTORY (`students.php`) */
     .students-full-container { max-width: 1440px; margin: 16px auto; padding: 0 16px; }
     .tip-box { background: #eff6ff; border: 1px dashed #3b82f6; border-radius: 8px; padding: 9px 14px; font-size: 12.5px; color: #1e40af; text-align: center; margin-bottom: 14px; }
     .students-action-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px; }
@@ -90,11 +90,16 @@
     .editable-cell:hover { background: #fef08a !important; }
     .cell-input { width: 100%; min-width: 80px; padding: 3px 6px; font-size: 11.5px; border: 1.5px solid #0284c7; border-radius: 4px; outline: none; background: #fff; }
 
+    /* Photo thumbnail & Upload */
+    .photo-cell-container { display: flex; align-items: center; gap: 4px; justify-content: center; }
+    .student-avatar { width: 34px; height: 38px; border-radius: 4px; border: 1px solid #cbd5e1; object-fit: cover; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 16px; overflow: hidden; }
+    .btn-photo-upload { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; padding: 2px 4px; font-size: 11px; }
+
     .btn-table-action { border: none; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; padding: 2.5px 6px; cursor: pointer; display: block; width: 100%; margin-bottom: 2px; text-align: center; }
     .b-deact { background: #dc2626; }
     .b-del { background: #991b1b; }
 
-    /* 10-SECTION ADMISSION FORM (add_student.php) */
+    /* 10-SECTION ADMISSION FORM */
     .form-sheet-container { max-width: 1050px; margin: 20px auto; background: white; border-radius: 12px; border: 2px solid #fed7aa; padding: 24px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
     .form-sheet-header { text-align: center; border-bottom: 2px solid #fee2e2; padding-bottom: 14px; margin-bottom: 20px; }
     .form-sheet-header h2 { color: #991b1b; font-size: 22px; font-weight: 800; }
@@ -105,16 +110,43 @@
     .f-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 10px; }
     .f-field label { font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
     .f-input { width: 100%; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 12.5px; outline: none; background: white; }
-    .f-input:focus { border-color: #ea580c; }
-    
     .fee-highlight-box { background: #fef3c7; border: 2px dashed #f59e0b; border-radius: 8px; padding: 14px; text-align: center; margin: 12px 0; }
     .fee-highlight-box h3 { font-size: 24px; color: #b45309; font-weight: 800; }
 
-    /* ALERT MODAL */
+    /* ID CARDS GENERATOR (`generate_all_id_cards.php`) */
+    .id-card-generator-wrapper { max-width: 1100px; margin: 20px auto; padding: 0 16px; }
+    .id-card-box {
+      width: 345px;
+      height: 220px;
+      background: #ffffff;
+      border: 2px solid #991b1b;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 14px auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      position: relative;
+      text-align: left;
+    }
+    .id-card-header { background: #991b1b; color: white; padding: 6px 10px; text-align: center; }
+    .id-card-header h4 { font-size: 13px; font-weight: 800; letter-spacing: 0.5px; margin: 0; }
+    .id-card-header p { font-size: 9.5px; color: #fde047; margin: 2px 0 0 0; }
+    .id-card-body { display: flex; padding: 10px 12px; gap: 12px; align-items: center; }
+    .id-card-photo { width: 80px; height: 100px; border-radius: 6px; border: 1.5px solid #cbd5e1; object-fit: cover; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 32px; overflow: hidden; flex-shrink: 0; }
+    .id-card-details { font-size: 10.5px; line-height: 1.55; color: #1e293b; flex: 1; }
+    .id-card-details strong { color: #000; font-size: 11px; }
+
+    /* MODAL */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
     .alert-modal-box { background: white; width: 100%; max-width: 420px; border-radius: 14px; padding: 24px; text-align: center; border-top: 6px solid #dc2626; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
 
     .hidden { display: none !important; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-id-card-area, #printable-id-card-area * { visibility: visible; }
+      #printable-id-card-area { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; border: none; }
+      .no-print { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -149,21 +181,18 @@
         <p style="font-size:12px; color:#64748b;">Central Management</p>
         <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('admin-login')">Login</button>
       </div>
-
       <div class="login-role-card">
         <div style="font-size:32px;">🏫</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Admin Login</h3>
         <p style="font-size:12px; color:#64748b;">School Administration</p>
         <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('admin-login')">Login</button>
       </div>
-
       <div class="login-role-card">
         <div style="font-size:32px;">💼</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Non-Teaching Staff</h3>
         <p style="font-size:12px; color:#64748b;">Accounts & Front Desk</p>
         <button class="btn-role-login" style="background:#0284c7;" onclick="showScreen('admin-login')">Access Hub</button>
       </div>
-
       <div class="login-role-card">
         <div style="font-size:32px;">📚</div>
         <h3 style="color:#7c2d12; margin-top:6px;">Teaching Staff</h3>
@@ -177,18 +206,9 @@
   <div id="screen-admin-login" class="admin-login-wrapper hidden">
     <div class="admin-login-box">
       <h3>👑 Rajasthan Admin Login 👑</h3>
-      <div class="form-group-login">
-        <label>School ID</label>
-        <input type="text" class="input-login" value="PS6452">
-      </div>
-      <div class="form-group-login">
-        <label>Admin Username</label>
-        <input type="text" class="input-login" value="RATNESH KUMAR SHARMA">
-      </div>
-      <div class="form-group-login">
-        <label>Password</label>
-        <input type="password" class="input-login" value="••••••••">
-      </div>
+      <div class="form-group-login"><label>School ID</label><input type="text" class="input-login" value="PS6452"></div>
+      <div class="form-group-login"><label>Admin Username</label><input type="text" class="input-login" value="RATNESH KUMAR SHARMA"></div>
+      <div class="form-group-login"><label>Password</label><input type="password" class="input-login" value="••••••••"></div>
       <div class="form-group-login">
         <label>सत्र चुनें</label>
         <select class="input-login"><option value="2026-27">2026-27</option></select>
@@ -238,7 +258,7 @@
     </div>
 
     <div class="tip-box">
-      ✏️ टिप: टेबल में किसी भी जानकारी को एडिट करने के लिए उस पर <strong>डबल-क्लिक (Double-Click)</strong> करें!
+      ✏️ टिप: टेबल में किसी भी जानकारी (Scholar No, नाम, रोल नंबर) को एडिट करने के लिए उस पर <strong>डबल-क्लिक</strong> करें! फोटो बदलने के लिए <strong>📷</strong> दबाएँ!
     </div>
 
     <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">📖 सभी छात्रों की सूची 📖</h2>
@@ -246,7 +266,7 @@
     <div class="students-action-bar">
       <button class="std-btn std-btn-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
       <button class="std-btn std-btn-orange" onclick="alert('सूची से डबल-क्लिक करके सीधे एडिट करें')">✏️ छात्र संपादित करें</button>
-      <button class="std-btn std-btn-blue" onclick="alert('ID कार्ड मॉड्यूल सक्रिय है')">🪪 ID कार्ड जनरेट करें</button>
+      <button class="std-btn std-btn-blue" onclick="showScreen('id-cards')">🪪 ID कार्ड जनरेट करें</button>
       <button class="std-btn std-btn-purple">📄 नामांकन रिपोर्ट</button>
       <button class="std-btn std-btn-red">📑 कस्टम रिपोर्ट</button>
     </div>
@@ -255,7 +275,8 @@
     <div class="filter-panel">
       <select class="filter-control" id="filter-class" onchange="filterStudentsTable()">
         <option value="">-- सभी कक्षाएं --</option>
-        <option value="8th">8th</option>
+        <option value="6">Class 6</option>
+        <option value="8th">Class 8th</option>
         <option value="Class 10-A">Class 10-A</option>
         <option value="PP.4+">PP.4+</option>
         <option value="PP.5+">PP.5+</option>
@@ -316,7 +337,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 4: FULL 10-SECTION ADMISSION FORM (`add_student.php`) -->
+  <!-- SCREEN 4: 10-SECTION ADMISSION FORM (`add_student.php`) -->
   <div id="screen-admission" class="form-sheet-container hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <button class="std-btn std-btn-orange" onclick="showScreen('students')">⬅ वापस (छात्र सूची)</button>
@@ -333,7 +354,7 @@
       <div class="f-grid-3">
         <div class="f-field">
           <label>प्रवेश क्रमांक (Scholar No.) *</label>
-          <input type="text" id="form-scholar-no" class="f-input" value="759">
+          <input type="text" id="form-scholar-no" class="f-input" placeholder="उदा. 760">
         </div>
         <div class="f-field">
           <label>रोल नंबर (Roll No.) *</label>
@@ -358,6 +379,7 @@
         <div class="f-field">
           <label>कक्षा चुनें (Class) *</label>
           <select id="form-class" class="f-input">
+            <option value="6">6</option>
             <option value="8th">8th</option>
             <option value="Class 10-A">Class 10-A</option>
             <option value="PP.4+">PP.4+</option>
@@ -400,7 +422,7 @@
       </div>
     </div>
 
-    <!-- 4. माता-पिता/अभिभावक का विवरण -->
+    <!-- 4. माता-पिता का विवरण -->
     <div class="sec-card">
       <div class="sec-title">4. माता-पिता / अभिभावक का विवरण</div>
       <div class="f-grid-3">
@@ -460,15 +482,91 @@
     <!-- 8. घोषणा एवं सेव -->
     <div class="sec-card">
       <div class="sec-title">8. घोषणा (Declaration)</div>
-      <p style="font-size:12px; color:#64748b; margin-bottom:14px;">
-        मैं प्रमाणित करता/करती हूँ कि ऊपर दी गई सभी जानकारी पूर्णतः सत्य व सही है।
-      </p>
+      <p style="font-size:12px; color:#64748b; margin-bottom:14px;">मैं प्रमाणित करता/करती हूँ कि ऊपर दी गई सभी जानकारी पूर्णतः सत्य व सही है।</p>
       <button class="std-btn std-btn-green" style="width:100%; padding:14px; font-size:16px;" onclick="submitCompleteAdmission()">
         💾 रिकॉर्ड सेव करें (Save Record)
       </button>
       <p id="adm-msg" style="text-align:center; font-size:13px; font-weight:700; margin-top:8px;"></p>
     </div>
   </div>
+
+  <!-- SCREEN 5: ID CARD GENERATOR (`generate_all_id_cards.php`) -->
+  <div id="screen-id-cards" class="id-card-generator-wrapper hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <button class="std-btn std-btn-orange" onclick="showScreen('students')">⬅ वापस (छात्र सूची)</button>
+      <h3 style="color:#7f1d1d;">🪪 ID कार्ड प्रबंधन (Advance Control)</h3>
+    </div>
+
+    <div class="filter-panel">
+      <select class="filter-control" id="id-filter-class" onchange="renderIdCardStudentsList()">
+        <option value="">-- कक्षा चुनें --</option>
+        <option value="6">Class 6</option>
+        <option value="8th">Class 8th</option>
+        <option value="Class 10-A">Class 10-A</option>
+        <option value="PP.4+">PP.4+</option>
+        <option value="1st">1st</option>
+      </select>
+      <select class="filter-control" id="id-filter-sec" onchange="renderIdCardStudentsList()">
+        <option value="">-- सेक्शन चुनें --</option>
+        <option value="A">Section A</option>
+        <option value="B">Section B</option>
+      </select>
+      <button class="std-btn std-btn-blue" onclick="generateSelectedIdCard()">🪪 चुने गए छात्र का ID कार्ड देखें / प्रिंट</button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>चुनें (Select)</th>
+            <th>विद्यार्थी नाम (Student Name)</th>
+            <th>स्कॉलर नं</th>
+            <th>रोल नं</th>
+            <th>कक्षा</th>
+            <th>पिता का नाम</th>
+            <th>मोबाइल</th>
+          </tr>
+        </thead>
+        <tbody id="id-students-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- ID Card Preview Modal -->
+    <div id="id-preview-modal" class="modal-overlay hidden">
+      <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:440px; width:100%;">
+        <h3 style="margin-bottom:12px; color:#1e40af; font-size:16px;">ID Card Preview (Advance)</h3>
+        
+        <div id="printable-id-card-area">
+          <div class="id-card-box">
+            <div class="id-card-header">
+              <h4>SHREE MEWAR PUBLIC SCHOOL</h4>
+              <p>Singhour, Chittorgarh | Session 2026-27</p>
+            </div>
+            <div class="id-card-body">
+              <div class="id-card-photo" id="idc-photo-box">👤</div>
+              <div class="id-card-details">
+                <strong>नाम:</strong> <span id="idc-name">RAHUL SHARMA</span><br>
+                <strong>स्कॉलर नं:</strong> <span id="idc-scholar">759</span><br>
+                <strong>पिता:</strong> <span id="idc-father">SH. DEVILAL</span><br>
+                <strong>कक्षा:</strong> <span id="idc-class">8th - A</span><br>
+                <strong>रोल नं:</strong> <span id="idc-roll">101</span><br>
+                <strong>मो:</strong> <span id="idc-mobile">9876543210</span><br>
+                <strong>पता:</strong> <span id="idc-addr">Singhour</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:10px; justify-content:center;" class="no-print">
+          <button class="std-btn std-btn-green" onclick="window.print()">🖨️ प्रिंट निकालें (Print)</button>
+          <button class="std-btn" style="background:#64748b;" onclick="closeIdPreview()">बंद करें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIDDEN FILE INPUT FOR PHOTO UPLOAD -->
+  <input type="file" id="global-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
 
   <!-- SECURITY ALERT MODAL -->
   <div id="class-alert-modal" class="modal-overlay hidden">
@@ -484,9 +582,10 @@
 
   <script>
     let students = [];
+    let currentPhotoTargetStudentId = null;
 
     function showScreen(screenId) {
-      ['login', 'admin-login', 'dashboard', 'students', 'admission'].forEach(s => {
+      ['login', 'admin-login', 'dashboard', 'students', 'admission', 'id-cards'].forEach(s => {
         const el = document.getElementById(`screen-${s}`);
         if (el) el.classList.add('hidden');
       });
@@ -494,6 +593,7 @@
       if (target) target.classList.remove('hidden');
 
       if (screenId === 'students' || screenId === 'dashboard') loadData();
+      if (screenId === 'id-cards') renderIdCardStudentsList();
     }
 
     async function loadData() {
@@ -532,7 +632,7 @@
       }
 
       list.forEach((s, idx) => {
-        const admNo = s.scholar_no || (700 + Number(s.id));
+        const admNo = s.scholar_no || '759';
         const admDate = s.admission_date || '10/10/2026';
         const fName = s.father_name || 'श्री देविलाल जी';
         const mName = s.mother_name || 'श्रीमती सरिता देवी';
@@ -547,11 +647,20 @@
         const doc = s.documents || 'कोई नहीं';
         const stat = s.status || 'Active';
 
+        const photoHtml = s.photo_url 
+          ? `<img src="${s.photo_url}" class="student-avatar" />`
+          : `<div class="student-avatar">👤</div>`;
+
         tbody.innerHTML += `
           <tr id="row-${s.id}">
             <td>${idx + 1}</td>
-            <td style="text-align:center;"><span style="font-size:16px;">👤</span></td>
-            <td><strong>${admNo}</strong></td>
+            <td>
+              <div class="photo-cell-container">
+                ${photoHtml}
+                <button class="btn-photo-upload" title="फोटो अपलोड करें" onclick="triggerPhotoUpload(${s.id})">📷</button>
+              </div>
+            </td>
+            <td class="editable-cell" title="डबल-क्लिक करके Scholar No बदलें" ondblclick="makeCellEditable(${s.id}, 'scholar_no', this)"><strong>${admNo}</strong></td>
             <td>${admDate}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'name', this)">${s.name}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'roll_no', this)">${s.roll_no}</td>
@@ -577,6 +686,39 @@
       });
     }
 
+    // Photo Upload Logic (Converts image to Base64 and updates Supabase)
+    function triggerPhotoUpload(studentId) {
+      currentPhotoTargetStudentId = studentId;
+      document.getElementById('global-photo-input').click();
+    }
+
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (!file || !currentPhotoTargetStudentId) return;
+
+      const reader = new FileReader();
+      reader.onload = async function(event) {
+        const base64Data = event.target.result;
+        try {
+          const res = await fetch(`/api/students/${currentPhotoTargetStudentId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ photo_url: base64Data })
+          });
+          if (res.ok) {
+            loadData();
+          } else {
+            alert("फोटो अपडेट करने में त्रुटि!");
+          }
+        } catch {
+          alert("सर्वर कनेक्शन विफल!");
+        }
+      };
+      reader.readAsDataURL(file);
+      e.target.value = '';
+    }
+
+    // Double Click Cell Edit
     function makeCellEditable(id, columnKey, cellElement) {
       const selectedClass = document.getElementById('filter-class').value;
       if (!selectedClass) {
@@ -640,6 +782,7 @@
       const filtered = students.filter(s => {
         const matchesQ = (s.name || '').toLowerCase().includes(q) ||
                          (s.roll_no || '').toString().includes(q) ||
+                         (s.scholar_no || '').toString().includes(q) ||
                          (s.father_name || '').toLowerCase().includes(q) ||
                          (s.mobile_no || '').includes(q);
         const matchesCls = cls === '' || (s.class_name || '8th') === cls;
@@ -665,7 +808,7 @@
       const fullName = `${fname} ${mname} ${lname}`.replace(/\s+/g, ' ').trim();
 
       const roll_no = document.getElementById('form-roll-no').value;
-      const scholar_no = document.getElementById('form-scholar-no').value;
+      const scholar_no = document.getElementById('form-scholar-no').value.trim();
       const admission_date = document.getElementById('form-adm-date').value;
       const class_name = document.getElementById('form-class').value;
       const section = document.getElementById('form-sec').value;
@@ -711,9 +854,7 @@
         if (res.ok) {
           msg.style.color = '#16a34a';
           msg.innerText = data.message;
-          setTimeout(() => {
-            showScreen('students');
-          }, 1200);
+          setTimeout(() => { showScreen('students'); }, 1200);
         } else {
           msg.style.color = '#dc2626';
           msg.innerText = data.error;
@@ -722,6 +863,71 @@
         msg.style.color = '#dc2626';
         msg.innerText = 'सर्वर त्रुटि!';
       }
+    }
+
+    /* ID Cards Module Logic */
+    function renderIdCardStudentsList() {
+      const cls = document.getElementById('id-filter-class').value;
+      const sec = document.getElementById('id-filter-sec').value;
+      const tbody = document.getElementById('id-students-tbody');
+      tbody.innerHTML = '';
+
+      const filtered = students.filter(s => {
+        const mCls = cls === '' || (s.class_name || '8th') === cls;
+        const mSec = sec === '' || (s.section || 'A') === sec;
+        return mCls && mSec;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:14px;">इस क्लास में कोई छात्र नहीं मिला।</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(s => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;"><input type="radio" name="sel_id_student" value="${s.id}"></td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.scholar_no || '759'}</td>
+            <td>${s.roll_no}</td>
+            <td>${s.class_name || '8th'} - ${s.section || 'A'}</td>
+            <td>${s.father_name || 'श्री देविलाल जी'}</td>
+            <td>${s.mobile_no || '9876543210'}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function generateSelectedIdCard() {
+      const checked = document.querySelector('input[name="sel_id_student"]:checked');
+      if (!checked) {
+        alert("कृपया तालिका से किसी एक छात्र को चुनें!");
+        return;
+      }
+
+      const stud = students.find(s => s.id == checked.value);
+      if (!stud) return;
+
+      document.getElementById('idc-name').innerText = stud.name;
+      document.getElementById('idc-scholar').innerText = stud.scholar_no || '759';
+      document.getElementById('idc-father').innerText = stud.father_name || 'SH. DEVILAL';
+      document.getElementById('idc-class').innerText = `${stud.class_name || '8th'} - ${stud.section || 'A'}`;
+      document.getElementById('idc-roll').innerText = stud.roll_no;
+      document.getElementById('idc-mobile').innerText = stud.mobile_no || '9876543210';
+      document.getElementById('idc-addr').innerText = stud.address || 'Singhour';
+
+      const photoBox = document.getElementById('idc-photo-box');
+      if (stud.photo_url) {
+        photoBox.innerHTML = `<img src="${stud.photo_url}" style="width:100%; height:100%; object-fit:cover;" />`;
+      } else {
+        photoBox.innerHTML = `👤`;
+      }
+
+      document.getElementById('id-preview-modal').classList.remove('hidden');
+    }
+
+    function closeIdPreview() {
+      document.getElementById('id-preview-modal').classList.add('hidden');
     }
 
     async function toggleDeactivate(id) {
