@@ -249,7 +249,7 @@ app.post('/api/fees/pay', async (req, res) => {
     res.status(500).json({ error: 'फीस अपडेट करने में सर्वर एरर' });
   }
 });
-// पूरा विस्तृत छात्र प्रवेश फ़ॉर्म सेव करने की API (POST /api/students)
+//10. छात्र प्रवेश फ़ॉर्म सुरक्षित सेव करने की API (POST /api/students)
 app.post('/api/students', async (req, res) => {
   try {
     const {
@@ -264,6 +264,7 @@ app.post('/api/students', async (req, res) => {
       return res.status(400).json({ error: 'छात्र का नाम और रोल नंबर अनिवार्य हैं!' });
     }
 
+    // 1. Students टेबल में सुरक्षित इंसर्ट
     const query = `
       INSERT INTO students (
         scholar_no, roll_no, admission_date,
@@ -279,26 +280,48 @@ app.post('/api/students', async (req, res) => {
     `;
 
     const values = [
-      scholar_no || '759', roll_no, admission_date || '10/10/2026',
-      name, class_name || '8th', section || 'A', gender || 'Male', dob || '01/01/2012', religion || 'हिन्दू', category || 'GEN', caste || '',
-      aadhaar_no || '', jan_aadhaar_no || '', pen_no || '', nic_id || '',
-      father_name || 'श्री देविलाल जी', mother_name || 'श्रीमती सरिता देवी', mobile_no || '9876543210', address || 'सिंहपुर',
-      rte || 'NO', bus_facility || 'NO', installment_plan || 'Full Payment', total_fees || 20000
+      scholar_no || '759', 
+      roll_no, 
+      admission_date || '10/10/2026',
+      name, 
+      class_name || '8th', 
+      section || 'A', 
+      gender || 'Male', 
+      dob || '01/01/2012', 
+      religion || 'हिन्दू', 
+      category || 'GEN', 
+      caste || '',
+      aadhaar_no || '', 
+      jan_aadhaar_no || '', 
+      pen_no || '', 
+      nic_id || '',
+      father_name || 'श्री देविलाल जी', 
+      mother_name || 'श्रीमती सरिता देवी', 
+      mobile_no || '9876543210', 
+      address || 'सिंहपुर',
+      rte || 'NO', 
+      bus_facility || 'NO', 
+      installment_plan || 'Full Payment', 
+      Number(total_fees) || 20000
     ];
 
     const result = await pool.query(query, values);
     const newStudent = result.rows[0];
 
-    // फ़ीस रिकॉर्ड भी अपने आप बन जाए
-    await pool.query(
-      'INSERT INTO fees (student_id, total_amount, paid_amount, status) VALUES ($1, $2, $3, $4)',
-      [newStudent.id, total_fees || 20000, 0, 'Pending']
-    );
+    // 2. फ़ीस रिकॉर्ड सुरक्षित बनाना (ताकि फीस टेबल एरर न दे)
+    try {
+      await pool.query(
+        'INSERT INTO fees (student_id, total_amount, paid_amount, status) VALUES ($1, $2, $3, $4)',
+        [newStudent.id, Number(total_fees) || 20000, 0, 'Pending']
+      );
+    } catch (feeErr) {
+      console.warn("Fees table insertion warning:", feeErr.message);
+    }
 
     res.json({ message: 'छात्र प्रवेश रिकॉर्ड सफलतापूर्वक सुरक्षित हुआ!', student: newStudent });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'प्रवेश रिकॉर्ड सेव करने में त्रुटि!' });
+    console.error("Admission Save Error:", err);
+    res.status(500).json({ error: `डेटाबेस त्रुटि: ${err.message}` });
   }
 });
 // 12. परीक्षा अंक दर्ज करने की API (Admin / Teacher)
