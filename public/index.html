@@ -98,6 +98,13 @@
     .b-deact { background: #dc2626; }
     .b-del { background: #991b1b; }
 
+    /* ATTENDANCE TOGGLE BUTTONS */
+    .att-btn-group { display: flex; gap: 4px; }
+    .att-opt-btn { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 800; border: 1.5px solid #cbd5e1; cursor: pointer; background: white; }
+    .att-opt-btn.active-p { background: #16a34a; color: white; border-color: #15803d; }
+    .att-opt-btn.active-a { background: #dc2626; color: white; border-color: #b91c1c; }
+    .att-opt-btn.active-l { background: #f59e0b; color: white; border-color: #d97706; }
+
     /* FORMS */
     .form-sheet-container { max-width: 1050px; margin: 20px auto; background: white; border-radius: 12px; border: 2px solid #fed7aa; padding: 24px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
     .form-sheet-header { text-align: center; border-bottom: 2px solid #fee2e2; padding-bottom: 14px; margin-bottom: 20px; }
@@ -209,8 +216,8 @@
   <div id="screen-dashboard" class="hidden">
     <div class="pills-scroll-container">
       <button class="pill-btn pill-blue" onclick="showScreen('students')">🎓 विद्यार्थी (Students)</button>
+      <button class="pill-btn pill-green" onclick="showScreen('attendance')">📋 उपस्थिति (Attendance)</button>
       <button class="pill-btn pill-purple" onclick="showScreen('employees')">👥 कर्मचारी (Staff)</button>
-      <button class="pill-btn pill-green" onclick="showScreen('students')">📋 उपस्थिति</button>
       <button class="pill-btn pill-orange" onclick="showScreen('students')">💰 फीस प्रबंधन</button>
       <button class="pill-btn pill-teal" onclick="showScreen('students')">📚 गृहकार्य</button>
       <button class="pill-btn pill-red" onclick="showScreen('admission')">+ नया छात्र प्रवेश</button>
@@ -218,11 +225,11 @@
 
     <div class="dashboard-grid-full">
       <div class="erp-card">
-        <div class="card-head" style="background:#1d4ed8;"><span>📅 आगामी मुख्य इवेंट</span></div>
+        <div class="card-head" style="background:#16a34a;"><span>📋 आज की उपस्थिति सारांश</span></div>
         <div class="card-body">
-          <div style="font-weight:700; color:#1e40af; text-align:center;">विश्व मानसिक स्वास्थ्य दिवस</div>
-          <div style="font-size:11px; color:#64748b; text-align:center; margin:4px 0 10px;">10 Oct 2026</div>
-          <button class="card-btn" style="background:#1d4ed8;" onclick="showScreen('students')">कैलेंडर देखें</button>
+          <div class="stat-row"><span>उपस्थिति स्थिति:</span><strong style="color:#16a34a;" id="dash-att-status">सक्रिय (Live)</strong></div>
+          <div class="stat-row"><span>आज की तारीख:</span><strong id="dash-att-date">11/10/2026</strong></div>
+          <button class="card-btn" style="background:#16a34a;" onclick="showScreen('attendance')">📋 दैनिक उपस्थिति रजिस्टर खोलें</button>
         </div>
       </div>
 
@@ -239,15 +246,84 @@
         <div class="card-head" style="background:#6d28d9;"><span>👥 कर्मचारी सारांश (Staff)</span></div>
         <div class="card-body">
           <div class="stat-row"><span>कुल कर्मचारी:</span><strong id="d-tot-emp">0</strong></div>
-          <div class="stat-row"><span>शिक्षण स्टाफ (Teaching):</span><strong style="color:#16a34a;" id="d-teach-emp">0</strong></div>
-          <div class="stat-row"><span>गैर-शिक्षण (Non-Teaching):</span><strong id="d-nonteach-emp">0</strong></div>
-          <button class="card-btn" style="background:#6d28d9;" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन / सूची खोलें</button>
+          <div class="stat-row"><span>शिक्षण स्टाफ:</span><strong style="color:#16a34a;" id="d-teach-emp">0</strong></div>
+          <div class="stat-row"><span>गैर-शिक्षण:</span><strong id="d-nonteach-emp">0</strong></div>
+          <button class="card-btn" style="background:#6d28d9;" onclick="showScreen('employees')">👥 कर्मचारी सूची खोलें</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SCREEN 3: STUDENTS DIRECTORY (`students.php`) -->
+  <!-- SCREEN 3: ATTENDANCE REGISTER (`attendance.php`) -->
+  <div id="screen-attendance" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
+      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | दैनिक उपस्थिति रजिस्टर</div>
+    </div>
+
+    <div class="tip-box">
+      ✏️ टिप: कक्षा और तारीख चुनें। <strong>"सभी उपस्थित (All Present)"</strong> दबाकर 1-क्लिक में मार्क करें और नीचे <strong>"💾 उपस्थिति सेव करें"</strong> दबाएँ!
+    </div>
+
+    <h2 style="text-align:center; font-size:22px; font-weight:800; color:#15803d; margin-bottom:14px;">📋 दैनिक उपस्थिति रजिस्टर (Attendance) 📋</h2>
+
+    <!-- Attendance Filters -->
+    <div class="filter-panel">
+      <label style="font-size:12px; font-weight:700;">तारीख:
+        <input type="date" id="att-date" class="filter-control" onchange="loadAttendanceForClass()">
+      </label>
+      <label style="font-size:12px; font-weight:700;">कक्षा:
+        <select id="att-class" class="filter-control" onchange="loadAttendanceForClass()">
+          <option value="8th">Class 8th</option>
+          <option value="6">Class 6</option>
+          <option value="Class 10-A">Class 10-A</option>
+          <option value="PP.4+">PP.4+</option>
+          <option value="1st">1st</option>
+        </select>
+      </label>
+      <label style="font-size:12px; font-weight:700;">सेक्शन:
+        <select id="att-sec" class="filter-control" onchange="loadAttendanceForClass()">
+          <option value="A">Section A</option>
+          <option value="B">Section B</option>
+        </select>
+      </label>
+      <button class="btn-action-pill btn-act-green" style="margin-left:auto;" onclick="markAllAttendance('Present')">✅ सभी उपस्थित (All Present)</button>
+      <button class="btn-action-pill btn-act-red" onclick="markAllAttendance('Absent')">❌ सभी अनुपस्थित (All Absent)</button>
+    </div>
+
+    <!-- Summary Badges -->
+    <div class="summary-badges-bar">
+      <span class="sum-badge" style="background:#16a34a;">✅ उपस्थित (Present): <span id="att-count-p">0</span></span>
+      <span class="sum-badge" style="background:#dc2626;">❌ अनुपस्थित (Absent): <span id="att-count-a">0</span></span>
+      <span class="sum-badge" style="background:#f59e0b;">⚠️ छुट्टी (Leave): <span id="att-count-l">0</span></span>
+      <span class="sum-badge" style="background:#1e40af;">📊 उपस्थिति दर: <span id="att-percent">100%</span></span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>SR.</th>
+            <th>ROLL NO</th>
+            <th>SCHOLAR NO</th>
+            <th>छात्र का नाम (STUDENT NAME)</th>
+            <th>पिता का नाम</th>
+            <th>उपस्थिति स्थिति (P / A / L)</th>
+          </tr>
+        </thead>
+        <tbody id="att-tbody"></tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:16px; text-align:center;">
+      <button class="btn-action-pill btn-act-green" style="padding:12px 32px; font-size:15px;" onclick="saveAttendanceBulk()">
+        💾 उपस्थिति सुरक्षित सेव करें (Save Attendance)
+      </button>
+      <p id="att-save-msg" style="margin-top:8px; font-weight:700; font-size:13px;"></p>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: STUDENTS DIRECTORY (`students.php`) -->
   <div id="screen-students" class="directory-container hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
@@ -263,10 +339,9 @@
     <div class="action-bar-flex">
       <button class="btn-action-pill btn-act-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
       <button class="btn-action-pill btn-act-blue" onclick="showScreen('id-cards')">🪪 छात्र ID कार्ड</button>
-      <button class="btn-action-pill btn-act-purple" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन पर जाएं</button>
+      <button class="btn-action-pill btn-act-purple" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन</button>
     </div>
 
-    <!-- Filter Bar -->
     <div class="filter-panel">
       <select class="filter-control" id="filter-class" onchange="filterStudentsTable()">
         <option value="">-- सभी कक्षाएं --</option>
@@ -274,7 +349,6 @@
         <option value="8th">Class 8th</option>
         <option value="Class 10-A">Class 10-A</option>
         <option value="PP.4+">PP.4+</option>
-        <option value="PP.5+">PP.5+</option>
         <option value="1st">1st</option>
       </select>
       <select class="filter-control" id="filter-sec" onchange="filterStudentsTable()">
@@ -291,7 +365,6 @@
       </label>
     </div>
 
-    <!-- Summary Badges -->
     <div class="summary-badges-bar">
       <span class="sum-badge" style="background:#0284c7;">👦 लड़के: <span id="b-boys-val">0</span></span>
       <span class="sum-badge" style="background:#db2777;">👧 लड़कियां: <span id="b-girls-val">0</span></span>
@@ -331,17 +404,13 @@
     </div>
   </div>
 
-  <!-- SCREEN 4: 10-SECTION ADMISSION FORM (`add_student.php`) -->
+  <!-- SCREEN 5: ADMISSION FORM (`add_student.php`) -->
   <div id="screen-admission" class="form-sheet-container hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <button class="btn-action-pill btn-act-orange" onclick="showScreen('students')">⬅ वापस (छात्र सूची)</button>
       <div style="font-weight:700; color:#78350f;">शैक्षिक सत्र: 2026-27 | छात्र प्रवेश फॉर्म</div>
     </div>
-
-    <div class="form-sheet-header">
-      <h2>⭐ छात्र प्रवेश फॉर्म (New Admission) ⭐</h2>
-    </div>
-
+    <div class="form-sheet-header"><h2>⭐ छात्र प्रवेश फॉर्म (New Admission) ⭐</h2></div>
     <div class="sec-card">
       <div class="sec-title">1. प्रवेश विवरण</div>
       <div class="f-grid-3">
@@ -350,202 +419,95 @@
         <div class="f-field"><label>प्रवेश तिथि (Admission Date) *</label><input type="date" id="form-adm-date" class="f-input" value="2026-10-10"></div>
       </div>
     </div>
-
     <div class="sec-card">
       <div class="sec-title">2. छात्र का व्यक्तिगत विवरण</div>
       <div class="f-grid-3">
-        <div class="f-field"><label>पहला नाम (First Name) *</label><input type="text" id="form-fname" class="f-input" placeholder="First Name"></div>
-        <div class="f-field"><label>मध्य नाम (Middle Name)</label><input type="text" id="form-mname" class="f-input" placeholder="Middle Name"></div>
-        <div class="f-field"><label>अंतिम नाम (Last Name)</label><input type="text" id="form-lname" class="f-input" placeholder="Last Name"></div>
+        <div class="f-field"><label>पहला नाम *</label><input type="text" id="form-fname" class="f-input" placeholder="First Name"></div>
+        <div class="f-field"><label>मध्य नाम</label><input type="text" id="form-mname" class="f-input" placeholder="Middle Name"></div>
+        <div class="f-field"><label>अंतिम नाम</label><input type="text" id="form-lname" class="f-input" placeholder="Last Name"></div>
       </div>
       <div class="f-grid-3">
         <div class="f-field">
-          <label>कक्षा चुनें (Class) *</label>
+          <label>कक्षा चुनें *</label>
           <select id="form-class" class="f-input">
             <option value="6">6</option>
             <option value="8th">8th</option>
             <option value="Class 10-A">Class 10-A</option>
             <option value="PP.4+">PP.4+</option>
-            <option value="PP.5+">PP.5+</option>
             <option value="1st">1st</option>
           </select>
         </div>
-        <div class="f-field"><label>सेक्शन (Section)</label><select id="form-sec" class="f-input"><option value="A">Section A</option><option value="B">Section B</option></select></div>
-        <div class="f-field"><label>लिंग (Gender) *</label><select id="form-gender" class="f-input"><option value="Male">Male</option><option value="Female">Female</option></select></div>
+        <div class="f-field"><label>सेक्शन</label><select id="form-sec" class="f-input"><option value="A">Section A</option><option value="B">Section B</option></select></div>
+        <div class="f-field"><label>लिंग *</label><select id="form-gender" class="f-input"><option value="Male">Male</option><option value="Female">Female</option></select></div>
       </div>
       <div class="f-grid-3">
-        <div class="f-field"><label>जन्मतिथि (DOB) *</label><input type="date" id="form-dob" class="f-input" value="2012-01-01"></div>
-        <div class="f-field"><label>धर्म</label><select id="form-religion" class="f-input"><option value="हिन्दू">हिन्दू</option><option value="मुस्लिम">मुस्लिम</option><option value="जैन">जैन</option></select></div>
+        <div class="f-field"><label>जन्मतिथि *</label><input type="date" id="form-dob" class="f-input" value="2012-01-01"></div>
+        <div class="f-field"><label>धर्म</label><select id="form-religion" class="f-input"><option value="हिन्दू">हिन्दू</option><option value="मुस्लिम">मुस्लिम</option></select></div>
         <div class="f-field"><label>श्रेणी</label><select id="form-category" class="f-input"><option value="GEN">GEN</option><option value="OBC">OBC</option><option value="SC">SC</option><option value="ST">ST</option></select></div>
       </div>
     </div>
-
     <div class="sec-card">
-      <div class="sec-title">3. पहचान पत्र विवरण</div>
-      <div class="f-grid-2">
-        <div class="f-field"><label>आधार नंबर</label><input type="text" id="form-aadhaar" class="f-input" placeholder="12 अंकों का आधार"></div>
-        <div class="f-field"><label>जन आधार नंबर</label><input type="text" id="form-janaadhaar" class="f-input" placeholder="जन आधार"></div>
-      </div>
-      <div class="f-grid-2">
-        <div class="f-field"><label>PEN No.</label><input type="text" id="form-pen" class="f-input" placeholder="PEN"></div>
-        <div class="f-field"><label>NIC ID</label><input type="text" id="form-nic" class="f-input" placeholder="NIC ID"></div>
-      </div>
-    </div>
-
-    <div class="sec-card">
-      <div class="sec-title">4. माता-पिता / अभिभावक का विवरण</div>
+      <div class="sec-title">3. पहचान व अभिभावक</div>
       <div class="f-grid-3">
         <div class="f-field"><label>पिता का नाम *</label><input type="text" id="form-father" class="f-input" placeholder="पिता का नाम"></div>
         <div class="f-field"><label>माता का नाम *</label><input type="text" id="form-mother" class="f-input" placeholder="माता का नाम"></div>
         <div class="f-field"><label>मोबाइल नंबर *</label><input type="number" id="form-mobile" class="f-input" placeholder="10 अंक"></div>
       </div>
-    </div>
-
-    <div class="sec-card">
-      <div class="sec-title">5. पते का विवरण</div>
       <div class="f-grid-2">
-        <div class="f-field"><label>पता लाइन</label><input type="text" id="form-address" class="f-input" value="सिंहपुर, चित्तौड़गढ़"></div>
-        <div class="f-field"><label>पिनकोड</label><input type="text" id="form-pincode" class="f-input" value="312207"></div>
+        <div class="f-field"><label>निवास का पता</label><input type="text" id="form-address" class="f-input" value="सिंहपुर, चित्तौड़गढ़"></div>
+        <div class="f-field"><label>वार्षिक फ़ीस (₹) *</label><input type="number" id="form-total-fees" class="f-input" value="20000"></div>
       </div>
     </div>
-
-    <div class="sec-card">
-      <div class="sec-title">6. विशेष श्रेणी व सुविधाएं</div>
-      <div class="f-grid-2">
-        <div class="f-field"><label>क्या यह RTE छात्र है?</label><select id="form-rte" class="f-input"><option value="NO">नहीं</option><option value="YES">हाँ</option></select></div>
-        <div class="f-field"><label>परिवहन / बस सुविधा?</label><select id="form-bus" class="f-input"><option value="NO">नहीं</option><option value="YES">हाँ</option></select></div>
-      </div>
-    </div>
-
-    <div class="sec-card">
-      <div class="sec-title">7. किश्त योजना एवं शुल्क विवरण</div>
-      <div class="f-grid-2">
-        <div class="f-field">
-          <label>किश्त योजना</label>
-          <select id="form-installment" class="f-input">
-            <option value="Full Payment">कोई किश्त नहीं (Full Payment)</option>
-            <option value="2 Installments">2 किश्तें</option>
-            <option value="4 Installments">4 किश्तें</option>
-          </select>
-        </div>
-        <div class="f-field"><label>कुल वार्षिक फ़ीस (₹) *</label><input type="number" id="form-total-fees" class="f-input" value="20000" onkeyup="updateFeeDisplay()"></div>
-      </div>
-      <div class="fee-highlight-box">
-        <div style="font-size:12px; color:#92400e; font-weight:700;">कुल देय फ़ीस:</div>
-        <h3 id="display-fee-val">₹ 20,000.00</h3>
-      </div>
-    </div>
-
-    <div class="sec-card">
-      <div class="sec-title">8. घोषणा (Declaration)</div>
-      <p style="font-size:12px; color:#64748b; margin-bottom:14px;">मैं प्रमाणित करता/करती हूँ कि ऊपर दी गई सभी जानकारी सत्य है।</p>
-      <button class="btn-action-pill btn-act-green" style="width:100%; padding:14px; font-size:16px;" onclick="submitCompleteAdmission()">
-        💾 रिकॉर्ड सेव करें (Save Record)
-      </button>
-      <p id="adm-msg" style="text-align:center; font-size:13px; font-weight:700; margin-top:8px;"></p>
-    </div>
+    <button class="btn-action-pill btn-act-green" style="width:100%; padding:14px; font-size:16px;" onclick="submitCompleteAdmission()">💾 रिकॉर्ड सेव करें</button>
+    <p id="adm-msg" style="text-align:center; font-size:13px; font-weight:700; margin-top:8px;"></p>
   </div>
 
-  <!-- SCREEN 5: ID CARD GENERATOR (`generate_all_id_cards.php`) -->
+  <!-- SCREEN 6: ID CARD GENERATOR (`generate_all_id_cards.php`) -->
   <div id="screen-id-cards" class="id-card-generator-wrapper hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('students')">⬅ वापस (छात्र सूची)</button>
-      <h3 style="color:#7f1d1d;">🪪 ID कार्ड प्रबंधन (Advance Control)</h3>
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('students')">⬅ वापस</button>
+      <h3 style="color:#7f1d1d;">🪪 ID कार्ड प्रबंधन</h3>
     </div>
-
     <div class="filter-panel">
       <select class="filter-control" id="id-filter-class" onchange="renderIdCardStudentsList()">
         <option value="">-- कक्षा चुनें --</option>
         <option value="6">Class 6</option>
         <option value="8th">Class 8th</option>
         <option value="Class 10-A">Class 10-A</option>
-        <option value="PP.4+">PP.4+</option>
-        <option value="1st">1st</option>
       </select>
-      <select class="filter-control" id="id-filter-sec" onchange="renderIdCardStudentsList()">
-        <option value="">-- सेक्शन चुनें --</option>
-        <option value="A">Section A</option>
-        <option value="B">Section B</option>
-      </select>
-      <button class="btn-action-pill btn-act-blue" onclick="generateSelectedIdCard()">🪪 चुने गए छात्र का ID कार्ड देखें / प्रिंट</button>
+      <button class="btn-action-pill btn-act-blue" onclick="generateSelectedIdCard()">🪪 ID कार्ड देखें / प्रिंट</button>
     </div>
-
     <div class="table-responsive">
       <table class="custom-table">
-        <thead>
-          <tr>
-            <th>चुनें</th>
-            <th>विद्यार्थी नाम</th>
-            <th>स्कॉलर नं</th>
-            <th>रोल नं</th>
-            <th>कक्षा</th>
-            <th>पिता का नाम</th>
-            <th>मोबाइल</th>
-          </tr>
-        </thead>
+        <thead><tr><th>चुनें</th><th>विद्यार्थी नाम</th><th>स्कॉलर नं</th><th>रोल नं</th><th>कक्षा</th></tr></thead>
         <tbody id="id-students-tbody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- SCREEN 6: EMPLOYEE MANAGEMENT (`employee_management.php`) -->
+  <!-- SCREEN 7: EMPLOYEE DIRECTORY (`employee_management.php`) -->
   <div id="screen-employees" class="directory-container hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
       <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | कर्मचारी प्रबंधन</div>
     </div>
-
-    <div class="tip-box">
-      ✏️ टिप: कर्मचारी के पद, मोबाइल, सैलरी पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें! फोटो के लिए <strong>📷</strong> दबाएं!
-    </div>
-
-    <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">👥 सभी कर्मचारियों की सूची (Staff Directory) 👥</h2>
-
+    <div class="tip-box">✏️ टिप: पद, मोबाइल, सैलरी पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें!</div>
+    <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">👥 सभी कर्मचारियों की सूची (Staff) 👥</h2>
     <div class="action-bar-flex">
       <button class="btn-action-pill btn-act-green" onclick="showScreen('add-employee')">➕ नया कर्मचारी जोड़ें</button>
       <button class="btn-action-pill btn-act-blue" onclick="generateStaffIdCard()">🪪 स्टाफ ID कार्ड</button>
-      <button class="btn-action-pill btn-act-purple" onclick="showScreen('students')">🎓 छात्र पोर्टल पर जाएं</button>
+      <button class="btn-action-pill btn-act-purple" onclick="showScreen('students')">🎓 छात्र पोर्टल</button>
     </div>
-
-    <!-- Filter Bar -->
-    <div class="filter-panel">
-      <select class="filter-control" id="filter-emp-dept" onchange="filterEmployeesTable()">
-        <option value="">-- सभी विभाग (Department) --</option>
-        <option value="Teaching">शिक्षण (Teaching Staff)</option>
-        <option value="Non-Teaching">गैर-शिक्षण (Non-Teaching Staff)</option>
-      </select>
-      <select class="filter-control" id="filter-emp-status" onchange="filterEmployeesTable()">
-        <option value="Active">सक्रिय (Active)</option>
-        <option value="all">सभी</option>
-      </select>
-    </div>
-
-    <!-- Summary Badges -->
     <div class="summary-badges-bar">
-      <span class="sum-badge" style="background:#6d28d9;">📚 शिक्षण स्टाफ: <span id="b-emp-teach">0</span></span>
-      <span class="sum-badge" style="background:#0284c7;">💼 गैर-शिक्षण स्टाफ: <span id="b-emp-nonteach">0</span></span>
-      <span class="sum-badge" style="background:#7c2d12;">👥 कुल कर्मचारी: <span id="b-emp-tot">0</span></span>
+      <span class="sum-badge" style="background:#6d28d9;">📚 शिक्षण: <span id="b-emp-teach">0</span></span>
+      <span class="sum-badge" style="background:#0284c7;">💼 गैर-शिक्षण: <span id="b-emp-nonteach">0</span></span>
+      <span class="sum-badge" style="background:#7c2d12;">👥 कुल: <span id="b-emp-tot">0</span></span>
     </div>
-
-    <input type="text" id="emp-search-input" class="search-input-big" placeholder="🔍 नाम, पद, कर्मचारी कोड या मोबाइल से खोजें..." onkeyup="filterEmployeesTable()">
-
     <div class="table-responsive">
       <table class="custom-table">
         <thead>
           <tr>
-            <th>SR.</th>
-            <th>PHOTO</th>
-            <th>EMP CODE</th>
-            <th>नाम (NAME)</th>
-            <th>पद (DESIGNATION)</th>
-            <th>विभाग (DEPARTMENT)</th>
-            <th>मोबाइल नंबर</th>
-            <th>ईमेल</th>
-            <th>सैलरी (MONTHLY ₹)</th>
-            <th>ज्वाइनिंग तिथि</th>
-            <th>योग्यता</th>
-            <th>स्थिति</th>
-            <th>ACTION</th>
+            <th>SR.</th><th>PHOTO</th><th>EMP CODE</th><th>नाम</th><th>पद</th><th>विभाग</th><th>मोबाइल</th><th>ईमेल</th><th>सैलरी (₹)</th><th>स्थिति</th><th>ACTION</th>
           </tr>
         </thead>
         <tbody id="emp-tbody"></tbody>
@@ -553,56 +515,30 @@
     </div>
   </div>
 
-  <!-- SCREEN 7: ADD EMPLOYEE FORM -->
+  <!-- SCREEN 8: ADD EMPLOYEE -->
   <div id="screen-add-employee" class="form-sheet-container hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('employees')">⬅ वापस (कर्मचारी सूची)</button>
-      <div style="font-weight:700; color:#78350f;">सत्र: 2026-27 | नया स्टाफ पंजीकरण</div>
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('employees')">⬅ वापस</button>
+      <div style="font-weight:700; color:#78350f;">नया स्टाफ पंजीकरण</div>
     </div>
-
-    <div class="form-sheet-header">
-      <h2>⭐ नया कर्मचारी जोड़ें (New Staff Registration) ⭐</h2>
-    </div>
-
+    <div class="form-sheet-header"><h2>⭐ नया कर्मचारी जोड़ें ⭐</h2></div>
     <div class="sec-card">
-      <div class="sec-title">1. पद व सेवा विवरण</div>
       <div class="f-grid-3">
-        <div class="f-field"><label>कर्मचारी कोड (Emp Code) *</label><input type="text" id="add-emp-code" class="f-input" value="EMP-104"></div>
-        <div class="f-field">
-          <label>विभाग (Department) *</label>
-          <select id="add-emp-dept" class="f-input">
-            <option value="Teaching">शिक्षण (Teaching)</option>
-            <option value="Non-Teaching">गैर-शिक्षण (Non-Teaching)</option>
-          </select>
-        </div>
-        <div class="f-field"><label>पद (Designation) *</label><input type="text" id="add-emp-desig" class="f-input" placeholder="उदा. TGT Maths, Clerk"></div>
+        <div class="f-field"><label>कर्मचारी कोड *</label><input type="text" id="add-emp-code" class="f-input" value="EMP-104"></div>
+        <div class="f-field"><label>विभाग *</label><select id="add-emp-dept" class="f-input"><option value="Teaching">Teaching</option><option value="Non-Teaching">Non-Teaching</option></select></div>
+        <div class="f-field"><label>पद *</label><input type="text" id="add-emp-desig" class="f-input" placeholder="TGT Maths"></div>
+      </div>
+      <div class="f-grid-3">
+        <div class="f-field"><label>पूरा नाम *</label><input type="text" id="add-emp-name" class="f-input"></div>
+        <div class="f-field"><label>मोबाइल नंबर *</label><input type="number" id="add-emp-mobile" class="f-input"></div>
+        <div class="f-field"><label>सैलरी (₹) *</label><input type="number" id="add-emp-salary" class="f-input" value="25000"></div>
       </div>
     </div>
-
-    <div class="sec-card">
-      <div class="sec-title">2. व्यक्तिगत व संपर्क विवरण</div>
-      <div class="f-grid-3">
-        <div class="f-field"><label>पूरा नाम (Full Name) *</label><input type="text" id="add-emp-name" class="f-input" placeholder="पूरा नाम दर्ज करें"></div>
-        <div class="f-field"><label>मोबाइल नंबर *</label><input type="number" id="add-emp-mobile" class="f-input" placeholder="10 अंकों का मोबाइल"></div>
-        <div class="f-field"><label>ईमेल आईडी</label><input type="email" id="add-emp-email" class="f-input" placeholder="staff@school.com"></div>
-      </div>
-      <div class="f-grid-3">
-        <div class="f-field"><label>मासिक वेतन (Salary ₹) *</label><input type="number" id="add-emp-salary" class="f-input" value="25000"></div>
-        <div class="f-field"><label>ज्वाइनिंग तिथि *</label><input type="date" id="add-emp-join" class="f-input" value="2026-07-01"></div>
-        <div class="f-field"><label>शैक्षणिक योग्यता</label><input type="text" id="add-emp-qual" class="f-input" placeholder="B.Ed, MA, M.Sc"></div>
-      </div>
-      <div class="f-grid-2">
-        <div class="f-field"><label>निवास का पता</label><input type="text" id="add-emp-addr" class="f-input" value="सिंहपुर, चित्तौड़गढ़"></div>
-      </div>
-    </div>
-
-    <button class="btn-action-pill btn-act-green" style="width:100%; padding:14px; font-size:16px;" onclick="submitNewEmployee()">
-      💾 कर्मचारी रिकॉर्ड सेव करें (Save Staff)
-    </button>
+    <button class="btn-action-pill btn-act-green" style="width:100%; padding:14px; font-size:16px;" onclick="submitNewEmployee()">💾 कर्मचारी रिकॉर्ड सेव करें</button>
     <p id="emp-add-msg" style="text-align:center; font-size:13px; font-weight:700; margin-top:8px;"></p>
   </div>
 
-  <!-- UNIVERSAL ID CARD PREVIEW MODAL (STUDENT & STAFF) -->
+  <!-- UNIVERSAL ID CARD PREVIEW MODAL -->
   <div id="id-preview-modal" class="modal-overlay hidden">
     <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:440px; width:100%;">
       <h3 style="margin-bottom:12px; color:#1e40af; font-size:16px;">Identity Card Preview</h3>
@@ -619,7 +555,7 @@
               <strong>स्कॉलर/कोड:</strong> <span id="idc-scholar">759</span><br>
               <strong>पिता/पद:</strong> <span id="idc-father">SH. DEVILAL</span><br>
               <strong>कक्षा/विभाग:</strong> <span id="idc-class">8th - A</span><br>
-              <strong>रोल नं/टाइप:</strong> <span id="idc-roll">101</span><br>
+              <strong>रोल नं:</strong> <span id="idc-roll">101</span><br>
               <strong>मो:</strong> <span id="idc-mobile">9876543210</span><br>
               <strong>पता:</strong> <span id="idc-addr">Singhpur</span>
             </div>
@@ -633,28 +569,16 @@
     </div>
   </div>
 
-  <!-- HIDDEN FILE INPUT -->
   <input type="file" id="global-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
-
-  <!-- SECURITY ALERT MODAL -->
-  <div id="class-alert-modal" class="modal-overlay hidden">
-    <div class="alert-modal-box">
-      <div style="font-size:36px; margin-bottom:10px;">⚠️</div>
-      <h3 style="color:#991b1b; font-size:18px; margin-bottom:8px;">आवश्यक सूचना</h3>
-      <p style="font-size:13px; color:#475569; line-height:1.5;">
-        सुरक्षा और स्पीड के लिए: कृपया पहले ऊपर से किसी एक <strong>"Class"</strong> को चुनें, उसके बाद ही टेबल एडिट करें!
-      </p>
-      <button class="btn-action-pill btn-act-orange" style="margin-top:18px; padding:8px 24px;" onclick="closeClassAlert()">ठीक है (OK)</button>
-    </div>
-  </div>
 
   <script>
     let students = [];
     let employees = [];
+    let currentAttendanceMap = {}; // { student_id: 'Present' | 'Absent' | 'Leave' }
     let photoUploadContext = { targetType: null, id: null };
 
     function showScreen(screenId) {
-      ['login', 'admin-login', 'dashboard', 'students', 'admission', 'id-cards', 'employees', 'add-employee'].forEach(s => {
+      ['login', 'admin-login', 'dashboard', 'students', 'admission', 'id-cards', 'employees', 'add-employee', 'attendance'].forEach(s => {
         const el = document.getElementById(`screen-${s}`);
         if (el) el.classList.add('hidden');
       });
@@ -663,26 +587,162 @@
 
       if (screenId === 'students' || screenId === 'dashboard') loadStudents();
       if (screenId === 'employees' || screenId === 'dashboard') loadEmployees();
+      if (screenId === 'attendance') {
+        const todayStr = new Date().toISOString().split('T')[0];
+        document.getElementById('att-date').value = todayStr;
+        loadAttendanceForClass();
+      }
       if (screenId === 'id-cards') renderIdCardStudentsList();
     }
 
-    /* STUDENTS DATA */
+    /* ================= ATTENDANCE MODULE ================= */
+    async function loadAttendanceForClass() {
+      const dateVal = document.getElementById('att-date').value;
+      const classVal = document.getElementById('att-class').value;
+      const secVal = document.getElementById('att-sec').value;
+
+      // इस क्लास के छात्र फ़िल्टर करें
+      const classStudents = students.filter(s => (s.class_name || '8th') === classVal && (s.section || 'A') === secVal);
+
+      // डेटाबेस से आज की उपस्थिति मंगवाएं
+      try {
+        const res = await fetch(`/api/attendance?date=${dateVal}&class_name=${encodeURIComponent(classVal)}&section=${secVal}`);
+        const savedList = await res.json();
+        const savedMap = {};
+        savedList.forEach(item => { savedMap[item.student_id] = item.status; });
+
+        currentAttendanceMap = {};
+        classStudents.forEach(s => {
+          // अगर पहले से सेव है तो वो रखें, वर्ना डिफ़ॉल्ट 'Present'
+          currentAttendanceMap[s.id] = savedMap[s.id] || 'Present';
+        });
+
+        renderAttendanceTable(classStudents);
+        calculateAttendanceStats(classStudents);
+      } catch (err) {
+        console.error("Attendance Fetch Error:", err);
+      }
+    }
+
+    function renderAttendanceTable(list) {
+      const tbody = document.getElementById('att-tbody');
+      tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:18px;">इस कक्षा में कोई छात्र नहीं है।</td></tr>`;
+        return;
+      }
+
+      list.forEach((s, idx) => {
+        const currentStatus = currentAttendanceMap[s.id] || 'Present';
+        tbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td><strong>${s.roll_no}</strong></td>
+            <td>${s.scholar_no || '759'}</td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.father_name || 'श्री देविलाल जी'}</td>
+            <td>
+              <div class="att-btn-group">
+                <button class="att-opt-btn ${currentStatus === 'Present' ? 'active-p' : ''}" onclick="setStudentStatus(${s.id}, 'Present')">P (उपस्थित)</button>
+                <button class="att-opt-btn ${currentStatus === 'Absent' ? 'active-a' : ''}" onclick="setStudentStatus(${s.id}, 'Absent')">A (अनुपस्थित)</button>
+                <button class="att-opt-btn ${currentStatus === 'Leave' ? 'active-l' : ''}" onclick="setStudentStatus(${s.id}, 'Leave')">L (छुट्टी)</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function setStudentStatus(studentId, status) {
+      currentAttendanceMap[studentId] = status;
+      const classVal = document.getElementById('att-class').value;
+      const secVal = document.getElementById('att-sec').value;
+      const classStudents = students.filter(s => (s.class_name || '8th') === classVal && (s.section || 'A') === secVal);
+      renderAttendanceTable(classStudents);
+      calculateAttendanceStats(classStudents);
+    }
+
+    function markAllAttendance(status) {
+      const classVal = document.getElementById('att-class').value;
+      const secVal = document.getElementById('att-sec').value;
+      const classStudents = students.filter(s => (s.class_name || '8th') === classVal && (s.section || 'A') === secVal);
+      classStudents.forEach(s => { currentAttendanceMap[s.id] = status; });
+      renderAttendanceTable(classStudents);
+      calculateAttendanceStats(classStudents);
+    }
+
+    function calculateAttendanceStats(list) {
+      let p = 0, a = 0, l = 0;
+      list.forEach(s => {
+        const st = currentAttendanceMap[s.id] || 'Present';
+        if (st === 'Present') p++;
+        else if (st === 'Absent') a++;
+        else if (st === 'Leave') l++;
+      });
+      document.getElementById('att-count-p').innerText = p;
+      document.getElementById('att-count-a').innerText = a;
+      document.getElementById('att-count-l').innerText = l;
+
+      const total = list.length;
+      const pct = total > 0 ? Math.round((p / total) * 100) : 100;
+      document.getElementById('att-percent').innerText = `${pct}%`;
+    }
+
+    async function saveAttendanceBulk() {
+      const dateVal = document.getElementById('att-date').value;
+      const classVal = document.getElementById('att-class').value;
+      const secVal = document.getElementById('att-sec').value;
+      const msg = document.getElementById('att-save-msg');
+
+      const classStudents = students.filter(s => (s.class_name || '8th') === classVal && (s.section || 'A') === secVal);
+      if (classStudents.length === 0) {
+        msg.style.color = '#dc2626';
+        msg.innerText = 'सेव करने के लिए कोई छात्र मौजूद नहीं है!';
+        return;
+      }
+
+      const records = classStudents.map(s => ({
+        student_id: s.id,
+        class_name: classVal,
+        section: secVal,
+        status: currentAttendanceMap[s.id] || 'Present'
+      }));
+
+      try {
+        const res = await fetch('/api/attendance/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attendance_date: dateVal, records })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          msg.style.color = '#16a34a';
+          msg.innerText = data.message;
+        } else {
+          msg.style.color = '#dc2626';
+          msg.innerText = data.error;
+        }
+      } catch {
+        msg.style.color = '#dc2626';
+        msg.innerText = 'सर्वर त्रुटि!';
+      }
+    }
+
+    /* ================= STUDENTS MODULE ================= */
     async function loadStudents() {
       try {
         const res = await fetch('/api/students');
         students = await res.json();
         updateStudentCounts(students);
         renderStudentsTable(students);
-      } catch (e) {
-        console.error("Students Load Error:", e);
-      }
+      } catch (e) { console.error("Students Load Error:", e); }
     }
 
     function updateStudentCounts(list) {
       const tot = list.length;
       document.getElementById('d-tot-std').innerText = tot;
       document.getElementById('d-act-std').innerText = tot;
-
       let b = 0, g = 0;
       list.forEach(s => {
         if ((s.gender || 'Male').toLowerCase() === 'female') g++;
@@ -696,96 +756,39 @@
     function renderStudentsTable(list) {
       const tbody = document.getElementById('std-tbody');
       tbody.innerHTML = '';
-
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="20" style="text-align:center; padding:18px;">कोई छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="20" style="text-align:center; padding:18px;">कोई छात्र नहीं मिला।</td></tr>`;
         return;
       }
-
       list.forEach((s, idx) => {
-        const admNo = s.scholar_no || '759';
-        const photoHtml = s.photo_url 
-          ? `<img src="${s.photo_url}" class="avatar-thumbnail" />`
-          : `<div class="avatar-thumbnail">👤</div>`;
-
+        const photoHtml = s.photo_url ? `<img src="${s.photo_url}" class="avatar-thumbnail" />` : `<div class="avatar-thumbnail">👤</div>`;
         tbody.innerHTML += `
-          <tr id="row-std-${s.id}">
+          <tr>
             <td>${idx + 1}</td>
-            <td>
-              <div class="photo-cell-container">
-                ${photoHtml}
-                <button class="btn-photo-upload" title="फोटो अपलोड करें" onclick="triggerPhotoUpload('student', ${s.id})">📷</button>
-              </div>
-            </td>
-            <td class="editable-cell" title="डबल-क्लिक करके Scholar No बदलें" ondblclick="makeCellEditable(${s.id}, 'scholar_no', this)"><strong>${admNo}</strong></td>
+            <td><div class="photo-cell-container">${photoHtml}<button class="btn-photo-upload" onclick="triggerPhotoUpload('student', ${s.id})">📷</button></div></td>
+            <td><strong>${s.scholar_no || '759'}</strong></td>
             <td>${s.admission_date || '10/10/2026'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'name', this)">${s.name}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'roll_no', this)">${s.roll_no}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'class_name', this)">${s.class_name || '8th'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'section', this)">${s.section || 'A'}</td>
+            <td>${s.name}</td>
+            <td>${s.roll_no}</td>
+            <td>${s.class_name || '8th'}</td>
+            <td>${s.section || 'A'}</td>
             <td><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:700;">${s.status || 'Active'}</span></td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'gender', this)">${s.gender || 'Male'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'rte', this)">${s.rte || 'NO'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'father_name', this)">${s.father_name || 'श्री देविलाल जी'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mother_name', this)">${s.mother_name || 'श्रीमती सरिता देवी'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mobile_no', this)">${s.mobile_no || '9876543210'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'dob', this)">${s.dob || '01/01/2012'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'aadhaar_no', this)">${s.aadhaar_no || ''}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'jan_aadhaar_no', this)">${s.jan_aadhaar_no || ''}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'address', this)">${s.address || 'सिंहपुर'}</td>
+            <td>${s.gender || 'Male'}</td>
+            <td>${s.rte || 'NO'}</td>
+            <td>${s.father_name || 'श्री देविलाल जी'}</td>
+            <td>${s.mother_name || 'श्रीमती सरिता देवी'}</td>
+            <td>${s.mobile_no || '9876543210'}</td>
+            <td>${s.dob || '01/01/2012'}</td>
+            <td>${s.aadhaar_no || ''}</td>
+            <td>${s.jan_aadhaar_no || ''}</td>
+            <td>${s.address || 'सिंहपुर'}</td>
             <td>${s.documents || 'कोई नहीं'}</td>
             <td>
-              <button class="btn-table-action b-deact" onclick="toggleStudentStatus(${s.id})">Deactivate</button>
-              <button class="btn-table-action b-del" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
+              <button class="btn-table-action b-del" onclick="deleteStudent(${s.id})">🗑️ हटाएं</button>
             </td>
           </tr>
         `;
       });
-    }
-
-    function makeCellEditable(id, columnKey, cellElement) {
-      const selectedClass = document.getElementById('filter-class').value;
-      if (!selectedClass) {
-        document.getElementById('class-alert-modal').classList.remove('hidden');
-        return;
-      }
-
-      if (cellElement.querySelector('input')) return;
-
-      const originalVal = cellElement.innerText.trim();
-      cellElement.innerHTML = `<input type="text" class="cell-input" value="${originalVal}" />`;
-      const input = cellElement.querySelector('input');
-      input.focus();
-      input.select();
-
-      const saveHandler = async () => {
-        const newVal = input.value.trim();
-        if (newVal === originalVal) { cellElement.innerText = originalVal; return; }
-        cellElement.innerText = newVal;
-        const payload = {};
-        payload[columnKey] = newVal;
-        try {
-          const res = await fetch(`/api/students/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          if (!res.ok) { alert("अपडेट विफल!"); cellElement.innerText = originalVal; }
-        } catch {
-          alert("सर्वर कनेक्शन विफल!");
-          cellElement.innerText = originalVal;
-        }
-      };
-
-      input.addEventListener('blur', saveHandler, { once: true });
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') input.blur();
-        if (e.key === 'Escape') cellElement.innerText = originalVal;
-      });
-    }
-
-    function closeClassAlert() {
-      document.getElementById('class-alert-modal').classList.add('hidden');
     }
 
     function filterStudentsTable() {
@@ -794,13 +797,8 @@
       const sec = document.getElementById('filter-sec').value;
       const stat = document.getElementById('filter-status').value;
       const rteOnly = document.getElementById('rte-toggle').checked;
-
       const filtered = students.filter(s => {
-        const matchesQ = (s.name || '').toLowerCase().includes(q) ||
-                         (s.roll_no || '').toString().includes(q) ||
-                         (s.scholar_no || '').toString().includes(q) ||
-                         (s.father_name || '').toLowerCase().includes(q) ||
-                         (s.mobile_no || '').includes(q);
+        const matchesQ = (s.name || '').toLowerCase().includes(q) || (s.roll_no || '').toString().includes(q);
         const matchesCls = cls === '' || (s.class_name || '8th') === cls;
         const matchesSec = sec === '' || (s.section || 'A') === sec;
         const matchesStat = stat === 'all' || (s.status || 'Active') === stat;
@@ -808,11 +806,6 @@
         return matchesQ && matchesCls && matchesSec && matchesStat && matchesRte;
       });
       renderStudentsTable(filtered);
-    }
-
-    function updateFeeDisplay() {
-      const val = document.getElementById('form-total-fees').value || 0;
-      document.getElementById('display-fee-val').innerText = `₹ ${Number(val).toLocaleString('en-IN')}.00`;
     }
 
     async function submitCompleteAdmission() {
@@ -829,23 +822,16 @@
       const dob = document.getElementById('form-dob').value;
       const religion = document.getElementById('form-religion').value;
       const category = document.getElementById('form-category').value;
-      const aadhaar_no = document.getElementById('form-aadhaar').value.trim();
-      const jan_aadhaar_no = document.getElementById('form-janaadhaar').value.trim();
-      const pen_no = document.getElementById('form-pen').value.trim();
-      const nic_id = document.getElementById('form-nic').value.trim();
       const father_name = document.getElementById('form-father').value.trim();
       const mother_name = document.getElementById('form-mother').value.trim();
       const mobile_no = document.getElementById('form-mobile').value.trim();
       const address = document.getElementById('form-address').value.trim();
-      const rte = document.getElementById('form-rte').value;
-      const bus_facility = document.getElementById('form-bus').value;
-      const installment_plan = document.getElementById('form-installment').value;
       const total_fees = document.getElementById('form-total-fees').value;
       const msg = document.getElementById('adm-msg');
 
       if (!fname || !roll_no || !father_name || !mobile_no) {
         msg.style.color = '#dc2626';
-        msg.innerText = 'कृपया नाम, रोल नंबर, पिता का नाम और मोबाइल नंबर अवश्य भरें!';
+        msg.innerText = 'कृपया नाम, रोल नंबर, पिता का नाम और मोबाइल नंबर भरें!';
         return;
       }
 
@@ -853,118 +839,28 @@
         const res = await fetch('/api/students', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            scholar_no, roll_no, admission_date,
-            name: fullName, class_name, section, gender, dob, religion, category,
-            aadhaar_no, jan_aadhaar_no, pen_no, nic_id,
-            father_name, mother_name, mobile_no, address,
-            rte, bus_facility, installment_plan, total_fees
-          })
+          body: JSON.stringify({ scholar_no, roll_no, admission_date, name: fullName, class_name, section, gender, dob, religion, category, father_name, mother_name, mobile_no, address, total_fees })
         });
         const data = await res.json();
-        if (res.ok) {
-          msg.style.color = '#16a34a';
-          msg.innerText = data.message;
-          setTimeout(() => { showScreen('students'); }, 1200);
-        } else {
-          msg.style.color = '#dc2626';
-          msg.innerText = data.error;
-        }
-      } catch {
-        msg.style.color = '#dc2626';
-        msg.innerText = 'सर्वर त्रुटि!';
-      }
-    }
-
-    async function toggleStudentStatus(id) {
-      if (!confirm("क्या आप इस छात्र को सक्रिय/निष्क्रिय करना चाहते हैं?")) return;
-      const s = students.find(item => item.id === id);
-      const newStatus = (s.status || 'Active') === 'Active' ? 'Inactive' : 'Active';
-      await fetch(`/api/students/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
-      });
-      loadStudents();
+        if (res.ok) { msg.style.color = '#16a34a'; msg.innerText = data.message; setTimeout(() => { showScreen('students'); }, 1200); }
+        else { msg.style.color = '#dc2626'; msg.innerText = data.error; }
+      } catch { msg.style.color = '#dc2626'; msg.innerText = 'सर्वर त्रुटि!'; }
     }
 
     async function deleteStudent(id) {
-      if (!confirm("क्या आप सचमुच यह छात्र रिकॉर्ड हटाना चाहते हैं?")) return;
+      if (!confirm("क्या आप सचमुच छात्र हटाना चाहते हैं?")) return;
       const res = await fetch(`/api/students/${id}`, { method: 'DELETE' });
       if (res.ok) loadStudents();
     }
 
-    /* ID CARDS LOGIC */
-    function renderIdCardStudentsList() {
-      const cls = document.getElementById('id-filter-class').value;
-      const sec = document.getElementById('id-filter-sec').value;
-      const tbody = document.getElementById('id-students-tbody');
-      tbody.innerHTML = '';
-
-      const filtered = students.filter(s => {
-        const mCls = cls === '' || (s.class_name || '8th') === cls;
-        const mSec = sec === '' || (s.section || 'A') === sec;
-        return mCls && mSec;
-      });
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:14px;">इस क्लास में कोई छात्र नहीं मिला।</td></tr>`;
-        return;
-      }
-
-      filtered.forEach(s => {
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;"><input type="radio" name="sel_id_student" value="${s.id}"></td>
-            <td><strong>${s.name}</strong></td>
-            <td>${s.scholar_no || '759'}</td>
-            <td>${s.roll_no}</td>
-            <td>${s.class_name || '8th'} - ${s.section || 'A'}</td>
-            <td>${s.father_name || 'श्री देविलाल जी'}</td>
-            <td>${s.mobile_no || '9876543210'}</td>
-          </tr>
-        `;
-      });
-    }
-
-    function generateSelectedIdCard() {
-      const checked = document.querySelector('input[name="sel_id_student"]:checked');
-      if (!checked) { alert("कृपया तालिका से किसी एक छात्र को चुनें!"); return; }
-      const stud = students.find(s => s.id == checked.value);
-      if (!stud) return;
-
-      document.getElementById('idc-name').innerText = stud.name;
-      document.getElementById('idc-scholar').innerText = stud.scholar_no || '759';
-      document.getElementById('idc-father').innerText = stud.father_name || 'SH. DEVILAL';
-      document.getElementById('idc-class').innerText = `${stud.class_name || '8th'} - ${stud.section || 'A'}`;
-      document.getElementById('idc-roll').innerText = stud.roll_no;
-      document.getElementById('idc-mobile').innerText = stud.mobile_no || '9876543210';
-      document.getElementById('idc-addr').innerText = stud.address || 'Singhpur';
-
-      const photoBox = document.getElementById('idc-photo-box');
-      photoBox.innerHTML = stud.photo_url 
-        ? `<img src="${stud.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` 
-        : `👤`;
-
-      document.getElementById('id-preview-modal').classList.remove('hidden');
-    }
-
-    function closeIdPreview() {
-      document.getElementById('id-preview-modal').classList.add('hidden');
-    }
-
-    /* ==========================================
-       EMPLOYEES / STAFF LOGIC
-    ========================================== */
+    /* ================= EMPLOYEES MODULE ================= */
     async function loadEmployees() {
       try {
         const res = await fetch('/api/employees');
         employees = await res.json();
         updateEmployeeCounts(employees);
         renderEmployeesTable(employees);
-      } catch (e) {
-        console.error("Employees Load Error:", e);
-      }
+      } catch (e) { console.error("Employees Load Error:", e); }
     }
 
     function updateEmployeeCounts(list) {
@@ -985,103 +881,30 @@
     function renderEmployeesTable(list) {
       const tbody = document.getElementById('emp-tbody');
       tbody.innerHTML = '';
-
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="13" style="text-align:center; padding:18px;">कोई कर्मचारी रिकॉर्ड नहीं मिला।</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:18px;">कोई कर्मचारी नहीं मिला।</td></tr>`;
         return;
       }
-
       list.forEach((e, idx) => {
-        const photoHtml = e.photo_url 
-          ? `<img src="${e.photo_url}" class="avatar-thumbnail" />`
-          : `<div class="avatar-thumbnail">👨‍🏫</div>`;
-
+        const photoHtml = e.photo_url ? `<img src="${e.photo_url}" class="avatar-thumbnail" />` : `<div class="avatar-thumbnail">👨‍🏫</div>`;
         tbody.innerHTML += `
-          <tr id="row-emp-${e.id}">
+          <tr>
             <td>${idx + 1}</td>
-            <td>
-              <div class="photo-cell-container">
-                ${photoHtml}
-                <button class="btn-photo-upload" title="फोटो अपलोड करें" onclick="triggerPhotoUpload('employee', ${e.id})">📷</button>
-              </div>
-            </td>
+            <td><div class="photo-cell-container">${photoHtml}<button class="btn-photo-upload" onclick="triggerPhotoUpload('employee', ${e.id})">📷</button></div></td>
             <td><strong>${e.emp_code || 'EMP-101'}</strong></td>
-            <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'name', this)"><strong>${e.name}</strong></td>
-            <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'designation', this)">${e.designation || 'Teacher'}</td>
-            <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'department', this)">${e.department || 'Teaching'}</td>
-            <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'mobile_no', this)">${e.mobile_no || '9876543210'}</td>
-            <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'email', this)">${e.email || '-'}</td>
-            <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'salary', this)">₹${Number(e.salary || 25000).toLocaleString('en-IN')}</td>
-            <td>${e.joining_date || '01/07/2026'}</td>
-            <td class="editable-cell" ondblclick="makeEmpCellEditable(${e.id}, 'qualification', this)">${e.qualification || 'B.Ed'}</td>
+            <td><strong>${e.name}</strong></td>
+            <td>${e.designation || 'Teacher'}</td>
+            <td>${e.department || 'Teaching'}</td>
+            <td>${e.mobile_no || '9876543210'}</td>
+            <td>${e.email || '-'}</td>
+            <td>₹${Number(e.salary || 25000).toLocaleString('en-IN')}</td>
             <td><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:700;">${e.status || 'Active'}</span></td>
             <td>
               <button class="btn-table-action" style="background:#0284c7;" onclick="generateStaffIdCard(${e.id})">🪪 ID कार्ड</button>
-              <button class="btn-table-action b-deact" onclick="toggleEmpStatus(${e.id})">Deactivate</button>
-              <button class="btn-table-action b-del" onclick="deleteEmployee(${e.id})">🗑️ हटाएं</button>
             </td>
           </tr>
         `;
       });
-    }
-
-    function makeEmpCellEditable(id, columnKey, cellElement) {
-      if (cellElement.querySelector('input')) return;
-
-      let originalVal = cellElement.innerText.trim();
-      if (columnKey === 'salary') originalVal = originalVal.replace(/[^0-9]/g, '');
-
-      cellElement.innerHTML = `<input type="text" class="cell-input" value="${originalVal}" />`;
-      const input = cellElement.querySelector('input');
-      input.focus();
-      input.select();
-
-      const saveHandler = async () => {
-        const newVal = input.value.trim();
-        if (newVal === originalVal) { 
-          cellElement.innerText = (columnKey === 'salary') ? `₹${Number(originalVal).toLocaleString('en-IN')}` : originalVal; 
-          return; 
-        }
-
-        cellElement.innerText = (columnKey === 'salary') ? `₹${Number(newVal).toLocaleString('en-IN')}` : newVal;
-        const payload = {};
-        payload[columnKey] = (columnKey === 'salary') ? Number(newVal) : newVal;
-
-        try {
-          const res = await fetch(`/api/employees/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          if (!res.ok) { alert("अपडेट विफल!"); loadEmployees(); }
-        } catch {
-          alert("सर्वर कनेक्शन विफल!");
-          loadEmployees();
-        }
-      };
-
-      input.addEventListener('blur', saveHandler, { once: true });
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') input.blur();
-        if (e.key === 'Escape') loadEmployees();
-      });
-    }
-
-    function filterEmployeesTable() {
-      const q = document.getElementById('emp-search-input').value.toLowerCase().trim();
-      const dept = document.getElementById('filter-emp-dept').value;
-      const stat = document.getElementById('filter-emp-status').value;
-
-      const filtered = employees.filter(e => {
-        const matchesQ = (e.name || '').toLowerCase().includes(q) ||
-                         (e.emp_code || '').toLowerCase().includes(q) ||
-                         (e.designation || '').toLowerCase().includes(q) ||
-                         (e.mobile_no || '').includes(q);
-        const matchesDept = dept === '' || (e.department || '') === dept;
-        const matchesStat = stat === 'all' || (e.status || 'Active') === stat;
-        return matchesQ && matchesDept && matchesStat;
-      });
-      renderEmployeesTable(filtered);
     }
 
     async function submitNewEmployee() {
@@ -1090,16 +913,12 @@
       const designation = document.getElementById('add-emp-desig').value.trim();
       const name = document.getElementById('add-emp-name').value.trim();
       const mobile_no = document.getElementById('add-emp-mobile').value.trim();
-      const email = document.getElementById('add-emp-email').value.trim();
       const salary = document.getElementById('add-emp-salary').value;
-      const joining_date = document.getElementById('add-emp-join').value;
-      const qualification = document.getElementById('add-emp-qual').value.trim();
-      const address = document.getElementById('add-emp-addr').value.trim();
       const msg = document.getElementById('emp-add-msg');
 
       if (!name || !designation || !mobile_no) {
         msg.style.color = '#dc2626';
-        msg.innerText = 'कृपया नाम, पद और मोबाइल नंबर अवश्य भरें!';
+        msg.innerText = 'कृपया नाम, पद और मोबाइल भरें!';
         return;
       }
 
@@ -1107,51 +926,54 @@
         const res = await fetch('/api/employees', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            emp_code, department, designation, name,
-            mobile_no, email, salary, joining_date,
-            qualification, address
-          })
+          body: JSON.stringify({ emp_code, department, designation, name, mobile_no, salary })
         });
         const data = await res.json();
-        if (res.ok) {
-          msg.style.color = '#16a34a';
-          msg.innerText = data.message;
-          setTimeout(() => { showScreen('employees'); }, 1200);
-        } else {
-          msg.style.color = '#dc2626';
-          msg.innerText = data.error;
-        }
-      } catch {
-        msg.style.color = '#dc2626';
-        msg.innerText = 'सर्वर त्रुटि!';
-      }
+        if (res.ok) { msg.style.color = '#16a34a'; msg.innerText = data.message; setTimeout(() => { showScreen('employees'); }, 1200); }
+        else { msg.style.color = '#dc2626'; msg.innerText = data.error; }
+      } catch { msg.style.color = '#dc2626'; msg.innerText = 'सर्वर त्रुटि!'; }
     }
 
-    async function toggleEmpStatus(id) {
-      if (!confirm("क्या आप इस कर्मचारी को सक्रिय/निष्क्रिय करना चाहते हैं?")) return;
-      const emp = employees.find(item => item.id === id);
-      const newStatus = (emp.status || 'Active') === 'Active' ? 'Inactive' : 'Active';
-      await fetch(`/api/employees/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
+    /* ================= ID CARDS ================= */
+    function renderIdCardStudentsList() {
+      const cls = document.getElementById('id-filter-class').value;
+      const tbody = document.getElementById('id-students-tbody');
+      tbody.innerHTML = '';
+      const filtered = students.filter(s => cls === '' || (s.class_name || '8th') === cls);
+      filtered.forEach(s => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;"><input type="radio" name="sel_id_student" value="${s.id}"></td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.scholar_no || '759'}</td>
+            <td>${s.roll_no}</td>
+            <td>${s.class_name || '8th'}</td>
+          </tr>
+        `;
       });
-      loadEmployees();
     }
 
-    async function deleteEmployee(id) {
-      if (!confirm("क्या आप सचमुच यह कर्मचारी रिकॉर्ड हटाना चाहते हैं?")) return;
-      const res = await fetch(`/api/employees/${id}`, { method: 'DELETE' });
-      if (res.ok) loadEmployees();
+    function generateSelectedIdCard() {
+      const checked = document.querySelector('input[name="sel_id_student"]:checked');
+      if (!checked) { alert("कृपया छात्र चुनें!"); return; }
+      const stud = students.find(s => s.id == checked.value);
+      if (!stud) return;
+
+      document.getElementById('idc-name').innerText = stud.name;
+      document.getElementById('idc-scholar').innerText = stud.scholar_no || '759';
+      document.getElementById('idc-father').innerText = stud.father_name || 'SH. DEVILAL';
+      document.getElementById('idc-class').innerText = `${stud.class_name || '8th'} - ${stud.section || 'A'}`;
+      document.getElementById('idc-roll').innerText = stud.roll_no;
+      document.getElementById('idc-mobile').innerText = stud.mobile_no || '9876543210';
+      document.getElementById('idc-addr').innerText = stud.address || 'Singhpur';
+
+      const photoBox = document.getElementById('idc-photo-box');
+      photoBox.innerHTML = stud.photo_url ? `<img src="${stud.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` : `👤`;
+      document.getElementById('id-preview-modal').classList.remove('hidden');
     }
 
     function generateStaffIdCard(empId) {
-      if (!employees || employees.length === 0) {
-        alert("कोई कर्मचारी उपलब्ध नहीं है! पहले कम से कम एक कर्मचारी जोड़ें।");
-        return;
-      }
-
+      if (!employees || employees.length === 0) { alert("कोई कर्मचारी उपलब्ध नहीं है!"); return; }
       const emp = empId ? employees.find(e => e.id == empId) : employees[0];
       if (!emp) return;
 
@@ -1164,16 +986,13 @@
       document.getElementById('idc-addr').innerText = emp.address || 'Singhpur';
 
       const photoBox = document.getElementById('idc-photo-box');
-      if (photoBox) {
-        photoBox.innerHTML = emp.photo_url 
-          ? `<img src="${emp.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` 
-          : `👨‍🏫`;
-      }
-
+      photoBox.innerHTML = emp.photo_url ? `<img src="${emp.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` : `👨‍🏫`;
       document.getElementById('id-preview-modal').classList.remove('hidden');
     }
 
-    /* GLOBAL PHOTO UPLOAD HANDLER */
+    function closeIdPreview() { document.getElementById('id-preview-modal').classList.add('hidden'); }
+
+    /* ================= GLOBAL PHOTO UPLOAD ================= */
     function triggerPhotoUpload(targetType, id) {
       photoUploadContext = { targetType, id };
       document.getElementById('global-photo-input').click();
@@ -1182,14 +1001,10 @@
     function handlePhotoUpload(e) {
       const file = e.target.files[0];
       if (!file || !photoUploadContext.id) return;
-
       const reader = new FileReader();
       reader.onload = async function(event) {
         const base64Data = event.target.result;
-        const endpoint = photoUploadContext.targetType === 'student'
-          ? `/api/students/${photoUploadContext.id}`
-          : `/api/employees/${photoUploadContext.id}`;
-
+        const endpoint = photoUploadContext.targetType === 'student' ? `/api/students/${photoUploadContext.id}` : `/api/employees/${photoUploadContext.id}`;
         try {
           const res = await fetch(endpoint, {
             method: 'PUT',
@@ -1199,12 +1014,8 @@
           if (res.ok) {
             if (photoUploadContext.targetType === 'student') loadStudents();
             else loadEmployees();
-          } else {
-            alert("फोटो अपडेट विफल!");
           }
-        } catch {
-          alert("सर्वर कनेक्शन विफल!");
-        }
+        } catch { alert("अपलोड त्रुटि!"); }
       };
       reader.readAsDataURL(file);
       e.target.value = '';
