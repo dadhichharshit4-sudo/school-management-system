@@ -173,7 +173,7 @@ app.put('/api/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const allowedColumns = ['emp_code', 'name', 'designation', 'department', 'mobile_no', 'email', 'salary', 'joining_date', 'qualification', 'address', 'photo_url', 'status'];
+   const allowedColumns = ['emp_code', 'name', 'designation', 'department', 'gender', 'mobile_no', 'email', 'salary', 'joining_date', 'qualification', 'address', 'photo_url', 'status', 'class_teacher'];
     const fields = [];
     const values = [];
     let idx = 1;
