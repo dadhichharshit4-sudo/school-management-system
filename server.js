@@ -5,39 +5,27 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Body Parsers (Photo / Base64 के लिए 50mb लिमिट)
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// इनबिल्ट CORS हेडर्स
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
   next();
 });
 
-// Static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Supabase PostgreSQL Connection Pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: { rejectUnauthorized: false }
 });
 
 pool.connect((err, client, release) => {
-  if (err) {
-    console.error('Database connection error:', err.stack);
-  } else {
-    console.log('Connected to PostgreSQL Database successfully!');
-    release();
-  }
+  if (err) console.error('Database connection error:', err.stack);
+  else { console.log('Connected to PostgreSQL Database successfully!'); release(); }
 });
 
 /* ==========================================
@@ -59,14 +47,13 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 /* ==========================================
-   2. STUDENTS APIS (विद्यार्थी मॉड्यूल)
+   2. STUDENTS APIS
 ========================================== */
 app.get('/api/students', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM students ORDER BY id ASC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Fetch Students Error:', err);
     res.status(500).json({ error: 'डेटा लोड करने में त्रुटि!' });
   }
 });
@@ -81,9 +68,7 @@ app.post('/api/students', async (req, res) => {
       rte, bus_facility, installment_plan, total_fees, photo_url
     } = req.body;
 
-    if (!name || !roll_no) {
-      return res.status(400).json({ error: 'छात्र का नाम और रोल नंबर अनिवार्य हैं!' });
-    }
+    if (!name || !roll_no) return res.status(400).json({ error: 'छात्र का नाम और रोल नंबर अनिवार्य हैं!' });
 
     const query = `
       INSERT INTO students (
@@ -100,47 +85,19 @@ app.post('/api/students', async (req, res) => {
     `;
 
     const values = [
-      scholar_no || '759',
-      roll_no,
-      admission_date || '10/10/2026',
-      name,
-      class_name || '8th',
-      section || 'A',
-      gender || 'Male',
-      dob || '01/01/2012',
-      religion || 'हिन्दू',
-      category || 'GEN',
-      caste || '',
-      aadhaar_no || '',
-      jan_aadhaar_no || '',
-      pen_no || '',
-      nic_id || '',
-      father_name || 'श्री देविलाल जी',
-      mother_name || 'श्रीमती सरिता देवी',
-      mobile_no || '9876543210',
-      address || 'सिंहपुर',
-      rte || 'NO',
-      bus_facility || 'NO',
-      installment_plan || 'Full Payment',
-      Number(total_fees) || 20000,
-      photo_url || ''
+      scholar_no || '759', roll_no, admission_date || '10/10/2026',
+      name, class_name || '8th', section || 'A', gender || 'Male',
+      dob || '01/01/2012', religion || 'हिन्दू', category || 'GEN', caste || '',
+      aadhaar_no || '', jan_aadhaar_no || '', pen_no || '', nic_id || '',
+      father_name || 'श्री देविलाल जी', mother_name || 'श्रीमती सरिता देवी',
+      mobile_no || '9876543210', address || 'सिंहपुर',
+      rte || 'NO', bus_facility || 'NO', installment_plan || 'Full Payment',
+      Number(total_fees) || 20000, photo_url || ''
     ];
 
     const result = await pool.query(query, values);
-    const newStudent = result.rows[0];
-
-    try {
-      await pool.query(
-        'INSERT INTO fees (student_id, total_amount, paid_amount, status) VALUES ($1, $2, $3, $4)',
-        [newStudent.id, Number(total_fees) || 20000, 0, 'Pending']
-      );
-    } catch (feeErr) {
-      console.warn('Fee insert warning:', feeErr.message);
-    }
-
-    res.json({ message: 'छात्र प्रवेश रिकॉर्ड सफलतापूर्वक सुरक्षित हुआ!', student: newStudent });
+    res.json({ message: 'छात्र प्रवेश रिकॉर्ड सफलतापूर्वक सुरक्षित हुआ!', student: result.rows[0] });
   } catch (err) {
-    console.error('Admission Save Error:', err);
     res.status(500).json({ error: `डेटाबेस त्रुटि: ${err.message}` });
   }
 });
@@ -149,17 +106,14 @@ app.put('/api/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-
     const allowedColumns = [
       'scholar_no', 'photo_url', 'name', 'roll_no', 'class_name', 'section', 'gender',
       'father_name', 'mother_name', 'mobile_no', 'address',
       'dob', 'rte', 'aadhaar_no', 'jan_aadhaar_no', 'status', 'documents', 'total_fees'
     ];
-
     const fields = [];
     const values = [];
     let idx = 1;
-
     for (const key of Object.keys(updates)) {
       if (allowedColumns.includes(key)) {
         fields.push(`${key} = $${idx}`);
@@ -167,18 +121,12 @@ app.put('/api/students/:id', async (req, res) => {
         idx++;
       }
     }
-
-    if (fields.length === 0) {
-      return res.status(400).json({ error: 'अपडेट के लिए कोई मान्य फ़ील्ड नहीं मिली!' });
-    }
-
+    if (fields.length === 0) return res.status(400).json({ error: 'अपडेट के लिए मान्य फ़ील्ड नहीं मिली!' });
     values.push(id);
     const query = `UPDATE students SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`;
     const result = await pool.query(query, values);
-
     res.json({ message: 'सेल सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
   } catch (err) {
-    console.error('Inline Cell Update Error:', err);
     res.status(500).json({ error: 'अपडेट करने में त्रुटि!' });
   }
 });
@@ -186,67 +134,43 @@ app.put('/api/students/:id', async (req, res) => {
 app.delete('/api/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await pool.query('DELETE FROM fees WHERE student_id = $1', [id]);
     await pool.query('DELETE FROM students WHERE id = $1', [id]);
-    res.json({ message: 'छात्र रिकॉर्ड सफलतापूर्वक हटा दिया गया!' });
+    res.json({ message: 'छात्र रिकॉर्ड हटा दिया गया!' });
   } catch (err) {
-    console.error('Delete Student Error:', err);
-    res.status(500).json({ error: 'डिलीट करने में त्रुटि!' });
+    res.status(500).json({ error: 'डिलीट त्रुटि!' });
   }
 });
 
 /* ==========================================
-   3. EMPLOYEES / STAFF APIS (कर्मचारी मॉड्यूल)
+   3. EMPLOYEES APIS
 ========================================== */
 app.get('/api/employees', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM employees ORDER BY id ASC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Fetch Employees Error:', err);
     res.status(500).json({ error: 'कर्मचारी डेटा लोड करने में त्रुटि!' });
   }
 });
 
 app.post('/api/employees', async (req, res) => {
   try {
-    const {
-      emp_code, name, designation, department,
-      mobile_no, email, salary, joining_date,
-      qualification, address, photo_url
-    } = req.body;
-
-    if (!name) {
-      return res.status(400).json({ error: 'कर्मचारी का नाम अनिवार्य है!' });
-    }
+    const { emp_code, name, designation, department, mobile_no, email, salary, joining_date, qualification, address, photo_url } = req.body;
+    if (!name) return res.status(400).json({ error: 'कर्मचारी का नाम अनिवार्य है!' });
 
     const query = `
-      INSERT INTO employees (
-        emp_code, name, designation, department,
-        mobile_no, email, salary, joining_date,
-        qualification, address, photo_url, status
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'Active')
-      RETURNING *;
+      INSERT INTO employees (emp_code, name, designation, department, mobile_no, email, salary, joining_date, qualification, address, photo_url, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'Active') RETURNING *;
     `;
-
     const values = [
       emp_code || `EMP-${Math.floor(100 + Math.random() * 900)}`,
-      name,
-      designation || 'Teacher',
-      department || 'Teaching',
-      mobile_no || '9876543210',
-      email || '',
-      Number(salary) || 25000,
-      joining_date || '01/07/2026',
-      qualification || '',
-      address || 'सिंहपुर',
-      photo_url || ''
+      name, designation || 'Teacher', department || 'Teaching',
+      mobile_no || '9876543210', email || '', Number(salary) || 25000,
+      joining_date || '01/07/2026', qualification || '', address || 'सिंहपुर', photo_url || ''
     ];
-
     const result = await pool.query(query, values);
     res.json({ message: 'कर्मचारी रिकॉर्ड सुरक्षित हुआ!', employee: result.rows[0] });
   } catch (err) {
-    console.error('Save Employee Error:', err);
     res.status(500).json({ error: `कर्मचारी सेव करने में त्रुटि: ${err.message}` });
   }
 });
@@ -255,17 +179,10 @@ app.put('/api/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-
-    const allowedColumns = [
-      'emp_code', 'name', 'designation', 'department',
-      'mobile_no', 'email', 'salary', 'joining_date',
-      'qualification', 'address', 'photo_url', 'status'
-    ];
-
+    const allowedColumns = ['emp_code', 'name', 'designation', 'department', 'mobile_no', 'email', 'salary', 'joining_date', 'qualification', 'address', 'photo_url', 'status'];
     const fields = [];
     const values = [];
     let idx = 1;
-
     for (const key of Object.keys(updates)) {
       if (allowedColumns.includes(key)) {
         fields.push(`${key} = $${idx}`);
@@ -273,18 +190,12 @@ app.put('/api/employees/:id', async (req, res) => {
         idx++;
       }
     }
-
-    if (fields.length === 0) {
-      return res.status(400).json({ error: 'अपडेट के लिए मान्य फ़ील्ड नहीं मिली!' });
-    }
-
+    if (fields.length === 0) return res.status(400).json({ error: 'अपडेट के लिए मान्य फ़ील्ड नहीं मिली!' });
     values.push(id);
     const query = `UPDATE employees SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`;
     const result = await pool.query(query, values);
-
     res.json({ message: 'कर्मचारी डेटा अपडेट हुआ!', employee: result.rows[0] });
   } catch (err) {
-    console.error('Update Employee Error:', err);
     res.status(500).json({ error: 'अपडेट में त्रुटि!' });
   }
 });
@@ -293,42 +204,79 @@ app.delete('/api/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM employees WHERE id = $1', [id]);
-    res.json({ message: 'कर्मचारी रिकॉर्ड सफलतापूर्वक हटा दिया गया!' });
+    res.json({ message: 'कर्मचारी हटाया गया!' });
   } catch (err) {
-    console.error('Delete Employee Error:', err);
-    res.status(500).json({ error: 'डिलीट में त्रुटि!' });
+    res.status(500).json({ error: 'डिलीट त्रुटि!' });
   }
 });
 
 /* ==========================================
-   4. FEES & ATTENDANCE APIS
+   4. ATTENDANCE APIS (उपस्थिति प्रबंधन)
 ========================================== */
-app.get('/api/fees', async (req, res) => {
+
+// तारीख और क्लास के अनुसार उपस्थिति फेच करें (GET /api/attendance?date=...&class_name=...&section=...)
+app.get('/api/attendance', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM fees');
+    const { date, class_name, section } = req.query;
+    let query = `
+      SELECT a.*, s.name, s.roll_no, s.scholar_no 
+      FROM attendance a
+      JOIN students s ON a.student_id = s.id
+      WHERE 1=1
+    `;
+    const values = [];
+    let idx = 1;
+
+    if (date) { query += ` AND a.attendance_date = $${idx}`; values.push(date); idx++; }
+    if (class_name) { query += ` AND a.class_name = $${idx}`; values.push(class_name); idx++; }
+    if (section) { query += ` AND a.section = $${idx}`; values.push(section); idx++; }
+
+    const result = await pool.query(query, values);
     res.json(result.rows);
   } catch (err) {
-    res.json([]);
+    console.error('Fetch Attendance Error:', err);
+    res.status(500).json({ error: 'उपस्थिति लोड करने में त्रुटि!' });
   }
 });
 
-app.get('/api/attendance/report', async (req, res) => {
+// बल्क उपस्थिति सुरक्षित सेव करें (POST /api/attendance/bulk)
+app.post('/api/attendance/bulk', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM attendance');
-    res.json(result.rows);
+    const { attendance_date, records } = req.body;
+    if (!attendance_date || !records || records.length === 0) {
+      return res.status(400).json({ error: 'तारीख और उपस्थिति रिकॉर्ड अनिवार्य हैं!' });
+    }
+
+    for (const item of records) {
+      const query = `
+        INSERT INTO attendance (student_id, class_name, section, attendance_date, status)
+        VALUES ($1, $2, $3, $4, $5)
+        ON CONFLICT (student_id, attendance_date)
+        DO UPDATE SET status = EXCLUDED.status;
+      `;
+      await pool.query(query, [
+        item.student_id,
+        item.class_name || '8th',
+        item.section || 'A',
+        attendance_date,
+        item.status || 'Present'
+      ]);
+    }
+
+    res.json({ message: 'उपस्थिति सफलतापूर्वक सुरक्षित हुई!' });
   } catch (err) {
-    res.json([]);
+    console.error('Bulk Attendance Error:', err);
+    res.status(500).json({ error: `उपस्थिति सेव करने में त्रुटि: ${err.message}` });
   }
 });
 
 /* ==========================================
-   5. SPA ROUTING (Safe Handler)
+   5. SPA ROUTING
 ========================================== */
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start Server
 app.listen(PORT, () => {
   console.log(`Server is running smoothly on port ${PORT}`);
 });
