@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHREE MEWAR PUBLIC SCHOOL - Students Directory</title>
+  <title>SHREE MEWAR PUBLIC SCHOOL - Student Management</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     body { background: #fdf6e2; color: #1e293b; min-height: 100vh; }
@@ -36,32 +36,16 @@
     .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .btn-role-login { width: 100%; padding: 9px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; color: white; cursor: pointer; margin-top: 14px; }
 
-    /* 1.1 RAJASTHAN ADMIN LOGIN */
-    .admin-login-wrapper {
-      min-height: 85vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(circle at center, #ea580c 0%, #c2410c 45%, #7c2d12 100%);
-      padding: 20px;
-    }
-    .admin-login-box {
-      background: white;
-      width: 100%;
-      max-width: 380px;
-      border-radius: 16px;
-      padding: 28px 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-      text-align: center;
-      border: 3px solid #ffedd5;
-    }
+    /* RAJASTHAN ADMIN LOGIN */
+    .admin-login-wrapper { min-height: 85vh; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #ea580c 0%, #c2410c 45%, #7c2d12 100%); padding: 20px; }
+    .admin-login-box { background: white; width: 100%; max-width: 380px; border-radius: 16px; padding: 28px 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.25); text-align: center; border: 3px solid #ffedd5; }
     .admin-login-box h3 { color: #991b1b; font-size: 20px; font-weight: 800; margin-bottom: 20px; }
     .form-group-login { text-align: left; margin-bottom: 14px; }
     .form-group-login label { font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
     .input-login { width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
     .btn-admin-submit { width: 100%; padding: 11px; background: #991b1b; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 10px; }
 
-    /* 2. DASHBOARD SCREEN */
+    /* DASHBOARD */
     .pills-scroll-container { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 20px; background: #fef08a; border-bottom: 2px solid #f59e0b; justify-content: center; }
     .pill-btn { padding: 6px 14px; border-radius: 18px; font-size: 12px; font-weight: 700; color: white; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; }
     .pill-blue { background: #0284c7; }
@@ -79,7 +63,7 @@
     .stat-row:last-child { border-bottom: none; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* 3. STUDENTS DIRECTORY (`students.php`) */
+    /* STUDENTS DIRECTORY */
     .students-full-container { max-width: 1440px; margin: 16px auto; padding: 0 16px; }
     .tip-box { background: #eff6ff; border: 1px dashed #3b82f6; border-radius: 8px; padding: 9px 14px; font-size: 12.5px; color: #1e40af; text-align: center; margin-bottom: 14px; }
     .students-action-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px; }
@@ -96,27 +80,37 @@
     .sum-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
 
     .search-input-big { width: 100%; padding: 10px 16px; border: 2px solid #fed7aa; border-radius: 20px; font-size: 13px; outline: none; background: white; margin-bottom: 14px; }
-    
-    /* Spreadsheet Table */
     .table-responsive { background: white; border: 1.5px solid #cbd5e1; border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
     .custom-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left; }
     .custom-table th { background: #78350f; color: white; padding: 9px 8px; font-weight: 700; white-space: nowrap; border: 1px solid #92400e; }
     .custom-table td { padding: 6px 8px; border: 1px solid #e2e8f0; vertical-align: middle; white-space: nowrap; }
     .custom-table tr:nth-child(even) { background: #fffbeb; }
 
-    /* Editable Cell UI */
-    .editable-cell { cursor: pointer; transition: background 0.15s; }
+    .editable-cell { cursor: pointer; }
     .editable-cell:hover { background: #fef08a !important; }
     .cell-input { width: 100%; min-width: 80px; padding: 3px 6px; font-size: 11.5px; border: 1.5px solid #0284c7; border-radius: 4px; outline: none; background: #fff; }
 
-    /* Action Badges in Table */
     .btn-table-action { border: none; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; padding: 2.5px 6px; cursor: pointer; display: block; width: 100%; margin-bottom: 2px; text-align: center; }
     .b-deact { background: #dc2626; }
-    .b-view { background: #0284c7; }
     .b-del { background: #991b1b; }
-    .b-call { background: #16a34a; }
 
-    /* Modal */
+    /* 10-SECTION ADMISSION FORM (add_student.php) */
+    .form-sheet-container { max-width: 1050px; margin: 20px auto; background: white; border-radius: 12px; border: 2px solid #fed7aa; padding: 24px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
+    .form-sheet-header { text-align: center; border-bottom: 2px solid #fee2e2; padding-bottom: 14px; margin-bottom: 20px; }
+    .form-sheet-header h2 { color: #991b1b; font-size: 22px; font-weight: 800; }
+    
+    .sec-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #fafafa; }
+    .sec-title { font-size: 14px; font-weight: 700; color: #7c2d12; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
+    .f-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 10px; }
+    .f-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 10px; }
+    .f-field label { font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
+    .f-input { width: 100%; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 12.5px; outline: none; background: white; }
+    .f-input:focus { border-color: #ea580c; }
+    
+    .fee-highlight-box { background: #fef3c7; border: 2px dashed #f59e0b; border-radius: 8px; padding: 14px; text-align: center; margin: 12px 0; }
+    .fee-highlight-box h3 { font-size: 24px; color: #b45309; font-weight: 800; }
+
+    /* ALERT MODAL */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
     .alert-modal-box { background: white; width: 100%; max-width: 420px; border-radius: 14px; padding: 24px; text-align: center; border-top: 6px solid #dc2626; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
 
@@ -142,7 +136,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 1: LOGIN OPTIONS -->
+  <!-- SCREEN 1: LOGIN -->
   <div id="screen-login" class="login-container">
     <div style="text-align:center; margin-bottom: 24px;">
       <h2 style="color: #7f1d1d; font-size: 24px; font-weight: 800;">🔑 Login Options</h2>
@@ -176,24 +170,10 @@
         <p style="font-size:12px; color:#64748b;">Educators & Coordinators</p>
         <button class="btn-role-login" style="background:#0d9488;" onclick="showScreen('admin-login')">Access Hub</button>
       </div>
-
-      <div class="login-role-card">
-        <div style="font-size:32px;">🤝</div>
-        <h3 style="color:#7c2d12; margin-top:6px;">Franchise</h3>
-        <p style="font-size:12px; color:#64748b;">Partner Dashboard</p>
-        <button class="btn-role-login" style="background:#4f46e5;" onclick="showScreen('admin-login')">Login</button>
-      </div>
-
-      <div class="login-role-card">
-        <div style="font-size:32px;">👨‍👩‍👦</div>
-        <h3 style="color:#7c2d12; margin-top:6px;">Parent / Student</h3>
-        <p style="font-size:12px; color:#64748b;">Results & Fee Slips</p>
-        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('admin-login')">Login</button>
-      </div>
     </div>
   </div>
 
-  <!-- SCREEN 1.1: RAJASTHAN ADMIN LOGIN -->
+  <!-- SCREEN 1.1: ADMIN LOGIN -->
   <div id="screen-admin-login" class="admin-login-wrapper hidden">
     <div class="admin-login-box">
       <h3>👑 Rajasthan Admin Login 👑</h3>
@@ -211,16 +191,14 @@
       </div>
       <div class="form-group-login">
         <label>सत्र चुनें</label>
-        <select class="input-login">
-          <option value="2026-27">2026-27</option>
-        </select>
+        <select class="input-login"><option value="2026-27">2026-27</option></select>
       </div>
       <button class="btn-admin-submit" onclick="showScreen('dashboard')">Login</button>
       <button class="btn-nav-top" style="background:#64748b; width:100%; margin-top:8px;" onclick="showScreen('login')">वापस (Back)</button>
     </div>
   </div>
 
-  <!-- SCREEN 2: MAIN DASHBOARD -->
+  <!-- SCREEN 2: DASHBOARD -->
   <div id="screen-dashboard" class="hidden">
     <div class="pills-scroll-container">
       <button class="pill-btn pill-blue" onclick="showScreen('students')">🎓 विद्यार्थी (Students)</button>
@@ -228,7 +206,7 @@
       <button class="pill-btn pill-orange" onclick="showScreen('students')">💰 फीस प्रबंधन</button>
       <button class="pill-btn pill-teal" onclick="showScreen('students')">📚 गृहकार्य</button>
       <button class="pill-btn pill-purple" onclick="showScreen('students')">📜 परीक्षा / रिजल्ट</button>
-      <button class="pill-btn pill-red" onclick="showScreen('students')">+ नया प्रवेश</button>
+      <button class="pill-btn pill-red" onclick="showScreen('admission')">+ नया प्रवेश (Add Student)</button>
     </div>
 
     <div class="dashboard-grid-full">
@@ -259,19 +237,17 @@
       <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | श्री मेवाड़ पब्लिक स्कूल</div>
     </div>
 
-    <!-- सुरक्षा टिप बॉक्स -->
     <div class="tip-box">
-      ✏️ टिप: टेबल में किसी भी जानकारी (जैसे नाम, क्लास, नंबर) को तुरंत एडिट करने के लिए उस पर <strong>डबल-क्लिक (Double-Click)</strong> करें!
+      ✏️ टिप: टेबल में किसी भी जानकारी को एडिट करने के लिए उस पर <strong>डबल-क्लिक (Double-Click)</strong> करें!
     </div>
 
     <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">📖 सभी छात्रों की सूची 📖</h2>
 
-    <!-- Actions Bar -->
     <div class="students-action-bar">
-      <button class="std-btn std-btn-green" onclick="addNewStudentDirect()">➕ नया छात्र जोड़ें</button>
+      <button class="std-btn std-btn-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
       <button class="std-btn std-btn-orange" onclick="alert('सूची से डबल-क्लिक करके सीधे एडिट करें')">✏️ छात्र संपादित करें</button>
-      <button class="std-btn std-btn-blue" onclick="alert('ID कार्ड मॉड्यूल चालू है')">🪪 ID कार्ड जनरेट करें</button>
-      <button class="std-btn std-btn-purple">📄 नामांकन रिपोर्ट (Report)</button>
+      <button class="std-btn std-btn-blue" onclick="alert('ID कार्ड मॉड्यूल सक्रिय है')">🪪 ID कार्ड जनरेट करें</button>
+      <button class="std-btn std-btn-purple">📄 नामांकन रिपोर्ट</button>
       <button class="std-btn std-btn-red">📑 कस्टम रिपोर्ट</button>
     </div>
 
@@ -292,7 +268,7 @@
       </select>
       <select class="filter-control" id="filter-status" onchange="filterStudentsTable()">
         <option value="Active">सक्रिय (Active)</option>
-        <option value="all">सभी (All)</option>
+        <option value="all">सभी</option>
       </select>
       <label style="font-size:12px; font-weight:700; display:flex; align-items:center; gap:4px;">
         <input type="checkbox" id="rte-toggle" onchange="filterStudentsTable()"> RTE Students Only
@@ -307,10 +283,8 @@
       <span class="sum-badge" style="background:#7c2d12;">👥 कुल छात्र (Total): <span id="b-total-val">0</span></span>
     </div>
 
-    <!-- Live Search Box -->
     <input type="text" id="std-search-input" class="search-input-big" placeholder="🔍 नाम, पिता का नाम, प्रवेश क्रमांक या मोबाइल नंबर से खोजें..." onkeyup="filterStudentsTable()">
 
-    <!-- 18-Columns Spreadsheet Table -->
     <div class="table-responsive">
       <table class="custom-table">
         <thead>
@@ -337,14 +311,166 @@
             <th>ACTION</th>
           </tr>
         </thead>
-        <tbody id="std-tbody">
-          <!-- Live Loaded Rows -->
-        </tbody>
+        <tbody id="std-tbody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- SECURITY ALERT MODAL (02:52 वीडियो जैसा) -->
+  <!-- SCREEN 4: FULL 10-SECTION ADMISSION FORM (`add_student.php`) -->
+  <div id="screen-admission" class="form-sheet-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="std-btn std-btn-orange" onclick="showScreen('students')">⬅ वापस (छात्र सूची)</button>
+      <div style="font-weight:700; color:#78350f;">शैक्षिक सत्र: 2026-27 | छात्र प्रवेश फॉर्म</div>
+    </div>
+
+    <div class="form-sheet-header">
+      <h2>⭐ छात्र प्रवेश फॉर्म (New Admission) ⭐</h2>
+    </div>
+
+    <!-- 1. प्रवेश विवरण -->
+    <div class="sec-card">
+      <div class="sec-title">1. प्रवेश विवरण</div>
+      <div class="f-grid-3">
+        <div class="f-field">
+          <label>प्रवेश क्रमांक (Scholar No.) *</label>
+          <input type="text" id="form-scholar-no" class="f-input" value="759">
+        </div>
+        <div class="f-field">
+          <label>रोल नंबर (Roll No.) *</label>
+          <input type="number" id="form-roll-no" class="f-input" placeholder="उदा. 106">
+        </div>
+        <div class="f-field">
+          <label>प्रवेश तिथि (Admission Date) *</label>
+          <input type="date" id="form-adm-date" class="f-input" value="2026-10-10">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. छात्र का व्यक्तिगत विवरण -->
+    <div class="sec-card">
+      <div class="sec-title">2. छात्र का व्यक्तिगत विवरण</div>
+      <div class="f-grid-3">
+        <div class="f-field"><label>पहला नाम (First Name) *</label><input type="text" id="form-fname" class="f-input" placeholder="First Name"></div>
+        <div class="f-field"><label>मध्य नाम (Middle Name)</label><input type="text" id="form-mname" class="f-input" placeholder="Middle Name"></div>
+        <div class="f-field"><label>अंतिम नाम (Last Name)</label><input type="text" id="form-lname" class="f-input" placeholder="Last Name"></div>
+      </div>
+      <div class="f-grid-3">
+        <div class="f-field">
+          <label>कक्षा चुनें (Class) *</label>
+          <select id="form-class" class="f-input">
+            <option value="8th">8th</option>
+            <option value="Class 10-A">Class 10-A</option>
+            <option value="PP.4+">PP.4+</option>
+            <option value="PP.5+">PP.5+</option>
+            <option value="1st">1st</option>
+          </select>
+        </div>
+        <div class="f-field">
+          <label>सेक्शन (Section)</label>
+          <select id="form-sec" class="f-input"><option value="A">Section A</option><option value="B">Section B</option></select>
+        </div>
+        <div class="f-field">
+          <label>लिंग (Gender) *</label>
+          <select id="form-gender" class="f-input"><option value="Male">Male (लड़का)</option><option value="Female">Female (लड़की)</option></select>
+        </div>
+      </div>
+      <div class="f-grid-3">
+        <div class="f-field"><label>जन्मतिथि (DOB) *</label><input type="date" id="form-dob" class="f-input" value="2012-01-01"></div>
+        <div class="f-field">
+          <label>धर्म (Religion)</label>
+          <select id="form-religion" class="f-input"><option value="हिन्दू">हिन्दू</option><option value="मुस्लिम">मुस्लिम</option><option value="जैन">जैन</option><option value="सिख">सिख</option></select>
+        </div>
+        <div class="f-field">
+          <label>श्रेणी (Category)</label>
+          <select id="form-category" class="f-input"><option value="GEN">सामान्य (GEN)</option><option value="OBC">ओबीसी (OBC)</option><option value="SC">एससी (SC)</option><option value="ST">एसटी (ST)</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. पहचान पत्र विवरण -->
+    <div class="sec-card">
+      <div class="sec-title">3. पहचान पत्र विवरण</div>
+      <div class="f-grid-2">
+        <div class="f-field"><label>आधार नंबर (Aadhaar No.)</label><input type="text" id="form-aadhaar" class="f-input" placeholder="12 अंकों का आधार"></div>
+        <div class="f-field"><label>जन आधार नंबर (Jan Aadhaar No.)</label><input type="text" id="form-janaadhaar" class="f-input" placeholder="जन आधार"></div>
+      </div>
+      <div class="f-grid-2">
+        <div class="f-field"><label>PEN (प्राइमरी शिक्षा नंबर)</label><input type="text" id="form-pen" class="f-input" placeholder="PEN No."></div>
+        <div class="f-field"><label>NIC ID</label><input type="text" id="form-nic" class="f-input" placeholder="NIC ID"></div>
+      </div>
+    </div>
+
+    <!-- 4. माता-पिता/अभिभावक का विवरण -->
+    <div class="sec-card">
+      <div class="sec-title">4. माता-पिता / अभिभावक का विवरण</div>
+      <div class="f-grid-3">
+        <div class="f-field"><label>पिता का नाम (Father's Name) *</label><input type="text" id="form-father" class="f-input" placeholder="पिता का पूरा नाम"></div>
+        <div class="f-field"><label>माता का नाम (Mother's Name) *</label><input type="text" id="form-mother" class="f-input" placeholder="माता का पूरा नाम"></div>
+        <div class="f-field"><label>मोबाइल नंबर (Mobile No.) *</label><input type="number" id="form-mobile" class="f-input" placeholder="10 अंकों का मोबाइल"></div>
+      </div>
+    </div>
+
+    <!-- 5. पते का विवरण -->
+    <div class="sec-card">
+      <div class="sec-title">5. पते का विवरण</div>
+      <div class="f-grid-2">
+        <div class="f-field"><label>पता लाइन (Village / Ward / Street)</label><input type="text" id="form-address" class="f-input" value="सिंहपुर, चित्तौड़गढ़"></div>
+        <div class="f-field"><label>पिनकोड (Pincode)</label><input type="text" id="form-pincode" class="f-input" value="312207"></div>
+      </div>
+    </div>
+
+    <!-- 6. विशेष श्रेणी व सुविधाएं -->
+    <div class="sec-card">
+      <div class="sec-title">6. विशेष श्रेणी व सुविधाएं</div>
+      <div class="f-grid-2">
+        <div class="f-field">
+          <label>क्या यह RTE छात्र है?</label>
+          <select id="form-rte" class="f-input"><option value="NO">नहीं (NO)</option><option value="YES">हाँ (YES)</option></select>
+        </div>
+        <div class="f-field">
+          <label>परिवहन / बस सुविधा?</label>
+          <select id="form-bus" class="f-input"><option value="NO">नहीं (NO)</option><option value="YES">हाँ (YES)</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. किश्त योजना एवं फ़ीस सेटअप -->
+    <div class="sec-card">
+      <div class="sec-title">7. किश्त योजना एवं शुल्क विवरण</div>
+      <div class="f-grid-2">
+        <div class="f-field">
+          <label>किश्त योजना (Installment Plan)</label>
+          <select id="form-installment" class="f-input">
+            <option value="Full Payment">कोई किश्त नहीं (एकमुश्त / Full Payment)</option>
+            <option value="2 Installments">2 किश्तें (छमाही)</option>
+            <option value="4 Installments">4 किश्तें (त्रैमासिक)</option>
+          </select>
+        </div>
+        <div class="f-field">
+          <label>कुल वार्षिक फ़ीस (₹) *</label>
+          <input type="number" id="form-total-fees" class="f-input" value="20000" onkeyup="updateFeeDisplay()">
+        </div>
+      </div>
+      <div class="fee-highlight-box">
+        <div style="font-size:12px; color:#92400e; font-weight:700;">कुल देय फ़ीस (Total Fee):</div>
+        <h3 id="display-fee-val">₹ 20,000.00</h3>
+      </div>
+    </div>
+
+    <!-- 8. घोषणा एवं सेव -->
+    <div class="sec-card">
+      <div class="sec-title">8. घोषणा (Declaration)</div>
+      <p style="font-size:12px; color:#64748b; margin-bottom:14px;">
+        मैं प्रमाणित करता/करती हूँ कि ऊपर दी गई सभी जानकारी पूर्णतः सत्य व सही है।
+      </p>
+      <button class="std-btn std-btn-green" style="width:100%; padding:14px; font-size:16px;" onclick="submitCompleteAdmission()">
+        💾 रिकॉर्ड सेव करें (Save Record)
+      </button>
+      <p id="adm-msg" style="text-align:center; font-size:13px; font-weight:700; margin-top:8px;"></p>
+    </div>
+  </div>
+
+  <!-- SECURITY ALERT MODAL -->
   <div id="class-alert-modal" class="modal-overlay hidden">
     <div class="alert-modal-box">
       <div style="font-size:36px; margin-bottom:10px;">⚠️</div>
@@ -360,7 +486,7 @@
     let students = [];
 
     function showScreen(screenId) {
-      ['login', 'admin-login', 'dashboard', 'students'].forEach(s => {
+      ['login', 'admin-login', 'dashboard', 'students', 'admission'].forEach(s => {
         const el = document.getElementById(`screen-${s}`);
         if (el) el.classList.add('hidden');
       });
@@ -396,7 +522,6 @@
       document.getElementById('b-total-val').innerText = tot;
     }
 
-    // Render Table with Inline Double-Click Support
     function renderStudentsTable(list) {
       const tbody = document.getElementById('std-tbody');
       tbody.innerHTML = '';
@@ -407,7 +532,8 @@
       }
 
       list.forEach((s, idx) => {
-        const admNo = 700 + Number(s.id);
+        const admNo = s.scholar_no || (700 + Number(s.id));
+        const admDate = s.admission_date || '10/10/2026';
         const fName = s.father_name || 'श्री देविलाल जी';
         const mName = s.mother_name || 'श्रीमती सरिता देवी';
         const mob = s.mobile_no || '9876543210';
@@ -424,11 +550,9 @@
         tbody.innerHTML += `
           <tr id="row-${s.id}">
             <td>${idx + 1}</td>
-            <td style="text-align:center;">
-              <span style="font-size:16px;">👤</span>
-            </td>
+            <td style="text-align:center;"><span style="font-size:16px;">👤</span></td>
             <td><strong>${admNo}</strong></td>
-            <td>10/10/2026</td>
+            <td>${admDate}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'name', this)">${s.name}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'roll_no', this)">${s.roll_no}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'class_name', this)">${s.class_name || '8th'}</td>
@@ -446,16 +570,13 @@
             <td>${doc}</td>
             <td>
               <button class="btn-table-action b-deact" onclick="toggleDeactivate(${s.id})">Deactivate</button>
-              <button class="btn-table-action b-view" onclick="alert('छात्र: ${s.name}')">👁️ विवरण</button>
               <button class="btn-table-action b-del" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
-              <a href="tel:${mob}" class="btn-table-action b-call" style="text-decoration:none;">📞 कॉल</a>
             </td>
           </tr>
         `;
       });
     }
 
-    // इनलाइन स्प्रेडशीट एडिटिंग लॉजिक
     function makeCellEditable(id, columnKey, cellElement) {
       const selectedClass = document.getElementById('filter-class').value;
       if (!selectedClass) {
@@ -532,19 +653,75 @@
       renderStudentsTable(filtered);
     }
 
-    async function addNewStudentDirect() {
-      const name = prompt("छात्र का नाम:");
-      if (!name) return;
-      const roll_no = prompt("रोल नंबर:");
-      if (!roll_no) return;
-      const class_name = prompt("कक्षा:", "8th");
+    function updateFeeDisplay() {
+      const val = document.getElementById('form-total-fees').value || 0;
+      document.getElementById('display-fee-val').innerText = `₹ ${Number(val).toLocaleString('en-IN')}.00`;
+    }
 
-      const res = await fetch('/api/students', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, roll_no, class_name, total_fees: 20000 })
-      });
-      if (res.ok) loadData();
+    async function submitCompleteAdmission() {
+      const fname = document.getElementById('form-fname').value.trim();
+      const mname = document.getElementById('form-mname').value.trim();
+      const lname = document.getElementById('form-lname').value.trim();
+      const fullName = `${fname} ${mname} ${lname}`.replace(/\s+/g, ' ').trim();
+
+      const roll_no = document.getElementById('form-roll-no').value;
+      const scholar_no = document.getElementById('form-scholar-no').value;
+      const admission_date = document.getElementById('form-adm-date').value;
+      const class_name = document.getElementById('form-class').value;
+      const section = document.getElementById('form-sec').value;
+      const gender = document.getElementById('form-gender').value;
+      const dob = document.getElementById('form-dob').value;
+      const religion = document.getElementById('form-religion').value;
+      const category = document.getElementById('form-category').value;
+      const aadhaar_no = document.getElementById('form-aadhaar').value.trim();
+      const jan_aadhaar_no = document.getElementById('form-janaadhaar').value.trim();
+      const pen_no = document.getElementById('form-pen').value.trim();
+      const nic_id = document.getElementById('form-nic').value.trim();
+      const father_name = document.getElementById('form-father').value.trim();
+      const mother_name = document.getElementById('form-mother').value.trim();
+      const mobile_no = document.getElementById('form-mobile').value.trim();
+      const address = document.getElementById('form-address').value.trim();
+      const rte = document.getElementById('form-rte').value;
+      const bus_facility = document.getElementById('form-bus').value;
+      const installment_plan = document.getElementById('form-installment').value;
+      const total_fees = document.getElementById('form-total-fees').value;
+
+      const msg = document.getElementById('adm-msg');
+
+      if (!fname || !roll_no || !father_name || !mobile_no) {
+        msg.style.color = '#dc2626';
+        msg.innerText = 'कृपया नाम, रोल नंबर, पिता का नाम और मोबाइल नंबर अवश्य भरें!';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/students', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            scholar_no, roll_no, admission_date,
+            name: fullName, class_name, section, gender, dob, religion, category,
+            aadhaar_no, jan_aadhaar_no, pen_no, nic_id,
+            father_name, mother_name, mobile_no, address,
+            rte, bus_facility, installment_plan, total_fees
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          msg.style.color = '#16a34a';
+          msg.innerText = data.message;
+          setTimeout(() => {
+            showScreen('students');
+          }, 1200);
+        } else {
+          msg.style.color = '#dc2626';
+          msg.innerText = data.error;
+        }
+      } catch {
+        msg.style.color = '#dc2626';
+        msg.innerText = 'सर्वर त्रुटि!';
+      }
     }
 
     async function toggleDeactivate(id) {
