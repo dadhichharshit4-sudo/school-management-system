@@ -1017,6 +1017,9 @@
             <td>
               <button class="btn-table-action b-deact" onclick="toggleEmpStatus(${e.id})">Deactivate</button>
               <button class="btn-table-action b-del" onclick="deleteEmployee(${e.id})">🗑️ हटाएं</button>
+              <button class="btn-table-action" style="background:#0284c7;" onclick="generateStaffIdCard(${e.id})">🪪 ID कार्ड</button>
+              <button class="btn-table-action b-deact" onclick="toggleEmpStatus(${e.id})">Deactivate</button>
+              <button class="btn-table-action b-del" onclick="deleteEmployee(${e.id})">🗑️ हटाएं</button>
             </td>
           </tr>
         `;
@@ -1144,21 +1147,30 @@
       if (res.ok) loadEmployees();
     }
 
-    function generateStaffIdCard() {
-      if (employees.length === 0) { alert("कोई कर्मचारी उपलब्ध नहीं है!"); return; }
-      const emp = employees[0];
+    function generateStaffIdCard(empId) {
+      if (!employees || employees.length === 0) {
+        alert("कोई कर्मचारी उपलब्ध नहीं है! पहले कम से कम एक कर्मचारी जोड़ें।");
+        return;
+      }
+
+      // अगर किसी खास कर्मचारी की ID नहीं दी गई, तो पहला उपलब्ध कर्मचारी चुनें
+      const emp = empId ? employees.find(e => e.id == empId) : employees[0];
+      if (!emp) return;
+
       document.getElementById('idc-name').innerText = emp.name;
-      document.getElementById('idc-scholar').innerText = emp.emp_code;
-      document.getElementById('idc-father').innerText = emp.designation;
-      document.getElementById('idc-class').innerText = emp.department;
+      document.getElementById('idc-scholar').innerText = emp.emp_code || 'EMP-101';
+      document.getElementById('idc-father').innerText = emp.designation || 'Teacher';
+      document.getElementById('idc-class').innerText = emp.department || 'Teaching';
       document.getElementById('idc-roll').innerText = 'Staff';
-      document.getElementById('idc-mobile').innerText = emp.mobile_no;
+      document.getElementById('idc-mobile').innerText = emp.mobile_no || '-';
       document.getElementById('idc-addr').innerText = emp.address || 'Singhpur';
 
       const photoBox = document.getElementById('idc-photo-box');
-      photoBox.innerHTML = emp.photo_url 
-        ? `<img src="${emp.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` 
-        : `👨‍🏫`;
+      if (photoBox) {
+        photoBox.innerHTML = emp.photo_url 
+          ? `<img src="${emp.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` 
+          : `👨‍🏫`;
+      }
 
       document.getElementById('id-preview-modal').classList.remove('hidden');
     }
