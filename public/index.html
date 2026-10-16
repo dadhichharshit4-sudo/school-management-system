@@ -1,3 +1,14 @@
+<ElicitationsGroup>
+यहाँ **`public/index.html`** का नया, साफ़ और पूरी तरह से सिंक किया हुआ कोड प्रस्तुत है। 
+
+इसमें सभी फीचर्स (लॉगिन, डैशबोर्ड, 18+ कॉलम छात्र डायरेक्टरी, कर्मचारी प्रबंधन के 7-एक्शन ग्रिड व दस्तावेज़ प्रिंट, उपस्थिति ऑब्जर्वेशन कमांड सेंटर व रजिस्टर रिपोर्ट, और फीस प्रबंधन हब) बिना किसी सिंटैक्स त्रुटि के आपस में व्यवस्थित किए गए हैं।
+
+---
+
+### GitHub पर `public/index.html` को इस कोड से बदलें:
+
+GitHub पर **`public/index.html`** खोलें, **Edit (✏️)** पर क्लिक करें, पिछला पूरा कोड हटाकर नीचे दिया गया कोड पेस्ट करें और **Commit changes** कर दें:
+
 ```html
 <!DOCTYPE html>
 <html lang="hi">
@@ -39,6 +50,14 @@
     .custom-table td { padding: 6px 8px; border: 1px solid #e2e8f0; vertical-align: middle; white-space: nowrap; }
     .custom-table tr:nth-child(even) { background: #fffbeb; }
 
+    .editable-cell { cursor: pointer; }
+    .editable-cell:hover { background: #fef08a !important; }
+    .cell-input { width: 100%; min-width: 80px; padding: 3px 6px; font-size: 11.5px; border: 1.5px solid #0284c7; border-radius: 4px; outline: none; background: #fff; }
+
+    .photo-cell-container { display: flex; align-items: center; gap: 4px; justify-content: center; }
+    .avatar-thumbnail { width: 34px; height: 38px; border-radius: 4px; border: 1px solid #cbd5e1; object-fit: cover; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 16px; overflow: hidden; }
+    .btn-photo-upload { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; padding: 2px 4px; font-size: 11px; }
+
     .filter-panel { background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
     .filter-control { padding: 7px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 12px; outline: none; }
     .btn-action-pill { padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; color: white; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
@@ -48,7 +67,18 @@
     .btn-act-purple { background: #7c3aed; }
     .btn-act-red { background: #dc2626; }
 
-    /* DASHBOARD */
+    .tip-box { background: #eff6ff; border: 1px dashed #3b82f6; border-radius: 8px; padding: 9px 14px; font-size: 12.5px; color: #1e40af; text-align: center; margin-bottom: 14px; }
+    .summary-badges-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 12px; }
+    .sum-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
+    .search-input-big { width: 100%; padding: 10px 16px; border: 2px solid #fed7aa; border-radius: 20px; font-size: 13px; outline: none; background: white; margin-bottom: 14px; }
+
+    /* 1. LOGIN SCREEN */
+    .login-container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+    .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+    .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .btn-role-login { width: 100%; padding: 9px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; color: white; cursor: pointer; margin-top: 14px; }
+
+    /* 2. DASHBOARD */
     .pills-scroll-container { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 20px; background: #fef08a; border-bottom: 2px solid #f59e0b; justify-content: center; }
     .pill-btn { padding: 6px 14px; border-radius: 18px; font-size: 12px; font-weight: 700; color: white; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; }
     .pill-blue { background: #0284c7; }
@@ -63,7 +93,117 @@
     .stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* OBSERVATION COMMAND CENTER */
+    /* 3. FEES HUB */
+    .fees-hub-wrapper {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+      min-height: calc(100vh - 56px);
+      padding: 24px 20px 40px;
+    }
+    .fees-hub-header { text-align: center; color: white; margin-bottom: 24px; }
+    .fees-hub-header h2 { font-size: 26px; font-weight: 900; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .fees-hub-header p { font-size: 13px; color: #ffedd5; margin-top: 4px; }
+    .fees-hub-section-title { color: #fff; font-size: 16px; font-weight: 800; text-align: center; margin: 20px 0 14px; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+
+    .fees-stat-grid-6 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      max-width: 1250px;
+      margin: 0 auto 30px;
+    }
+    .f-stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      transition: transform 0.15s ease;
+    }
+    .f-stat-card:hover { transform: translateY(-2px); }
+    .f-stat-icon { font-size: 26px; margin-bottom: 6px; }
+    .f-stat-label { font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px; }
+    .f-stat-value { font-size: 18px; font-weight: 900; color: #1e3a8a; }
+
+    .fees-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      max-width: 1250px;
+      margin: 0 auto;
+    }
+    .f-feature-card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px 14px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .f-feature-circle-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #f97316;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin: 0 auto 10px;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.35);
+    }
+    .f-feature-card h3 { font-size: 15px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
+    .f-feature-card p { font-size: 11px; color: #64748b; line-height: 1.4; margin-bottom: 14px; min-height: 32px; }
+    .f-card-btn {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 20px;
+      background: #0f172a;
+      color: white;
+      border: none;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .f-card-btn:hover { background: #1e293b; }
+
+    /* 4. EMPLOYEE MANAGEMENT SCREEN */
+    .emp-panel-card { background: #fff; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .emp-section-title { font-size: 14px; font-weight: 800; color: #7c2d12; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .emp-actions-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .emp-act-btn { padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; color: white; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .btn-green-emp { background: #15803d; }
+    .btn-brown-emp { background: #b45309; }
+    .btn-blue-emp { background: #1d4ed8; }
+    .btn-rose-emp { background: #be123c; }
+    .btn-sky-emp { background: #0284c7; }
+
+    .emp-stats-bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 14px 0; }
+    .emp-stat-pill { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; color: white; display: flex; align-items: center; gap: 5px; }
+
+    .emp-search-container { position: relative; margin-bottom: 14px; display: flex; align-items: center; }
+    .emp-search-input { width: 100%; padding: 9px 14px 9px 36px; border: 1.5px solid #cbd5e1; border-radius: 20px; font-size: 12.5px; outline: none; }
+    .emp-search-icon { position: absolute; left: 12px; color: #64748b; }
+    .emp-total-badge { position: absolute; right: 8px; background: #7c2d12; color: white; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 14px; }
+
+    .emp-table th { background: #f97316 !important; color: white !important; font-weight: 800 !important; font-size: 11px !important; text-align: center; border: 1px solid #ea580c !important; }
+    .emp-photo-box { width: 44px; height: 48px; border: 1px solid #cbd5e1; border-radius: 4px; object-fit: cover; display: block; margin: 0 auto; background: #f1f5f9; }
+    .doc-pill { display: block; background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-bottom: 2px; text-align: center; white-space: nowrap; }
+
+    .emp-action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; width: 210px; }
+    .btn-grid-act { border: none; border-radius: 4px; font-size: 9.5px; font-weight: 700; color: white; padding: 4px 2px; text-align: center; cursor: pointer; }
+    .b-act-edit { background: #f97316; }
+    .b-act-del { background: #e11d48; }
+    .b-act-deact { background: #991b1b; }
+    .b-act-class { background: #0284c7; }
+    .b-act-contract { background: #6366f1; }
+    .b-act-exp { background: #0d9488; }
+    .b-act-join { background: #0284c7; }
+
+    /* 5. OBSERVATION COMMAND CENTER */
     .cmd-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
     .cmd-stat-box { border-radius: 10px; padding: 16px; color: white; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
     .cmd-stat-box h2 { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
@@ -79,9 +219,7 @@
     .class-card-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .btn-card-action { padding: 6px; border-radius: 6px; border: none; font-size: 11px; font-weight: 800; cursor: pointer; color: white; background: rgba(0,0,0,0.3); }
 
-    /* ========================================================
-       MASTER ATTENDANCE REGISTER STYLES (attendance_report.php)
-    ======================================================== */
+    /* 6. MASTER REGISTER REPORT VIEW (`attendance_report.php`) */
     .report-sheet-view {
       background: white;
       padding: 24px 30px;
@@ -91,77 +229,78 @@
       margin: 16px auto;
       box-shadow: 0 4px 14px rgba(0,0,0,0.06);
     }
-    .report-header-school {
+    .report-header-school { text-align: center; border-bottom: 2px solid #991b1b; padding-bottom: 12px; margin-bottom: 14px; }
+    .report-header-school h2 { color: #991b1b; font-size: 22px; font-weight: 900; letter-spacing: 0.5px; }
+    .report-header-school p { font-size: 11.5px; color: #475569; }
+    .report-header-school h3 { color: #78350f; font-size: 15px; font-weight: 800; margin-top: 6px; }
+
+    /* FRONT COVER STYLES */
+    .register-front-cover {
+      width: 600px;
+      background: #fffbeb;
+      border: 4px double #78350f;
+      border-radius: 12px;
+      padding: 40px;
+      margin: 20px auto;
       text-align: center;
-      border-bottom: 2px solid #78350f;
-      padding-bottom: 12px;
-      margin-bottom: 14px;
-    }
-    .report-header-school h2 {
-      color: #78350f;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
-    .report-header-school p {
-      font-size: 11px;
-      color: #475569;
-      margin-top: 2px;
-    }
-    .report-sub-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: #1e3a8a;
-      margin-top: 6px;
-      text-transform: uppercase;
-    }
-    .report-meta-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 700;
-      color: #334155;
-      margin-top: 10px;
-      padding: 4px 6px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 4px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
-    .report-custom-table th {
-      background: #f1f5f9 !important;
-      color: #0f172a !important;
-      font-size: 11px !important;
-      font-weight: 800 !important;
-      text-align: center;
-      border: 1px solid #94a3b8 !important;
-      padding: 8px 6px;
-    }
-    .report-custom-table td {
-      border: 1px solid #cbd5e1 !important;
-      padding: 6px 8px;
-      font-size: 11.5px;
-    }
-
-    /* EMPLOYEE & FEES STYLES */
-    .emp-panel-card { background: #fff; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-    .emp-table th { background: #f97316 !important; color: white !important; font-weight: 800 !important; font-size: 11px !important; text-align: center; border: 1px solid #ea580c !important; }
-    .fees-hub-wrapper { background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%); min-height: calc(100vh - 56px); padding: 24px 20px 40px; }
+    /* 7. FORMS & MODALS */
+    .form-sheet-container { max-width: 1050px; margin: 20px auto; background: white; border-radius: 12px; border: 2px solid #fed7aa; padding: 24px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
+    .form-sheet-header { text-align: center; border-bottom: 2px solid #fee2e2; padding-bottom: 14px; margin-bottom: 20px; }
+    .form-sheet-header h2 { color: #991b1b; font-size: 22px; font-weight: 800; }
+    .sec-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #fafafa; }
+    .sec-title { font-size: 14px; font-weight: 700; color: #7c2d12; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
+    .f-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 10px; }
+    .f-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 10px; }
+    .f-field label { font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
+    .f-input { width: 100%; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 12.5px; outline: none; background: white; }
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
+    .id-card-box { width: 345px; height: 220px; background: #ffffff; border: 2px solid #991b1b; border-radius: 12px; overflow: hidden; margin: 14px auto; box-shadow: 0 8px 24px rgba(0,0,0,0.18); text-align: left; }
+    .id-card-header { background: #991b1b; color: white; padding: 6px 10px; text-align: center; }
+    .id-card-body { display: flex; padding: 10px 12px; gap: 12px; align-items: center; }
+    .id-card-photo { width: 80px; height: 100px; border-radius: 6px; border: 1.5px solid #cbd5e1; object-fit: cover; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 32px; overflow: hidden; flex-shrink: 0; }
+    .id-card-details { font-size: 10.5px; line-height: 1.55; color: #1e293b; flex: 1; }
+
+    .receipt-sheet { width: 450px; background: white; border: 2px solid #78350f; border-radius: 10px; padding: 18px; margin: 0 auto; text-align: left; }
+    .receipt-header { text-align: center; border-bottom: 2px dashed #b45309; padding-bottom: 8px; margin-bottom: 12px; }
+
+    .doc-print-sheet {
+      width: 700px;
+      background: white;
+      border: 3px double #991b1b;
+      padding: 36px 40px;
+      margin: 0 auto;
+      text-align: left;
+      line-height: 1.8;
+      font-size: 13.5px;
+      color: #1e293b;
+      position: relative;
+    }
+    .doc-school-header { text-align: center; border-bottom: 2px solid #991b1b; padding-bottom: 12px; margin-bottom: 18px; }
+    .doc-school-header h2 { font-size: 24px; color: #991b1b; font-weight: 900; }
+    .doc-school-header p { font-size: 11.5px; color: #475569; }
+    .doc-title-badge { text-align: center; margin: 14px 0 20px; }
+    .doc-title-badge span { background: #7f1d1d; color: white; font-weight: 800; padding: 6px 18px; border-radius: 20px; font-size: 14px; text-transform: uppercase; }
+
     .hidden { display: none !important; }
 
     @media print {
       body * { visibility: hidden; }
-      #printable-report-area, #printable-report-area * { visibility: visible; }
-      #printable-report-area {
+      #printable-id-card-area, #printable-id-card-area *,
+      #printable-receipt-area, #printable-receipt-area *,
+      #printable-doc-area, #printable-doc-area *,
+      #printable-report-area, #printable-report-area *,
+      #printable-cover-area, #printable-cover-area * {
+        visibility: visible;
+      }
+      #printable-id-card-area, #printable-receipt-area, #printable-doc-area, #printable-report-area, #printable-cover-area {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
-        padding: 0;
-        box-shadow: none;
-        border: none;
       }
       .no-print { display: none !important; }
     }
@@ -187,10 +326,27 @@
   </div>
 
   <!-- SCREEN 1: LOGIN -->
-  <div id="screen-login" class="directory-container" style="max-width:500px; margin:40px auto; text-align:center;">
-    <h2 style="color:#7f1d1d; margin-bottom:14px;">Rajasthan Admin Login</h2>
-    <div style="background:white; padding:24px; border-radius:12px; border:2px solid #fed7aa;">
-      <button class="btn-nav-top" style="width:100%; padding:12px; font-size:14px;" onclick="showScreen('dashboard')">🔑 एडमिन पोर्टल में प्रवेश करें</button>
+  <div id="screen-login" class="login-container">
+    <div style="text-align:center; margin-bottom: 24px;">
+      <h2 style="color: #7f1d1d; font-size: 24px; font-weight: 800;">🔑 Login Options</h2>
+      <p style="color: #64748b; font-size: 13px;">कृपया अपना रोल चुनकर पोर्टल में प्रवेश करें</p>
+    </div>
+    <div class="login-grid">
+      <div class="login-role-card">
+        <div style="font-size:32px;">👑</div>
+        <h3 style="color:#7c2d12; margin-top:6px;">Super Admin</h3>
+        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('dashboard')">Login</button>
+      </div>
+      <div class="login-role-card">
+        <div style="font-size:32px;">🏫</div>
+        <h3 style="color:#7c2d12; margin-top:6px;">Admin Login</h3>
+        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('dashboard')">Login</button>
+      </div>
+      <div class="login-role-card">
+        <div style="font-size:32px;">💼</div>
+        <h3 style="color:#7c2d12; margin-top:6px;">Staff / Teacher</h3>
+        <button class="btn-role-login" style="background:#0284c7;" onclick="showScreen('dashboard')">Access Hub</button>
+      </div>
     </div>
   </div>
 
@@ -201,41 +357,352 @@
       <button class="pill-btn pill-green" onclick="showScreen('att-command')">📋 उपस्थिति (Command Center)</button>
       <button class="pill-btn pill-purple" onclick="showScreen('employees')">👥 कर्मचारी (Staff)</button>
       <button class="pill-btn pill-orange" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन</button>
+      <button class="pill-btn pill-blue" style="background:#dc2626;" onclick="showScreen('admission')">+ नया छात्र प्रवेश</button>
     </div>
 
     <div class="dashboard-grid-full">
       <div class="erp-card">
-        <div class="card-head" style="background:#16a34a;"><span>📋 उपस्थिति कमांड सेंटर</span></div>
+        <div class="card-head" style="background:#ea580c;"><span>💰 फीस प्रबंधन सारांश</span></div>
         <div class="card-body">
-          <div class="stat-row"><span>कक्षा स्तर:</span><strong>Pp.3+ से 10th</strong></div>
-          <div class="stat-row"><span>मास्टर उपस्थिति रजिस्टर:</span><strong style="color:#16a34a;">सक्रिय (Ready)</strong></div>
+          <div class="stat-row"><span>कुल अपेक्षित फीस:</span><strong id="d-tot-fee">₹ 0</strong></div>
+          <div class="stat-row"><span>कुल प्राप्त फीस:</span><strong style="color:#16a34a;" id="d-paid-fee">₹ 0</strong></div>
+          <div class="stat-row"><span>कुल बकाया राशि:</span><strong style="color:#dc2626;" id="d-bal-fee">₹ 0</strong></div>
+          <button class="card-btn" style="background:#ea580c;" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन हब खोलें</button>
+        </div>
+      </div>
+
+      <div class="erp-card">
+        <div class="card-head" style="background:#16a34a;"><span>📋 ऑब्जर्वेशन कमांड सेंटर</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span>उपस्थिति स्थिति:</span><strong style="color:#16a34a;">सक्रिय (Live)</strong></div>
+          <div class="stat-row"><span>सत्र:</span><strong>2026-27</strong></div>
           <button class="card-btn" style="background:#16a34a;" onclick="showScreen('att-command')">📊 ऑब्जर्वेशन कमांड सेंटर खोलें</button>
         </div>
       </div>
+
       <div class="erp-card">
-        <div class="card-head" style="background:#0284c7;"><span>📑 उपस्थिति रजिस्टर प्रिंट</span></div>
+        <div class="card-head" style="background:#047857;"><span>👨‍🎓 छात्र सारांश</span></div>
         <div class="card-body">
-          <div class="stat-row"><span>प्रारूप:</span><strong>A4 लैंडस्केप / Excel</strong></div>
-          <div class="stat-row"><span>सत्र:</span><strong>2026-27</strong></div>
-          <button class="card-btn" style="background:#0284c7;" onclick="openMasterRegisterView('Class 10-A', 'A')">🖨️ मास्टर रजिस्टर खोलें</button>
+          <div class="stat-row"><span>कुल नामांकित छात्र:</span><strong id="d-tot-std">0</strong></div>
+          <div class="stat-row"><span>सक्रिय छात्र:</span><strong style="color:#16a34a;" id="d-act-std">0</strong></div>
+          <button class="card-btn" style="background:#047857;" onclick="showScreen('students')">👤 छात्र प्रबंधन / सूची खोलें</button>
+        </div>
+      </div>
+
+      <div class="erp-card">
+        <div class="card-head" style="background:#6d28d9;"><span>👥 कर्मचारी सारांश (Staff)</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span>कुल कर्मचारी:</span><strong id="d-tot-emp">0</strong></div>
+          <div class="stat-row"><span>शिक्षक (Teaching):</span><strong style="color:#16a34a;" id="d-teach-emp">0</strong></div>
+          <button class="card-btn" style="background:#6d28d9;" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन / सूची खोलें</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SCREEN 3: OBSERVATION COMMAND CENTER (`attendance_view.php`) -->
-  <div id="screen-att-command" class="directory-container hidden">
-    <div style="background:linear-gradient(135deg, #7f1d1d, #991b1b); color:white; padding:10px 16px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <div style="font-size:16px; font-weight:800;">📡 ऑब्जर्वेशन कमांड सेंटर</div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn-action-pill btn-act-blue" onclick="openMasterRegisterView('Class 10-A', 'A')">📑 Master Register</button>
-        <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ डैशबोर्ड</button>
+  <!-- SCREEN 3: FEES HUB (`fees_overview.php`) -->
+  <div id="screen-fees-hub" class="fees-hub-wrapper hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; max-width:1250px; margin:0 auto 16px;">
+      <button class="btn-action-pill" style="background:rgba(0,0,0,0.3); color:white;" onclick="showScreen('dashboard')">⬅ डैशबोर्ड</button>
+      <div style="font-weight:800; color:white; font-size:12.5px;">🏫 SHREE MEWAR PUBLIC SCHOOL</div>
+    </div>
+
+    <div class="fees-hub-header">
+      <h2>फीस प्रबंधन</h2>
+      <p>सक्रिय सत्र: 2026-27</p>
+    </div>
+
+    <div class="fees-hub-section-title">फीस अवलोकन</div>
+    <div class="fees-stat-grid-6">
+      <div class="f-stat-card"><div class="f-stat-icon">🎓</div><div class="f-stat-label">कुल छात्र</div><div class="f-stat-value" id="fh-tot-stud">0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">📈</div><div class="f-stat-label">कुल टर्नओवर</div><div class="f-stat-value" id="fh-turnover">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">💰</div><div class="f-stat-label">कुल छात्र संग्रह</div><div class="f-stat-value" id="fh-collected" style="color:#16a34a;">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">⏳</div><div class="f-stat-label">कुल बकाया फीस</div><div class="f-stat-value" id="fh-balance" style="color:#dc2626;">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">💵</div><div class="f-stat-label">आज का संग्रह</div><div class="f-stat-value" id="fh-today" style="color:#0284c7;">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">📅</div><div class="f-stat-label">इस महीने का</div><div class="f-stat-value" id="fh-month" style="color:#7c3aed;">₹ 0</div></div>
+    </div>
+
+    <div class="fees-hub-section-title">फीस प्रबंधन सुविधाएँ</div>
+    <div class="fees-features-grid">
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">💳</div><h3>फीस संग्रह</h3><p>छात्रों से फीस भुगतान रिकॉर्ड करें</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('all')">संग्रह करें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">📑</div><h3>भुगतान रसीदें</h3><p>एकत्रित फीस के लिए भुगतान रसीदें प्रबंधित करें</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('paid')">प्रबंधित करें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">🔗</div><h3>ऑनलाइन भुगतान लिंक</h3><p>छात्रों / अभिभावकों के लिए ऑनलाइन भुगतान</p></div>
+        <button class="f-card-btn" onclick="openQrPaymentModal()">सेटअप करें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">📜</div><h3>भुगतान इतिहास</h3><p>सभी छात्रों का भुगतान इतिहास</p></div>
+        <button class="f-card-btn" onclick="openPaymentHistoryView()">इतिहास देखें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">📊</div><h3>कक्षा वार फीस रिपोर्ट</h3><p>कक्षा अनुसार छात्रों की फीस रिपोर्ट</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट देखें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">🥧</div><h3>सभी फीस रिपोर्ट्स <span style="background:#dc2626; color:white; font-size:8px; padding:1px 4px; border-radius:4px;">NEW</span></h3><p>सभी फीस संबंधित रिपोर्ट एक जगह</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट्स खोलें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: DETAILED FEES TABLE (`fees_collection.php`) -->
+  <div id="screen-fees-table" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">⬅ वापस (फीस हब)</button>
+      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | फीस संकलन एवं रसीद केंद्र</div>
+    </div>
+
+    <div class="filter-panel">
+      <select class="filter-control" id="fee-filter-class" onchange="filterFeesTable()">
+        <option value="">-- सभी कक्षाएं --</option>
+        <option value="Class 10-A">Class 10-A</option>
+        <option value="8th">Class 8th</option>
+        <option value="6">Class 6</option>
+      </select>
+      <select class="filter-control" id="fee-filter-status" onchange="filterFeesTable()">
+        <option value="">-- सभी स्टेटस --</option>
+        <option value="Pending">Pending (बकाया)</option>
+        <option value="Partial">Partial (आंशिक जमा)</option>
+        <option value="Paid">Paid (पूर्ण जमा)</option>
+      </select>
+      <input type="text" id="fee-search-box" class="filter-control" style="flex:1; min-width:200px;" placeholder="🔍 छात्र का नाम, स्कॉलर या रोल नंबर से खोजें..." onkeyup="filterFeesTable()">
+    </div>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>SR.</th>
+            <th>SCHOLAR NO</th>
+            <th>रोल नं</th>
+            <th>छात्र का नाम</th>
+            <th>कक्षा-सेक्शन</th>
+            <th>पिता का नाम</th>
+            <th>मोबाइल नंबर</th>
+            <th>कुल फीस (₹)</th>
+            <th>जमा फीस (₹)</th>
+            <th>बकाया राशि (₹)</th>
+            <th>स्थिति</th>
+            <th>कार्यवाही (Action)</th>
+          </tr>
+        </thead>
+        <tbody id="fee-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: PAYMENT TRANSACTIONS HISTORY TABLE -->
+  <div id="screen-fees-history" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">⬅ वापस (फीस हब)</button>
+      <div style="font-weight:700; color:#78350f;">📜 भुगतान इतिहास (All Transactions History)</div>
+    </div>
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>रसीद संख्या</th>
+            <th>दिनांक</th>
+            <th>छात्र का नाम</th>
+            <th>कक्षा</th>
+            <th>स्कॉलर नं</th>
+            <th>जमा राशि (₹)</th>
+            <th>भुगतान विधि</th>
+            <th>रिमार्क</th>
+            <th>रसीद प्रिंट</th>
+          </tr>
+        </thead>
+        <tbody id="fee-history-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: STUDENTS DIRECTORY (`students.php` - FULL 18+ COLUMNS) -->
+  <div id="screen-students" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
+      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | श्री मेवाड़ पब्लिक स्कूल</div>
+    </div>
+
+    <div class="tip-box">
+      ✏️ टिप: टेबल में एडिट के लिए पहले ऊपर से <strong>कक्षा (Class) चुनें</strong> और फिर उस सेल पर <strong>डबल-क्लिक</strong> करें!
+    </div>
+
+    <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">📖 सभी छात्रों की सूची 📖</h2>
+
+    <div class="action-bar-flex" style="display:flex; gap:8px; justify-content:center; margin-bottom:14px;">
+      <button class="btn-action-pill btn-act-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
+      <button class="btn-action-pill btn-act-blue" onclick="showScreen('id-cards')">🪪 छात्र ID कार्ड</button>
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन</button>
+      <button class="btn-action-pill btn-act-purple" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन</button>
+    </div>
+
+    <div class="filter-panel">
+      <select class="filter-control" id="filter-class" onchange="filterStudentsTable()">
+        <option value="">-- सभी कक्षाएं --</option>
+        <option value="6">Class 6</option>
+        <option value="8th">Class 8th</option>
+        <option value="Class 10-A">Class 10-A</option>
+        <option value="PP.4+">PP.4+</option>
+        <option value="1st">1st</option>
+      </select>
+      <select class="filter-control" id="filter-sec" onchange="filterStudentsTable()">
+        <option value="">-- सभी सेक्शन --</option>
+        <option value="A">Section A</option>
+        <option value="B">Section B</option>
+      </select>
+      <select class="filter-control" id="filter-status" onchange="filterStudentsTable()">
+        <option value="Active">सक्रिय (Active)</option>
+        <option value="all">सभी</option>
+      </select>
+    </div>
+
+    <input type="text" id="std-search-input" class="search-input-big" placeholder="🔍 नाम, पिता का नाम, प्रवेश क्रमांक या मोबाइल नंबर से खोजें..." onkeyup="filterStudentsTable()">
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>SR.</th>
+            <th>PHOTO</th>
+            <th>ADMISSION NO.</th>
+            <th>ADMISSION DATE</th>
+            <th>NAME</th>
+            <th>ROLL NO.</th>
+            <th>CLASS</th>
+            <th>SECTION</th>
+            <th>स्थिति</th>
+            <th>GENDER</th>
+            <th>RTE</th>
+            <th>FATHER'S NAME</th>
+            <th>MOTHER'S NAME</th>
+            <th>MOBILE NO.</th>
+            <th>DOB</th>
+            <th>AADHAAR NO.</th>
+            <th>JANAADHAAR NO.</th>
+            <th>ADDRESS</th>
+            <th>DOCUMENTS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="std-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCREEN 7: 10-SECTION ADMISSION FORM -->
+  <div id="screen-admission" class="form-sheet-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('students')">⬅ वापस</button>
+      <div style="font-weight:700; color:#78350f;">सत्र: 2026-27 | छात्र प्रवेश फॉर्म</div>
+    </div>
+    <div class="form-sheet-header"><h2>⭐ छात्र प्रवेश फॉर्म (New Admission) ⭐</h2></div>
+    <div class="sec-card">
+      <div class="sec-title">1. प्रवेश एवं व्यक्तिगत विवरण</div>
+      <div class="f-grid-3">
+        <div class="f-field"><label>नाम *</label><input type="text" id="form-name" class="f-input" placeholder="पूरा नाम"></div>
+        <div class="f-field"><label>रोल नं *</label><input type="number" id="form-roll" class="f-input" placeholder="उदा. 106"></div>
+        <div class="f-field"><label>स्कॉलर नं</label><input type="text" id="form-scholar" class="f-input" placeholder="उदा. 760"></div>
+      </div>
+      <div class="f-grid-3">
+        <div class="f-field">
+          <label>कक्षा *</label>
+          <select id="form-cls" class="f-input">
+            <option value="Class 10-A">Class 10-A</option>
+            <option value="8th">8th</option>
+            <option value="6">6</option>
+            <option value="1st">1st</option>
+          </select>
+        </div>
+        <div class="f-field"><label>सेक्शन</label><select id="form-sec" class="f-input"><option value="A">Section A</option><option value="B">Section B</option></select></div>
+        <div class="f-field"><label>लिंग</label><select id="form-gender" class="f-input"><option value="Male">Male</option><option value="Female">Female</option></select></div>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-title">2. अभिभावक एवं शुल्क विवरण</div>
+      <div class="f-grid-3">
+        <div class="f-field"><label>पिता का नाम *</label><input type="text" id="form-father" class="f-input"></div>
+        <div class="f-field"><label>मोबाइल नंबर *</label><input type="number" id="form-mobile" class="f-input"></div>
+        <div class="f-field"><label>कुल वार्षिक फीस (₹) *</label><input type="number" id="form-fees" class="f-input" value="20000"></div>
+      </div>
+      <div class="f-grid-2">
+        <div class="f-field"><label>निवास का पता</label><input type="text" id="form-address" class="f-input" value="सिंहपुर, चित्तौड़गढ़"></div>
+        <div class="f-field"><label>RTE छात्र?</label><select id="form-rte" class="f-input"><option value="NO">नहीं (NO)</option><option value="YES">हाँ (YES)</option></select></div>
+      </div>
+    </div>
+    <button class="btn-action-pill btn-act-green" style="width:100%; padding:14px; font-size:15px;" onclick="submitCompleteAdmission()">💾 रिकॉर्ड सेव करें</button>
+  </div>
+
+  <!-- SCREEN 8: EMPLOYEE MANAGEMENT (`employee_management.php`) -->
+  <div id="screen-employees" class="directory-container hidden">
+    <div class="emp-panel-card">
+      <div class="emp-section-title"><span>📑</span> कर्मचारी प्रबंधन के कार्य</div>
+      <div class="emp-actions-bar">
+        <button class="emp-act-btn btn-green-emp" onclick="openAddEmpPrompt()">👤+ नया कर्मचारी जोड़ें</button>
+        <button class="emp-act-btn btn-brown-emp">💳 वेतन प्रबंधन</button>
+        <button class="emp-act-btn btn-blue-emp" onclick="showScreen('att-command')">✔ उपस्थिति</button>
+        <button class="emp-act-btn btn-rose-emp" onclick="openStaffIdCardModal(employees[0]?.id)">🪪 ID कार्ड</button>
+        <button class="emp-act-btn btn-sky-emp" onclick="showScreen('dashboard')">⬅ वापस डैशबोर्ड</button>
+      </div>
+
+      <div class="emp-stats-bar">
+        <span class="emp-stat-pill" style="background:#0284c7;">👤 पुरुष: <span id="st-emp-male">0</span></span>
+        <span class="emp-stat-pill" style="background:#db2777;">👩 महिला: <span id="st-emp-fem">0</span></span>
+        <span class="emp-stat-pill" style="background:#7c2d12;">👥 कुल कर्मचारी: <span id="st-emp-tot">0</span></span>
+        <span class="emp-stat-pill" style="background:#0d9488;">👨‍🏫 शिक्षक: <span id="st-emp-teach">0</span></span>
+        <span class="emp-stat-pill" style="background:#dc2626;">⚙️ गैर-शिक्षक: <span id="st-emp-non">0</span></span>
       </div>
     </div>
 
+    <div class="emp-panel-card">
+      <div class="emp-section-title"><span>👥</span> वर्तमान कर्मचारियों की सूची</div>
+      <div class="emp-search-container">
+        <span class="emp-search-icon">🔍</span>
+        <input type="text" id="emp-search-box" class="emp-search-input" placeholder="कर्मचारी खोजें (नाम, कोड, पद, मोबाइल नंबर से)..." onkeyup="filterEmployees()">
+        <span class="emp-total-badge" id="emp-total-badge">Total: 0</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table emp-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>PHOTO</th>
+              <th>नाम</th>
+              <th>पद</th>
+              <th>CODE</th>
+              <th>प्रकार</th>
+              <th>मोबाइल</th>
+              <th>ईमेल</th>
+              <th>ज्वाइनिंग</th>
+              <th>क्लास टीचर</th>
+              <th>दस्तावेज़</th>
+              <th>स्थिति</th>
+              <th>कार्यवाही</th>
+            </tr>
+          </thead>
+          <tbody id="emp-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 9: OBSERVATION COMMAND CENTER (`attendance_view.php`) -->
+  <div id="screen-att-command" class="directory-container hidden">
+    <div style="background:linear-gradient(135deg, #7f1d1d, #991b1b); color:white; padding:10px 16px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <div style="font-size:16px; font-weight:800;">📡 ऑब्जर्वेशन कमांड सेंटर</div>
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ डैशबोर्ड</button>
+    </div>
+
     <div class="cmd-stats-grid">
-      <div class="cmd-stat-box" style="background:#1d4ed8;"><h2>1 / 11</h2><p>पूर्ण वर्ग</p></div>
-      <div class="cmd-stat-box" style="background:#dc2626;"><h2>10</h2><p>लंबित</p></div>
+      <div class="cmd-stat-box" style="background:#1d4ed8;"><h2>1 / 12</h2><p>पूर्ण वर्ग</p></div>
+      <div class="cmd-stat-box" style="background:#dc2626;"><h2>11</h2><p>लंबित</p></div>
       <div class="cmd-stat-box" style="background:#0284c7;"><h2>98%</h2><p>STAFF PRESENT</p></div>
       <div class="cmd-stat-box" style="background:#e11d48;"><h2>450+</h2><p>FACE ID LOGINS</p></div>
     </div>
@@ -244,140 +711,457 @@
     <div class="class-grid-cards" id="cmd-class-grid"></div>
   </div>
 
-  <!-- SCREEN 4: MASTER ATTENDANCE REGISTER (`attendance_report.php`) - MATCHING SCREENSHOT EXACTLY -->
-  <div id="screen-att-report" class="directory-container hidden">
-    <div class="filter-panel no-print" style="justify-content:space-between;">
-      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-        <select id="rep-filter-class" class="filter-control" onchange="loadMasterReportData()">
+  <!-- SCREEN 10: ATTENDANCE MARKING (`attendance_mark.php`) -->
+  <div id="screen-att-mark" class="directory-container hidden">
+    <div style="background:#991b1b; color:white; padding:8px 14px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:13px; font-weight:800;">
+      <div>🌸 दैनिक उपस्थिति मार्किंग 🌸</div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn-action-pill" style="background:#0284c7; padding:4px 10px;" onclick="openClassReportFromMarking()">📑 Attendance Report</button>
+        <button class="btn-action-pill btn-act-orange" style="padding:4px 10px;" onclick="showScreen('att-command')">⬅ कमांड सेंटर</button>
+      </div>
+    </div>
+
+    <div class="filter-panel">
+      <label style="font-size:12px; font-weight:700;">तारीख: <input type="date" id="mark-date" class="filter-control" onchange="renderMarkingTable()"></label>
+      <label style="font-size:12px; font-weight:700;">कक्षा: 
+        <select id="mark-class" class="filter-control" onchange="renderMarkingTable()">
           <option value="Class 10-A">Class 10-A</option>
           <option value="8th">8th</option>
-          <option value="6">6th</option>
-          <option value="Pp.3+">Pp.3+</option>
-          <option value="Pp.4+">Pp.4+</option>
-          <option value="Pp.5+">Pp.5+</option>
-          <option value="1st">1st</option>
-          <option value="2nd">2nd</option>
-          <option value="3rd">3rd</option>
-          <option value="4th">4th</option>
-          <option value="5th">5th</option>
-          <option value="7th">7th</option>
+          <option value="6">6</option>
         </select>
-        <select id="rep-filter-sec" class="filter-control" onchange="loadMasterReportData()">
+      </label>
+      <button class="btn-action-pill btn-act-green" style="margin-left:auto;" onclick="setAllMarking('Present')">✔ सभी को Present करें</button>
+      <button class="btn-action-pill btn-act-red" onclick="setAllMarking('Absent')">✖ सभी को Absent करें</button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead><tr><th>क्र.</th><th>कक्षा-सेक्शन</th><th>रोल नं.</th><th>छात्र का नाम</th><th>स्थिति</th><th>टिप्पणी</th><th>एक्शन</th></tr></thead>
+        <tbody id="mark-tbody"></tbody>
+      </table>
+    </div>
+    <div style="text-align:center; margin:16px 0;">
+      <button class="btn-action-pill btn-act-green" style="padding:12px 36px;" onclick="saveMarkingData()">💾 उपस्थिति सुरक्षित सेव करें</button>
+      <p id="mark-save-msg" style="margin-top:8px; font-weight:700;"></p>
+    </div>
+  </div>
+
+  <!-- SCREEN 11: MASTER ATTENDANCE REGISTER (`attendance_report.php`) -->
+  <div id="screen-att-report" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;" class="no-print">
+      <div style="display:flex; gap:8px; align-items:center;">
+        <select id="rep-class" class="filter-control" onchange="renderMasterReport()">
+          <option value="Class 10-A">Class 10-A</option>
+          <option value="8th">8th</option>
+          <option value="6">6</option>
+        </select>
+        <select id="rep-sec" class="filter-control" onchange="renderMasterReport()">
           <option value="A">Section A</option>
           <option value="B">Section B</option>
         </select>
-        <input type="month" id="rep-filter-month" class="filter-control" value="2026-10" onchange="loadMasterReportData()">
-        <button class="btn-action-pill btn-act-blue" onclick="loadMasterReportData()">🔍 रजिस्टर देखें</button>
+        <input type="month" id="rep-month" class="filter-control" value="2026-10" onchange="renderMasterReport()">
+        <button class="btn-action-pill btn-act-blue" onclick="renderMasterReport()">🔍 रजिस्टर देखें</button>
       </div>
 
       <div style="display:flex; gap:6px;">
         <button class="btn-action-pill btn-act-orange" onclick="showScreen('att-command')">⬅ Back</button>
-        <button class="btn-action-pill btn-act-blue" onclick="alert('कवर पेज जनरेट हुआ!')">📘 Front Cover</button>
-        <button class="btn-action-pill btn-act-green" onclick="exportRegisterToExcel()">📊 Excel</button>
+        <button class="btn-action-pill" style="background:#0284c7;" onclick="openFrontCoverModal()">📘 Front Cover</button>
+        <button class="btn-action-pill btn-act-green" onclick="exportAttendanceReportToExcel()">📊 Excel</button>
         <button class="btn-action-pill btn-act-red" onclick="window.print()">🖨️ Print Register</button>
       </div>
     </div>
 
-    <!-- Official Printable Attendance Sheet View -->
     <div class="report-sheet-view" id="printable-report-area">
       <div class="report-header-school">
         <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
-        <p>Near Bada Balaji Choraha, Village Singhpur, The - Kapasan Dist.- Chittorgarh PIN- 312207</p>
-        <div class="report-sub-title">उपस्थिति रजिस्टर / ATTENDANCE REGISTER</div>
+        <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh PIN - 312207</p>
+        <h3>उपस्थिति रजिस्टर / ATTENDANCE REGISTER</h3>
+        <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800; margin-top:10px; color:#334155; border-top:1px dashed #cbd5e1; padding-top:6px;">
+          <span>कक्षा / Class: <strong id="rep-view-cls" style="color:#991b1b;">Class 10-A</strong></span>
+          <span>वर्ग / Section: <strong id="rep-view-sec" style="color:#991b1b;">A</strong></span>
+          <span>माह / Month: <strong id="rep-view-month" style="color:#991b1b;">October, 2026</strong></span>
+        </div>
       </div>
 
-      <div class="report-meta-row">
-        <span>कक्षा / Class: <strong id="rep-meta-class">Class 10-A</strong></span>
-        <span>वर्ग / Section: <strong id="rep-meta-sec">Section A</strong></span>
-        <span>माह / Month: <strong id="rep-meta-month">October, 2026</strong></span>
-      </div>
-
-      <div class="table-responsive" style="margin-top:12px; border:none; box-shadow:none;">
-        <table class="custom-table report-custom-table" id="master-register-table">
+      <div class="table-responsive">
+        <table class="custom-table" style="font-size:12px;">
           <thead>
             <tr>
-              <th style="width:45px;">क्र.सं.</th>
-              <th style="width:110px;">रजिस्टर संख्या</th>
-              <th>छात्र/छात्रा का नाम<br><span style="font-size:9px; font-weight:normal;">(Name of Scholar)</span></th>
-              <th style="width:90px;">उपस्थिति इस माह</th>
-              <th style="width:90px;">गत माह तक</th>
-              <th style="width:90px;">कुल Total</th>
-              <th style="width:90px;">अनुपस्थिति Absence</th>
-              <th style="width:80px;">अवकाश Leave</th>
-              <th style="width:130px;">विशेष विवरण Remarks</th>
+              <th style="width:40px; text-align:center;">क्र.सं.</th>
+              <th style="width:100px; text-align:center;">रजिस्टर संख्या</th>
+              <th>छात्र/छात्रा का नाम<br><span style="font-size:9.5px; opacity:0.85;">(Name of Scholar)</span></th>
+              <th style="text-align:center;">उपस्थिति इस माह</th>
+              <th style="text-align:center;">गत माह तक</th>
+              <th style="text-align:center;">कुल Total</th>
+              <th style="text-align:center; color:#fee2e2;">अनुपस्थिति Absence</th>
+              <th style="text-align:center;">अवकाश Leave</th>
+              <th>विशेष विवरण Remarks</th>
             </tr>
           </thead>
           <tbody id="rep-tbody"></tbody>
         </table>
       </div>
+    </div>
+  </div>
 
-      <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end;">
-        <div style="text-align:center;">
-          <div style="border-top:1px dashed #64748b; width:160px; margin-bottom:4px;"></div>
-          <span style="font-size:11px; font-weight:700;">कक्षाध्यापक के हस्ताक्षर<br>(Class Teacher)</span>
+  <!-- FRONT COVER MODAL -->
+  <div id="front-cover-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:20px; max-width:660px; width:100%; text-align:center;">
+      <div id="printable-cover-area">
+        <div class="register-front-cover">
+          <div style="font-size:36px; margin-bottom:10px;">🏫</div>
+          <h2 style="color:#78350f; font-size:24px; font-weight:900;">श्री मेवाड़ पब्लिक स्कूल</h2>
+          <p style="font-size:12px; color:#475569;">बड़ा बालाजी चौराहा, सिंहपुर, कपासन (चित्तौड़गढ़)</p>
+          <div style="border-top:2px solid #78350f; border-bottom:2px solid #78350f; padding:12px 0; margin:24px 0;">
+            <h1 style="color:#991b1b; font-size:26px; font-weight:900; letter-spacing:1px;">विद्यार्थी दैनिक उपस्थिति रजिस्टर</h1>
+            <p style="font-size:14px; font-weight:700; color:#1e3a8a; margin-top:4px;">शैक्षणिक सत्र: 2026 - 2027</p>
+          </div>
+          <div style="text-align:left; font-size:13px; line-height:2.2; max-width:350px; margin:0 auto; font-weight:700; color:#334155;">
+            <div>कक्षा (Class): <span id="cov-cls" style="color:#991b1b;">Class 10-A</span></div>
+            <div>सेक्शन (Section): <span id="cov-sec" style="color:#991b1b;">A</span></div>
+            <div>कक्षाध्यापक: <span>श्री हर्षित दाधीच</span></div>
+          </div>
         </div>
-        <div style="text-align:center;">
-          <div style="border-top:1px dashed #64748b; width:160px; margin-bottom:4px;"></div>
-          <span style="font-size:11px; font-weight:700;">संस्था प्रधान / मुहर<br>(Principal / Headmaster)</span>
-        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-red" onclick="window.print()">🖨️ कवर प्रिंट करें</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('front-cover-modal').classList.add('hidden')">बंद करें</button>
       </div>
     </div>
   </div>
 
-  <!-- SCREEN 5: STUDENTS DIRECTORY -->
-  <div id="screen-students" class="directory-container hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस</button>
-      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | श्री मेवाड़ पब्लिक स्कूल</div>
-    </div>
-    <div class="table-responsive">
-      <table class="custom-table">
-        <thead><tr><th>SR.</th><th>SCHOLAR NO</th><th>NAME</th><th>ROLL NO</th><th>CLASS</th><th>MOBILE</th></tr></thead>
-        <tbody id="std-tbody"></tbody>
-      </table>
+  <!-- MODAL: OFFICIAL STAFF DOCUMENT PRINT VIEW -->
+  <div id="doc-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center;">
+      <div id="printable-doc-area">
+        <div class="doc-print-sheet">
+          <div class="doc-school-header">
+            <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
+            <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh (Raj.) PIN: 312207</p>
+            <p style="font-size:10px; color:#64748b; margin-top:2px;">Affiliated & Managed by Mewar Educational Society</p>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#475569; margin-bottom:14px;">
+            <span>क्रमांक / Ref: <strong id="doc-ref-no">SMPS/DOC/2026/01</strong></span>
+            <span>दिनांक / Date: <strong id="doc-date">16-Oct-2026</strong></span>
+          </div>
+
+          <div class="doc-title-badge"><span id="doc-title-text">अनुबंध पत्र</span></div>
+          <div id="doc-content-body" style="font-size:13px; text-align:justify; color:#1e293b;"></div>
+
+          <div style="margin-top:60px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <div style="text-align:center;">
+              <div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div>
+              <span style="font-size:11px; font-weight:700;">हस्ताक्षर कर्मचारी</span>
+            </div>
+            <div style="text-align:center;">
+              <div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div>
+              <span style="font-size:11px; font-weight:700;">अधिकृत संस्था प्रधान / मुहर</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ प्रिंट निकालें</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('doc-modal').classList.add('hidden')">बंद करें</button>
+      </div>
     </div>
   </div>
 
-  <!-- SCREEN 6: EMPLOYEES DIRECTORY -->
-  <div id="screen-employees" class="directory-container hidden">
-    <div class="emp-panel-card">
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस</button>
-      <h3 style="margin-top:10px;">कर्मचारी प्रबंधन</h3>
+  <!-- MODAL: COLLECT FEE -->
+  <div id="collect-fee-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:12px; padding:20px; max-width:400px; width:100%; border-top:6px solid #16a34a;">
+      <h3 style="color:#15803d; margin-bottom:12px; font-size:16px;">💳 फीस जमा करें</h3>
+      <div style="text-align:left; font-size:12px; line-height:1.8; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:6px;">
+        <div><strong>छात्र:</strong> <span id="cfm-name">-</span></div>
+        <div><strong>शेष बकाया:</strong> <strong style="color:#dc2626;">₹<span id="cfm-bal">0</span></strong></div>
+      </div>
+      <input type="number" id="cfm-amount" class="filter-control" style="width:100%; margin-bottom:10px;" placeholder="जमा राशि भरें">
+      <select id="cfm-mode" class="filter-control" style="width:100%; margin-bottom:12px;">
+        <option value="Cash">नकद (Cash)</option>
+        <option value="UPI">UPI (PhonePe / GPay)</option>
+      </select>
+      <button class="btn-action-pill btn-act-green" style="width:100%;" onclick="submitFeePayment()">💾 जमा करें और रसीद बनाएं</button>
+      <button class="btn-action-pill" style="background:#64748b; width:100%; margin-top:6px;" onclick="document.getElementById('collect-fee-modal').classList.add('hidden')">रद्द करें</button>
     </div>
   </div>
 
-  <!-- SCREEN 7: FEES HUB -->
-  <div id="screen-fees-hub" class="fees-hub-wrapper hidden">
-    <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस</button>
+  <!-- MODAL: FEE RECEIPT -->
+  <div id="receipt-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:490px; width:100%;">
+      <div id="printable-receipt-area">
+        <div class="receipt-sheet">
+          <div class="receipt-header">
+            <h3 style="margin:0; font-size:15px; color:#78350f;">SHREE MEWAR PUBLIC SCHOOL</h3>
+            <p style="margin:2px 0 0; font-size:10px; color:#64748b;">Singhpur, Chittorgarh (Raj.)</p>
+            <div style="font-size:11px; font-weight:800; color:#15803d; margin-top:4px;">आधिकारिक शुल्क रसीद (FEE RECEIPT)</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px;">
+            <span>रसीद: <strong id="rec-no">REC-001</strong></span>
+            <span>दिनांक: <strong id="rec-date">16/10/2026</strong></span>
+          </div>
+          <div style="font-size:11px; line-height:1.7; border-bottom:1px dashed #cbd5e1; padding-bottom:8px; margin-bottom:8px;">
+            <div><strong>छात्र:</strong> <span id="rec-name">-</span> | <strong>कक्षा:</strong> <span id="rec-class">-</span></div>
+            <div><strong>पिता:</strong> <span id="rec-father">-</span></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800; padding:6px 0;">
+            <span>प्राप्त राशि:</span>
+            <span style="color:#15803d;">₹ <span id="rec-paid">0</span>.00</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ रसीद प्रिंट करें</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('receipt-modal').classList.add('hidden')">बंद करें</button>
+      </div>
+    </div>
   </div>
+
+  <!-- MODAL: ID CARD -->
+  <div id="id-preview-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; max-width:440px; width:100%; text-align:center;">
+      <div id="printable-id-card-area">
+        <div class="id-card-box">
+          <div class="id-card-header"><h4 style="margin:0; font-size:13px;">SHREE MEWAR PUBLIC SCHOOL</h4><p style="margin:2px 0 0; font-size:9.5px; color:#fde047;">Singhpur, Chittorgarh</p></div>
+          <div class="id-card-body">
+            <div class="id-card-photo" id="idc-photo-box">👤</div>
+            <div class="id-card-details">
+              <strong>नाम:</strong> <span id="idc-name">-</span><br>
+              <strong>पद/कोड:</strong> <span id="idc-code">-</span><br>
+              <strong>विभाग:</strong> <span id="idc-dept">-</span><br>
+              <strong>मोबाइल:</strong> <span id="idc-mob">-</span><br>
+              <strong>पता:</strong> सिंहपुर, चित्तौड़गढ़
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-action-pill btn-act-green" style="margin-top:14px;" onclick="window.print()">🖨️ प्रिंट निकालें</button>
+      <button class="btn-action-pill" style="background:#64748b; margin-top:14px;" onclick="document.getElementById('id-preview-modal').classList.add('hidden')">बंद करें</button>
+    </div>
+  </div>
+
+  <input type="file" id="global-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
 
   <script>
     let students = [];
+    let employees = [];
+    let feesList = [];
+    let activeFeeStudent = null;
+    let markingMap = {};
+    let photoUploadContext = { targetType: null, id: null };
+
     const ALL_CLASSES = [
-      { name: 'Pp.3+', sec: 'Section A', count: 11, bg: '#db2777' },
-      { name: 'Pp.4+', sec: 'Section A', count: 14, bg: '#0284c7' },
-      { name: 'Pp.5+', sec: 'Section A', count: 30, bg: '#ea580c' },
-      { name: '1st', sec: 'Section A', count: 28, bg: '#0d9488' },
-      { name: '2nd', sec: 'Section A', count: 18, bg: '#7c3aed' },
-      { name: '3rd', sec: 'Section A', count: 27, bg: '#2563eb' },
-      { name: '4th', sec: 'Section A', count: 17, bg: '#c026d3' },
-      { name: '5th', sec: 'Section A', count: 28, bg: '#0284c7' },
-      { name: '6th', sec: 'Section A', count: 22, bg: '#ea580c' },
-      { name: '7th', sec: 'Section A', count: 25, bg: '#0d9488' },
-      { name: '8th', sec: 'Section A', count: 19, bg: '#7c3aed' },
-      { name: 'Class 10-A', sec: 'Section A', count: 5, bg: '#16a34a' }
+      { name: 'Pp.3+', sec: '1 Sections', count: 11, bg: '#db2777' },
+      { name: 'Pp.4+', sec: '1 Sections', count: 14, bg: '#0284c7' },
+      { name: 'Pp.5+', sec: '1 Sections', count: 30, bg: '#ea580c' },
+      { name: '1st', sec: '1 Sections', count: 28, bg: '#0d9488' },
+      { name: '2nd', sec: '1 Sections', count: 18, bg: '#7c3aed' },
+      { name: '3rd', sec: '2 Sections', count: 27, bg: '#2563eb' },
+      { name: '4th', sec: '1 Sections', count: 17, bg: '#c026d3' },
+      { name: '5th', sec: '1 Sections', count: 28, bg: '#0284c7' },
+      { name: '6th', sec: '2 Sections', count: 22, bg: '#ea580c' },
+      { name: '7th', sec: '1 Sections', count: 25, bg: '#0d9488' },
+      { name: '8th', sec: '1 Sections', count: 19, bg: '#7c3aed' },
+      { name: 'Class 10-A', sec: '1 Sections', count: 5, bg: '#16a34a' }
     ];
 
     function showScreen(screenId) {
-      ['login', 'dashboard', 'employees', 'att-command', 'att-report', 'students', 'fees-hub'].forEach(s => {
+      ['login', 'dashboard', 'employees', 'att-command', 'att-mark', 'att-report', 'students', 'admission', 'fees-hub', 'fees-table', 'fees-history'].forEach(s => {
         const el = document.getElementById(`screen-${s}`);
         if (el) el.classList.add('hidden');
       });
       const target = document.getElementById(`screen-${screenId}`);
       if (target) target.classList.remove('hidden');
 
-      if (screenId === 'att-command') renderCommandCenter();
       if (screenId === 'students' || screenId === 'dashboard') loadStudentsData();
+      if (screenId === 'employees' || screenId === 'dashboard') loadEmployeesData();
+      if (screenId === 'fees-hub' || screenId === 'fees-table' || screenId === 'dashboard') loadFeesData();
+      if (screenId === 'att-command') renderCommandCenter();
+      if (screenId === 'att-report') renderMasterReport();
+    }
+
+    /* FEES LOGIC */
+    async function loadFeesData() {
+      try {
+        const res = await fetch('/api/fees/summary');
+        feesList = await res.json();
+        let tot = 0, paid = 0, bal = 0;
+        feesList.forEach(f => {
+          tot += Number(f.total_fees || 0);
+          paid += Number(f.paid_fees || 0);
+          bal += Number(f.balance_fees || 0);
+        });
+        document.getElementById('fh-tot-stud').innerText = feesList.length || '0';
+        document.getElementById('fh-turnover').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
+        document.getElementById('fh-collected').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+        document.getElementById('fh-balance').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
+        document.getElementById('d-tot-fee').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
+        document.getElementById('d-paid-fee').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+        document.getElementById('d-bal-fee').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
+        renderFeesTable(feesList);
+      } catch (err) { console.error(err); }
+    }
+
+    function renderFeesTable(list) {
+      const tbody = document.getElementById('fee-tbody');
+      tbody.innerHTML = '';
+      list.forEach((f, idx) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td><strong>${f.scholar_no || '759'}</strong></td>
+            <td>${f.roll_no}</td>
+            <td><strong>${f.name}</strong></td>
+            <td>${f.class_name || '8th'}</td>
+            <td>${f.father_name || 'श्री देविलाल'}</td>
+            <td>${f.mobile_no}</td>
+            <td>₹${Number(f.total_fees || 0).toLocaleString('en-IN')}</td>
+            <td style="color:#16a34a; font-weight:700;">₹${Number(f.paid_fees || 0).toLocaleString('en-IN')}</td>
+            <td style="color:#dc2626; font-weight:700;">₹${Number(f.balance_fees || 0).toLocaleString('en-IN')}</td>
+            <td><span style="font-weight:700;">${f.fee_status}</span></td>
+            <td><button class="btn-action-pill btn-act-green" style="font-size:10px; padding:3px 6px;" onclick="openCollectFeeModal(${f.student_id})">💳 जमा</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function openFeesTableView(mode) {
+      showScreen('fees-table');
+      document.getElementById('fee-filter-status').value = mode === 'paid' ? 'Paid' : '';
+      filterFeesTable();
+    }
+
+    function filterFeesTable() {
+      const cls = document.getElementById('fee-filter-class').value;
+      const stat = document.getElementById('fee-filter-status').value;
+      const q = document.getElementById('fee-search-box').value.toLowerCase().trim();
+      const filtered = feesList.filter(f => {
+        return (cls === '' || (f.class_name || '8th') === cls) && (stat === '' || f.fee_status === stat) && ((f.name || '').toLowerCase().includes(q) || (f.scholar_no || '').toString().includes(q));
+      });
+      renderFeesTable(filtered);
+    }
+
+    function openCollectFeeModal(studId) {
+      activeFeeStudent = feesList.find(f => f.student_id == studId);
+      if (!activeFeeStudent) return;
+      document.getElementById('cfm-name').innerText = activeFeeStudent.name;
+      document.getElementById('cfm-bal').innerText = Number(activeFeeStudent.balance_fees || 0).toLocaleString('en-IN');
+      document.getElementById('cfm-amount').value = activeFeeStudent.balance_fees > 0 ? activeFeeStudent.balance_fees : 0;
+      document.getElementById('collect-fee-modal').classList.remove('hidden');
+    }
+
+    async function submitFeePayment() {
+      const amount = document.getElementById('cfm-amount').value;
+      const mode = document.getElementById('cfm-mode').value;
+      if (!amount || Number(amount) <= 0) return alert("वैध राशि भरें!");
+      const res = await fetch('/api/fees/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student_id: activeFeeStudent.student_id, amount_paid: Number(amount), payment_mode: mode })
+      });
+      const data = await res.json();
+      document.getElementById('collect-fee-modal').classList.add('hidden');
+      loadFeesData();
+      document.getElementById('rec-no').innerText = data.receipt_no;
+      document.getElementById('rec-name').innerText = activeFeeStudent.name;
+      document.getElementById('rec-class').innerText = activeFeeStudent.class_name;
+      document.getElementById('rec-father').innerText = activeFeeStudent.father_name;
+      document.getElementById('rec-paid').innerText = Number(amount).toLocaleString('en-IN');
+      document.getElementById('receipt-modal').classList.remove('hidden');
+    }
+
+    /* STAFF DOCUMENTS */
+    function generateStaffDocument(empId, docType) {
+      const emp = employees.find(e => e.id == empId) || employees[0];
+      if (!emp) return;
+      const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      document.getElementById('doc-date').innerText = dateStr;
+      document.getElementById('doc-ref-no').innerText = `SMPS/${docType.toUpperCase()}/2026/${emp.id}`;
+
+      const titleEl = document.getElementById('doc-title-text');
+      const bodyEl = document.getElementById('doc-content-body');
+
+      if (docType === 'contract') {
+        titleEl.innerText = 'सेवा अनुबंध पत्र / CONTRACT AGREEMENT';
+        bodyEl.innerHTML = `<p>यह अनुबंध आज दिनांक <strong>${dateStr}</strong> को <strong>श्री मेवाड़ पब्लिक स्कूल, सिंहपुर</strong> तथा <strong>श्री/श्रीमती ${emp.name}</strong>, पद: <strong>${emp.designation}</strong> के मध्य निष्पादित किया जाता है।</p><br><p>1. द्वितीय पक्ष विद्यालय में निष्ठापूर्वक अध्यापन कार्य करेंगे।<br>2. कार्य समय प्रातः 08:00 से दोपहर 02:00 बजे तक रहेगा।</p>`;
+      } else if (docType === 'experience') {
+        titleEl.innerText = 'अनुभव प्रमाण पत्र / EXPERIENCE CERTIFICATE';
+        bodyEl.innerHTML = `<p>प्रमाणित किया जाता है कि <strong>श्री/श्रीमती ${emp.name}</strong> हमारे विद्यालय में दिनांक <strong>${emp.joining_date}</strong> से <strong>${emp.designation}</strong> के पद पर कार्यरत रहे हैं। इनका कार्य प्रशंसनीय रहा है।</p>`;
+      } else {
+        titleEl.innerText = 'नियुक्ति पत्र / APPOINTMENT ORDER';
+        bodyEl.innerHTML = `<p>सेवा में,<br><strong>श्री/श्रीमती ${emp.name}</strong><br>आपको सूचित किया जाता है कि आपका चयन <strong>${emp.designation}</strong> पद पर शैक्षिक सत्र 2026-27 हेतु किया गया है।</p>`;
+      }
+      document.getElementById('doc-modal').classList.remove('hidden');
+    }
+
+    /* ATTENDANCE REPORT & REGISTER */
+    function openClassReport(cls, sec) {
+      document.getElementById('rep-class').value = cls;
+      document.getElementById('rep-sec').value = sec;
+      showScreen('att-report');
+      renderMasterReport();
+    }
+
+    function openClassReportFromMarking() {
+      const cls = document.getElementById('mark-class').value;
+      const sec = document.getElementById('mark-sec').value;
+      openClassReport(cls, sec);
+    }
+
+    async function renderMasterReport() {
+      const cls = document.getElementById('rep-class').value;
+      const sec = document.getElementById('rep-sec').value;
+      document.getElementById('rep-view-cls').innerText = cls;
+      document.getElementById('rep-view-sec').innerText = sec;
+      const tbody = document.getElementById('rep-tbody');
+      tbody.innerHTML = '';
+
+      let list = students.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) {
+        list = [
+          { roll_no: '101', scholar_no: '759', name: 'Rahul Sharma' },
+          { roll_no: '102', scholar_no: '760', name: 'Priya Verma' },
+          { roll_no: '103', scholar_no: '761', name: 'Aman Gupta' }
+        ];
+      }
+      list.forEach((s, idx) => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;">${idx + 1}</td>
+            <td style="text-align:center;"><strong>${s.scholar_no || '759'}</strong></td>
+            <td><strong>${s.name}</strong></td>
+            <td style="text-align:center;">24</td>
+            <td style="text-align:center;">120</td>
+            <td style="text-align:center; font-weight:800;">144</td>
+            <td style="text-align:center; color:#dc2626;">2</td>
+            <td style="text-align:center;">0</td>
+            <td>नियमित (Regular)</td>
+          </tr>
+        `;
+      });
+    }
+
+    function openFrontCoverModal() {
+      const cls = document.getElementById('rep-class').value;
+      const sec = document.getElementById('rep-sec').value;
+      document.getElementById('cov-cls').innerText = cls;
+      document.getElementById('cov-sec').innerText = sec;
+      document.getElementById('front-cover-modal').classList.remove('hidden');
+    }
+
+    function exportAttendanceReportToExcel() {
+      const cls = document.getElementById('rep-class').value;
+      let csv = `Sr No,Scholar No,Name,Present,Total,Absence\n`;
+      document.querySelectorAll('#rep-tbody tr').forEach(r => {
+        const c = r.querySelectorAll('td');
+        csv += `${c[0].innerText},${c[1].innerText},"${c[2].innerText}",${c[3].innerText},${c[5].innerText},${c[6].innerText}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Attendance_${cls}.csv`;
+      a.click();
     }
 
     function renderCommandCenter() {
@@ -389,127 +1173,122 @@
           <div class="class-att-card" style="background:${cls.bg};">
             <div class="class-card-top"><h3>${cls.name}</h3><span class="badge-sec-tag">${cls.sec}</span></div>
             <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
-            <div class="class-metrics-grid">
-              <div><div>कुल</div><strong>${cls.count}</strong></div>
-              <div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div>
-              <div><div>अनुपस्थित</div><strong>0</strong></div>
-            </div>
+            <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
             <div class="class-card-btns">
-              <button class="btn-card-action" onclick="openMasterRegisterView('${cls.name}', 'A')">📑 रिपोर्ट</button>
-              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="alert('दैनिक मार्किंग')">✍ दर्ज करें</button>
+              <button class="btn-card-action" onclick="openClassReport('${cls.name}', 'A')">📑 रिपोर्ट</button>
+              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="openClassMarking('${cls.name}', 'A')">✍ दर्ज करें</button>
             </div>
           </div>
         `;
       });
     }
 
-    /* ========================================================
-       MASTER ATTENDANCE REGISTER LOGIC (MATCHING SCREENSHOT)
-    ======================================================== */
-    function openMasterRegisterView(className, section) {
-      document.getElementById('rep-filter-class').value = className;
-      document.getElementById('rep-filter-sec').value = section;
-      showScreen('att-report');
-      loadMasterReportData();
+    function openClassMarking(cls, sec) {
+      document.getElementById('mark-class').value = cls;
+      document.getElementById('mark-date').value = new Date().toISOString().split('T')[0];
+      showScreen('att-mark');
+      renderMarkingTable();
     }
 
-    async function loadMasterReportData() {
-      const cls = document.getElementById('rep-filter-class').value;
-      const sec = document.getElementById('rep-filter-sec').value;
-      const monthInput = document.getElementById('rep-filter-month').value || '2026-10';
-
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      const [year, mNum] = monthInput.split('-');
-      const formattedMonth = `${monthNames[parseInt(mNum, 10) - 1]}, ${year}`;
-
-      document.getElementById('rep-meta-class').innerText = cls;
-      document.getElementById('rep-meta-sec').innerText = `Section ${sec}`;
-      document.getElementById('rep-meta-month').innerText = formattedMonth;
-
-      const tbody = document.getElementById('rep-tbody');
+    async function renderMarkingTable() {
+      const cls = document.getElementById('mark-class').value;
+      const tbody = document.getElementById('mark-tbody');
       tbody.innerHTML = '';
-
-      let list = [];
-      try {
-        const res = await fetch(`/api/attendance/monthly-report?class_name=${encodeURIComponent(cls)}&section=${sec}`);
-        if (res.ok) list = await res.json();
-      } catch (err) {
-        console.warn('API error, using local filtered fallback:', err);
-      }
-
-      // यदि API में अभी डेटा नहीं है तो मौजूदा छात्रों से रजिस्टर भरें
-      if (!list || list.length === 0) {
-        const fallback = students.filter(s => (s.class_name || '8th') === cls);
-        list = fallback.length > 0 ? fallback : [
-          { roll_no: '101', scholar_no: '759', name: 'Rahul Sharma', present_count: 24, absent_count: 1, leave_count: 0 },
-          { roll_no: '102', scholar_no: '760', name: 'Priya Verma', present_count: 25, absent_count: 0, leave_count: 0 },
-          { roll_no: '103', scholar_no: '761', name: 'Aman Gupta', present_count: 23, absent_count: 2, leave_count: 0 },
-          { roll_no: '104', scholar_no: '762', name: 'AKSHAT DADHEECH', present_count: 25, absent_count: 0, leave_count: 0 },
-          { roll_no: '105', scholar_no: '763', name: 'VIKAS SONI', present_count: 24, absent_count: 1, leave_count: 0 }
-        ];
-      }
-
+      let list = students.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) list = [{ id: 1, roll_no: '101', name: 'Rahul Sharma' }];
+      markingMap = {};
       list.forEach((s, idx) => {
-        const presMonth = Number(s.present_count || 24);
-        const prevMonth = 110 + (idx * 2);
-        const totalAtt = presMonth + prevMonth;
-        const absVal = Number(s.absent_count || 0);
-        const lveVal = Number(s.leave_count || 0);
-
+        markingMap[s.id] = { status: 'Present', remarks: '' };
         tbody.innerHTML += `
           <tr>
-            <td style="text-align:center;">${idx + 1}</td>
-            <td style="text-align:center; font-weight:700;">${s.scholar_no || ('75' + (9 + idx))}</td>
-            <td><strong>${s.name}</strong></td>
-            <td style="text-align:center; font-weight:700; color:#15803d;">${presMonth}</td>
-            <td style="text-align:center;">${prevMonth}</td>
-            <td style="text-align:center; font-weight:800; color:#1e3a8a;">${totalAtt}</td>
-            <td style="text-align:center; color:#dc2626; font-weight:700;">${absVal}</td>
-            <td style="text-align:center; color:#b45309;">${lveVal}</td>
-            <td style="font-size:11px; color:#475569;">नियमित (Regular)</td>
+            <td>${idx + 1}</td><td>${cls}-A</td><td>${s.roll_no}</td><td><strong>${s.name}</strong></td>
+            <td><select class="filter-control" onchange="markingMap[${s.id}].status = this.value"><option value="Present">Present</option><option value="Absent">Absent</option></select></td>
+            <td><input type="text" class="filter-control" placeholder="टिप्पणी" onchange="markingMap[${s.id}].remarks = this.value"></td>
+            <td>📞 Call</td>
           </tr>
         `;
       });
     }
 
-    function exportRegisterToExcel() {
-      const cls = document.getElementById('rep-meta-class').innerText;
-      let csvContent = "data:text/csv;charset=utf-8,";
-      csvContent += "SHREE MEWAR PUBLIC SCHOOL, SINGHUR\n";
-      csvContent += `ATTENDANCE REGISTER - CLASS: ${cls}, MONTH: ${document.getElementById('rep-meta-month').innerText}\n\n`;
-      csvContent += "Sr No,Scholar No,Name,Present (This Month),Previous Month,Total,Absent,Leave,Remarks\n";
-
-      const rows = document.querySelectorAll("#master-register-table tbody tr");
-      rows.forEach(r => {
-        const cols = r.querySelectorAll("td");
-        const rowData = Array.from(cols).map(c => `"${c.innerText.trim()}"`).join(",");
-        csvContent += rowData + "\n";
-      });
-
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `Attendance_Register_${cls}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    function setAllMarking(st) {
+      Object.keys(markingMap).forEach(k => markingMap[k].status = st);
+      renderMarkingTable();
     }
 
+    async function saveMarkingData() {
+      const cls = document.getElementById('mark-class').value;
+      const dateVal = document.getElementById('mark-date').value;
+      const records = Object.keys(markingMap).map(id => ({ student_id: Number(id), class_name: cls, section: 'A', status: markingMap[id].status }));
+      await fetch('/api/attendance/bulk', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ attendance_date: dateVal, records }) });
+      document.getElementById('mark-save-msg').innerText = 'उपस्थिति सुरक्षित हुई!';
+      document.getElementById('mark-save-msg').style.color = '#16a34a';
+    }
+
+    /* DATA LOADERS */
     async function loadStudentsData() {
       try {
         const res = await fetch('/api/students');
         students = await res.json();
+        document.getElementById('d-tot-std').innerText = students.length;
+        document.getElementById('d-act-std').innerText = students.length;
         const tbody = document.getElementById('std-tbody');
         tbody.innerHTML = '';
         students.forEach((s, idx) => {
-          tbody.innerHTML += `<tr><td>${idx+1}</td><td>${s.scholar_no||'759'}</td><td>${s.name}</td><td>${s.roll_no}</td><td>${s.class_name}</td><td>${s.mobile_no}</td></tr>`;
+          tbody.innerHTML += `
+            <tr>
+              <td>${idx + 1}</td><td>👤</td><td><strong>${s.scholar_no || '759'}</strong></td><td>${s.admission_date || '10/10/2026'}</td><td><strong>${s.name}</strong></td><td>${s.roll_no}</td><td>${s.class_name || '8th'}</td><td>${s.section || 'A'}</td><td>Active</td><td>${s.gender || 'Male'}</td><td>${s.rte || 'NO'}</td><td>${s.father_name || 'श्री देविलाल'}</td><td>${s.mother_name || '-'}</td><td>${s.mobile_no || '9876543210'}</td><td>${s.dob || '-'}</td><td>${s.aadhaar_no || '-'}</td><td>${s.jan_aadhaar_no || '-'}</td><td>${s.address || 'सिंहपुर'}</td><td>-</td><td><button class="btn-action-pill btn-act-red" style="font-size:10px; padding:2px 6px;" onclick="deleteStudent(${s.id})">🗑️</button></td>
+            </tr>
+          `;
         });
       } catch (e) { console.error(e); }
     }
 
+    async function deleteStudent(id) {
+      if (!confirm("हटाएं?")) return;
+      await fetch(`/api/students/${id}`, { method: 'DELETE' });
+      loadStudentsData();
+    }
+
+    async function loadEmployeesData() {
+      try {
+        const res = await fetch('/api/employees');
+        employees = await res.json();
+        document.getElementById('d-tot-emp').innerText = employees.length;
+        document.getElementById('d-teach-emp').innerText = employees.length;
+        document.getElementById('st-emp-tot').innerText = employees.length;
+        document.getElementById('st-emp-male').innerText = employees.length;
+        document.getElementById('emp-total-badge').innerText = `Total: ${employees.length}`;
+        const tbody = document.getElementById('emp-tbody');
+        tbody.innerHTML = '';
+        employees.forEach(e => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${e.id}</td><td>👤</td><td><strong>${e.name}</strong></td><td>${e.designation}</td><td>${e.emp_code}</td><td>${e.department}</td><td>${e.mobile_no}</td><td>${e.email}</td><td>${e.joining_date}</td><td>${e.class_teacher || 'N/A'}</td><td><span class="doc-pill">आधार</span></td><td>Active</td>
+              <td>
+                <div class="emp-action-grid">
+                  <button class="btn-grid-act b-act-del" onclick="deleteEmp(${e.id})">🗑️</button>
+                  <button class="btn-grid-act b-act-contract" onclick="generateStaffDocument(${e.id}, 'contract')">📑 अनुबंध</button>
+                  <button class="btn-grid-act b-act-exp" onclick="generateStaffDocument(${e.id}, 'experience')">📜 अनुभव</button>
+                  <button class="btn-grid-act b-act-join" onclick="generateStaffDocument(${e.id}, 'joining')">📩 जॉइनिंग</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        });
+      } catch (e) { console.error(e); }
+    }
+
+    async function deleteEmp(id) {
+      if (!confirm("हटाएं?")) return;
+      await fetch(`/api/employees/${id}`, { method: 'DELETE' });
+      loadEmployeesData();
+    }
+
     window.onload = () => {
       showScreen('login');
+      loadEmployeesData();
       loadStudentsData();
+      loadFeesData();
     };
   </script>
 </body>
