@@ -24,11 +24,17 @@ const pool = new Pool({
 });
 
 pool.connect((err, client, release) => {
-  if (err) console.error('Database connection error:', err.stack);
-  else { console.log('Connected to PostgreSQL Database successfully!'); release(); }
+  if (err) {
+    console.error('Database connection error:', err.stack);
+  } else {
+    console.log('Connected to PostgreSQL Database successfully!');
+    release();
+  }
 });
 
-/* 1. AUTH APIS */
+/* ==========================================
+   1. AUTH APIS
+========================================== */
 app.post('/api/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -44,7 +50,9 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-/* 2. STUDENTS APIS */
+/* ==========================================
+   2. STUDENTS APIS
+========================================== */
 app.get('/api/students', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM students ORDER BY id ASC');
@@ -64,7 +72,9 @@ app.post('/api/students', async (req, res) => {
       rte, bus_facility, installment_plan, total_fees, photo_url
     } = req.body;
 
-    if (!name || !roll_no) return res.status(400).json({ error: 'छात्र का नाम और रोल नंबर अनिवार्य हैं!' });
+    if (!name || !roll_no) {
+      return res.status(400).json({ error: 'छात्र का नाम और रोल नंबर अनिवार्य हैं!' });
+    }
 
     const query = `
       INSERT INTO students (
@@ -92,7 +102,17 @@ app.post('/api/students', async (req, res) => {
     ];
 
     const result = await pool.query(query, values);
-    res.json({ message: 'छात्र प्रवेश रिकॉर्ड सफलतापूर्वक सुरक्षित हुआ!', student: result.rows[0] });
+    const newStudent = result.rows[0];
+
+    // स्वचालित रूप से फ़ीस मास्टर में एंट्री सुनिश्चित करें
+    await pool.query(
+      `INSERT INTO fees (student_id, total_amount, paid_amount, status)
+       VALUES ($1, $2, 0, 'Pending')
+       ON CONFLICT (student_id) DO NOTHING;`,
+      [newStudent.id, Number(total_fees) || 20000]
+    );
+
+    res.json({ message: 'छात्र प्रवेश रिकॉर्ड सफलतापूर्वक सुरक्षित हुआ!', student: newStudent });
   } catch (err) {
     res.status(500).json({ error: `डेटाबेस त्रुटि: ${err.message}` });
   }
@@ -110,6 +130,7 @@ app.put('/api/students/:id', async (req, res) => {
     const fields = [];
     const values = [];
     let idx = 1;
+
     for (const key of Object.keys(updates)) {
       if (allowedColumns.includes(key)) {
         fields.push(`${key} = $${idx}`);
@@ -117,11 +138,13 @@ app.put('/api/students/:id', async (req, res) => {
         idx++;
       }
     }
+
     if (fields.length === 0) return res.status(400).json({ error: 'अपडेट के लिए मान्य फ़ील्ड नहीं मिली!' });
     values.push(id);
+
     const query = `UPDATE students SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`;
     const result = await pool.query(query, values);
-    res.json({ message: 'सेल सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
+    res.json({ message: 'छात्र डेटा सफलतापूर्वक अपडेट हुआ!', student: result.rows[0] });
   } catch (err) {
     res.status(500).json({ error: 'अपडेट करने में त्रुटि!' });
   }
@@ -137,7 +160,9 @@ app.delete('/api/students/:id', async (req, res) => {
   }
 });
 
-/* 3. EMPLOYEES APIS */
+/* ==========================================
+   3. EMPLOYEES APIS
+========================================== */
 app.get('/api/employees', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM employees ORDER BY id ASC');
@@ -149,18 +174,18 @@ app.get('/api/employees', async (req, res) => {
 
 app.post('/api/employees', async (req, res) => {
   try {
-    const { emp_code, name, designation, department, mobile_no, email, salary, joining_date, qualification, address, photo_url } = req.body;
+    const { emp_code, name, designation, department, gender, mobile_no, email, salary, joining_date, qualification, address, photo_url, class_teacher } = req.body;
     if (!name) return res.status(400).json({ error: 'कर्मचारी का नाम अनिवार्य है!' });
 
     const query = `
-      INSERT INTO employees (emp_code, name, designation, department, mobile_no, email, salary, joining_date, qualification, address, photo_url, status)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'Active') RETURNING *;
+      INSERT INTO employees (emp_code, name, designation, department, gender, mobile_no, email, salary, joining_date, qualification, address, photo_url, class_teacher, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, 'Active') RETURNING *;
     `;
     const values = [
       emp_code || `EMP-${Math.floor(100 + Math.random() * 900)}`,
-      name, designation || 'Teacher', department || 'Teaching',
+      name, designation || 'Teacher', department || 'Teaching', gender || 'Male',
       mobile_no || '9876543210', email || '', Number(salary) || 25000,
-      joining_date || '01/07/2026', qualification || '', address || 'सिंहपुर', photo_url || ''
+      joining_date || '01/07/2026', qualification || '', address || 'सिंहपुर', photo_url || '', class_teacher || 'N/A'
     ];
     const result = await pool.query(query, values);
     res.json({ message: 'कर्मचारी रिकॉर्ड सुरक्षित हुआ!', employee: result.rows[0] });
@@ -173,10 +198,15 @@ app.put('/api/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-   const allowedColumns = ['emp_code', 'name', 'designation', 'department', 'gender', 'mobile_no', 'email', 'salary', 'joining_date', 'qualification', 'address', 'photo_url', 'status', 'class_teacher'];
+    const allowedColumns = [
+      'emp_code', 'name', 'designation', 'department', 'gender',
+      'mobile_no', 'email', 'salary', 'joining_date', 'qualification',
+      'address', 'photo_url', 'status', 'class_teacher'
+    ];
     const fields = [];
     const values = [];
     let idx = 1;
+
     for (const key of Object.keys(updates)) {
       if (allowedColumns.includes(key)) {
         fields.push(`${key} = $${idx}`);
@@ -184,8 +214,10 @@ app.put('/api/employees/:id', async (req, res) => {
         idx++;
       }
     }
+
     if (fields.length === 0) return res.status(400).json({ error: 'अपडेट के लिए मान्य फ़ील्ड नहीं मिली!' });
     values.push(id);
+
     const query = `UPDATE employees SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`;
     const result = await pool.query(query, values);
     res.json({ message: 'कर्मचारी डेटा अपडेट हुआ!', employee: result.rows[0] });
@@ -204,7 +236,9 @@ app.delete('/api/employees/:id', async (req, res) => {
   }
 });
 
-/* 4. ADVANCED ATTENDANCE APIS */
+/* ==========================================
+   4. ATTENDANCE APIS
+========================================== */
 app.get('/api/attendance', async (req, res) => {
   try {
     const { date, class_name, section } = req.query;
@@ -257,45 +291,10 @@ app.post('/api/attendance/bulk', async (req, res) => {
     res.status(500).json({ error: `उपस्थिति सेव करने में त्रुटि: ${err.message}` });
   }
 });
-```javascript
-/* मासिक रजिस्टर रिपोर्ट API (GET /api/attendance/monthly-report) */
-app.get('/api/attendance/monthly-report', async (req, res) => {
-  try {
-    const { class_name, section, month, year } = req.query;
-    const query = `
-      SELECT 
-        s.id AS student_id,
-        s.scholar_no,
-        s.roll_no,
-        s.name,
-        s.class_name,
-        s.section,
-        COUNT(CASE WHEN a.status = 'Present' THEN 1 END) AS present_count,
-        COUNT(CASE WHEN a.status = 'Absent' THEN 1 END) AS absent_count,
-        COUNT(CASE WHEN a.status = 'Leave' THEN 1 END) AS leave_count,
-        COUNT(a.id) AS total_marked
-      FROM students s
-      LEFT JOIN attendance a ON s.id = a.student_id 
-        AND ($1::text IS NULL OR a.class_name = $1)
-        AND ($2::text IS NULL OR a.section = $2)
-      WHERE ($1::text IS NULL OR s.class_name = $1)
-        AND ($2::text IS NULL OR s.section = $2)
-      GROUP BY s.id, s.scholar_no, s.roll_no, s.name, s.class_name, s.section
-      ORDER BY s.roll_no ASC;
-    `;
-    const result = await pool.query(query, [class_name || null, section || null]);
-    res.json(result.rows);
-  } catch (err) {
-    console.error('Monthly Report Error:', err);
-    res.status(500).json({ error: 'मासिक रिपोर्ट लोड करने में त्रुटि!' });
-  }
-});
-```
-/* ==========================================
-   FEES MANAGEMENT APIS
-========================================== */
 
-// 1. सभी छात्रों की फ़ीस स्थिति लोड करें (GET /api/fees/summary)
+/* ==========================================
+   5. FEES MANAGEMENT APIS
+========================================== */
 app.get('/api/fees/summary', async (req, res) => {
   try {
     const query = `
@@ -324,7 +323,6 @@ app.get('/api/fees/summary', async (req, res) => {
   }
 });
 
-// 2. फ़ीस जमा करें और रसीद बनाएं (POST /api/fees/pay)
 app.post('/api/fees/pay', async (req, res) => {
   try {
     const { student_id, amount_paid, payment_mode, remarks } = req.body;
@@ -336,14 +334,14 @@ app.post('/api/fees/pay', async (req, res) => {
 
     const receiptNo = `REC-${Date.now().toString().slice(-6)}`;
 
-    // रसीद रिकॉर्ड दर्ज करें
+    // रसीद रिकॉर्ड सुरक्षित करें
     await pool.query(
       `INSERT INTO fee_transactions (receipt_no, student_id, amount_paid, payment_mode, remarks)
        VALUES ($1, $2, $3, $4, $5)`,
       [receiptNo, student_id, paid, payment_mode || 'Cash', remarks || 'Fee Payment']
     );
 
-    // फ़ीस टेबल अपडेट करें
+    // फ़ीस बैलेंस अपडेट करें
     const updateQuery = `
       INSERT INTO fees (student_id, total_amount, paid_amount, status)
       VALUES ($1, 20000, $2, 'Pending')
@@ -367,7 +365,7 @@ app.post('/api/fees/pay', async (req, res) => {
     res.status(500).json({ error: `भुगतान त्रुटि: ${err.message}` });
   }
 });
-// भुगतान इतिहास API (GET /api/fees/transactions)
+
 app.get('/api/fees/transactions', async (req, res) => {
   try {
     const query = `
@@ -382,7 +380,10 @@ app.get('/api/fees/transactions', async (req, res) => {
     res.status(500).json({ error: 'इतिहास लोड करने में त्रुटि!' });
   }
 });
-/* 5. SPA ROUTING */
+
+/* ==========================================
+   6. SPA ROUTING
+========================================== */
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
