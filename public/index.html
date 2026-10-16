@@ -280,3 +280,756 @@
     <div class="header-left">
       <div class="school-logo-badge">🏫 SMPS</div>
       <div>
+        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="lang-badge">HI</span>
+      <span class="lang-badge">EN</span>
+      <button class="btn-nav-top" onclick="showScreen('dashboard')">डैशबोर्ड</button>
+      <button class="btn-nav-top" style="background:#b91c1c;" onclick="showScreen('login')">लॉगआउट</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 1: LOGIN -->
+  <div id="screen-login" class="login-container">
+    <div style="text-align:center; margin-bottom: 24px;">
+      <h2 style="color: #7f1d1d; font-size: 24px; font-weight: 800;">🔑 Login Options</h2>
+      <p style="color: #64748b; font-size: 13px;">कृपया अपना रोल चुनकर पोर्टल में प्रवेश करें</p>
+    </div>
+    <div class="login-grid">
+      <div class="login-role-card">
+        <div style="font-size:32px;">👑</div>
+        <h3 style="color:#7c2d12; margin-top:6px;">Super Admin</h3>
+        <p style="font-size:12px; color:#64748b;">Central Management</p>
+        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('dashboard')">Login</button>
+      </div>
+      <div class="login-role-card">
+        <div style="font-size:32px;">🏫</div>
+        <h3 style="color:#7c2d12; margin-top:6px;">Admin Login</h3>
+        <p style="font-size:12px; color:#64748b;">School Administration</p>
+        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('dashboard')">Login</button>
+      </div>
+      <div class="login-role-card">
+        <div style="font-size:32px;">💼</div>
+        <h3 style="color:#7c2d12; margin-top:6px;">Staff / Teacher</h3>
+        <p style="font-size:12px; color:#64748b;">Faculty Portal</p>
+        <button class="btn-role-login" style="background:#0284c7;" onclick="showScreen('dashboard')">Access Hub</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: MAIN DASHBOARD -->
+  <div id="screen-dashboard" class="hidden">
+    <div class="pills-scroll-container">
+      <button class="pill-btn pill-blue" onclick="showScreen('students')">🎓 विद्यार्थी (Students)</button>
+      <button class="pill-btn pill-green" onclick="showScreen('att-command')">📋 उपस्थिति (Command Center)</button>
+      <button class="pill-btn pill-purple" onclick="showScreen('employees')">👥 कर्मचारी (Staff)</button>
+      <button class="pill-btn pill-orange" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन</button>
+      <button class="pill-btn pill-blue" style="background:#dc2626;" onclick="showScreen('admission')">+ नया छात्र प्रवेश</button>
+    </div>
+
+    <div class="dashboard-grid-full">
+      <div class="erp-card">
+        <div class="card-head" style="background:#6d28d9;"><span>👥 कर्मचारी सारांश (Staff)</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span>कुल कर्मचारी:</span><strong id="d-tot-emp">0</strong></div>
+          <div class="stat-row"><span>शिक्षक (Teaching):</span><strong style="color:#16a34a;" id="d-teach-emp">0</strong></div>
+          <button class="card-btn" style="background:#6d28d9;" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन / सूची खोलें</button>
+        </div>
+      </div>
+
+      <div class="erp-card">
+        <div class="card-head" style="background:#ea580c;"><span>💰 फीस प्रबंधन सारांश</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span>कुल अपेक्षित फीस:</span><strong id="d-tot-fee">₹ 0</strong></div>
+          <div class="stat-row"><span>कुल प्राप्त फीस:</span><strong style="color:#16a34a;" id="d-paid-fee">₹ 0</strong></div>
+          <div class="stat-row"><span>कुल बकाया राशि:</span><strong style="color:#dc2626;" id="d-bal-fee">₹ 0</strong></div>
+          <button class="card-btn" style="background:#ea580c;" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन हब खोलें</button>
+        </div>
+      </div>
+
+      <div class="erp-card">
+        <div class="card-head" style="background:#16a34a;"><span>📋 ऑब्जर्वेशन कमांड सेंटर</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span>उपस्थिति स्थिति:</span><strong style="color:#16a34a;">सक्रिय (Live)</strong></div>
+          <div class="stat-row"><span>तारीख:</span><strong>आज</strong></div>
+          <button class="card-btn" style="background:#16a34a;" onclick="showScreen('att-command')">📊 ऑब्जर्वेशन कमांड सेंटर खोलें</button>
+        </div>
+      </div>
+
+      <div class="erp-card">
+        <div class="card-head" style="background:#047857;"><span>👨‍🎓 छात्र सारांश</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span>कुल नामांकित छात्र:</span><strong id="d-tot-std">0</strong></div>
+          <div class="stat-row"><span>सक्रिय छात्र:</span><strong style="color:#16a34a;" id="d-act-std">0</strong></div>
+          <button class="card-btn" style="background:#047857;" onclick="showScreen('students')">👤 छात्र प्रबंधन / सूची खोलें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: EMPLOYEE MANAGEMENT (`employee_management.php`) -->
+  <div id="screen-employees" class="directory-container hidden">
+    <div class="emp-panel-card">
+      <div class="emp-section-title"><span>📑</span> कर्मचारी प्रबंधन के कार्य</div>
+      <div class="emp-actions-bar">
+        <button class="emp-act-btn btn-green-emp" onclick="openAddEmpPrompt()">👤+ नया कर्मचारी जोड़ें</button>
+        <button class="emp-act-btn btn-brown-emp">💳 वेतन प्रबंधन</button>
+        <button class="emp-act-btn btn-blue-emp" onclick="showScreen('att-command')">✔ उपस्थिति</button>
+        <button class="emp-act-btn btn-rose-emp" onclick="openStaffIdCardModal(employees[0]?.id)">🪪 ID कार्ड</button>
+        <button class="emp-act-btn btn-sky-emp" onclick="showScreen('dashboard')">⬅ वापस डैशबोर्ड</button>
+      </div>
+
+      <div class="emp-stats-bar">
+        <span class="emp-stat-pill" style="background:#0284c7;">👤 पुरुष: <span id="st-emp-male">0</span></span>
+        <span class="emp-stat-pill" style="background:#db2777;">👩 महिला: <span id="st-emp-fem">0</span></span>
+        <span class="emp-stat-pill" style="background:#7c2d12;">👥 कुल कर्मचारी: <span id="st-emp-tot">0</span></span>
+        <span class="emp-stat-pill" style="background:#0d9488;">👨‍🏫 शिक्षक: <span id="st-emp-teach">0</span></span>
+        <span class="emp-stat-pill" style="background:#dc2626;">⚙️ गैर-शिक्षक: <span id="st-emp-non">0</span></span>
+      </div>
+    </div>
+
+    <div class="emp-panel-card">
+      <div class="emp-section-title"><span>👥</span> वर्तमान कर्मचारियों की सूची</div>
+      <div class="emp-search-container">
+        <span class="emp-search-icon">🔍</span>
+        <input type="text" id="emp-search-box" class="emp-search-input" placeholder="कर्मचारी खोजें (नाम, कोड, पद, मोबाइल नंबर से)..." onkeyup="filterEmployees()">
+        <span class="emp-total-badge" id="emp-total-badge">Total: 0</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table emp-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>PHOTO</th>
+              <th>नाम</th>
+              <th>पद</th>
+              <th>CODE</th>
+              <th>प्रकार</th>
+              <th>मोबाइल</th>
+              <th>ईमेल</th>
+              <th>ज्वाइनिंग</th>
+              <th>क्लास टीचर</th>
+              <th>दस्तावेज़</th>
+              <th>स्थिति</th>
+              <th>कार्यवाही</th>
+            </tr>
+          </thead>
+          <tbody id="emp-tbody"></tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center; margin-top:14px; font-size:11px; color:#64748b;">
+        © 2026 SHREE MEWAR PUBLIC SCHOOL | Designed with ❤️ in Rajasthan
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: FEES HUB -->
+  <div id="screen-fees-hub" class="fees-hub-wrapper hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; max-width:1250px; margin:0 auto 16px;">
+      <button class="btn-action-pill" style="background:rgba(0,0,0,0.3); color:white;" onclick="showScreen('dashboard')">⬅ डैशबोर्ड</button>
+      <div style="font-weight:800; color:white; font-size:12.5px;">🏫 SHREE MEWAR PUBLIC SCHOOL</div>
+    </div>
+
+    <div class="fees-hub-header">
+      <h2>फीस प्रबंधन</h2>
+      <p>सक्रिय सत्र: 2026-27</p>
+    </div>
+
+    <div class="fees-hub-section-title">फीस अवलोकन</div>
+    <div class="fees-stat-grid-6">
+      <div class="f-stat-card"><div class="f-stat-icon">🎓</div><div class="f-stat-label">कुल छात्र</div><div class="f-stat-value" id="fh-tot-stud">0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">📈</div><div class="f-stat-label">कुल टर्नओवर</div><div class="f-stat-value" id="fh-turnover">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">💰</div><div class="f-stat-label">कुल छात्र संग्रह</div><div class="f-stat-value" id="fh-collected" style="color:#16a34a;">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">⏳</div><div class="f-stat-label">कुल बकाया फीस</div><div class="f-stat-value" id="fh-balance" style="color:#dc2626;">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">💵</div><div class="f-stat-label">आज का संग्रह</div><div class="f-stat-value" id="fh-today" style="color:#0284c7;">₹ 0</div></div>
+      <div class="f-stat-card"><div class="f-stat-icon">📅</div><div class="f-stat-label">इस महीने का</div><div class="f-stat-value" id="fh-month" style="color:#7c3aed;">₹ 0</div></div>
+    </div>
+
+    <div class="fees-hub-section-title">फीस प्रबंधन सुविधाएँ</div>
+    <div class="fees-features-grid">
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">💳</div><h3>फीस संग्रह</h3><p>छात्रों से फीस भुगतान रिकॉर्ड करें</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('all')">संग्रह करें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">📑</div><h3>भुगतान रसीदें</h3><p>एकत्रित फीस के लिए भुगतान रसीदें प्रबंधित करें</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('paid')">प्रबंधित करें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">🔗</div><h3>ऑनलाइन भुगतान लिंक</h3><p>छात्रों / अभिभावकों के लिए ऑनलाइन भुगतान</p></div>
+        <button class="f-card-btn" onclick="alert('UPI QR कोड सक्रिय है!')">सेटअप करें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">📜</div><h3>भुगतान इतिहास</h3><p>सभी छात्रों का भुगतान इतिहास</p></div>
+        <button class="f-card-btn" onclick="showScreen('fees-table')">इतिहास देखें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">📊</div><h3>कक्षा वार फीस रिपोर्ट</h3><p>कक्षा अनुसार छात्रों की फीस रिपोर्ट</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट देखें</button>
+      </div>
+      <div class="f-feature-card">
+        <div><div class="f-feature-circle-icon">🥧</div><h3>सभी फीस रिपोर्ट्स</h3><p>सभी फीस संबंधित रिपोर्ट एक जगह</p></div>
+        <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट्स खोलें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: FEES TABLE[cite: 18] -->
+  <div id="screen-fees-table" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">⬅ वापस (फीस हब)</button>
+      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | फीस संकलन एवं रसीद केंद्र</div>
+    </div>
+    <div class="filter-panel">
+      <select class="filter-control" id="fee-filter-class" onchange="filterFeesTable()">
+        <option value="">-- सभी कक्षाएं --</option>
+        <option value="Class 10-A">Class 10-A</option>
+        <option value="8th">Class 8th</option>
+        <option value="6">Class 6</option>
+      </select>
+      <select class="filter-control" id="fee-filter-status" onchange="filterFeesTable()">
+        <option value="">-- सभी स्टेटस --</option>
+        <option value="Pending">Pending (बकाया)</option>
+        <option value="Partial">Partial (आंशिक जमा)</option>
+        <option value="Paid">Paid (पूर्ण जमा)</option>
+      </select>
+      <input type="text" id="fee-search-box" class="filter-control" style="flex:1; min-width:200px;" placeholder="🔍 खोजें..." onkeyup="filterFeesTable()">
+    </div>
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr><th>SR.</th><th>SCHOLAR</th><th>रोल</th><th>नाम</th><th>कक्षा</th><th>पिता का नाम</th><th>मोबाइल</th><th>कुल फीस</th><th>जमा</th><th>बकाया</th><th>स्थिति</th><th>कार्यवाही</th></tr>
+        </thead>
+        <tbody id="fee-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: STUDENTS DIRECTORY (`students.php`) -->
+  <div id="screen-students" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
+      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | श्री मेवाड़ पब्लिक स्कूल</div>
+    </div>
+    <div class="action-bar-flex" style="display:flex; gap:8px; justify-content:center; margin-bottom:14px;">
+      <button class="btn-action-pill btn-act-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
+      <button class="btn-action-pill btn-act-blue" onclick="showScreen('id-cards')">🪪 छात्र ID कार्ड</button>
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन</button>
+      <button class="btn-action-pill btn-act-purple" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन</button>
+    </div>
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr><th>SR.</th><th>PHOTO</th><th>ADMISSION NO.</th><th>ADMISSION DATE</th><th>NAME</th><th>ROLL NO.</th><th>CLASS</th><th>SECTION</th><th>स्थिति</th><th>GENDER</th><th>FATHER'S NAME</th><th>MOBILE NO.</th><th>ACTION</th></tr>
+        </thead>
+        <tbody id="std-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCREEN 7: ADMISSION FORM -->
+  <div id="screen-admission" class="form-sheet-container hidden">
+    <button class="btn-action-pill btn-act-orange" onclick="showScreen('students')">⬅ वापस</button>
+    <div class="form-sheet-header"><h2>⭐ छात्र प्रवेश फॉर्म ⭐</h2></div>
+    <div class="sec-card">
+      <div class="f-grid-3">
+        <div class="f-field"><label>नाम *</label><input type="text" id="adm-name" class="f-input"></div>
+        <div class="f-field"><label>रोल नं *</label><input type="number" id="adm-roll" class="f-input"></div>
+        <div class="f-field"><label>कक्षा *</label><select id="adm-cls" class="f-input"><option value="Class 10-A">Class 10-A</option><option value="8th">8th</option><option value="6">6</option></select></div>
+      </div>
+      <div class="f-grid-3">
+        <div class="f-field"><label>पिता का नाम *</label><input type="text" id="adm-father" class="f-input"></div>
+        <div class="f-field"><label>मोबाइल नंबर *</label><input type="number" id="adm-mobile" class="f-input"></div>
+        <div class="f-field"><label>कुल फीस (₹)</label><input type="number" id="adm-fees" class="f-input" value="20000"></div>
+      </div>
+      <button class="btn-action-pill btn-act-green" style="width:100%; padding:12px; margin-top:10px;" onclick="saveNewStudent()">💾 सुरक्षित सेव करें</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 8: OBSERVATION COMMAND CENTER -->
+  <div id="screen-att-command" class="directory-container hidden">
+    <div style="background:linear-gradient(135deg, #7f1d1d, #991b1b); color:white; padding:10px 16px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <div style="font-size:16px; font-weight:800;">📡 ऑब्जर्वेशन कमांड सेंटर</div>
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस जाएं</button>
+    </div>
+    <div class="cmd-stats-grid">
+      <div class="cmd-stat-box" style="background:#1d4ed8;"><h2>1 / 11</h2><p>पूर्ण वर्ग</p></div>
+      <div class="cmd-stat-box" style="background:#dc2626;"><h2>10</h2><p>लंबित</p></div>
+      <div class="cmd-stat-box" style="background:#0284c7;"><h2>98%</h2><p>STAFF PRESENT</p></div>
+    </div>
+    <h3 style="color:#7f1d1d; font-size:15px; margin-bottom:12px;">🏫 सभी कक्षाओं का उपस्थिति स्टेटस</h3>
+    <div class="class-grid-cards" id="cmd-class-grid"></div>
+  </div>
+
+  <!-- MODAL: OFFICIAL STAFF DOCUMENT PRINT VIEW (CONTRACT / EXP / JOINING) -->
+  <div id="doc-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center;">
+      <div id="printable-doc-area">
+        <div class="doc-print-sheet">
+          <div class="doc-school-header">
+            <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
+            <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh (Raj.) PIN: 312207</p>
+            <p style="font-size:10px; color:#64748b; margin-top:2px;">Affiliated & Managed by Mewar Educational Society | Contact: 9799779141</p>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#475569; margin-bottom:14px;">
+            <span>क्रमांक / Ref: <strong id="doc-ref-no">SMPS/DOC/2026/01</strong></span>
+            <span>दिनांक / Date: <strong id="doc-date">16-Oct-2026</strong></span>
+          </div>
+
+          <div class="doc-title-badge">
+            <span id="doc-title-text">अनुबंध पत्र / CONTRACT AGREEMENT</span>
+          </div>
+
+          <div id="doc-content-body" style="font-size:13px; text-align:justify; color:#1e293b;">
+            <!-- Dynamic Content Injected Here -->
+          </div>
+
+          <div style="margin-top:60px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <div style="text-align:center;">
+              <div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div>
+              <span style="font-size:11px; font-weight:700;">हस्ताक्षर कर्मचारी<br>(Signature of Employee)</span>
+            </div>
+            <div style="text-align:center;">
+              <div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div>
+              <span style="font-size:11px; font-weight:700;">अधिकृत हस्ताक्षरकर्ता / मुहर<br>Principal / Director, SMPS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" style="padding:10px 24px; font-size:14px;" onclick="window.print()">🖨️ प्रिंट निकालें (Print Document)</button>
+        <button class="btn-action-pill" style="background:#64748b; padding:10px 20px;" onclick="closeDocModal()">बंद करें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: COLLECT FEE & RECEIPT -->
+  <div id="collect-fee-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:12px; padding:20px; max-width:400px; width:100%;">
+      <h3 style="color:#15803d; margin-bottom:12px;">💳 फीस जमा करें</h3>
+      <div style="text-align:left; font-size:12px; line-height:1.8; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:6px;">
+        <div><strong>छात्र:</strong> <span id="cfm-name">-</span></div>
+        <div><strong>शेष बकाया:</strong> <strong style="color:#dc2626;">₹<span id="cfm-bal">0</span></strong></div>
+      </div>
+      <input type="number" id="cfm-amount" class="filter-control" style="width:100%; margin-bottom:10px;" placeholder="राशि भरें">
+      <select id="cfm-mode" class="filter-control" style="width:100%; margin-bottom:12px;">
+        <option value="Cash">Cash</option><option value="UPI">UPI</option>
+      </select>
+      <button class="btn-action-pill btn-act-green" style="width:100%;" onclick="submitFeePayment()">💾 जमा करें</button>
+      <button class="btn-action-pill" style="background:#64748b; width:100%; margin-top:6px;" onclick="document.getElementById('collect-fee-modal').classList.add('hidden')">रद्द करें</button>
+    </div>
+  </div>
+
+  <!-- MODAL: ID CARD -->
+  <div id="id-preview-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; max-width:440px; width:100%; text-align:center;">
+      <div id="printable-id-card-area">
+        <div class="id-card-box">
+          <div class="id-card-header"><h4 style="margin:0; font-size:13px;">SHREE MEWAR PUBLIC SCHOOL</h4><p style="margin:2px 0 0; font-size:9.5px; color:#fde047;">Singhpur, Chittorgarh</p></div>
+          <div class="id-card-body">
+            <div class="id-card-photo" id="idc-photo-box">👤</div>
+            <div class="id-card-details">
+              <strong>नाम:</strong> <span id="idc-name">-</span><br>
+              <strong>पद/कोड:</strong> <span id="idc-code">-</span><br>
+              <strong>विभाग:</strong> <span id="idc-dept">-</span><br>
+              <strong>मोबाइल:</strong> <span id="idc-mob">-</span><br>
+              <strong>पता:</strong> सिंहपुर, चित्तौड़गढ़
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-action-pill btn-act-green" style="margin-top:14px;" onclick="window.print()">🖨️ प्रिंट निकालें</button>
+      <button class="btn-action-pill" style="background:#64748b; margin-top:14px;" onclick="document.getElementById('id-preview-modal').classList.add('hidden')">बंद करें</button>
+    </div>
+  </div>
+
+  <input type="file" id="global-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+
+  <script>
+    let students = [];
+    let employees = [];
+    let feesList = [];
+    let activeFeeStudent = null;
+    let photoUploadContext = { targetType: null, id: null };
+
+    const ALL_CLASSES = [
+      { name: 'Pp.3+', count: 11, bg: '#db2777' }, { name: 'Pp.4+', count: 14, bg: '#0284c7' },
+      { name: 'Pp.5+', count: 30, bg: '#ea580c' }, { name: '1st', count: 28, bg: '#0d9488' },
+      { name: '2nd', count: 18, bg: '#7c3aed' }, { name: '3rd', count: 27, bg: '#2563eb' },
+      { name: '4th', count: 17, bg: '#c026d3' }, { name: '5th', count: 28, bg: '#0284c7' },
+      { name: '6th', count: 22, bg: '#ea580c' }, { name: '7th', count: 25, bg: '#0d9488' },
+      { name: '8th', count: 19, bg: '#7c3aed' }, { name: 'Class 10-A', count: 5, bg: '#16a34a' }
+    ];
+
+    function showScreen(screenId) {
+      ['login', 'dashboard', 'employees', 'att-command', 'students', 'admission', 'fees-hub', 'fees-table'].forEach(s => {
+        const el = document.getElementById(`screen-${s}`);
+        if (el) el.classList.add('hidden');
+      });
+      const target = document.getElementById(`screen-${screenId}`);
+      if (target) target.classList.remove('hidden');
+
+      if (screenId === 'students' || screenId === 'dashboard') loadStudentsData();
+      if (screenId === 'employees' || screenId === 'dashboard') loadEmployeesData();
+      if (screenId === 'fees-hub' || screenId === 'fees-table' || screenId === 'dashboard') loadFeesData();
+      if (screenId === 'att-command') renderCommandCenter();
+    }
+
+    /* ========================================================
+       STAFF OFFICIAL DOCUMENTS GENERATOR LOGIC
+    ======================================================== */
+    function generateStaffDocument(empId, docType) {
+      const emp = employees.find(e => e.id == empId) || employees[0];
+      if (!emp) return;
+
+      const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      document.getElementById('doc-date').innerText = dateStr;
+      document.getElementById('doc-ref-no').innerText = `SMPS/${docType.toUpperCase()}/${new Date().getFullYear()}/${emp.id}`;
+
+      const titleEl = document.getElementById('doc-title-text');
+      const bodyEl = document.getElementById('doc-content-body');
+
+      if (docType === 'contract') {
+        titleEl.innerText = 'सेवा अनुबंध पत्र / EMPLOYMENT CONTRACT AGREEMENT';
+        bodyEl.innerHTML = `
+          <p>यह अनुबंध आज दिनांक <strong>${dateStr}</strong> को <strong>श्री मेवाड़ पब्लिक स्कूल, सिंहपुर (चित्तौड़गढ़)</strong> (प्रथम पक्ष) तथा <strong>श्री/श्रीमती ${emp.name}</strong>, पद: <strong>${emp.designation}</strong>, कर्मचारी कोड: <strong>${emp.emp_code}</strong> (द्वितीय पक्ष) के मध्य शैक्षिक सत्र 2026-27 हेतु निष्पादित किया जाता है।</p>
+          <br>
+          <p><strong>अनुबंध के प्रमुख नियम एवं शर्तें:</strong></p>
+          <ol style="padding-left:22px; line-height:2;">
+            <li>द्वितीय पक्ष विद्यालय में <strong>${emp.department}</strong> विभाग के अंतर्गत अपने दायित्वों का निष्ठापूर्वक पालन करेगा।</li>
+            <li>विद्यालय का कार्य-समय प्रातः 08:00 बजे से दोपहर 02:00 बजे तक रहेगा तथा दैनिक उपस्थिति बायोमेट्रिक/रजिस्टर द्वारा दर्ज की जाएगी।</li>
+            <li>द्वितीय पक्ष को संस्था के नियमानुसार मासिक मानदेय प्रदान किया जाएगा तथा विद्यालय के अनुशासन नियमों का पूर्णतया पालन अनिवार्य होगा।</li>
+            <li>सेवा समाप्ति अथवा पद त्याग की स्थिति में दोनों पक्षों द्वारा कम से कम 1 माह का पूर्व नोटिस देना आवश्यक होगा।</li>
+          </ol>
+          <br>
+          <p>हम दोनों पक्ष बिना किसी दबाव के अपनी पूर्ण सहमति से इस अनुबंध पर हस्ताक्षर करते हैं।</p>
+        `;
+      } else if (docType === 'experience') {
+        titleEl.innerText = 'अनुभव प्रमाण पत्र / TO WHOMSOEVER IT MAY CONCERN';
+        bodyEl.innerHTML = `
+          <p>यह प्रमाणित किया जाता है कि <strong>श्री/श्रीमती ${emp.name}</strong>, कर्मचारी कोड <strong>${emp.emp_code}</strong>, हमारे विद्यालय <strong>श्री मेवाड़ पब्लिक स्कूल, सिंहपुर (चित्तौड़गढ़)</strong> में दिनांक <strong>${emp.joining_date}</strong> से <strong>${emp.designation}</strong> के पद पर पूर्ण निष्ठा एवं समर्पण के साथ कार्यरत रहे हैं।</p>
+          <br>
+          <p>इनके कार्यकाल के दौरान इनका शिक्षण कार्य, आचरण और अनुशासन अत्यंत सराहनीय और संतोषप्रद रहा है। इन्होंने विद्यालय की विभिन्न पाठ्य सहगामी गतिविधियों एवं शैक्षणिक आयोजनों में सक्रिय योगदान दिया है।</p>
+          <br>
+          <p>हम इनके उज्ज्वल भविष्य एवं निरंतर सफलता की कामना करते हैं।</p>
+        `;
+      } else if (docType === 'joining') {
+        titleEl.innerText = 'नियुक्ति एवं कार्यभार पत्र / APPOINTMENT ORDER';
+        bodyEl.innerHTML = `
+          <p>सेवा में,<br><strong>श्री/श्रीमती ${emp.name}</strong><br>पद: ${emp.designation}<br>कर्मचारी कोड: ${emp.emp_code}</p>
+          <br>
+          <p>विषय: <strong>विद्यालय में ${emp.designation} पद पर नियुक्ति एवं कार्यभार ग्रहण करने बाबत।</strong></p>
+          <br>
+          <p>महोदय/महोदया,</p>
+          <p>प्रबंधन समिति के निर्णय अनुसार आपको सूचित करते हुए हर्ष है कि आपका चयन <strong>श्री मेवाड़ पब्लिक स्कूल, सिंहपुर</strong> में <strong>${emp.designation}</strong> पद पर शैक्षिक सत्र 2026-27 हेतु किया गया है।</p>
+          <br>
+          <p>आपको निर्देशित किया जाता है कि आप अपने मूल दस्तावेजों के सत्यापन के साथ दिनांक <strong>${emp.joining_date}</strong> को संस्था प्रधान के समक्ष उपस्थित होकर अपना विधिवत कार्यभार ग्रहण करें।</p>
+          <br>
+          <p>श्री मेवाड़ पब्लिक स्कूल परिवार में आपका हार्दिक स्वागत है।</p>
+        `;
+      }
+
+      document.getElementById('doc-modal').classList.remove('hidden');
+    }
+
+    function closeDocModal() {
+      document.getElementById('doc-modal').classList.add('hidden');
+    }
+
+    /* ========================================================
+       EMPLOYEE MANAGEMENT LOGIC
+    ======================================================== */
+    async function loadEmployeesData() {
+      try {
+        const res = await fetch('/api/employees');
+        const dbList = await res.json();
+        if (dbList && dbList.length > 0) {
+          employees = dbList.map(e => ({
+            id: e.id,
+            photo_url: e.photo_url || '',
+            name: e.name,
+            designation: e.designation || 'TEACHER',
+            emp_code: e.emp_code || `TCH2026${e.id}`,
+            department: e.department || 'Teaching',
+            gender: e.gender || 'Male',
+            mobile_no: e.mobile_no || '9876543210',
+            email: e.email || '-',
+            joining_date: e.joining_date || '01-Jul-2025',
+            class_teacher: e.class_teacher || 'N/A',
+            status: e.status === 'Active' ? 'सक्रिय' : (e.status || 'सक्रिय')
+          }));
+        }
+      } catch (err) { console.error(err); }
+
+      renderEmployeesTable(employees);
+      updateEmployeeStats(employees);
+    }
+
+    function updateEmployeeStats(list) {
+      let male = 0, fem = 0, teach = 0, non = 0;
+      list.forEach(e => {
+        if ((e.gender || 'Male').toLowerCase() === 'female') fem++;
+        else male++;
+        if ((e.department || 'Teaching').toLowerCase().includes('non')) non++;
+        else teach++;
+      });
+      document.getElementById('st-emp-male').innerText = male;
+      document.getElementById('st-emp-fem').innerText = fem;
+      document.getElementById('st-emp-tot').innerText = list.length;
+      document.getElementById('st-emp-teach').innerText = teach;
+      document.getElementById('st-emp-non').innerText = non;
+      document.getElementById('emp-total-badge').innerText = `Total: ${list.length}`;
+      document.getElementById('d-tot-emp').innerText = list.length;
+      document.getElementById('d-teach-emp').innerText = teach;
+    }
+
+    function renderEmployeesTable(list) {
+      const tbody = document.getElementById('emp-tbody');
+      tbody.innerHTML = '';
+      list.forEach(e => {
+        const photoTag = e.photo_url 
+          ? `<img src="${e.photo_url}" class="emp-photo-box" />`
+          : `<div class="emp-photo-box" style="display:flex; align-items:center; justify-content:center; font-size:18px;">👤</div>`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;"><strong>${e.id}</strong></td>
+            <td style="text-align:center;">
+              ${photoTag}
+              <button style="font-size:9px; border:none; background:#e2e8f0; border-radius:3px; cursor:pointer; margin-top:2px;" onclick="triggerPhotoUpload('employee', ${e.id})">📷 फोटो</button>
+            </td>
+            <td><strong>${e.name}</strong></td>
+            <td>${e.designation}</td>
+            <td><strong style="color:#1e3a8a;">${e.emp_code}</strong></td>
+            <td>${e.department}</td>
+            <td>${e.mobile_no}</td>
+            <td><span style="font-size:10.5px; color:#475569;">${e.email}</span></td>
+            <td style="text-align:center;">${e.joining_date}</td>
+            <td style="text-align:center; font-weight:700; color:#b45309;">${e.class_teacher}</td>
+            <td>
+              <span class="doc-pill">📄 आधार</span>
+              <span class="doc-pill" style="color:#b91c1c; border-color:#fca5a5; background:#fff1f2;">📄 पैन नहीं</span>
+              <span class="doc-pill" style="color:#b91c1c; border-color:#fca5a5; background:#fff1f2;">🎓 डिग्री नहीं</span>
+            </td>
+            <td style="text-align:center;">
+              <span style="background:#dcfce7; color:#15803d; font-weight:800; padding:2px 8px; border-radius:12px; font-size:10.5px;">${e.status}</span>
+            </td>
+            <td>
+              <div class="emp-action-grid">
+                <button class="btn-grid-act b-act-edit" onclick="editEmpPrompt(${e.id})">✏️ एडिट</button>
+                <button class="btn-grid-act b-act-del" onclick="deleteEmp(${e.id})">🗑️ हटाएं</button>
+                <button class="btn-grid-act b-act-deact" onclick="toggleDeact(${e.id})">🚫 निष्क्रिय</button>
+                <button class="btn-grid-act b-act-class" style="grid-column: span 1.5;" onclick="openStaffIdCardModal(${e.id})">🪪 ID कार्ड</button>
+                <button class="btn-grid-act b-act-contract" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'contract')">📑 अनुबंध</button>
+                <button class="btn-grid-act b-act-exp" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'experience')">📜 अनुभव पत्र</button>
+                <button class="btn-grid-act b-act-join" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'joining')">📩 जॉइनिंग</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function filterEmployees() {
+      const q = document.getElementById('emp-search-box').value.toLowerCase().trim();
+      const filtered = employees.filter(e => e.name.toLowerCase().includes(q) || e.emp_code.toLowerCase().includes(q) || e.mobile_no.includes(q));
+      renderEmployeesTable(filtered);
+    }
+
+    function openStaffIdCardModal(id) {
+      const emp = employees.find(e => e.id == id) || employees[0];
+      if (!emp) return;
+      document.getElementById('idc-name').innerText = emp.name;
+      document.getElementById('idc-code').innerText = `${emp.designation} (${emp.emp_code})`;
+      document.getElementById('idc-dept').innerText = emp.department;
+      document.getElementById('idc-mob').innerText = emp.mobile_no;
+      document.getElementById('idc-photo-box').innerHTML = emp.photo_url ? `<img src="${emp.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` : `👨‍🏫`;
+      document.getElementById('id-preview-modal').classList.remove('hidden');
+    }
+
+    async function deleteEmp(id) {
+      if (!confirm("क्या आप सचमुच हटाना चाहते हैं?")) return;
+      await fetch(`/api/employees/${id}`, { method: 'DELETE' });
+      loadEmployeesData();
+    }
+
+    function toggleDeact(id) {
+      const emp = employees.find(x => x.id === id);
+      if (emp) {
+        emp.status = emp.status === 'सक्रिय' ? 'निष्क्रिय' : 'सक्रिय';
+        renderEmployeesTable(employees);
+      }
+    }
+
+    function openAddEmpPrompt() {
+      const name = prompt("नया कर्मचारी नाम:");
+      if (!name) return;
+      const mobile = prompt("मोबाइल नंबर:", "9876543210");
+      fetch('/api/employees', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.toUpperCase(), mobile_no: mobile, designation: 'TEACHER', department: 'Teaching' })
+      }).then(() => loadEmployeesData());
+    }
+
+    function triggerPhotoUpload(targetType, id) {
+      photoUploadContext = { targetType, id };
+      document.getElementById('global-photo-input').click();
+    }
+
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (!file || !photoUploadContext.id) return;
+      const reader = new FileReader();
+      reader.onload = async function(evt) {
+        const base64 = evt.target.result;
+        const endpoint = photoUploadContext.targetType === 'student' ? `/api/students/${photoUploadContext.id}` : `/api/employees/${photoUploadContext.id}`;
+        await fetch(endpoint, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ photo_url: base64 }) });
+        if (photoUploadContext.targetType === 'student') loadStudentsData(); else loadEmployeesData();
+      };
+      reader.readAsDataURL(file);
+      e.target.value = '';
+    }
+
+    /* ================= FEES LOGIC ================= */
+    async function loadFeesData() {
+      try {
+        const res = await fetch('/api/fees/summary');
+        feesList = await res.json();
+        let tot = 0, paid = 0, bal = 0;
+        feesList.forEach(f => {
+          tot += Number(f.total_fees || 0);
+          paid += Number(f.paid_fees || 0);
+          bal += Number(f.balance_fees || 0);
+        });
+        document.getElementById('fh-tot-stud').innerText = feesList.length || '0';
+        document.getElementById('fh-turnover').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
+        document.getElementById('fh-collected').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+        document.getElementById('fh-balance').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
+        document.getElementById('d-tot-fee').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
+        document.getElementById('d-paid-fee').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+        document.getElementById('d-bal-fee').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
+        renderFeesTable(feesList);
+      } catch (err) { console.error(err); }
+    }
+
+    function renderFeesTable(list) {
+      const tbody = document.getElementById('fee-tbody');
+      tbody.innerHTML = '';
+      list.forEach((f, idx) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td><strong>${f.scholar_no || '759'}</strong></td>
+            <td>${f.roll_no}</td>
+            <td><strong>${f.name}</strong></td>
+            <td>${f.class_name || '8th'}</td>
+            <td>${f.father_name || 'श्री देविलाल'}</td>
+            <td>${f.mobile_no}</td>
+            <td>₹${Number(f.total_fees || 0).toLocaleString('en-IN')}</td>
+            <td style="color:#16a34a; font-weight:700;">₹${Number(f.paid_fees || 0).toLocaleString('en-IN')}</td>
+            <td style="color:#dc2626; font-weight:700;">₹${Number(f.balance_fees || 0).toLocaleString('en-IN')}</td>
+            <td><span style="font-weight:700;">${f.fee_status}</span></td>
+            <td><button class="btn-action-pill btn-act-green" style="font-size:10px; padding:3px 6px;" onclick="openCollectFeeModal(${f.student_id})">💳 जमा</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function openFeesTableView(mode) {
+      showScreen('fees-table');
+      document.getElementById('fee-filter-status').value = mode === 'paid' ? 'Paid' : '';
+      filterFeesTable();
+    }
+
+    function filterFeesTable() {
+      const cls = document.getElementById('fee-filter-class').value;
+      const stat = document.getElementById('fee-filter-status').value;
+      const q = document.getElementById('fee-search-box').value.toLowerCase().trim();
+      const filtered = feesList.filter(f => {
+        return (cls === '' || (f.class_name || '8th') === cls) && (stat === '' || f.fee_status === stat) && ((f.name || '').toLowerCase().includes(q) || (f.scholar_no || '').toString().includes(q));
+      });
+      renderFeesTable(filtered);
+    }
+
+    function openCollectFeeModal(studId) {
+      activeFeeStudent = feesList.find(f => f.student_id == studId);
+      if (!activeFeeStudent) return;
+      document.getElementById('cfm-name').innerText = activeFeeStudent.name;
+      document.getElementById('cfm-bal').innerText = Number(activeFeeStudent.balance_fees || 0).toLocaleString('en-IN');
+      document.getElementById('cfm-amount').value = activeFeeStudent.balance_fees > 0 ? activeFeeStudent.balance_fees : 0;
+      document.getElementById('collect-fee-modal').classList.remove('hidden');
+    }
+
+    async function submitFeePayment() {
+      const amount = document.getElementById('cfm-amount').value;
+      const mode = document.getElementById('cfm-mode').value;
+      if (!amount || Number(amount) <= 0) return alert("वैध राशि भरें!");
+      await fetch('/api/fees/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student_id: activeFeeStudent.student_id, amount_paid: Number(amount), payment_mode: mode })
+      });
+      document.getElementById('collect-fee-modal').classList.add('hidden');
+      loadFeesData();
+    }
+
+    /* ================= STUDENTS LOGIC ================= */
+    async function loadStudentsData() {
+      const res = await fetch('/api/students');
+      students = await res.json();
+      document.getElementById('d-tot-std').innerText = students.length;
+      document.getElementById('d-act-std').innerText = students.length;
+      const tbody = document.getElementById('std-tbody');
+      tbody.innerHTML = '';
+      students.forEach((s, idx) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>👤</td>
+            <td><strong>${s.scholar_no || '759'}</strong></td>
+            <td>${s.admission_date || '10/10/2026'}</td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.roll_no}</td>
+            <td>${s.class_name || '8th'}</td>
+            <td>${s.section || 'A'}</td>
+            <td>Active</td>
+            <td>${s.gender || 'Male'}</td>
+            <td>${s.father_name || 'श्री देविलाल'}</td>
+            <td>${s.mobile_no || '9876543210'}</td>
+            <td><button class="btn-action-pill btn-act-red" style="font-size:10px; padding:3px 6px;" onclick="deleteStudent(${s.id})">🗑️</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    async function deleteStudent(id) {
+      if (!confirm("हटाएं?")) return;
+      await fetch(`/api/students/${id}`, { method: 'DELETE' });
+      loadStudentsData();
+    }
+
+    function renderCommandCenter() {
+      const grid = document.getElementById('cmd-class-grid');
+      grid.innerHTML = '';
+      ALL_CLASSES.forEach(cls => {
+        grid.innerHTML += `<div class="class-att-card" style="background:${cls.bg};"><h3>${cls.name}</h3><p>कुल: ${cls.count}</p></div>`;
+      });
+    }
+
+    window.onload = () => {
+      showScreen('login');
+      loadEmployeesData();
+      loadStudentsData();
+      loadFeesData();
+    };
+  </script>
+</body>
+</html>
