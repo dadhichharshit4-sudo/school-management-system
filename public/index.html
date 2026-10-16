@@ -60,13 +60,13 @@
     .sum-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
     .search-input-big { width: 100%; padding: 10px 16px; border: 2px solid #fed7aa; border-radius: 20px; font-size: 13px; outline: none; background: white; margin-bottom: 14px; }
 
-    /* 1. LOGIN SCREEN */
+    /* LOGIN SCREEN */
     .login-container { max-width: 1000px; margin: 30px auto; padding: 20px; }
     .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
     .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .btn-role-login { width: 100%; padding: 9px; border-radius: 6px; border: none; font-size: 13px; font-weight: 700; color: white; cursor: pointer; margin-top: 14px; }
 
-    /* 2. DASHBOARD */
+    /* DASHBOARD */
     .pills-scroll-container { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 20px; background: #fef08a; border-bottom: 2px solid #f59e0b; justify-content: center; }
     .pill-btn { padding: 6px 14px; border-radius: 18px; font-size: 12px; font-weight: 700; color: white; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; }
     .pill-blue { background: #0284c7; }
@@ -81,7 +81,7 @@
     .stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* 3. FEES HUB */
+    /* FEES HUB */
     .fees-hub-wrapper {
       background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
       min-height: calc(100vh - 56px);
@@ -107,7 +107,6 @@
       box-shadow: 0 8px 18px rgba(0,0,0,0.12);
       transition: transform 0.15s ease;
     }
-    .f-stat-card:hover { transform: translateY(-2px); }
     .f-stat-icon { font-size: 26px; margin-bottom: 6px; }
     .f-stat-label { font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px; }
     .f-stat-value { font-size: 18px; font-weight: 900; color: #1e3a8a; }
@@ -158,7 +157,7 @@
     }
     .f-card-btn:hover { background: #1e293b; }
 
-    /* 4. EMPLOYEE MANAGEMENT SCREEN */
+    /* EMPLOYEE MANAGEMENT SCREEN */
     .emp-panel-card { background: #fff; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
     .emp-section-title { font-size: 14px; font-weight: 800; color: #7c2d12; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
     .emp-actions-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
@@ -193,7 +192,7 @@
     .b-act-exp { background: #0d9488; }
     .b-act-join { background: #0284c7; }
 
-    /* 5. OBSERVATION COMMAND CENTER */
+    /* OBSERVATION COMMAND CENTER */
     .cmd-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
     .cmd-stat-box { border-radius: 10px; padding: 16px; color: white; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
     .cmd-stat-box h2 { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
@@ -209,17 +208,7 @@
     .class-card-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .btn-card-action { padding: 6px; border-radius: 6px; border: none; font-size: 11px; font-weight: 800; cursor: pointer; color: white; background: rgba(0,0,0,0.3); }
 
-    /* 6. FORMS & MODALS */
-    .form-sheet-container { max-width: 1050px; margin: 20px auto; background: white; border-radius: 12px; border: 2px solid #fed7aa; padding: 24px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
-    .form-sheet-header { text-align: center; border-bottom: 2px solid #fee2e2; padding-bottom: 14px; margin-bottom: 20px; }
-    .form-sheet-header h2 { color: #991b1b; font-size: 22px; font-weight: 800; }
-    .sec-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #fafafa; }
-    .sec-title { font-size: 14px; font-weight: 700; color: #7c2d12; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
-    .f-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 10px; }
-    .f-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 10px; }
-    .f-field label { font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
-    .f-input { width: 100%; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 12.5px; outline: none; background: white; }
-
+    /* MODALS & CERTIFICATES */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
     .id-card-box { width: 345px; height: 220px; background: #ffffff; border: 2px solid #991b1b; border-radius: 12px; overflow: hidden; margin: 14px auto; box-shadow: 0 8px 24px rgba(0,0,0,0.18); text-align: left; }
     .id-card-header { background: #991b1b; color: white; padding: 6px 10px; text-align: center; }
@@ -230,12 +219,56 @@
     .receipt-sheet { width: 450px; background: white; border: 2px solid #78350f; border-radius: 10px; padding: 18px; margin: 0 auto; text-align: left; }
     .receipt-header { text-align: center; border-bottom: 2px dashed #b45309; padding-bottom: 8px; margin-bottom: 12px; }
 
+    /* OFFICIAL DOCUMENT PRINT SHEET (A4) */
+    .doc-print-sheet {
+      width: 700px;
+      background: white;
+      border: 3px double #991b1b;
+      padding: 36px 40px;
+      margin: 0 auto;
+      text-align: left;
+      line-height: 1.8;
+      font-size: 13.5px;
+      color: #1e293b;
+      position: relative;
+    }
+    .doc-school-header {
+      text-align: center;
+      border-bottom: 2px solid #991b1b;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+    .doc-school-header h2 { font-size: 24px; color: #991b1b; font-weight: 900; }
+    .doc-school-header p { font-size: 11.5px; color: #475569; }
+    .doc-title-badge {
+      text-align: center;
+      margin: 14px 0 20px;
+    }
+    .doc-title-badge span {
+      background: #7f1d1d;
+      color: white;
+      font-weight: 800;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
     .hidden { display: none !important; }
 
     @media print {
       body * { visibility: hidden; }
-      #printable-id-card-area, #printable-id-card-area *, #printable-receipt-area, #printable-receipt-area * { visibility: visible; }
-      #printable-id-card-area, #printable-receipt-area { position: absolute; left: 0; top: 0; width: 100%; }
+      #printable-id-card-area, #printable-id-card-area *,
+      #printable-receipt-area, #printable-receipt-area *,
+      #printable-doc-area, #printable-doc-area * {
+        visibility: visible;
+      }
+      #printable-id-card-area, #printable-receipt-area, #printable-doc-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
       .no-print { display: none !important; }
     }
   </style>
@@ -247,791 +280,3 @@
     <div class="header-left">
       <div class="school-logo-badge">🏫 SMPS</div>
       <div>
-        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
-        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
-      </div>
-    </div>
-    <div class="header-right">
-      <span class="lang-badge">HI</span>
-      <span class="lang-badge">EN</span>
-      <button class="btn-nav-top" onclick="showScreen('dashboard')">डैशबोर्ड</button>
-      <button class="btn-nav-top" style="background:#b91c1c;" onclick="showScreen('login')">लॉगआउट</button>
-    </div>
-  </div>
-
-  <!-- SCREEN 1: LOGIN -->
-  <div id="screen-login" class="login-container">
-    <div style="text-align:center; margin-bottom: 24px;">
-      <h2 style="color: #7f1d1d; font-size: 24px; font-weight: 800;">🔑 Login Options</h2>
-      <p style="color: #64748b; font-size: 13px;">कृपया अपना रोल चुनकर पोर्टल में प्रवेश करें</p>
-    </div>
-    <div class="login-grid">
-      <div class="login-role-card">
-        <div style="font-size:32px;">👑</div>
-        <h3 style="color:#7c2d12; margin-top:6px;">Super Admin</h3>
-        <p style="font-size:12px; color:#64748b;">Central Management</p>
-        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('dashboard')">Login</button>
-      </div>
-      <div class="login-role-card">
-        <div style="font-size:32px;">🏫</div>
-        <h3 style="color:#7c2d12; margin-top:6px;">Admin Login</h3>
-        <p style="font-size:12px; color:#64748b;">School Administration</p>
-        <button class="btn-role-login" style="background:#ea580c;" onclick="showScreen('dashboard')">Login</button>
-      </div>
-      <div class="login-role-card">
-        <div style="font-size:32px;">💼</div>
-        <h3 style="color:#7c2d12; margin-top:6px;">Staff / Teacher</h3>
-        <p style="font-size:12px; color:#64748b;">Faculty Portal</p>
-        <button class="btn-role-login" style="background:#0284c7;" onclick="showScreen('dashboard')">Access Hub</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 2: MAIN DASHBOARD -->
-  <div id="screen-dashboard" class="hidden">
-    <div class="pills-scroll-container">
-      <button class="pill-btn pill-blue" onclick="showScreen('students')">🎓 विद्यार्थी (Students)</button>
-      <button class="pill-btn pill-green" onclick="showScreen('att-command')">📋 उपस्थिति (Command Center)</button>
-      <button class="pill-btn pill-purple" onclick="showScreen('employees')">👥 कर्मचारी (Staff)</button>
-      <button class="pill-btn pill-orange" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन</button>
-      <button class="pill-btn pill-blue" style="background:#dc2626;" onclick="showScreen('admission')">+ नया छात्र प्रवेश</button>
-    </div>
-
-    <div class="dashboard-grid-full">
-      <div class="erp-card">
-        <div class="card-head" style="background:#ea580c;"><span>💰 फीस प्रबंधन सारांश</span></div>
-        <div class="card-body">
-          <div class="stat-row"><span>कुल अपेक्षित फीस:</span><strong id="d-tot-fee">₹ 0</strong></div>
-          <div class="stat-row"><span>कुल प्राप्त फीस:</span><strong style="color:#16a34a;" id="d-paid-fee">₹ 0</strong></div>
-          <div class="stat-row"><span>कुल बकाया राशि:</span><strong style="color:#dc2626;" id="d-bal-fee">₹ 0</strong></div>
-          <button class="card-btn" style="background:#ea580c;" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन हब खोलें</button>
-        </div>
-      </div>
-
-      <div class="erp-card">
-        <div class="card-head" style="background:#16a34a;"><span>📋 ऑब्जर्वेशन कमांड सेंटर</span></div>
-        <div class="card-body">
-          <div class="stat-row"><span>उपस्थिति स्थिति:</span><strong style="color:#16a34a;">सक्रिय (Live)</strong></div>
-          <div class="stat-row"><span>तारीख:</span><strong>आज</strong></div>
-          <button class="card-btn" style="background:#16a34a;" onclick="showScreen('att-command')">📊 ऑब्जर्वेशन कमांड सेंटर खोलें</button>
-        </div>
-      </div>
-
-      <div class="erp-card">
-        <div class="card-head" style="background:#047857;"><span>👨‍🎓 छात्र सारांश</span></div>
-        <div class="card-body">
-          <div class="stat-row"><span>कुल नामांकित छात्र:</span><strong id="d-tot-std">0</strong></div>
-          <div class="stat-row"><span>सक्रिय छात्र:</span><strong style="color:#16a34a;" id="d-act-std">0</strong></div>
-          <button class="card-btn" style="background:#047857;" onclick="showScreen('students')">👤 छात्र प्रबंधन / सूची खोलें</button>
-        </div>
-      </div>
-
-      <div class="erp-card">
-        <div class="card-head" style="background:#6d28d9;"><span>👥 कर्मचारी सारांश (Staff)</span></div>
-        <div class="card-body">
-          <div class="stat-row"><span>कुल कर्मचारी:</span><strong id="d-tot-emp">0</strong></div>
-          <div class="stat-row"><span>शिक्षक (Teaching):</span><strong style="color:#16a34a;" id="d-teach-emp">0</strong></div>
-          <button class="card-btn" style="background:#6d28d9;" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन / सूची खोलें</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3: FEES HUB (fees_overview.php) -->
-  <div id="screen-fees-hub" class="fees-hub-wrapper hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; max-width:1250px; margin:0 auto 16px;">
-      <button class="btn-action-pill" style="background:rgba(0,0,0,0.3); color:white;" onclick="showScreen('dashboard')">⬅ डैशबोर्ड</button>
-      <div style="font-weight:800; color:white; font-size:12.5px;">🏫 SHREE MEWAR PUBLIC SCHOOL</div>
-    </div>
-
-    <div class="fees-hub-header">
-      <h2>फीस प्रबंधन</h2>
-      <p>सक्रिय सत्र: 2026-27</p>
-    </div>
-
-    <!-- Section 1: फीस अवलोकन -->
-    <div class="fees-hub-section-title">फीस अवलोकन</div>
-    <div class="fees-stat-grid-6">
-      <div class="f-stat-card">
-        <div class="f-stat-icon">🎓</div>
-        <div class="f-stat-label">कुल छात्र</div>
-        <div class="f-stat-value" id="fh-tot-stud">0</div>
-      </div>
-      <div class="f-stat-card">
-        <div class="f-stat-icon">📈</div>
-        <div class="f-stat-label">कुल टर्नओवर</div>
-        <div class="f-stat-value" id="fh-turnover">₹ 0</div>
-      </div>
-      <div class="f-stat-card">
-        <div class="f-stat-icon">💰</div>
-        <div class="f-stat-label">कुल छात्र संग्रह</div>
-        <div class="f-stat-value" id="fh-collected" style="color:#16a34a;">₹ 0</div>
-      </div>
-      <div class="f-stat-card">
-        <div class="f-stat-icon">⏳</div>
-        <div class="f-stat-label">कुल बकाया फीस</div>
-        <div class="f-stat-value" id="fh-balance" style="color:#dc2626;">₹ 0</div>
-      </div>
-      <div class="f-stat-card">
-        <div class="f-stat-icon">💵</div>
-        <div class="f-stat-label">आज का संग्रह</div>
-        <div class="f-stat-value" id="fh-today" style="color:#0284c7;">₹ 0</div>
-      </div>
-      <div class="f-stat-card">
-        <div class="f-stat-icon">📅</div>
-        <div class="f-stat-label">इस महीने का</div>
-        <div class="f-stat-value" id="fh-month" style="color:#7c3aed;">₹ 0</div>
-      </div>
-    </div>
-
-    <!-- Section 2: फीस प्रबंधन सुविधाएँ -->
-    <div class="fees-hub-section-title">फीस प्रबंधन सुविधाएँ</div>
-    <div class="fees-features-grid">
-      <div class="f-feature-card">
-        <div>
-          <div class="f-feature-circle-icon">💳</div>
-          <h3>फीस संग्रह</h3>
-          <p>छात्रों से फीस भुगतान रिकॉर्ड करें</p>
-        </div>
-        <button class="f-card-btn" onclick="openFeesTableView('all')">संग्रह करें</button>
-      </div>
-
-      <div class="f-feature-card">
-        <div>
-          <div class="f-feature-circle-icon">📑</div>
-          <h3>भुगतान रसीदें</h3>
-          <p>एकत्रित फीस के लिए भुगतान रसीदें प्रबंधित करें</p>
-        </div>
-        <button class="f-card-btn" onclick="openFeesTableView('paid')">प्रबंधित करें</button>
-      </div>
-
-      <div class="f-feature-card">
-        <div>
-          <div class="f-feature-circle-icon">🔗</div>
-          <h3>ऑनलाइन भुगतान लिंक</h3>
-          <p>छात्रों / अभिभावकों के लिए ऑनलाइन भुगतान सुविधा</p>
-        </div>
-        <button class="f-card-btn" onclick="openQrPaymentModal()">सेटअप करें</button>
-      </div>
-
-      <div class="f-feature-card">
-        <div>
-          <div class="f-feature-circle-icon">📜</div>
-          <h3>भुगतान इतिहास</h3>
-          <p>सभी छात्रों का भुगतान इतिहास</p>
-        </div>
-        <button class="f-card-btn" onclick="openPaymentHistoryView()">इतिहास देखें</button>
-      </div>
-
-      <div class="f-feature-card">
-        <div>
-          <div class="f-feature-circle-icon">📊</div>
-          <h3>कक्षा वार फीस रिपोर्ट</h3>
-          <p>कक्षा अनुसार छात्रों की फीस, जमा और बकाया देखें</p>
-        </div>
-        <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट देखें</button>
-      </div>
-
-      <div class="f-feature-card">
-        <div>
-          <div class="f-feature-circle-icon">🥧</div>
-          <h3>सभी फीस रिपोर्ट्स <span style="background:#dc2626; color:white; font-size:8px; padding:1px 4px; border-radius:4px;">NEW</span></h3>
-          <p>सभी प्रकार की फीस संबंधित रिपोर्ट एक ही जगह पर देखें</p>
-        </div>
-        <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट्स खोलें</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 4: DETAILED FEES TABLE (fees_collection.php) -->
-  <div id="screen-fees-table" class="directory-container hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">⬅ वापस (फीस हब)</button>
-      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | फीस संकलन एवं रसीद केंद्र</div>
-    </div>
-
-    <div class="filter-panel">
-      <select class="filter-control" id="fee-filter-class" onchange="filterFeesTable()">
-        <option value="">-- सभी कक्षाएं --</option>
-        <option value="Class 10-A">Class 10-A</option>
-        <option value="8th">Class 8th</option>
-        <option value="6">Class 6</option>
-      </select>
-      <select class="filter-control" id="fee-filter-status" onchange="filterFeesTable()">
-        <option value="">-- सभी स्टेटस --</option>
-        <option value="Pending">Pending (बकाया)</option>
-        <option value="Partial">Partial (आंशिक जमा)</option>
-        <option value="Paid">Paid (पूर्ण जमा)</option>
-      </select>
-      <input type="text" id="fee-search-box" class="filter-control" style="flex:1; min-width:200px;" placeholder="🔍 छात्र का नाम, स्कॉलर या रोल नंबर से खोजें..." onkeyup="filterFeesTable()">
-    </div>
-
-    <div class="table-responsive">
-      <table class="custom-table">
-        <thead>
-          <tr>
-            <th>SR.</th>
-            <th>SCHOLAR NO</th>
-            <th>रोल नं</th>
-            <th>छात्र का नाम</th>
-            <th>कक्षा-सेक्शन</th>
-            <th>पिता का नाम</th>
-            <th>मोबाइल नंबर</th>
-            <th>कुल फीस (₹)</th>
-            <th>जमा फीस (₹)</th>
-            <th>बकाया राशि (₹)</th>
-            <th>स्थिति</th>
-            <th>कार्यवाही (Action)</th>
-          </tr>
-        </thead>
-        <tbody id="fee-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SCREEN 5: PAYMENT TRANSACTIONS HISTORY TABLE -->
-  <div id="screen-fees-history" class="directory-container hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">⬅ वापस (फीस हब)</button>
-      <div style="font-weight:700; color:#78350f;">📜 भुगतान इतिहास (All Transactions History)</div>
-    </div>
-    <div class="table-responsive">
-      <table class="custom-table">
-        <thead>
-          <tr>
-            <th>रसीद संख्या</th>
-            <th>दिनांक</th>
-            <th>छात्र का नाम</th>
-            <th>कक्षा</th>
-            <th>स्कॉलर नं</th>
-            <th>जमा राशि (₹)</th>
-            <th>भुगतान विधि</th>
-            <th>रिमार्क</th>
-            <th>रसीद प्रिंट</th>
-          </tr>
-        </thead>
-        <tbody id="fee-history-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SCREEN 6: STUDENTS DIRECTORY (`students.php`) -->
-  <div id="screen-students" class="directory-container hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
-      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | श्री मेवाड़ पब्लिक स्कूल</div>
-    </div>
-
-    <div class="tip-box">
-      ✏️ टिप: टेबल में एडिट के लिए पहले ऊपर से <strong>कक्षा (Class) चुनें</strong> और फिर उस सेल पर <strong>डबल-क्लिक</strong> करें!
-    </div>
-
-    <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">📖 सभी छात्रों की सूची 📖</h2>
-
-    <div class="action-bar-flex" style="display:flex; gap:8px; justify-content:center; margin-bottom:14px;">
-      <button class="btn-action-pill btn-act-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
-      <button class="btn-action-pill btn-act-blue" onclick="showScreen('id-cards')">🪪 छात्र ID कार्ड</button>
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees-hub')">💰 फीस प्रबंधन</button>
-      <button class="btn-action-pill btn-act-purple" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन</button>
-    </div>
-
-    <div class="filter-panel">
-      <select class="filter-control" id="filter-class" onchange="filterStudentsTable()">
-        <option value="">-- सभी कक्षाएं --</option>
-        <option value="6">Class 6</option>
-        <option value="8th">Class 8th</option>
-        <option value="Class 10-A">Class 10-A</option>
-        <option value="PP.4+">PP.4+</option>
-        <option value="1st">1st</option>
-      </select>
-      <select class="filter-control" id="filter-sec" onchange="filterStudentsTable()">
-        <option value="">-- सभी सेक्शन --</option>
-        <option value="A">Section A</option>
-        <option value="B">Section B</option>
-      </select>
-      <select class="filter-control" id="filter-status" onchange="filterStudentsTable()">
-        <option value="Active">सक्रिय (Active)</option>
-        <option value="all">सभी</option>
-      </select>
-    </div>
-
-    <div class="table-responsive">
-      <table class="custom-table">
-        <thead>
-          <tr>
-            <th>SR.</th><th>PHOTO</th><th>ADMISSION NO.</th><th>ADMISSION DATE</th><th>NAME</th><th>ROLL NO.</th><th>CLASS</th><th>SECTION</th><th>स्थिति</th><th>GENDER</th><th>FATHER'S NAME</th><th>MOBILE NO.</th><th>ACTION</th>
-          </tr>
-        </thead>
-        <tbody id="std-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SCREEN 7: ADMISSION FORM -->
-  <div id="screen-admission" class="form-sheet-container hidden">
-    <button class="btn-action-pill btn-act-orange" onclick="showScreen('students')">⬅ वापस</button>
-    <div class="form-sheet-header"><h2>⭐ छात्र प्रवेश फॉर्म ⭐</h2></div>
-    <div class="sec-card">
-      <div class="f-grid-3">
-        <div class="f-field"><label>नाम *</label><input type="text" id="adm-name" class="f-input"></div>
-        <div class="f-field"><label>रोल नं *</label><input type="number" id="adm-roll" class="f-input"></div>
-        <div class="f-field"><label>कक्षा *</label><select id="adm-cls" class="f-input"><option value="Class 10-A">Class 10-A</option><option value="8th">8th</option><option value="6">6</option></select></div>
-      </div>
-      <div class="f-grid-3">
-        <div class="f-field"><label>पिता का नाम *</label><input type="text" id="adm-father" class="f-input"></div>
-        <div class="f-field"><label>मोबाइल नंबर *</label><input type="number" id="adm-mobile" class="f-input"></div>
-        <div class="f-field"><label>कुल वार्षिक फीस (₹) *</label><input type="number" id="adm-fees" class="f-input" value="20000"></div>
-      </div>
-      <button class="btn-action-pill btn-act-green" style="width:100%; padding:12px; margin-top:10px;" onclick="saveNewStudent()">💾 सुरक्षित सेव करें</button>
-    </div>
-  </div>
-
-  <!-- SCREEN 8: EMPLOYEE MANAGEMENT -->
-  <div id="screen-employees" class="directory-container hidden">
-    <div class="emp-panel-card">
-      <div class="emp-section-title"><span>📑</span> कर्मचारी प्रबंधन के कार्य</div>
-      <div class="emp-actions-bar">
-        <button class="emp-act-btn btn-green-emp" onclick="openAddEmpPrompt()">👤+ नया कर्मचारी जोड़ें</button>
-        <button class="emp-act-btn btn-brown-emp">💳 वेतन प्रबंधन</button>
-        <button class="emp-act-btn btn-blue-emp" onclick="showScreen('att-command')">✔ उपस्थिति</button>
-        <button class="emp-act-btn btn-rose-emp" onclick="openStaffIdCardModal(employees[0]?.id)">🪪 ID कार्ड</button>
-      </div>
-      <div class="emp-stats-bar">
-        <span class="emp-stat-pill" style="background:#0284c7;">👤 पुरुष: <span id="st-emp-male">0</span></span>
-        <span class="emp-stat-pill" style="background:#db2777;">👩 महिला: <span id="st-emp-fem">0</span></span>
-        <span class="emp-stat-pill" style="background:#7c2d12;">👥 कुल कर्मचारी: <span id="st-emp-tot">0</span></span>
-      </div>
-    </div>
-    <div class="table-responsive">
-      <table class="custom-table emp-table">
-        <thead><tr><th>ID</th><th>PHOTO</th><th>नाम</th><th>पद</th><th>CODE</th><th>प्रकार</th><th>मोबाइल</th><th>ईमेल</th><th>कार्यवाही</th></tr></thead>
-        <tbody id="emp-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SCREEN 9: OBSERVATION COMMAND CENTER -->
-  <div id="screen-att-command" class="directory-container hidden">
-    <div style="background:linear-gradient(135deg, #7f1d1d, #991b1b); color:white; padding:10px 16px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <div style="font-size:16px; font-weight:800;">📡 ऑब्जर्वेशन कमांड सेंटर</div>
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस जाएं</button>
-    </div>
-    <div class="cmd-stats-grid">
-      <div class="cmd-stat-box" style="background:#1d4ed8;"><h2>1 / 11</h2><p>पूर्ण वर्ग</p></div>
-      <div class="cmd-stat-box" style="background:#dc2626;"><h2>10</h2><p>लंबित</p></div>
-      <div class="cmd-stat-box" style="background:#0284c7;"><h2>98%</h2><p>STAFF PRESENT</p></div>
-    </div>
-    <h3 style="color:#7f1d1d; font-size:15px; margin-bottom:12px;">🏫 सभी कक्षाओं का उपस्थिति स्टेटस</h3>
-    <div class="class-grid-cards" id="cmd-class-grid"></div>
-  </div>
-
-  <!-- SCREEN 10: ATTENDANCE MARKING -->
-  <div id="screen-att-mark" class="directory-container hidden">
-    <div style="background:#991b1b; color:white; padding:8px 14px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:13px; font-weight:800;">
-      <div>🌸 दैनिक उपस्थिति मार्किंग 🌸</div>
-      <button class="btn-action-pill btn-act-orange" onclick="showScreen('att-command')">⬅ कमांड सेंटर</button>
-    </div>
-    <div class="table-responsive">
-      <table class="custom-table">
-        <thead><tr><th>क्र.</th><th>कक्षा-सेक्शन</th><th>रोल नं.</th><th>छात्र का नाम</th><th>स्थिति</th><th>टिप्पणी</th><th>एक्शन</th></tr></thead>
-        <tbody id="mark-tbody"></tbody>
-      </table>
-    </div>
-    <div style="text-align:center; margin:16px 0;">
-      <button class="btn-action-pill btn-act-green" style="padding:12px 36px;" onclick="saveMarkingData()">💾 उपस्थिति सुरक्षित सेव करें</button>
-      <p id="mark-save-msg" style="margin-top:8px; font-weight:700;"></p>
-    </div>
-  </div>
-
-  <!-- MODAL: COLLECT FEE -->
-  <div id="collect-fee-modal" class="modal-overlay hidden">
-    <div style="background:white; border-radius:12px; padding:20px; max-width:400px; width:100%; border-top:6px solid #16a34a;">
-      <h3 style="color:#15803d; margin-bottom:12px; font-size:16px;">💳 फीस जमा करें (Collect Fee)</h3>
-      <div style="text-align:left; font-size:12px; line-height:1.8; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:6px;">
-        <div><strong>छात्र:</strong> <span id="cfm-name">-</span></div>
-        <div><strong>कक्षा:</strong> <span id="cfm-class">-</span></div>
-        <div><strong>कुल फीस:</strong> ₹<span id="cfm-total">0</span></div>
-        <div><strong>शेष बकाया:</strong> <strong style="color:#dc2626;">₹<span id="cfm-bal">0</span></strong></div>
-      </div>
-      <div style="text-align:left; margin-bottom:10px;">
-        <label style="font-size:11px; font-weight:700; color:#475569;">जमा की जाने वाली राशि (₹) *</label>
-        <input type="number" id="cfm-amount" class="filter-control" style="width:100%; font-size:14px; font-weight:700;" placeholder="राशि दर्ज करें">
-      </div>
-      <div style="text-align:left; margin-bottom:10px;">
-        <label style="font-size:11px; font-weight:700; color:#475569;">भुगतान विधि</label>
-        <select id="cfm-mode" class="filter-control" style="width:100%;">
-          <option value="Cash">नकद (Cash)</option>
-          <option value="UPI / Online">UPI / PhonePe / Paytm</option>
-          <option value="Bank Transfer">बैंक ट्रांसफर (Cheque / RTGS)</option>
-        </select>
-      </div>
-      <div style="display:flex; gap:8px; justify-content:center; margin-top:16px;">
-        <button class="btn-action-pill btn-act-green" onclick="submitFeePayment()">💾 जमा करें और रसीद बनाएं</button>
-        <button class="btn-action-pill" style="background:#64748b;" onclick="closeFeeModal()">रद्द करें</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: FEE RECEIPT -->
-  <div id="receipt-modal" class="modal-overlay hidden">
-    <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:490px; width:100%;">
-      <div id="printable-receipt-area">
-        <div class="receipt-sheet">
-          <div class="receipt-header">
-            <h3 style="margin:0; font-size:15px; color:#78350f;">SHREE MEWAR PUBLIC SCHOOL</h3>
-            <p style="margin:2px 0 0; font-size:10px; color:#64748b;">Near Bada Balaji Choraha, Singhpur (Chittorgarh)</p>
-            <div style="font-size:11px; font-weight:800; color:#15803d; margin-top:4px;">आधिकारिक शुल्क रसीद (FEE RECEIPT)</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px;">
-            <span>रसीद सं: <strong id="rec-no">REC-001</strong></span>
-            <span>दिनांक: <strong id="rec-date">12/10/2026</strong></span>
-          </div>
-          <div style="font-size:11px; line-height:1.7; border-bottom:1px dashed #cbd5e1; padding-bottom:8px; margin-bottom:8px;">
-            <div><strong>छात्र का नाम:</strong> <span id="rec-name">RAHUL SHARMA</span></div>
-            <div><strong>स्कॉलर नं:</strong> <span id="rec-scholar">759</span> | <strong>कक्षा:</strong> <span id="rec-class">8th - A</span></div>
-            <div><strong>पिता का नाम:</strong> <span id="rec-father">श्री देविलाल जी</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800; padding:6px 0; border-bottom:1px dashed #cbd5e1;">
-            <span>प्राप्त राशि (Paid Amount):</span>
-            <span style="color:#15803d;">₹ <span id="rec-paid">5,000</span>.00</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:11px; padding:6px 0; color:#475569;">
-            <span>भुगतान विधि: <strong id="rec-mode">Cash</strong></span>
-            <span>शेष बकाया: <strong style="color:#dc2626;">₹ <span id="rec-bal">15,000</span></strong></span>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:16px; display:flex; gap:10px; justify-content:center;" class="no-print">
-        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ रसीद प्रिंट करें</button>
-        <button class="btn-action-pill" style="background:#64748b;" onclick="closeReceiptModal()">बंद करें</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: ONLINE PAYMENT QR CODE -->
-  <div id="qr-modal" class="modal-overlay hidden">
-    <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:380px; width:100%;">
-      <h3 style="color:#78350f; font-size:16px; margin-bottom:6px;">ऑनलाइन फीस भुगतान QR</h3>
-      <p style="font-size:11px; color:#64748b; margin-bottom:12px;">UPI (PhonePe / GooglePay / Paytm) द्वारा स्कैन करके भुगतान करें</p>
-      <div style="border:2px solid #fed7aa; border-radius:10px; padding:16px; display:inline-block; background:#fff7ed;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=schoolfees@upi&pn=ShreeMewarPublicSchool" style="width:180px; height:180px;" alt="QR Code">
-        <div style="font-size:11px; font-weight:800; margin-top:8px; color:#1e3a8a;">UPI ID: schoolfees@upi</div>
-      </div>
-      <div style="margin-top:16px;">
-        <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('qr-modal').classList.add('hidden')">बंद करें</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    let students = [];
-    let employees = [];
-    let feesList = [];
-    let activeFeeStudent = null;
-    let markingMap = {};
-
-    const ALL_CLASSES = [
-      { name: 'Pp.3+', sec: '1 Sections', count: 11, bg: '#db2777' },
-      { name: 'Pp.4+', sec: '1 Sections', count: 14, bg: '#0284c7' },
-      { name: 'Pp.5+', sec: '1 Sections', count: 30, bg: '#ea580c' },
-      { name: '1st', sec: '1 Sections', count: 28, bg: '#0d9488' },
-      { name: '2nd', sec: '1 Sections', count: 18, bg: '#7c3aed' },
-      { name: '3rd', sec: '2 Sections', count: 27, bg: '#2563eb' },
-      { name: '4th', sec: '1 Sections', count: 17, bg: '#c026d3' },
-      { name: '5th', sec: '1 Sections', count: 28, bg: '#0284c7' },
-      { name: '6th', sec: '2 Sections', count: 22, bg: '#ea580c' },
-      { name: '7th', sec: '1 Sections', count: 25, bg: '#0d9488' },
-      { name: '8th', sec: '1 Sections', count: 19, bg: '#7c3aed' },
-      { name: 'Class 10-A', sec: '1 Sections', count: 5, bg: '#16a34a' }
-    ];
-
-    function showScreen(screenId) {
-      ['login', 'dashboard', 'employees', 'att-command', 'att-mark', 'students', 'admission', 'fees-hub', 'fees-table', 'fees-history'].forEach(s => {
-        const el = document.getElementById(`screen-${s}`);
-        if (el) el.classList.add('hidden');
-      });
-      const target = document.getElementById(`screen-${screenId}`);
-      if (target) target.classList.remove('hidden');
-
-      if (screenId === 'students' || screenId === 'dashboard') loadStudentsData();
-      if (screenId === 'employees' || screenId === 'dashboard') loadEmployeesData();
-      if (screenId === 'fees-hub' || screenId === 'fees-table' || screenId === 'dashboard') loadFeesData();
-      if (screenId === 'att-command') renderCommandCenter();
-    }
-
-    /* FEES ACTIONS */
-    function openFeesTableView(mode) {
-      showScreen('fees-table');
-      if (mode === 'paid') {
-        document.getElementById('fee-filter-status').value = 'Paid';
-      } else {
-        document.getElementById('fee-filter-status').value = '';
-      }
-      filterFeesTable();
-    }
-
-    function openQrPaymentModal() {
-      document.getElementById('qr-modal').classList.remove('hidden');
-    }
-
-    async function openPaymentHistoryView() {
-      showScreen('fees-history');
-      try {
-        const res = await fetch('/api/fees/transactions');
-        const list = await res.json();
-        const tbody = document.getElementById('fee-history-tbody');
-        tbody.innerHTML = '';
-        if (!list || list.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:14px;">कोई पिछला भुगतान रिकॉर्ड नहीं मिला।</td></tr>';
-          return;
-        }
-        list.forEach(item => {
-          tbody.innerHTML += `
-            <tr>
-              <td><strong>${item.receipt_no}</strong></td>
-              <td>${item.payment_date?.split('T')[0] || '12/10/2026'}</td>
-              <td><strong>${item.name}</strong></td>
-              <td>${item.class_name} - ${item.section}</td>
-              <td>${item.scholar_no}</td>
-              <td style="color:#16a34a; font-weight:700;">₹${Number(item.amount_paid).toLocaleString('en-IN')}</td>
-              <td>${item.payment_mode}</td>
-              <td>${item.remarks}</td>
-              <td><button class="btn-action-pill btn-act-blue" style="font-size:10px; padding:3px 6px;" onclick="printOldReceipt('${item.receipt_no}', '${item.name}', '${item.scholar_no}', '${item.class_name}', ${item.amount_paid}, '${item.payment_mode}')">🖨️ रसीद</button></td>
-            </tr>
-          `;
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    function printOldReceipt(no, name, scholar, cls, amt, mode) {
-      document.getElementById('rec-no').innerText = no;
-      document.getElementById('rec-date').innerText = new Date().toLocaleDateString('en-GB');
-      document.getElementById('rec-name').innerText = name;
-      document.getElementById('rec-scholar').innerText = scholar;
-      document.getElementById('rec-class').innerText = cls;
-      document.getElementById('rec-father').innerText = '-';
-      document.getElementById('rec-paid').innerText = Number(amt).toLocaleString('en-IN');
-      document.getElementById('rec-mode').innerText = mode;
-      document.getElementById('rec-bal').innerText = '0';
-      document.getElementById('receipt-modal').classList.remove('hidden');
-    }
-
-    async function loadFeesData() {
-      try {
-        const res = await fetch('/api/fees/summary');
-        feesList = await res.json();
-        updateFeesSummary(feesList);
-        renderFeesTable(feesList);
-      } catch (err) { console.error(err); }
-    }
-
-    function updateFeesSummary(list) {
-      let tot = 0, paid = 0, bal = 0;
-      list.forEach(f => {
-        tot += Number(f.total_fees || 0);
-        paid += Number(f.paid_fees || 0);
-        bal += Number(f.balance_fees || 0);
-      });
-      document.getElementById('fh-tot-stud').innerText = list.length > 0 ? list.length : '0';
-      document.getElementById('fh-turnover').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
-      document.getElementById('fh-collected').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
-      document.getElementById('fh-balance').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
-      document.getElementById('fh-today').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
-      document.getElementById('fh-month').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
-
-      document.getElementById('d-tot-fee').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
-      document.getElementById('d-paid-fee').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
-      document.getElementById('d-bal-fee').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
-    }
-
-    function renderFeesTable(list) {
-      const tbody = document.getElementById('fee-tbody');
-      tbody.innerHTML = '';
-      if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; padding:18px;">कोई फीस रिकॉर्ड उपलब्ध नहीं है।</td></tr>';
-        return;
-      }
-      list.forEach((f, idx) => {
-        let statusColor = f.fee_status === 'Paid' ? '#15803d' : (f.fee_status === 'Partial' ? '#b45309' : '#dc2626');
-        let statusBg = f.fee_status === 'Paid' ? '#dcfce7' : (f.fee_status === 'Partial' ? '#fef3c7' : '#fee2e2');
-
-        tbody.innerHTML += `
-          <tr>
-            <td>${idx + 1}</td>
-            <td><strong>${f.scholar_no || '759'}</strong></td>
-            <td>${f.roll_no}</td>
-            <td><strong>${f.name}</strong></td>
-            <td>${f.class_name || '8th'} - ${f.section || 'A'}</td>
-            <td>${f.father_name || 'श्री देविलाल'}</td>
-            <td>${f.mobile_no || '9876543210'}</td>
-            <td>₹${Number(f.total_fees || 0).toLocaleString('en-IN')}</td>
-            <td style="color:#16a34a; font-weight:700;">₹${Number(f.paid_fees || 0).toLocaleString('en-IN')}</td>
-            <td style="color:#dc2626; font-weight:700;">₹${Number(f.balance_fees || 0).toLocaleString('en-IN')}</td>
-            <td><span style="background:${statusBg}; color:${statusColor}; font-weight:800; padding:2px 8px; border-radius:12px; font-size:10px;">${f.fee_status}</span></td>
-            <td><button class="btn-action-pill btn-act-green" style="font-size:10px; padding:3px 8px;" onclick="openCollectFeeModal(${f.student_id})">💳 फीस जमा</button></td>
-          </tr>
-        `;
-      });
-    }
-
-    function filterFeesTable() {
-      const cls = document.getElementById('fee-filter-class').value;
-      const stat = document.getElementById('fee-filter-status').value;
-      const q = document.getElementById('fee-search-box').value.toLowerCase().trim();
-      const filtered = feesList.filter(f => {
-        const mCls = cls === '' || (f.class_name || '8th') === cls;
-        const mStat = stat === '' || f.fee_status === stat;
-        const mQ = (f.name || '').toLowerCase().includes(q) || (f.scholar_no || '').toString().includes(q);
-        return mCls && mStat && mQ;
-      });
-      renderFeesTable(filtered);
-    }
-
-    function openCollectFeeModal(studId) {
-      activeFeeStudent = feesList.find(f => f.student_id == studId);
-      if (!activeFeeStudent) return;
-      document.getElementById('cfm-name').innerText = activeFeeStudent.name;
-      document.getElementById('cfm-class').innerText = `${activeFeeStudent.class_name || '8th'} - ${activeFeeStudent.section || 'A'}`;
-      document.getElementById('cfm-total').innerText = Number(activeFeeStudent.total_fees || 0).toLocaleString('en-IN');
-      document.getElementById('cfm-bal').innerText = Number(activeFeeStudent.balance_fees || 0).toLocaleString('en-IN');
-      document.getElementById('cfm-amount').value = activeFeeStudent.balance_fees > 0 ? activeFeeStudent.balance_fees : 0;
-      document.getElementById('collect-fee-modal').classList.remove('hidden');
-    }
-
-    function closeFeeModal() { document.getElementById('collect-fee-modal').classList.add('hidden'); }
-    function closeReceiptModal() { document.getElementById('receipt-modal').classList.add('hidden'); }
-
-    async function submitFeePayment() {
-      const amount = document.getElementById('cfm-amount').value;
-      const mode = document.getElementById('cfm-mode').value;
-      if (!amount || Number(amount) <= 0) { alert("कृपया वैध राशि दर्ज करें!"); return; }
-
-      const res = await fetch('/api/fees/pay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ student_id: activeFeeStudent.student_id, amount_paid: Number(amount), payment_mode: mode })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        closeFeeModal();
-        loadFeesData();
-        document.getElementById('rec-no').innerText = data.receipt_no;
-        document.getElementById('rec-date').innerText = new Date().toLocaleDateString('en-GB');
-        document.getElementById('rec-name').innerText = activeFeeStudent.name;
-        document.getElementById('rec-scholar').innerText = activeFeeStudent.scholar_no || '759';
-        document.getElementById('rec-class').innerText = `${activeFeeStudent.class_name || '8th'} - ${activeFeeStudent.section || 'A'}`;
-        document.getElementById('rec-paid').innerText = Number(amount).toLocaleString('en-IN');
-        document.getElementById('rec-mode').innerText = mode;
-        const newBal = (Number(activeFeeStudent.balance_fees || 0) - Number(amount));
-        document.getElementById('rec-bal').innerText = newBal > 0 ? newBal.toLocaleString('en-IN') : '0';
-        document.getElementById('receipt-modal').classList.remove('hidden');
-      } else { alert("त्रुटि!"); }
-    }
-
-    /* STUDENTS & ATTENDANCE */
-    async function loadStudentsData() {
-      const res = await fetch('/api/students');
-      students = await res.json();
-      document.getElementById('d-tot-std').innerText = students.length;
-      document.getElementById('d-act-std').innerText = students.length;
-      const tbody = document.getElementById('std-tbody');
-      tbody.innerHTML = '';
-      students.forEach((s, idx) => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${idx + 1}</td>
-            <td>👤</td>
-            <td><strong>${s.scholar_no || '759'}</strong></td>
-            <td>${s.admission_date || '10/10/2026'}</td>
-            <td><strong>${s.name}</strong></td>
-            <td>${s.roll_no}</td>
-            <td>${s.class_name || '8th'}</td>
-            <td>${s.section || 'A'}</td>
-            <td>Active</td>
-            <td>${s.gender || 'Male'}</td>
-            <td>${s.father_name || 'श्री देविलाल'}</td>
-            <td>${s.mobile_no || '9876543210'}</td>
-            <td><button class="btn-action-pill btn-act-red" style="font-size:10px; padding:3px 6px;" onclick="deleteStudent(${s.id})">🗑️</button></td>
-          </tr>
-        `;
-      });
-    }
-
-    async function deleteStudent(id) {
-      if (!confirm("हटाएं?")) return;
-      await fetch(`/api/students/${id}`, { method: 'DELETE' });
-      loadStudentsData();
-    }
-
-    async function loadEmployeesData() {
-      const res = await fetch('/api/employees');
-      employees = await res.json();
-      document.getElementById('d-tot-emp').innerText = employees.length;
-      document.getElementById('d-teach-emp').innerText = employees.length;
-      const tbody = document.getElementById('emp-tbody');
-      tbody.innerHTML = '';
-      employees.forEach(e => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${e.id}</td><td>👤</td><td><strong>${e.name}</strong></td><td>${e.designation}</td><td>${e.emp_code}</td><td>${e.department}</td><td>${e.mobile_no}</td><td>${e.email}</td>
-            <td><button class="btn-action-pill btn-act-blue" style="font-size:10px; padding:2px 6px;">कार्यवाही</button></td>
-          </tr>
-        `;
-      });
-    }
-
-    function renderCommandCenter() {
-      const grid = document.getElementById('cmd-class-grid');
-      grid.innerHTML = '';
-      ALL_CLASSES.forEach(cls => {
-        grid.innerHTML += `
-          <div class="class-att-card" style="background:${cls.bg};">
-            <h3>${cls.name}</h3>
-            <p>कुल छात्र: ${cls.count}</p>
-            <button class="btn-card-action" style="margin-top:8px;" onclick="openClassMarking('${cls.name}', 'A')">✍ दर्ज करें</button>
-          </div>
-        `;
-      });
-    }
-
-    function openClassMarking(cls, sec) {
-      showScreen('att-mark');
-      const tbody = document.getElementById('mark-tbody');
-      tbody.innerHTML = '';
-      let list = students.filter(s => (s.class_name || '8th') === cls);
-      if (list.length === 0) list = [{ id: 1, roll_no: '101', name: 'Rahul Sharma' }];
-      markingMap = {};
-      list.forEach((s, idx) => {
-        markingMap[s.id] = { status: 'Present', remarks: '' };
-        tbody.innerHTML += `
-          <tr>
-            <td>${idx + 1}</td><td>${cls}-A</td><td>${s.roll_no}</td><td><strong>${s.name}</strong></td>
-            <td><select class="filter-control" onchange="markingMap[${s.id}].status = this.value"><option value="Present">Present</option><option value="Absent">Absent</option></select></td>
-            <td><input type="text" class="filter-control" placeholder="टिप्पणी" onchange="markingMap[${s.id}].remarks = this.value"></td>
-            <td>📞 Call</td>
-          </tr>
-        `;
-      });
-    }
-
-    async function saveMarkingData() {
-      const res = await fetch('/api/attendance/bulk', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ attendance_date: new Date().toISOString().split('T')[0], records: Object.keys(markingMap).map(id => ({ student_id: id, status: markingMap[id].status })) })
-      });
-      document.getElementById('mark-save-msg').innerText = 'उपस्थिति सफलतापूर्वक सुरक्षित!';
-      document.getElementById('mark-save-msg').style.color = '#16a34a';
-    }
-
-    window.onload = () => {
-      showScreen('login');
-      loadEmployeesData();
-      loadStudentsData();
-      loadFeesData();
-    };
-  </script>
-</body>
-</html>
