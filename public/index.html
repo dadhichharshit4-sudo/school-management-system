@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -145,7 +146,10 @@
     .fee-highlight-box { background: #fef3c7; border: 2px dashed #f59e0b; border-radius: 8px; padding: 14px; text-align: center; margin: 12px 0; }
     .fee-highlight-box h3 { font-size: 24px; color: #b45309; font-weight: 800; }
 
-    /* 6. MODALS & ID CARDS */
+    /* 6. FEES MANAGEMENT SCREEN */
+    .fee-stat-badge { padding: 10px 16px; border-radius: 10px; color: white; text-align: center; font-weight: 800; }
+
+    /* 7. RECEIPT & MODALS */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
     .id-card-box { width: 345px; height: 220px; background: #ffffff; border: 2px solid #991b1b; border-radius: 12px; overflow: hidden; margin: 14px auto; box-shadow: 0 8px 24px rgba(0,0,0,0.18); text-align: left; }
     .id-card-header { background: #991b1b; color: white; padding: 6px 10px; text-align: center; }
@@ -154,12 +158,15 @@
     .id-card-details { font-size: 10.5px; line-height: 1.55; color: #1e293b; flex: 1; }
     .alert-modal-box { background: white; width: 100%; max-width: 420px; border-radius: 14px; padding: 24px; text-align: center; border-top: 6px solid #dc2626; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
 
+    .receipt-sheet { width: 450px; background: white; border: 2px solid #78350f; border-radius: 10px; padding: 18px; margin: 0 auto; text-align: left; }
+    .receipt-header { text-align: center; border-bottom: 2px dashed #b45309; padding-bottom: 8px; margin-bottom: 12px; }
+
     .hidden { display: none !important; }
 
     @media print {
       body * { visibility: hidden; }
-      #printable-id-card-area, #printable-id-card-area * { visibility: visible; }
-      #printable-id-card-area { position: absolute; left: 0; top: 0; width: 100%; }
+      #printable-id-card-area, #printable-id-card-area *, #printable-receipt-area, #printable-receipt-area * { visibility: visible; }
+      #printable-id-card-area, #printable-receipt-area { position: absolute; left: 0; top: 0; width: 100%; }
       .no-print { display: none !important; }
     }
   </style>
@@ -217,17 +224,18 @@
       <button class="pill-btn pill-blue" onclick="showScreen('students')">🎓 विद्यार्थी (Students)</button>
       <button class="pill-btn pill-green" onclick="showScreen('att-command')">📋 उपस्थिति (Command Center)</button>
       <button class="pill-btn pill-purple" onclick="showScreen('employees')">👥 कर्मचारी (Staff)</button>
-      <button class="pill-btn pill-orange" onclick="alert('फीस प्रबंधन जल्द आ रहा है...')">💰 फीस प्रबंधन</button>
+      <button class="pill-btn pill-orange" onclick="showScreen('fees')">💰 फीस प्रबंधन</button>
       <button class="pill-btn pill-blue" style="background:#dc2626;" onclick="showScreen('admission')">+ नया छात्र प्रवेश</button>
     </div>
 
     <div class="dashboard-grid-full">
       <div class="erp-card">
-        <div class="card-head" style="background:#047857;"><span>👨‍🎓 छात्र सारांश</span></div>
+        <div class="card-head" style="background:#ea580c;"><span>💰 फीस प्रबंधन सारांश</span></div>
         <div class="card-body">
-          <div class="stat-row"><span>कुल नामांकित छात्र:</span><strong id="d-tot-std">0</strong></div>
-          <div class="stat-row"><span>सक्रिय छात्र:</span><strong style="color:#16a34a;" id="d-act-std">0</strong></div>
-          <button class="card-btn" style="background:#047857;" onclick="showScreen('students')">👤 छात्र प्रबंधन / सूची खोलें</button>
+          <div class="stat-row"><span>कुल अपेक्षित फीस:</span><strong id="d-tot-fee">₹ 0</strong></div>
+          <div class="stat-row"><span>कुल प्राप्त फीस:</span><strong style="color:#16a34a;" id="d-paid-fee">₹ 0</strong></div>
+          <div class="stat-row"><span>कुल बकाया राशि:</span><strong style="color:#dc2626;" id="d-bal-fee">₹ 0</strong></div>
+          <button class="card-btn" style="background:#ea580c;" onclick="showScreen('fees')">💰 फीस कलेक्शन रजिस्टर खोलें</button>
         </div>
       </div>
 
@@ -237,6 +245,15 @@
           <div class="stat-row"><span>उपस्थिति स्थिति:</span><strong style="color:#16a34a;">सक्रिय (Live)</strong></div>
           <div class="stat-row"><span>तारीख:</span><strong>आज</strong></div>
           <button class="card-btn" style="background:#16a34a;" onclick="showScreen('att-command')">📊 ऑब्जर्वेशन कमांड सेंटर खोलें</button>
+        </div>
+      </div>
+
+      <div class="erp-card">
+        <div class="card-head" style="background:#047857;"><span>👨‍🎓 छात्र सारांश</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span>कुल नामांकित छात्र:</span><strong id="d-tot-std">0</strong></div>
+          <div class="stat-row"><span>सक्रिय छात्र:</span><strong style="color:#16a34a;" id="d-act-std">0</strong></div>
+          <button class="card-btn" style="background:#047857;" onclick="showScreen('students')">👤 छात्र प्रबंधन / सूची खोलें</button>
         </div>
       </div>
 
@@ -268,6 +285,7 @@
     <div class="action-bar-flex" style="display:flex; gap:8px; justify-content:center; margin-bottom:14px;">
       <button class="btn-action-pill btn-act-green" onclick="showScreen('admission')">➕ नया छात्र जोड़ें</button>
       <button class="btn-action-pill btn-act-blue" onclick="showScreen('id-cards')">🪪 छात्र ID कार्ड</button>
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('fees')">💰 फीस प्रबंधन पर जाएं</button>
       <button class="btn-action-pill btn-act-purple" onclick="showScreen('employees')">👥 कर्मचारी प्रबंधन पर जाएं</button>
     </div>
 
@@ -493,7 +511,68 @@
     </div>
   </div>
 
-  <!-- SCREEN 6: EMPLOYEE MANAGEMENT (EXACT SCREENSHOT LAYOUT) -->
+  <!-- SCREEN 6: FEES MANAGEMENT SCREEN (`fees_collection.php`) -->
+  <div id="screen-fees" class="directory-container hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn-action-pill btn-act-orange" onclick="showScreen('dashboard')">⬅ वापस (Dashboard)</button>
+      <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | फीस संकलन एवं रसीद केंद्र</div>
+    </div>
+
+    <div class="summary-badges-bar" style="gap:14px; margin-bottom:16px;">
+      <div class="fee-stat-badge" style="background:#1e40af;">
+        <div style="font-size:11px;">कुल अपेक्षित फीस</div>
+        <div style="font-size:18px;" id="f-sum-total">₹ 0</div>
+      </div>
+      <div class="fee-stat-badge" style="background:#16a34a;">
+        <div style="font-size:11px;">कुल प्राप्त राशि (Collected)</div>
+        <div style="font-size:18px;" id="f-sum-paid">₹ 0</div>
+      </div>
+      <div class="fee-stat-badge" style="background:#dc2626;">
+        <div style="font-size:11px;">कुल बकाया राशि (Balance)</div>
+        <div style="font-size:18px;" id="f-sum-bal">₹ 0</div>
+      </div>
+    </div>
+
+    <div class="filter-panel">
+      <select class="filter-control" id="fee-filter-class" onchange="filterFeesTable()">
+        <option value="">-- सभी कक्षाएं --</option>
+        <option value="Class 10-A">Class 10-A</option>
+        <option value="8th">Class 8th</option>
+        <option value="6">Class 6</option>
+      </select>
+      <select class="filter-control" id="fee-filter-status" onchange="filterFeesTable()">
+        <option value="">-- सभी स्टेटस --</option>
+        <option value="Pending">Pending (बकाया)</option>
+        <option value="Partial">Partial (आंशिक जमा)</option>
+        <option value="Paid">Paid (पूर्ण जमा)</option>
+      </select>
+      <input type="text" id="fee-search-box" class="filter-control" style="flex:1; min-width:200px;" placeholder="🔍 छात्र का नाम, स्कॉलर या रोल नंबर से खोजें..." onkeyup="filterFeesTable()">
+    </div>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>SR.</th>
+            <th>SCHOLAR NO</th>
+            <th>रोल नं</th>
+            <th>छात्र का नाम</th>
+            <th>कक्षा-सेक्शन</th>
+            <th>पिता का नाम</th>
+            <th>मोबाइल नंबर</th>
+            <th>कुल फीस (₹)</th>
+            <th>जमा फीस (₹)</th>
+            <th>बकाया राशि (₹)</th>
+            <th>स्थिति</th>
+            <th>कार्यवाही (Action)</th>
+          </tr>
+        </thead>
+        <tbody id="fee-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCREEN 7: EMPLOYEE MANAGEMENT (EXACT SCREENSHOT LAYOUT) -->
   <div id="screen-employees" class="directory-container hidden">
     <div class="emp-panel-card">
       <div class="emp-section-title"><span>📑</span> कर्मचारी प्रबंधन के कार्य</div>
@@ -553,7 +632,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 7: OBSERVATION COMMAND CENTER -->
+  <!-- SCREEN 8: OBSERVATION COMMAND CENTER -->
   <div id="screen-att-command" class="directory-container hidden">
     <div style="background:linear-gradient(135deg, #7f1d1d, #991b1b); color:white; padding:10px 16px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
       <div style="font-size:16px; font-weight:800;">📡 ऑब्जर्वेशन कमांड सेंटर</div>
@@ -574,7 +653,7 @@
     <div class="class-grid-cards" id="cmd-class-grid"></div>
   </div>
 
-  <!-- SCREEN 8: ATTENDANCE MARKING -->
+  <!-- SCREEN 9: ATTENDANCE MARKING -->
   <div id="screen-att-mark" class="directory-container hidden">
     <div style="background:#991b1b; color:white; padding:8px 14px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:13px; font-weight:800;">
       <div>🌸 दैनिक उपस्थिति मार्किंग 🌸</div>
@@ -604,6 +683,75 @@
     <div style="text-align:center; margin:16px 0;">
       <button class="btn-action-pill btn-act-green" style="padding:12px 36px; font-size:15px;" onclick="saveMarkingData()">💾 उपस्थिति सुरक्षित सेव करें</button>
       <p id="mark-save-msg" style="margin-top:8px; font-weight:700; font-size:13px;"></p>
+    </div>
+  </div>
+
+  <!-- COLLECT FEE MODAL -->
+  <div id="collect-fee-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:12px; padding:20px; max-width:400px; width:100%; border-top:6px solid #16a34a;">
+      <h3 style="color:#15803d; margin-bottom:12px; font-size:16px;">💳 फीस जमा करें (Collect Fee)</h3>
+      <div style="text-align:left; font-size:12px; line-height:1.8; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:6px;">
+        <div><strong>छात्र:</strong> <span id="cfm-name">-</span></div>
+        <div><strong>कक्षा:</strong> <span id="cfm-class">-</span></div>
+        <div><strong>कुल फीस:</strong> ₹<span id="cfm-total">0</span></div>
+        <div><strong>शेष बकाया:</strong> <strong style="color:#dc2626;">₹<span id="cfm-bal">0</span></strong></div>
+      </div>
+      <div style="text-align:left; margin-bottom:10px;">
+        <label style="font-size:11px; font-weight:700; color:#475569;">जमा की जाने वाली राशि (₹) *</label>
+        <input type="number" id="cfm-amount" class="filter-control" style="width:100%; font-size:14px; font-weight:700;" placeholder="राशि दर्ज करें">
+      </div>
+      <div style="text-align:left; margin-bottom:10px;">
+        <label style="font-size:11px; font-weight:700; color:#475569;">भुगतान विधि</label>
+        <select id="cfm-mode" class="filter-control" style="width:100%;">
+          <option value="Cash">नकद (Cash)</option>
+          <option value="UPI / Online">UPI / PhonePe / Paytm</option>
+          <option value="Bank Transfer">बैंक ट्रांसफर (Cheque / RTGS)</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:8px; justify-content:center; margin-top:16px;">
+        <button class="btn-action-pill btn-act-green" onclick="submitFeePayment()">💾 जमा करें और रसीद बनाएं</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="closeFeeModal()">रद्द करें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFICIAL FEE RECEIPT MODAL -->
+  <div id="receipt-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; text-align:center; max-width:490px; width:100%;">
+      <div id="printable-receipt-area">
+        <div class="receipt-sheet">
+          <div class="receipt-header">
+            <h3 style="margin:0; font-size:15px; color:#78350f;">SHREE MEWAR PUBLIC SCHOOL</h3>
+            <p style="margin:2px 0 0; font-size:10px; color:#64748b;">Near Bada Balaji Choraha, Singhpur (Chittorgarh)</p>
+            <div style="font-size:11px; font-weight:800; color:#15803d; margin-top:4px;">आधिकारिक शुल्क रसीद (FEE RECEIPT)</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px;">
+            <span>रसीद सं: <strong id="rec-no">REC-001</strong></span>
+            <span>दिनांक: <strong id="rec-date">12/10/2026</strong></span>
+          </div>
+          <div style="font-size:11px; line-height:1.7; border-bottom:1px dashed #cbd5e1; padding-bottom:8px; margin-bottom:8px;">
+            <div><strong>छात्र का नाम:</strong> <span id="rec-name">RAHUL SHARMA</span></div>
+            <div><strong>स्कॉलर नं:</strong> <span id="rec-scholar">759</span> | <strong>कक्षा:</strong> <span id="rec-class">8th - A</span></div>
+            <div><strong>पिता का नाम:</strong> <span id="rec-father">श्री देविलाल जी</span></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800; padding:6px 0; border-bottom:1px dashed #cbd5e1;">
+            <span>प्राप्त राशि (Paid Amount):</span>
+            <span style="color:#15803d;">₹ <span id="rec-paid">5,000</span>.00</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding:6px 0; color:#475569;">
+            <span>भुगतान विधि: <strong id="rec-mode">Cash</strong></span>
+            <span>शेष बकाया: <strong style="color:#dc2626;">₹ <span id="rec-bal">15,000</span></strong></span>
+          </div>
+          <div style="margin-top:20px; display:flex; justify-content:space-between; font-size:10px; color:#64748b;">
+            <span>हस्ताक्षर अभिभावक</span>
+            <span>हस्ताक्षर अधिकृत कैशियर</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ रसीद प्रिंट करें</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="closeReceiptModal()">बंद करें</button>
+      </div>
     </div>
   </div>
 
@@ -655,7 +803,9 @@
   <script>
     let students = [];
     let employees = [];
+    let feesList = [];
     let markingMap = {};
+    let activeFeeStudent = null;
     let photoUploadContext = { targetType: null, id: null };
 
     const ALL_CLASSES = [
@@ -674,7 +824,7 @@
     ];
 
     function showScreen(screenId) {
-      ['login', 'dashboard', 'employees', 'att-command', 'att-mark', 'students', 'admission', 'id-cards'].forEach(s => {
+      ['login', 'dashboard', 'employees', 'att-command', 'att-mark', 'students', 'admission', 'id-cards', 'fees'].forEach(s => {
         const el = document.getElementById(`screen-${s}`);
         if (el) el.classList.add('hidden');
       });
@@ -683,8 +833,159 @@
 
       if (screenId === 'students' || screenId === 'dashboard') loadStudentsData();
       if (screenId === 'employees' || screenId === 'dashboard') loadEmployeesData();
+      if (screenId === 'fees' || screenId === 'dashboard') loadFeesData();
       if (screenId === 'att-command') renderCommandCenter();
       if (screenId === 'id-cards') renderIdCardStudentsList();
+    }
+
+    /* ================= FEES MANAGEMENT LOGIC ================= */
+    async function loadFeesData() {
+      try {
+        const res = await fetch('/api/fees/summary');
+        feesList = await res.json();
+        updateFeesSummary(feesList);
+        renderFeesTable(feesList);
+      } catch (err) {
+        console.error("Fees Load Error:", err);
+      }
+    }
+
+    function updateFeesSummary(list) {
+      let tot = 0, paid = 0, bal = 0;
+      list.forEach(f => {
+        tot += Number(f.total_fees || 0);
+        paid += Number(f.paid_fees || 0);
+        bal += Number(f.balance_fees || 0);
+      });
+      document.getElementById('f-sum-total').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
+      document.getElementById('f-sum-paid').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+      document.getElementById('f-sum-bal').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
+
+      document.getElementById('d-tot-fee').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
+      document.getElementById('d-paid-fee').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+      document.getElementById('d-bal-fee').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
+    }
+
+    function renderFeesTable(list) {
+      const tbody = document.getElementById('fee-tbody');
+      tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:18px;">कोई फीस रिकॉर्ड उपलब्ध नहीं है।</td></tr>`;
+        return;
+      }
+
+      list.forEach((f, idx) => {
+        let statusColor = '#dc2626';
+        let statusBg = '#fee2e2';
+        if (f.fee_status === 'Paid') { statusColor = '#15803d'; statusBg = '#dcfce7'; }
+        else if (f.fee_status === 'Partial') { statusColor = '#b45309'; statusBg = '#fef3c7'; }
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td><strong>${f.scholar_no || '759'}</strong></td>
+            <td>${f.roll_no}</td>
+            <td><strong>${f.name}</strong></td>
+            <td>${f.class_name || '8th'} - ${f.section || 'A'}</td>
+            <td>${f.father_name || 'श्री देविलाल'}</td>
+            <td>${f.mobile_no || '9876543210'}</td>
+            <td>₹${Number(f.total_fees || 0).toLocaleString('en-IN')}</td>
+            <td style="color:#16a34a; font-weight:700;">₹${Number(f.paid_fees || 0).toLocaleString('en-IN')}</td>
+            <td style="color:#dc2626; font-weight:700;">₹${Number(f.balance_fees || 0).toLocaleString('en-IN')}</td>
+            <td>
+              <span style="background:${statusBg}; color:${statusColor}; font-weight:800; padding:2px 8px; border-radius:12px; font-size:10px;">
+                ${f.fee_status}
+              </span>
+            </td>
+            <td>
+              <button class="btn-action-pill btn-act-green" style="font-size:10px; padding:3px 8px;" onclick="openCollectFeeModal(${f.student_id})">💳 फीस जमा</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function filterFeesTable() {
+      const cls = document.getElementById('fee-filter-class').value;
+      const stat = document.getElementById('fee-filter-status').value;
+      const q = document.getElementById('fee-search-box').value.toLowerCase().trim();
+
+      const filtered = feesList.filter(f => {
+        const matchesCls = cls === '' || (f.class_name || '8th') === cls;
+        const matchesStat = stat === '' || f.fee_status === stat;
+        const matchesQ = (f.name || '').toLowerCase().includes(q) ||
+                         (f.scholar_no || '').toString().includes(q) ||
+                         (f.roll_no || '').toString().includes(q);
+        return matchesCls && matchesStat && matchesQ;
+      });
+      renderFeesTable(filtered);
+    }
+
+    function openCollectFeeModal(studId) {
+      activeFeeStudent = feesList.find(f => f.student_id == studId);
+      if (!activeFeeStudent) return;
+
+      document.getElementById('cfm-name').innerText = activeFeeStudent.name;
+      document.getElementById('cfm-class').innerText = `${activeFeeStudent.class_name || '8th'} - ${activeFeeStudent.section || 'A'}`;
+      document.getElementById('cfm-total').innerText = Number(activeFeeStudent.total_fees || 0).toLocaleString('en-IN');
+      document.getElementById('cfm-bal').innerText = Number(activeFeeStudent.balance_fees || 0).toLocaleString('en-IN');
+      document.getElementById('cfm-amount').value = activeFeeStudent.balance_fees > 0 ? activeFeeStudent.balance_fees : 0;
+
+      document.getElementById('collect-fee-modal').classList.remove('hidden');
+    }
+
+    function closeFeeModal() {
+      document.getElementById('collect-fee-modal').classList.add('hidden');
+    }
+
+    async function submitFeePayment() {
+      const amount = document.getElementById('cfm-amount').value;
+      const mode = document.getElementById('cfm-mode').value;
+
+      if (!amount || Number(amount) <= 0) {
+        alert("कृपया वैध राशि दर्ज करें!");
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/fees/pay', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_id: activeFeeStudent.student_id,
+            amount_paid: Number(amount),
+            payment_mode: mode
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          closeFeeModal();
+          loadFeesData();
+
+          // रसीद दिखाएँ
+          document.getElementById('rec-no').innerText = data.receipt_no;
+          document.getElementById('rec-date').innerText = new Date().toLocaleDateString('en-GB');
+          document.getElementById('rec-name').innerText = activeFeeStudent.name;
+          document.getElementById('rec-scholar').innerText = activeFeeStudent.scholar_no || '759';
+          document.getElementById('rec-class').innerText = `${activeFeeStudent.class_name || '8th'} - ${activeFeeStudent.section || 'A'}`;
+          document.getElementById('rec-father').innerText = activeFeeStudent.father_name || 'श्री देविलाल';
+          document.getElementById('rec-paid').innerText = Number(amount).toLocaleString('en-IN');
+          document.getElementById('rec-mode').innerText = mode;
+          const newBal = (Number(activeFeeStudent.balance_fees || 0) - Number(amount));
+          document.getElementById('rec-bal').innerText = newBal > 0 ? newBal.toLocaleString('en-IN') : '0';
+
+          document.getElementById('receipt-modal').classList.remove('hidden');
+        } else {
+          alert(data.error || "भुगतान विफल!");
+        }
+      } catch {
+        alert("सर्वर कनेक्शन विफल!");
+      }
+    }
+
+    function closeReceiptModal() {
+      document.getElementById('receipt-modal').classList.add('hidden');
     }
 
     /* ================= STUDENTS LOGIC ================= */
@@ -1231,7 +1532,9 @@
       showScreen('login');
       loadEmployeesData();
       loadStudentsData();
+      loadFeesData();
     };
   </script>
 </body>
 </html>
+```
