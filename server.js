@@ -257,7 +257,82 @@ app.post('/api/attendance/bulk', async (req, res) => {
     res.status(500).json({ error: `उपस्थिति सेव करने में त्रुटि: ${err.message}` });
   }
 });
+/* ==========================================
+   FEES MANAGEMENT APIS
+========================================== */
 
+// 1. सभी छात्रों की फ़ीस स्थिति लोड करें (GET /api/fees/summary)
+app.get('/api/fees/summary', async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        s.id AS student_id,
+        s.scholar_no,
+        s.roll_no,
+        s.name,
+        s.class_name,
+        s.section,
+        s.father_name,
+        s.mobile_no,
+        COALESCE(f.total_amount, s.total_fees, 20000) AS total_fees,
+        COALESCE(f.paid_amount, 0) AS paid_fees,
+        (COALESCE(f.total_amount, s.total_fees, 20000) - COALESCE(f.paid_amount, 0)) AS balance_fees,
+        COALESCE(f.status, 'Pending') AS fee_status
+      FROM students s
+      LEFT JOIN fees f ON s.id = f.student_id
+      ORDER BY s.id ASC;
+    `;
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Fetch Fees Error:', err);
+    res.status(500).json({ error: 'फ़ीस डेटा लोड करने में त्रुटि!' });
+  }
+});
+
+// 2. फ़ीस जमा करें और रसीद बनाएं (POST /api/fees/pay)
+app.post('/api/fees/pay', async (req, res) => {
+  try {
+    const { student_id, amount_paid, payment_mode, remarks } = req.body;
+    const paid = Number(amount_paid);
+
+    if (!student_id || !paid || paid <= 0) {
+      return res.status(400).json({ error: 'अमान्य छात्र या राशि!' });
+    }
+
+    const receiptNo = `REC-${Date.now().toString().slice(-6)}`;
+
+    // रसीद रिकॉर्ड दर्ज करें
+    await pool.query(
+      `INSERT INTO fee_transactions (receipt_no, student_id, amount_paid, payment_mode, remarks)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [receiptNo, student_id, paid, payment_mode || 'Cash', remarks || 'Fee Payment']
+    );
+
+    // फ़ीस टेबल अपडेट करें
+    const updateQuery = `
+      INSERT INTO fees (student_id, total_amount, paid_amount, status)
+      VALUES ($1, 20000, $2, 'Pending')
+      ON CONFLICT (student_id) DO UPDATE 
+      SET paid_amount = fees.paid_amount + EXCLUDED.paid_amount,
+          status = CASE 
+            WHEN (fees.paid_amount + EXCLUDED.paid_amount) >= fees.total_amount THEN 'Paid'
+            ELSE 'Partial'
+          END
+      RETURNING *;
+    `;
+    const feeRes = await pool.query(updateQuery, [student_id, paid]);
+
+    res.json({
+      message: 'फ़ीस सफलतापूर्वक जमा हुई!',
+      receipt_no: receiptNo,
+      fee_record: feeRes.rows[0]
+    });
+  } catch (err) {
+    console.error('Fee Pay Error:', err);
+    res.status(500).json({ error: `भुगतान त्रुटि: ${err.message}` });
+  }
+});
 /* 5. SPA ROUTING */
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
