@@ -257,6 +257,40 @@ app.post('/api/attendance/bulk', async (req, res) => {
     res.status(500).json({ error: `उपस्थिति सेव करने में त्रुटि: ${err.message}` });
   }
 });
+```javascript
+/* मासिक रजिस्टर रिपोर्ट API (GET /api/attendance/monthly-report) */
+app.get('/api/attendance/monthly-report', async (req, res) => {
+  try {
+    const { class_name, section, month, year } = req.query;
+    const query = `
+      SELECT 
+        s.id AS student_id,
+        s.scholar_no,
+        s.roll_no,
+        s.name,
+        s.class_name,
+        s.section,
+        COUNT(CASE WHEN a.status = 'Present' THEN 1 END) AS present_count,
+        COUNT(CASE WHEN a.status = 'Absent' THEN 1 END) AS absent_count,
+        COUNT(CASE WHEN a.status = 'Leave' THEN 1 END) AS leave_count,
+        COUNT(a.id) AS total_marked
+      FROM students s
+      LEFT JOIN attendance a ON s.id = a.student_id 
+        AND ($1::text IS NULL OR a.class_name = $1)
+        AND ($2::text IS NULL OR a.section = $2)
+      WHERE ($1::text IS NULL OR s.class_name = $1)
+        AND ($2::text IS NULL OR s.section = $2)
+      GROUP BY s.id, s.scholar_no, s.roll_no, s.name, s.class_name, s.section
+      ORDER BY s.roll_no ASC;
+    `;
+    const result = await pool.query(query, [class_name || null, section || null]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Monthly Report Error:', err);
+    res.status(500).json({ error: 'मासिक रिपोर्ट लोड करने में त्रुटि!' });
+  }
+});
+```
 /* ==========================================
    FEES MANAGEMENT APIS
 ========================================== */
