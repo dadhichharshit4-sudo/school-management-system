@@ -333,6 +333,21 @@ app.post('/api/fees/pay', async (req, res) => {
     res.status(500).json({ error: `भुगतान त्रुटि: ${err.message}` });
   }
 });
+// भुगतान इतिहास API (GET /api/fees/transactions)
+app.get('/api/fees/transactions', async (req, res) => {
+  try {
+    const query = `
+      SELECT t.*, s.name, s.scholar_no, s.roll_no, s.class_name, s.section, s.father_name
+      FROM fee_transactions t
+      JOIN students s ON t.student_id = s.id
+      ORDER BY t.id DESC;
+    `;
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: 'इतिहास लोड करने में त्रुटि!' });
+  }
+});
 /* 5. SPA ROUTING */
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
