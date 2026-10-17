@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -30,12 +31,6 @@
     .lang-badge { background: rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
     .btn-nav-top { background: #ea580c; color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-    /* Login Screen Layout */
-    .login-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
-    .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 24px; }
-    .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 24px 20px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
-    .btn-role-login { width: 100%; padding: 10px; border-radius: 6px; border: none; font-size: 13.5px; font-weight: 700; color: white; cursor: pointer; margin-top: 16px; }
-
     /* Common Components */
     .directory-container { max-width: 1440px; margin: 16px auto; padding: 0 16px; }
     .table-responsive { background: white; border: 1.5px solid #cbd5e1; border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
@@ -65,6 +60,12 @@
     .summary-badges-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 12px; }
     .sum-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
     .search-input-big { width: 100%; padding: 10px 16px; border: 2px solid #fed7aa; border-radius: 20px; font-size: 13px; outline: none; background: white; margin-bottom: 14px; }
+
+    /* Login Screen Layout */
+    .login-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+    .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 24px; }
+    .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 24px 20px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+    .btn-role-login { width: 100%; padding: 10px; border-radius: 6px; border: none; font-size: 13.5px; font-weight: 700; color: white; cursor: pointer; margin-top: 16px; }
 
     /* Dashboard & Cards */
     .pills-scroll-container { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 20px; background: #fef08a; border-bottom: 2px solid #f59e0b; justify-content: center; }
@@ -149,20 +150,36 @@
     .class-card-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .btn-card-action { padding: 6px; border-radius: 6px; border: none; font-size: 11px; font-weight: 800; cursor: pointer; color: white; background: rgba(0,0,0,0.3); }
 
-    /* Admission Sheet */
-    .form-sheet-container { max-width: 1050px; margin: 20px auto; background: white; border-radius: 12px; border: 2px solid #fed7aa; padding: 24px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
-    .form-sheet-header { text-align: center; border-bottom: 2px solid #fee2e2; padding-bottom: 14px; margin-bottom: 20px; }
-    .form-sheet-header h2 { color: #991b1b; font-size: 22px; font-weight: 800; }
-    .sec-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #fafafa; }
-    .sec-title { font-size: 14px; font-weight: 700; color: #7c2d12; margin-bottom: 12px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
-    .f-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 10px; }
-    .f-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 10px; }
-    .f-field label { font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
-    .f-input { width: 100%; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 12.5px; outline: none; background: white; }
-    .fee-highlight-box { background: #fef3c7; border: 2px dashed #f59e0b; border-radius: 8px; padding: 14px; text-align: center; margin: 12px 0; }
-    .fee-highlight-box h3 { font-size: 24px; color: #b45309; font-weight: 800; }
+    /* 4-Button Student Action Grid */
+    .std-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 140px; margin: 0 auto; }
+    .btn-std-act { border: none; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; padding: 4px 6px; cursor: pointer; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 3px; }
+
+    /* Modals & Receipts */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
+    .id-card-box { width: 345px; height: 220px; background: #ffffff; border: 2px solid #991b1b; border-radius: 12px; overflow: hidden; margin: 14px auto; box-shadow: 0 8px 24px rgba(0,0,0,0.18); text-align: left; }
+    .id-card-header { background: #991b1b; color: white; padding: 6px 10px; text-align: center; }
+    .id-card-body { display: flex; padding: 10px 12px; gap: 12px; align-items: center; }
+    .id-card-photo { width: 80px; height: 100px; border-radius: 6px; border: 1.5px solid #cbd5e1; object-fit: cover; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 32px; overflow: hidden; flex-shrink: 0; }
+    .id-card-details { font-size: 10.5px; line-height: 1.55; color: #1e293b; flex: 1; }
+
+    .doc-print-sheet { width: 700px; background: white; border: 3px double #991b1b; padding: 36px 40px; margin: 0 auto; text-align: left; line-height: 1.8; font-size: 13.5px; color: #1e293b; }
+    .doc-school-header { text-align: center; border-bottom: 2px solid #991b1b; padding-bottom: 12px; margin-bottom: 18px; }
+    .doc-school-header h2 { font-size: 24px; color: #991b1b; font-weight: 900; }
+    .doc-school-header p { font-size: 11.5px; color: #475569; }
+    .doc-title-badge { text-align: center; margin: 14px 0 20px; }
+    .doc-title-badge span { background: #7f1d1d; color: white; font-weight: 800; padding: 6px 18px; border-radius: 20px; font-size: 14px; text-transform: uppercase; }
 
     .hidden { display: none !important; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-id-card-area, #printable-id-card-area *,
+      #printable-doc-area, #printable-doc-area * {
+        visibility: visible;
+      }
+      #printable-id-card-area, #printable-doc-area { position: absolute; left: 0; top: 0; width: 100%; }
+      .no-print { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -187,12 +204,65 @@
   <!-- DYNAMIC CONTENT CONTAINER -->
   <div id="main-content-area"></div>
 
+  <!-- MODAL: STAFF DOCUMENTS -->
+  <div id="doc-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center;">
+      <div id="printable-doc-area">
+        <div class="doc-print-sheet">
+          <div class="doc-school-header">
+            <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
+            <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh (Raj.) PIN: 312207</p>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#475569; margin-bottom:14px;">
+            <span>क्रमांक: <strong id="doc-ref-no">SMPS/DOC/2026/01</strong></span>
+            <span>दिनांक: <strong id="doc-date">17-Oct-2026</strong></span>
+          </div>
+          <div class="doc-title-badge"><span id="doc-title-text">अनुबंध पत्र</span></div>
+          <div id="doc-content-body" style="font-size:13px; text-align:justify; color:#1e293b;"></div>
+          <div style="margin-top:60px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <div style="text-align:center;"><div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div><span>हस्ताक्षर कर्मचारी</span></div>
+            <div style="text-align:center;"><div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div><span>संस्था प्रधान / मुहर</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ प्रिंट निकालें</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('doc-modal').classList.add('hidden')">बंद करें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ID CARD -->
+  <div id="id-preview-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; max-width:440px; width:100%; text-align:center;">
+      <div id="printable-id-card-area">
+        <div class="id-card-box">
+          <div class="id-card-header"><h4 style="margin:0; font-size:13px;">SHREE MEWAR PUBLIC SCHOOL</h4><p style="margin:2px 0 0; font-size:9.5px; color:#fde047;">Singhpur, Chittorgarh</p></div>
+          <div class="id-card-body">
+            <div class="id-card-photo" id="idc-photo-box">👤</div>
+            <div class="id-card-details">
+              <strong>नाम:</strong> <span id="idc-name">-</span><br>
+              <strong>स्कॉलर/पद:</strong> <span id="idc-code">-</span><br>
+              <strong>कक्षा/विभाग:</strong> <span id="idc-dept">-</span><br>
+              <strong>मोबाइल:</strong> <span id="idc-mob">-</span><br>
+              <strong>पता:</strong> सिंहपुर, चित्तौड़गढ़
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-action-pill btn-act-green" style="margin-top:14px;" onclick="window.print()">🖨️ प्रिंट निकालें</button>
+      <button class="btn-action-pill" style="background:#64748b; margin-top:14px;" onclick="document.getElementById('id-preview-modal').classList.add('hidden')">बंद करें</button>
+    </div>
+  </div>
+
   <input type="file" id="global-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
 
   <script>
     let students = [];
     let employees = [];
     let feesList = [];
+    let activeFeeStudent = null;
+    let markingMap = {};
     let photoUploadContext = { targetType: null, id: null };
 
     const ALL_CLASSES = [
@@ -210,45 +280,46 @@
       { name: 'Class 10-A', sec: '1 Sections', count: 5, bg: '#16a34a' }
     ];
 
-    // ==========================================
-    // DYNAMIC MODULE LOADER
-    // ==========================================
+    // DYNAMIC MODULE LOADER WITH ROBUST ERROR HANDLING
     async function loadModule(moduleName) {
       const container = document.getElementById('main-content-area');
-      try {
-        if (moduleName === 'login') {
-          container.innerHTML = `
-            <div class="login-container">
-              <div style="text-align:center; margin-bottom: 24px;">
-                <h2 style="color: #7f1d1d; font-size: 24px; font-weight: 800;">🔑 Login Options</h2>
-                <p style="color: #64748b; font-size: 13px;">कृपया अपना रोल चुनकर पोर्टल में प्रवेश करें</p>
+      if (!container) return;
+
+      if (moduleName === 'login') {
+        container.innerHTML = `
+          <div class="login-container">
+            <div style="text-align:center; margin-bottom: 24px;">
+              <h2 style="color: #7f1d1d; font-size: 24px; font-weight: 800;">🔑 Login Options</h2>
+              <p style="color: #64748b; font-size: 13px;">कृपया अपना रोल चुनकर पोर्टल में प्रवेश करें</p>
+            </div>
+            <div class="login-grid">
+              <div class="login-role-card">
+                <div style="font-size:36px;">👑</div>
+                <h3 style="color:#7c2d12; margin-top:8px;">Super Admin</h3>
+                <p style="font-size:12px; color:#64748b;">Central Management</p>
+                <button class="btn-role-login" style="background:#ea580c;" onclick="loadModule('dashboard')">Login</button>
               </div>
-              <div class="login-grid">
-                <div class="login-role-card">
-                  <div style="font-size:36px;">👑</div>
-                  <h3 style="color:#7c2d12; margin-top:8px;">Super Admin</h3>
-                  <p style="font-size:12px; color:#64748b;">Central Management</p>
-                  <button class="btn-role-login" style="background:#ea580c;" onclick="loadModule('dashboard')">Login</button>
-                </div>
-                <div class="login-role-card">
-                  <div style="font-size:36px;">🏫</div>
-                  <h3 style="color:#7c2d12; margin-top:8px;">Admin Login</h3>
-                  <p style="font-size:12px; color:#64748b;">School Administration</p>
-                  <button class="btn-role-login" style="background:#ea580c;" onclick="loadModule('dashboard')">Login</button>
-                </div>
-                <div class="login-role-card">
-                  <div style="font-size:36px;">💼</div>
-                  <h3 style="color:#7c2d12; margin-top:8px;">Staff / Teacher</h3>
-                  <p style="font-size:12px; color:#64748b;">Faculty Portal</p>
-                  <button class="btn-role-login" style="background:#0284c7;" onclick="loadModule('dashboard')">Access Hub</button>
-                </div>
+              <div class="login-role-card">
+                <div style="font-size:36px;">🏫</div>
+                <h3 style="color:#7c2d12; margin-top:8px;">Admin Login</h3>
+                <p style="font-size:12px; color:#64748b;">School Administration</p>
+                <button class="btn-role-login" style="background:#ea580c;" onclick="loadModule('dashboard')">Login</button>
+              </div>
+              <div class="login-role-card">
+                <div style="font-size:36px;">💼</div>
+                <h3 style="color:#7c2d12; margin-top:8px;">Staff / Teacher</h3>
+                <p style="font-size:12px; color:#64748b;">Faculty Portal</p>
+                <button class="btn-role-login" style="background:#0284c7;" onclick="loadModule('dashboard')">Access Hub</button>
               </div>
             </div>
-          `;
-          return;
-        }
+          </div>
+        `;
+        return;
+      }
 
+      try {
         const res = await fetch(`/modules/${moduleName}.html`);
+        if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
         const html = await res.text();
         container.innerHTML = html;
 
@@ -266,13 +337,19 @@
           loadFeesData();
         }
       } catch (err) {
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:#dc2626;">त्रुटि: मॉड्यूल लोड नहीं हुआ!</div>`;
+        console.error("Module Load Failed:", err);
+        container.innerHTML = `
+          <div style="text-align:center; padding:40px; background:white; max-width:600px; margin:30px auto; border-radius:12px; border:2px dashed #f87171;">
+            <div style="font-size:32px;">⚠️</div>
+            <h3 style="color:#dc2626; margin-top:8px;">मॉड्यूल लोड नहीं हो सका: ${moduleName}.html</h3>
+            <p style="color:#64748b; font-size:12px; margin-top:6px;">सुनिश्चित करें कि 'public/modules/${moduleName}.html' फ़ाइल GitHub में मौजूद है।</p>
+            <button class="btn-action-pill btn-act-orange" style="margin-top:14px;" onclick="loadModule('login')">वापस लॉगिन स्क्रीन</button>
+          </div>
+        `;
       }
     }
 
-    // ==========================================
-    // STUDENTS LOGIC
-    // ==========================================
+    /* STUDENTS DATA */
     async function loadStudentsData() {
       try {
         const res = await fetch('/api/students');
@@ -288,86 +365,13 @@
       if (document.getElementById('d-act-std')) document.getElementById('d-act-std').innerText = tot;
       let b = 0, g = 0;
       list.forEach(s => {
-        if ((s.gender || 'Male').toLowerCase() === 'female') g++;
-        else b++;
+        if ((s.gender || 'Male').toLowerCase() === 'female') g++; else b++;
       });
       if (document.getElementById('b-boys-val')) document.getElementById('b-boys-val').innerText = b;
       if (document.getElementById('b-girls-val')) document.getElementById('b-girls-val').innerText = g;
       if (document.getElementById('b-total-val')) document.getElementById('b-total-val').innerText = tot;
     }
 
-    function renderStudentsTable(list) {
-      const tbody = document.getElementById('std-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      list.forEach((s, idx) => {
-        const photoHtml = s.photo_url 
-          ? `<img src="${s.photo_url}" class="avatar-thumbnail" />`
-          : `<div class="avatar-thumbnail">👤</div>`;
-
-        tbody.innerHTML += `
-          <tr>
-            <td>${idx + 1}</td>
-            <td>
-              <div class="photo-cell-container">
-                ${photoHtml}
-                <button class="btn-photo-upload" onclick="triggerPhotoUpload('student', ${s.id})">📷</button>
-              </div>
-            </td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'scholar_no', this)"><strong>${s.scholar_no || '759'}</strong></td>
-            <td>${s.admission_date || '10/10/2026'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'name', this)">${s.name}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'roll_no', this)">${s.roll_no}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'class_name', this)">${s.class_name || '8th'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'section', this)">${s.section || 'A'}</td>
-            <td><span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-weight:700;">${s.status || 'Active'}</span></td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'gender', this)">${s.gender || 'Male'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'rte', this)">${s.rte || 'NO'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'father_name', this)">${s.father_name || 'श्री देविलाल जी'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mother_name', this)">${s.mother_name || 'श्रीमती सरिता देवी'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mobile_no', this)">${s.mobile_no || '9876543210'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'dob', this)">${s.dob || '01/01/2012'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'aadhaar_no', this)">${s.aadhaar_no || ''}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'jan_aadhaar_no', this)">${s.jan_aadhaar_no || ''}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'address', this)">${s.address || 'सिंहपुर'}</td>
-            <td>-</td>
-            <td><button class="btn-action-pill btn-act-red" style="font-size:10px; padding:3px 6px;" onclick="deleteStudent(${s.id})">🗑️</button></td>
-          </tr>
-        `;
-      });
-    }
-
-    function makeCellEditable(id, columnKey, cellElement) {
-      const cls = document.getElementById('filter-class')?.value;
-      if (!cls) return alert("कृपया पहले ऊपर से क्लास चुनें!");
-      if (cellElement.querySelector('input')) return;
-      const originalVal = cellElement.innerText.trim();
-      cellElement.innerHTML = `<input type="text" class="cell-input" value="${originalVal}" />`;
-      const input = cellElement.querySelector('input');
-      input.focus();
-      input.select();
-      input.addEventListener('blur', async () => {
-        const newVal = input.value.trim();
-        cellElement.innerText = newVal;
-        const payload = {};
-        payload[columnKey] = newVal;
-        await fetch(`/api/students/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      }, { once: true });
-    }
-
-    function filterStudentsTable() {
-      const q = document.getElementById('std-search-input').value.toLowerCase().trim();
-      const cls = document.getElementById('filter-class').value;
-      const sec = document.getElementById('filter-sec').value;
-      const stat = document.getElementById('filter-status').value;
-      const rte = document.getElementById('rte-toggle').checked;
-      const filtered = students.filter(s => {
-        return (cls === '' || (s.class_name || '8th') === cls) &&
-               (sec === '' || (s.section || 'A') === sec) &&
-               (stat === 'all' || (s.status || 'Active') === stat) &&
-               (!rte || (s.rte || 'NO') === 'YES') &&
-               ((s.name || '').toLowerCase().includes(q) || (s.scholar_no || '').toString().includes(q));
-      });
     function renderStudentsTable(list) {
       const tbody = document.getElementById('std-tbody');
       if (!tbody) return;
@@ -402,18 +406,18 @@
             </td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'gender', this)">${s.gender || 'Male'}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'rte', this)">${s.rte || 'NO'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'father_name', this)">${s.father_name || 'DEVI LAL BALAI'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mother_name', this)">${s.mother_name || 'SARITA SALVI'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mobile_no', this)">${s.mobile_no || '7239868621'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'dob', this)">${s.dob || '11/09/2020'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'father_name', this)">${s.father_name || 'श्री देविलाल जी'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mother_name', this)">${s.mother_name || 'श्रीमती सरिता देवी'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mobile_no', this)">${s.mobile_no || '9876543210'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'dob', this)">${s.dob || '01/01/2012'}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'aadhaar_no', this)">${s.aadhaar_no || '-'}</td>
             <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'jan_aadhaar_no', this)">${s.jan_aadhaar_no || '-'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'address', this)">${s.address || 'SINGHPUR'}</td>
-            <td>${s.documents || 'कोई नहीं'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'address', this)">${s.address || 'सिंहपुर'}</td>
+            <td>-</td>
             <td>
               <div class="std-action-grid">
                 <button class="btn-std-act" style="background:#701a75;" onclick="alert('छात्र निष्क्रिय किया गया')">🛑 Deactivate</button>
-                <button class="btn-std-act" style="background:#0284c7;" onclick="alert('छात्र का पूरा विवरण: ' + '${s.name}')">👁️ विवरण</button>
+                <button class="btn-std-act" style="background:#0284c7;" onclick="alert('छात्र विवरण: ' + '${s.name}')">👁️ विवरण</button>
                 <button class="btn-std-act" style="background:#dc2626;" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
                 <a href="tel:${s.mobile_no}" class="btn-std-act" style="background:#16a34a;">📞 कॉल</a>
               </div>
@@ -423,22 +427,72 @@
       });
     }
 
-    // Excel Export Function for Students
-    function exportStudentsToExcel() {
-      let csv = `Sr No,Admission No,Name,Roll No,Class,Section,Father Name,Mobile No,DOB,Address\n`;
-      students.forEach((s, idx) => {
-        csv += `${idx + 1},"${s.scholar_no || '759'}","${s.name}",${s.roll_no},"${s.class_name || '8th'}","${s.section || 'A'}","${s.father_name}","${s.mobile_no}","${s.dob}","${s.address}"\n`;
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `Students_List_SMPS.csv`;
-      link.click();
+    function makeCellEditable(id, columnKey, cellElement) {
+      const cls = document.getElementById('filter-class')?.value;
+      if (!cls) return alert("कृपया पहले ऊपर से क्लास चुनें!");
+      if (cellElement.querySelector('input')) return;
+      const originalVal = cellElement.innerText.trim();
+      cellElement.innerHTML = `<input type="text" class="cell-input" value="${originalVal}" />`;
+      const input = cellElement.querySelector('input');
+      input.focus();
+      input.select();
+      input.addEventListener('blur', async () => {
+        const newVal = input.value.trim();
+        cellElement.innerText = newVal;
+        const payload = {};
+        payload[columnKey] = newVal;
+        await fetch(`/api/students/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      }, { once: true });
     }
 
-    // ==========================================
-    // EMPLOYEES LOGIC
-    // ==========================================
+    function filterStudentsTable() {
+      const q = document.getElementById('std-search-input')?.value.toLowerCase().trim() || '';
+      const cls = document.getElementById('filter-class')?.value || '';
+      const sec = document.getElementById('filter-sec')?.value || '';
+      const stat = document.getElementById('filter-status')?.value || 'Active';
+      const rte = document.getElementById('rte-toggle')?.checked || false;
+
+      const filtered = students.filter(s => {
+        return (cls === '' || (s.class_name || '8th') === cls) &&
+               (sec === '' || (s.section || 'A') === sec) &&
+               (stat === 'all' || (s.status || 'Active') === stat) &&
+               (!rte || (s.rte || 'NO') === 'YES') &&
+               ((s.name || '').toLowerCase().includes(q) || (s.scholar_no || '').toString().includes(q));
+      });
+      renderStudentsTable(filtered);
+    }
+
+    function updateFeeDisplay() {
+      const val = document.getElementById('form-total-fees')?.value || 0;
+      if (document.getElementById('display-fee-val')) {
+        document.getElementById('display-fee-val').innerText = `₹ ${Number(val).toLocaleString('en-IN')}.00`;
+      }
+    }
+
+    async function submitCompleteAdmission() {
+      const fname = document.getElementById('form-fname')?.value.trim();
+      const roll_no = document.getElementById('form-roll-no')?.value;
+      const father_name = document.getElementById('form-father')?.value.trim();
+      const mobile_no = document.getElementById('form-mobile')?.value.trim();
+      if (!fname || !roll_no || !father_name || !mobile_no) return alert("नाम, रोल, पिता और मोबाइल अनिवार्य हैं!");
+
+      const payload = {
+        name: fname, roll_no, father_name, mobile_no,
+        scholar_no: document.getElementById('form-scholar-no')?.value || '760',
+        class_name: document.getElementById('form-class')?.value || 'Class 10-A',
+        total_fees: document.getElementById('form-total-fees')?.value || 20000
+      };
+      await fetch('/api/students', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      loadModule('students');
+    }
+
+    async function deleteStudent(id) {
+      if (!confirm("हटाएं?")) return;
+      await fetch(`/api/students/${id}`, { method: 'DELETE' });
+      loadStudentsData();
+    }
+
+    /* EMPLOYEES DATA */
     async function loadEmployeesData() {
       try {
         const res = await fetch('/api/employees');
@@ -492,10 +546,10 @@
                 <button class="btn-grid-act b-act-edit" onclick="editEmpPrompt(${e.id})">✏️ एडिट</button>
                 <button class="btn-grid-act b-act-del" onclick="deleteEmp(${e.id})">🗑️ हटाएं</button>
                 <button class="btn-grid-act b-act-deact" onclick="toggleDeact(${e.id})">🚫 निष्क्रिय</button>
-                <button class="btn-grid-act b-act-class" style="grid-column: span 1.5;" onclick="alert('क्लास असाइन')">🎓 असाइन क्लास</button>
-                <button class="btn-grid-act b-act-contract" style="grid-column: span 1.5;" onclick="alert('अनुबंध पत्र तैयार')">📑 अनुबंध</button>
-                <button class="btn-grid-act b-act-exp" style="grid-column: span 1.5;" onclick="alert('अनुभव पत्र तैयार')">📜 अनुभव पत्र</button>
-                <button class="btn-grid-act b-act-join" style="grid-column: span 1.5;" onclick="alert('जॉइनिंग लेटर तैयार')">📩 जॉइनिंग</button>
+                <button class="btn-grid-act b-act-class" style="grid-column: span 1.5;" onclick="alert('असाइन क्लास')">🎓 असाइन</button>
+                <button class="btn-grid-act b-act-contract" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'contract')">📑 अनुबंध</button>
+                <button class="btn-grid-act b-act-exp" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'experience')">📜 अनुभव</button>
+                <button class="btn-grid-act b-act-join" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'joining')">📩 जॉइनिंग</button>
               </div>
             </td>
           </tr>
@@ -504,7 +558,7 @@
     }
 
     function filterEmployees() {
-      const q = document.getElementById('emp-search-box').value.toLowerCase().trim();
+      const q = document.getElementById('emp-search-box')?.value.toLowerCase().trim() || '';
       const filtered = employees.filter(e => e.name.toLowerCase().includes(q) || e.emp_code.toLowerCase().includes(q) || e.mobile_no.includes(q));
       renderEmployeesTable(filtered);
     }
@@ -531,6 +585,40 @@
       }).then(() => loadEmployeesData());
     }
 
+    function openStaffIdCardModal(id) {
+      const emp = employees.find(e => e.id == id) || employees[0];
+      if (!emp) return;
+      document.getElementById('idc-name').innerText = emp.name;
+      document.getElementById('idc-code').innerText = `${emp.designation} (${emp.emp_code})`;
+      document.getElementById('idc-dept').innerText = emp.department;
+      document.getElementById('idc-mob').innerText = emp.mobile_no;
+      document.getElementById('idc-photo-box').innerHTML = emp.photo_url ? `<img src="${emp.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` : `👨‍🏫`;
+      document.getElementById('id-preview-modal').classList.remove('hidden');
+    }
+
+    function generateStaffDocument(empId, docType) {
+      const emp = employees.find(e => e.id == empId) || employees[0];
+      if (!emp) return;
+      const dateStr = new Date().toLocaleDateString('en-GB');
+      document.getElementById('doc-date').innerText = dateStr;
+      document.getElementById('doc-ref-no').innerText = `SMPS/${docType.toUpperCase()}/2026/${emp.id}`;
+
+      const titleEl = document.getElementById('doc-title-text');
+      const bodyEl = document.getElementById('doc-content-body');
+
+      if (docType === 'contract') {
+        titleEl.innerText = 'सेवा अनुबंध पत्र / CONTRACT AGREEMENT';
+        bodyEl.innerHTML = `<p>यह अनुबंध आज दिनांक <strong>${dateStr}</strong> को <strong>श्री मेवाड़ पब्लिक स्कूल</strong> तथा <strong>श्री/श्रीमती ${emp.name}</strong> के मध्य निष्पादित किया जाता है।</p>`;
+      } else if (docType === 'experience') {
+        titleEl.innerText = 'अनुभव प्रमाण पत्र / EXPERIENCE CERTIFICATE';
+        bodyEl.innerHTML = `<p>प्रमाणित किया जाता है कि <strong>श्री/श्रीमती ${emp.name}</strong> हमारे विद्यालय में <strong>${emp.designation}</strong> पद पर कार्यरत रहे हैं।</p>`;
+      } else {
+        titleEl.innerText = 'नियुक्ति पत्र / APPOINTMENT ORDER';
+        bodyEl.innerHTML = `<p>सेवा में, <strong>श्री/श्रीमती ${emp.name}</strong>, आपको <strong>${emp.designation}</strong> पद पर नियुक्त किया जाता है।</p>`;
+      }
+      document.getElementById('doc-modal').classList.remove('hidden');
+    }
+
     function triggerPhotoUpload(targetType, id) {
       photoUploadContext = { targetType, id };
       document.getElementById('global-photo-input').click();
@@ -550,9 +638,7 @@
       e.target.value = '';
     }
 
-    // ==========================================
-    // FEES LOGIC
-    // ==========================================
+    /* FEES DATA */
     async function loadFeesData() {
       try {
         const res = await fetch('/api/fees/summary');
@@ -572,9 +658,7 @@
       } catch (err) { console.error(err); }
     }
 
-    // ==========================================
-    // ATTENDANCE LOGIC
-    // ==========================================
+    /* ATTENDANCE DATA */
     function renderCommandCenter() {
       const grid = document.getElementById('cmd-class-grid');
       if (!grid) return;
@@ -587,18 +671,19 @@
             <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
             <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
             <div class="class-card-btns">
-              <button class="btn-card-action" onclick="alert('मासिक रिपोर्ट')">📑 रिपोर्ट</button>
-              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="alert('मार्किंग स्क्रीन')">✍ दर्ज करें</button>
+              <button class="btn-card-action" onclick="alert('मासिक उपस्थिति रिपोर्ट')">📑 रिपोर्ट</button>
+              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="alert('दैनिक उपस्थिति मार्किंग')">✍ दर्ज करें</button>
             </div>
           </div>
         `;
       });
     }
 
-    // Default Startup Screen: Always Login
+    // Default Startup: Always Login
     window.onload = () => {
       loadModule('login');
     };
   </script>
 </body>
 </html>
+```
