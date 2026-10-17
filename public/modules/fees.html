@@ -1,0 +1,49 @@
+<div class="fees-hub-wrapper">
+  <div style="display:flex; justify-content:space-between; align-items:center; max-width:1250px; margin:0 auto 16px;">
+    <button class="btn-action-pill" style="background:rgba(0,0,0,0.3); color:white;" onclick="loadModule('dashboard')">⬅ डैशबोर्ड</button>
+    <div style="font-weight:800; color:white; font-size:12.5px;">🏫 SHREE MEWAR PUBLIC SCHOOL</div>
+  </div>
+
+  <div class="fees-hub-header">
+    <h2>फीस प्रबंधन</h2>
+    <p>सक्रिय सत्र: 2026-27</p>
+  </div>
+
+  <div class="fees-hub-section-title">फीस अवलोकन</div>
+  <div class="fees-stat-grid-6">
+    <div class="f-stat-card"><div class="f-stat-icon">🎓</div><div class="f-stat-label">कुल छात्र</div><div class="f-stat-value" id="fh-tot-stud">0</div></div>
+    <div class="f-stat-card"><div class="f-stat-icon">📈</div><div class="f-stat-label">कुल टर्नओवर</div><div class="f-stat-value" id="fh-turnover">₹ 0</div></div>
+    <div class="f-stat-card"><div class="f-stat-icon">💰</div><div class="f-stat-label">कुल छात्र संग्रह</div><div class="f-stat-value" id="fh-collected" style="color:#16a34a;">₹ 0</div></div>
+    <div class="f-stat-card"><div class="f-stat-icon">⏳</div><div class="f-stat-label">कुल बकाया फीस</div><div class="f-stat-value" id="fh-balance" style="color:#dc2626;">₹ 0</div></div>
+    <div class="f-stat-card"><div class="f-stat-icon">💵</div><div class="f-stat-label">आज का संग्रह</div><div class="f-stat-value" id="fh-today" style="color:#0284c7;">₹ 0</div></div>
+    <div class="f-stat-card"><div class="f-stat-icon">📅</div><div class="f-stat-label">इस महीने का</div><div class="f-stat-value" id="fh-month" style="color:#7c3aed;">₹ 0</div></div>
+  </div>
+
+  <div class="fees-hub-section-title">फीस प्रबंधन सुविधाएँ</div>
+  <div class="fees-features-grid">
+    <div class="f-feature-card">
+      <div><div class="f-feature-circle-icon">💳</div><h3>फीस संग्रह</h3><p>छात्रों से फीस भुगतान रिकॉर्ड करें</p></div>
+      <button class="f-card-btn" onclick="openFeesTableView('all')">संग्रह करें</button>
+    </div>
+    <div class="f-feature-card">
+      <div><div class="f-feature-circle-icon">📑</div><h3>भुगतान रसीदें</h3><p>एकत्रित फीस के लिए भुगतान रसीदें प्रबंधित करें</p></div>
+      <button class="f-card-btn" onclick="openFeesTableView('paid')">प्रबंधित करें</button>
+    </div>
+    <div class="f-feature-card">
+      <div><div class="f-feature-circle-icon">🔗</div><h3>ऑनलाइन भुगतान लिंक</h3><p>छात्रों / अभिभावकों के लिए ऑनलाइन भुगतान</p></div>
+      <button class="f-card-btn" onclick="alert('ऑनलाइन भुगतान लिंक सक्रिय है!')">सेटअप करें</button>
+    </div>
+    <div class="f-feature-card">
+      <div><div class="f-feature-circle-icon">📜</div><h3>भुगतान इतिहास</h3><p>सभी छात्रों का भुगतान इतिहास</p></div>
+      <button class="f-card-btn" onclick="openPaymentHistoryView()">इतिहास देखें</button>
+    </div>
+    <div class="f-feature-card">
+      <div><div class="f-feature-circle-icon">📊</div><h3>कक्षा वार फीस रिपोर्ट</h3><p>कक्षा अनुसार छात्रों की फीस रिपोर्ट</p></div>
+      <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट देखें</button>
+    </div>
+    <div class="f-feature-card">
+      <div><div class="f-feature-circle-icon">🥧</div><h3>सभी फीस रिपोर्ट्स</h3><p>सभी फीस संबंधित रिपोर्ट एक जगह</p></div>
+      <button class="f-card-btn" onclick="openFeesTableView('all')">रिपोर्ट्स खोलें</button>
+    </div>
+  </div>
+</div>
