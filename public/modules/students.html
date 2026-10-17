@@ -1,0 +1,65 @@
+<div class="directory-container">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+    <button class="btn-action-pill btn-act-orange" onclick="loadModule('dashboard')">⬅ वापस (Dashboard)</button>
+    <div style="font-weight:700; color:#78350f;">सक्रिय सत्र: 2026-27 | श्री मेवाड़ पब्लिक स्कूल</div>
+  </div>
+
+  <div class="tip-box">
+    ✏️ टिप: टेबल में एडिट के लिए पहले ऊपर से <strong>कक्षा (Class) चुनें</strong> और फिर उस सेल पर <strong>डबल-क्लिक</strong> करें! फोटो के लिए <strong>📷</strong> दबाएँ!
+  </div>
+
+  <h2 style="text-align:center; font-size:22px; font-weight:800; color:#7f1d1d; margin-bottom:14px;">📖 सभी छात्रों की सूची 📖</h2>
+
+  <div class="action-bar-flex" style="display:flex; gap:8px; justify-content:center; margin-bottom:14px;">
+    <button class="btn-action-pill btn-act-green" onclick="loadModule('admission')">➕ नया छात्र जोड़ें</button>
+    <button class="btn-action-pill btn-act-blue" onclick="loadModule('id-cards')">🪪 छात्र ID कार्ड</button>
+    <button class="btn-action-pill btn-act-orange" onclick="loadModule('fees')">💰 फीस प्रबंधन</button>
+    <button class="btn-action-pill btn-act-purple" onclick="loadModule('employees')">👥 कर्मचारी प्रबंधन</button>
+  </div>
+
+  <div class="filter-panel">
+    <select class="filter-control" id="filter-class" onchange="filterStudentsTable()">
+      <option value="">-- सभी कक्षाएं --</option>
+      <option value="6">Class 6</option>
+      <option value="8th">Class 8th</option>
+      <option value="Class 10-A">Class 10-A</option>
+      <option value="PP.4+">PP.4+</option>
+      <option value="1st">1st</option>
+    </select>
+    <select class="filter-control" id="filter-sec" onchange="filterStudentsTable()">
+      <option value="">-- सभी सेक्शन --</option>
+      <option value="A">Section A</option>
+      <option value="B">Section B</option>
+    </select>
+    <select class="filter-control" id="filter-status" onchange="filterStudentsTable()">
+      <option value="Active">सक्रिय (Active)</option>
+      <option value="all">सभी</option>
+    </select>
+    <label style="font-size:12px; font-weight:700; display:flex; align-items:center; gap:4px;">
+      <input type="checkbox" id="rte-toggle" onchange="filterStudentsTable()"> RTE Only
+    </label>
+  </div>
+
+  <!-- 3 Summary Badges Bar -->
+  <div class="summary-badges-bar">
+    <span class="sum-badge" style="background:#0284c7;">👦 लड़के: <span id="b-boys-val">0</span></span>
+    <span class="sum-badge" style="background:#db2777;">👧 लड़कियां: <span id="b-girls-val">0</span></span>
+    <span class="sum-badge" style="background:#7c2d12;">👥 कुल छात्र: <span id="b-total-val">0</span></span>
+  </div>
+
+  <input type="text" id="std-search-input" class="search-input-big" placeholder="🔍 नाम, पिता का नाम, प्रवेश क्रमांक या मोबाइल नंबर से खोजें..." onkeyup="filterStudentsTable()">
+
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>SR.</th><th>PHOTO</th><th>ADMISSION NO.</th><th>ADMISSION DATE</th><th>NAME</th><th>ROLL NO.</th>
+          <th>CLASS</th><th>SECTION</th><th>स्थिति</th><th>GENDER</th><th>RTE</th><th>FATHER'S NAME</th>
+          <th>MOTHER'S NAME</th><th>MOBILE NO.</th><th>DOB</th><th>AADHAAR NO.</th><th>JANAADHAAR NO.</th>
+          <th>ADDRESS</th><th>DOCUMENTS</th><th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody id="std-tbody"></tbody>
+    </table>
+  </div>
+</div>
