@@ -16,10 +16,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// स्टैटिक फाइलें (HTML, CSS, Modules)
+// public फ़ोल्डर को स्टैटिक सर्व करें (जिससे /modules/ फ़ाइलें फ़ेच हो सकें)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Supabase डेटाबेस कनेक्शन
+// Supabase PostgreSQL पूल
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
@@ -30,7 +30,7 @@ pool.connect((err, client, release) => {
   else { console.log('Connected to PostgreSQL Database successfully!'); release(); }
 });
 
-// अलग-अलग मॉड्यूल्स के राउट्स जोड़ना (Routes)
+// मॉड्यूलर रूट्स (routes/ फ़ोल्डर से लोड)
 const studentsRouter = require('./routes/students');
 const employeesRouter = require('./routes/employees');
 const attendanceRouter = require('./routes/attendance');
