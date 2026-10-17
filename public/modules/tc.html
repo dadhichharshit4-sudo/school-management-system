@@ -1,0 +1,313 @@
+<div class="directory-container">
+  <!-- Top Navigation -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;" class="no-print">
+    <button class="btn-action-pill btn-act-orange" onclick="loadModule('students')">⬅ वापस (छात्र सूची)</button>
+    <div style="font-weight:800; color:#78350f;">सत्र: 2026-27 | टी.सी. (Transfer Certificate) प्रबंधन केंद्र</div>
+  </div>
+
+  <!-- Selector & Controls Card -->
+  <div class="filter-panel no-print" style="background:#fff; border:1.5px solid #fed7aa; border-radius:10px; padding:16px; margin-bottom:20px;">
+    <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; width:100%;">
+      <div style="flex:1; min-width:260px;">
+        <label style="font-size:11.5px; font-weight:800; color:#475569; display:block; margin-bottom:4px;">विद्यार्थी चुनें (Select Student) *</label>
+        <select id="tc-student-select" class="filter-control" style="width:100%; font-weight:700;" onchange="populateTcFields()">
+          <option value="">-- विद्यार्थी चुनें (नाम / स्कॉलर नं) --</option>
+        </select>
+      </div>
+
+      <div style="min-width:180px;">
+        <label style="font-size:11.5px; font-weight:800; color:#475569; display:block; margin-bottom:4px;">विद्यालय छोड़ने का कारण *</label>
+        <select id="tc-reason" class="filter-control" style="width:100%;" onchange="updateTcPreview()">
+          <option value="अभिभावक के स्थानांतरण के कारण (Parents Transfer)">माता-पिता का स्थानांतरण</option>
+          <option value="उच्च अध्ययन हेतु (Higher Studies)">उच्च अध्ययन हेतु</option>
+          <option value="स्वेच्छा से (Own Request)">स्वेच्छा से (Own Request)</option>
+          <option value="निवास स्थान परिवर्तन (Change of Residence)">निवास स्थान परिवर्तन</option>
+        </select>
+      </div>
+
+      <div style="min-width:160px;">
+        <label style="font-size:11.5px; font-weight:800; color:#475569; display:block; margin-bottom:4px;">आचरण (Conduct) *</label>
+        <select id="tc-conduct" class="filter-control" style="width:100%;" onchange="updateTcPreview()">
+          <option value="उत्कृष्ट (Excellent)">उत्कृष्ट (Excellent)</option>
+          <option value="उत्तम (Good)">उत्तम (Good)</option>
+          <option value="संतोषप्रद (Satisfactory)">संतोषप्रद (Satisfactory)</option>
+        </select>
+      </div>
+
+      <div style="margin-top:18px;">
+        <button class="btn-action-pill btn-act-green" style="padding:9px 20px; font-size:13px;" onclick="window.print()">
+          🖨️ TC प्रिंट निकालें (Print A4)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Printable Official Transfer Certificate Sheet (A4 Strict Border) -->
+  <div id="printable-tc-area">
+    <div class="tc-a4-sheet">
+      <!-- Watermark Badge -->
+      <div class="tc-watermark">SMPS</div>
+
+      <!-- School Header -->
+      <div class="tc-header">
+        <div style="font-size:12px; font-weight:800; color:#991b1b; letter-spacing:1px;">श्री मेवाड़ एजुकेशन सोसायटी द्वारा संचालित</div>
+        <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
+        <div style="font-size:11.5px; color:#334155; font-weight:700;">बड़ा बालाजी चौराहा, सिंहपुर, तहसील-कपासन, जिला-चित्तौड़गढ़ (राज.) पिन: 312207</div>
+        <div style="font-size:10.5px; color:#64748b; margin-top:2px;">मान्यता क्रमांक: शिविरा/माध्य/चित्तौड़/2020-21 | शाला दर्पण कोड: 212207001</div>
+        <div class="tc-title-badge">
+          <span>स्थानांतरण प्रमाण पत्र / TRANSFER CERTIFICATE</span>
+        </div>
+      </div>
+
+      <!-- Top Meta Details -->
+      <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800; color:#1e293b; margin-bottom:14px; border-bottom:1.5px solid #78350f; padding-bottom:6px;">
+        <span>पुस्तक संख्या (Book No.): <strong>01/2026</strong></span>
+        <span>टी.सी. क्रमांक (T.C. No.): <strong id="tc-display-no" style="color:#991b1b;">TC-2026/042</strong></span>
+        <span>प्रवेश क्रमांक (Scholar No.): <strong id="tc-display-scholar" style="color:#1d4ed8;">759</strong></span>
+      </div>
+
+      <!-- TC 15-Point Core Table -->
+      <table class="tc-details-table">
+        <tr>
+          <td style="width:5%;">1.</td>
+          <td style="width:45%;">विद्यार्थी का नाम (Name of Pupil):</td>
+          <td style="width:50%; font-weight:800; text-transform:uppercase;" id="tc-p-name">RAHUL SHARMA</td>
+        </tr>
+        <tr>
+          <td>2.</td>
+          <td>माता का नाम (Mother's Name):</td>
+          <td style="font-weight:700;" id="tc-p-mother">श्रीमती सरिता देवी</td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>पिता/संरक्षक का नाम (Father's/Guardian's Name):</td>
+          <td style="font-weight:700;" id="tc-p-father">श्री देविलाल जी</td>
+        </tr>
+        <tr>
+          <td>4.</td>
+          <td>राष्ट्रीयता (Nationality) व धर्म (Religion):</td>
+          <td>भारतीय (Indian) / हिन्दू</td>
+        </tr>
+        <tr>
+          <td>5.</td>
+          <td>क्या विद्यार्थी अनु.जाति / जन.जाति / OBC का है:</td>
+          <td id="tc-p-category">सामान्य (GEN)</td>
+        </tr>
+        <tr>
+          <td>6.</td>
+          <td>विद्यालय में प्रथम प्रवेश दिनांक व कक्षा:</td>
+          <td>10/10/2024 (Class 6th)</td>
+        </tr>
+        <tr>
+          <td>7.</td>
+          <td>जन्म तिथि (ईस्वी सन में) शब्दों व अंकों में:<br><small>(Date of Birth in Words & Figures)</small></td>
+          <td style="font-weight:800; color:#1e3a8a;" id="tc-p-dob">01/01/2012<br><span style="font-size:10px; font-weight:normal;">First January Two Thousand Twelve</span></td>
+        </tr>
+        <tr>
+          <td>8.</td>
+          <td>अंतिम कक्षा जिसमें अध्ययन किया (Class last studied):</td>
+          <td style="font-weight:800;" id="tc-p-class">Class 8th - Section A</td>
+        </tr>
+        <tr>
+          <td>9.</td>
+          <td>अंतिम विद्यालय/बोर्ड वार्षिक परीक्षा परिणाम:</td>
+          <td>उत्तीर्ण (Passed & Promoted)</td>
+        </tr>
+        <tr>
+          <td>10.</td>
+          <td>पढ़ाए गए विषय (Subjects Studied):</td>
+          <td>1. हिन्दी &nbsp; 2. English &nbsp; 3. गणित &nbsp; 4. विज्ञान &nbsp; 5. सा.विज्ञान &nbsp; 6. संस्कृत</td>
+        </tr>
+        <tr>
+          <td>11.</td>
+          <td>क्या उच्च कक्षा में प्रोन्नति हेतु अर्हक है:</td>
+          <td>हाँ, आगामी उच्च कक्षा हेतु योग्य</td>
+        </tr>
+        <tr>
+          <td>12.</td>
+          <td>माह तक विद्यालय के समस्त शुल्क का भुगतान:<br><small>(Month up to which school dues paid)</small></td>
+          <td style="font-weight:700; color:#15803d;">समस्त शुल्क पूर्ण चुकता (All Dues Cleared)</td>
+        </tr>
+        <tr>
+          <td>13.</td>
+          <td>कुल शैक्षणिक कार्य दिवस / उपस्थिति:<br><small>(Total Working Days / Present)</small></td>
+          <td>218 कार्य दिवस / 196 उपस्थिति</td>
+        </tr>
+        <tr>
+          <td>14.</td>
+          <td>विद्यालय छोड़ने का कारण (Reason for leaving):</td>
+          <td style="font-weight:800; color:#991b1b;" id="tc-p-reason">अभिभावक के स्थानांतरण के कारण</td>
+        </tr>
+        <tr>
+          <td>15.</td>
+          <td>सामान्य आचरण व टिप्पणी (General Conduct):</td>
+          <td style="font-weight:800; color:#15803d;" id="tc-p-conduct">उत्कृष्ट (Excellent)</td>
+        </tr>
+      </table>
+
+      <!-- Bottom Signature & Seal Grid -->
+      <div class="tc-footer-signatures">
+        <div class="tc-sig-block">
+          <div class="tc-sig-line"></div>
+          <strong>हस्ताक्षर लिपिक / प्रविष्टि कर्ता</strong><br>
+          <span style="font-size:10px; color:#64748b;">(Clerk / Prepared By)</span>
+        </div>
+
+        <div class="tc-sig-block">
+          <div class="tc-sig-line"></div>
+          <strong>हस्ताक्षर कक्षाध्यापक</strong><br>
+          <span style="font-size:10px; color:#64748b;">(Class Teacher)</span>
+        </div>
+
+        <div class="tc-sig-block" style="text-align:center;">
+          <div style="height:45px; display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:10px; color:#94a3b8; border:1px dashed #cbd5e1; padding:4px 10px; border-radius:4px;">संस्था की आधिकारिक मुहर</span>
+          </div>
+          <div class="tc-sig-line"></div>
+          <strong>हस्ताक्षर संस्था प्रधान (सील सहित)</strong><br>
+          <span style="font-size:10px; color:#64748b;">Principal, Shree Mewar Public School</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tc-a4-sheet {
+    width: 790px;
+    background: #ffffff;
+    border: 3px double #78350f;
+    padding: 30px 38px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    font-size: 12px;
+    color: #1e293b;
+    line-height: 1.6;
+  }
+  .tc-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 110px;
+    font-weight: 900;
+    color: rgba(120, 53, 15, 0.04);
+    user-select: none;
+    pointer-events: none;
+  }
+  .tc-header {
+    text-align: center;
+    border-bottom: 2px solid #78350f;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+  .tc-header h2 {
+    font-size: 24px;
+    color: #78350f;
+    font-weight: 900;
+    margin: 4px 0;
+    letter-spacing: 0.5px;
+  }
+  .tc-title-badge {
+    margin-top: 8px;
+  }
+  .tc-title-badge span {
+    background: #78350f;
+    color: white;
+    font-weight: 800;
+    padding: 4px 18px;
+    border-radius: 16px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  .tc-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+  }
+  .tc-details-table td {
+    padding: 5px 8px;
+    border-bottom: 1px dashed #e2e8f0;
+    vertical-align: top;
+    font-size: 12px;
+  }
+  .tc-details-table tr:hover {
+    background: #fffbeb;
+  }
+  .tc-footer-signatures {
+    margin-top: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .tc-sig-block {
+    text-align: center;
+    font-size: 11.5px;
+    min-width: 180px;
+  }
+  .tc-sig-line {
+    border-top: 1.5px dashed #475569;
+    margin-bottom: 4px;
+    width: 100%;
+  }
+
+  @media print {
+    body * { visibility: hidden; }
+    #printable-tc-area, #printable-tc-area * { visibility: visible; }
+    #printable-tc-area {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .tc-a4-sheet {
+      border: 2px solid #000;
+      box-shadow: none;
+      width: 100%;
+      padding: 20px;
+    }
+    .no-print { display: none !important; }
+  }
+</style>
+
+<script>
+  // Populate students into dropdown
+  (function initTcDropdown() {
+    const sel = document.getElementById('tc-student-select');
+    if (!sel || !students) return;
+    sel.innerHTML = '<option value="">-- विद्यार्थी चुनें (नाम / स्कॉलर नं) --</option>';
+    students.forEach(s => {
+      sel.innerHTML += `<option value="${s.id}">${s.name} (Scholar: ${s.scholar_no || '759'} | Class: ${s.class_name || '8th'})</option>`;
+    });
+    if (students.length > 0) {
+      sel.value = students[0].id;
+      populateTcFields();
+    }
+  })();
+
+  function populateTcFields() {
+    const studId = document.getElementById('tc-student-select').value;
+    const s = students.find(x => x.id == studId) || students[0];
+    if (!s) return;
+
+    document.getElementById('tc-display-no').innerText = `TC-2026/${String(s.id).padStart(3, '0')}`;
+    document.getElementById('tc-display-scholar').innerText = s.scholar_no || '759';
+    document.getElementById('tc-p-name').innerText = s.name;
+    document.getElementById('tc-p-father').innerText = s.father_name || 'श्री देविलाल जी';
+    document.getElementById('tc-p-mother').innerText = s.mother_name || 'श्रीमती सरिता देवी';
+    document.getElementById('tc-p-class').innerText = `${s.class_name || 'Class 8th'} - Section ${s.section || 'A'}`;
+    document.getElementById('tc-p-dob').innerText = s.dob || '01/01/2012';
+    document.getElementById('tc-p-category').innerText = s.category ? `${s.category}` : 'सामान्य (GEN)';
+    updateTcPreview();
+  }
+
+  function updateTcPreview() {
+    const reason = document.getElementById('tc-reason').value;
+    const conduct = document.getElementById('tc-conduct').value;
+    document.getElementById('tc-p-reason').innerText = reason;
+    document.getElementById('tc-p-conduct').innerText = conduct;
+  }
+</script>
