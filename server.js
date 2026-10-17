@@ -16,21 +16,25 @@ app.use((req, res, next) => {
   next();
 });
 
-// public फ़ोल्डर को स्टैटिक सर्व करें (जिससे /modules/ फ़ाइलें फ़ेच हो सकें)
+// public डायरेक्टरी स्टैटिक फ़ाइलों के लिए
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Supabase PostgreSQL पूल
+// Supabase डेटाबेस कनेक्शन पूल
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
 pool.connect((err, client, release) => {
-  if (err) console.error('Database connection error:', err.stack);
-  else { console.log('Connected to PostgreSQL Database successfully!'); release(); }
+  if (err) {
+    console.error('Database connection error:', err.stack);
+  } else {
+    console.log('Connected to PostgreSQL Database successfully!');
+    release();
+  }
 });
 
-// मॉड्यूलर रूट्स (routes/ फ़ोल्डर से लोड)
+// मॉड्यूलर रूट्स (routes/ फ़ोल्डर से)
 const studentsRouter = require('./routes/students');
 const employeesRouter = require('./routes/employees');
 const attendanceRouter = require('./routes/attendance');
@@ -41,8 +45,8 @@ app.use('/api/employees', employeesRouter(pool));
 app.use('/api/attendance', attendanceRouter(pool));
 app.use('/api/fees', feesRouter(pool));
 
-// SPA डिफ़ॉल्ट रूट
-app.get('*', (req, res) => {
+// SPA Fallback रूट (Node v24 / Express संगत)
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
