@@ -30,7 +30,7 @@
     .lang-badge { background: rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
     .btn-nav-top { background: #ea580c; color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
-    /* Global Classes & Tables */
+    /* Common Components */
     .directory-container { max-width: 1440px; margin: 16px auto; padding: 0 16px; }
     .table-responsive { background: white; border: 1.5px solid #cbd5e1; border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
     .custom-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left; }
@@ -60,7 +60,7 @@
     .sum-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
     .search-input-big { width: 100%; padding: 10px 16px; border: 2px solid #fed7aa; border-radius: 20px; font-size: 13px; outline: none; background: white; margin-bottom: 14px; }
 
-    /* Dashboard & Cards */
+    /* Dashboard */
     .pills-scroll-container { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 20px; background: #fef08a; border-bottom: 2px solid #f59e0b; justify-content: center; }
     .pill-btn { padding: 6px 14px; border-radius: 18px; font-size: 12px; font-weight: 700; color: white; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; }
     .pill-blue { background: #0284c7; }
@@ -530,9 +530,9 @@
       });
     }
 
-    // Default Startup Screen: Login
+    // Default Startup Screen: Dashboard
     window.onload = () => {
-      loadModule('login');
+      loadModule('dashboard');
     };
   </script>
 </body>
