@@ -368,37 +368,72 @@
                (!rte || (s.rte || 'NO') === 'YES') &&
                ((s.name || '').toLowerCase().includes(q) || (s.scholar_no || '').toString().includes(q));
       });
-      renderStudentsTable(filtered);
-    }
-
-    function updateFeeDisplay() {
-      const val = document.getElementById('form-total-fees')?.value || 0;
-      if (document.getElementById('display-fee-val')) {
-        document.getElementById('display-fee-val').innerText = `₹ ${Number(val).toLocaleString('en-IN')}.00`;
+    function renderStudentsTable(list) {
+      const tbody = document.getElementById('std-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="18" style="text-align:center; padding:18px;">कोई छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
+        return;
       }
+
+      list.forEach((s, idx) => {
+        const photoHtml = s.photo_url 
+          ? `<img src="${s.photo_url}" class="avatar-thumbnail" />`
+          : `<div class="avatar-thumbnail">👤</div>`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>
+              <div class="photo-cell-container">
+                ${photoHtml}
+                <button class="btn-photo-upload" onclick="triggerPhotoUpload('student', ${s.id})">📷</button>
+              </div>
+            </td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'scholar_no', this)"><strong>${s.scholar_no || '759'}</strong></td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'roll_no', this)">${s.roll_no}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'class_name', this)">${s.class_name || '8th'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'section', this)">${s.section || 'A'}</td>
+            <td style="text-align:center;">
+              <span style="background:#15803d; color:white; padding:3px 8px; border-radius:4px; font-weight:800; font-size:10.5px;">
+                सक्रिय (Active)
+              </span>
+            </td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'gender', this)">${s.gender || 'Male'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'rte', this)">${s.rte || 'NO'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'father_name', this)">${s.father_name || 'DEVI LAL BALAI'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mother_name', this)">${s.mother_name || 'SARITA SALVI'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mobile_no', this)">${s.mobile_no || '7239868621'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'dob', this)">${s.dob || '11/09/2020'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'aadhaar_no', this)">${s.aadhaar_no || '-'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'jan_aadhaar_no', this)">${s.jan_aadhaar_no || '-'}</td>
+            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'address', this)">${s.address || 'SINGHPUR'}</td>
+            <td>${s.documents || 'कोई नहीं'}</td>
+            <td>
+              <div class="std-action-grid">
+                <button class="btn-std-act" style="background:#701a75;" onclick="alert('छात्र निष्क्रिय किया गया')">🛑 Deactivate</button>
+                <button class="btn-std-act" style="background:#0284c7;" onclick="alert('छात्र का पूरा विवरण: ' + '${s.name}')">👁️ विवरण</button>
+                <button class="btn-std-act" style="background:#dc2626;" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
+                <a href="tel:${s.mobile_no}" class="btn-std-act" style="background:#16a34a;">📞 कॉल</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
     }
 
-    async function submitCompleteAdmission() {
-      const fname = document.getElementById('form-fname').value.trim();
-      const roll_no = document.getElementById('form-roll-no').value;
-      const father_name = document.getElementById('form-father').value.trim();
-      const mobile_no = document.getElementById('form-mobile').value.trim();
-      if (!fname || !roll_no || !father_name || !mobile_no) return alert("नाम, रोल, पिता और मोबाइल नंबर अनिवार्य हैं!");
-
-      const payload = {
-        name: fname, roll_no, father_name, mobile_no,
-        scholar_no: document.getElementById('form-scholar-no').value,
-        class_name: document.getElementById('form-class').value,
-        total_fees: document.getElementById('form-total-fees').value
-      };
-      await fetch('/api/students', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      loadModule('students');
-    }
-
-    async function deleteStudent(id) {
-      if (!confirm("हटाएं?")) return;
-      await fetch(`/api/students/${id}`, { method: 'DELETE' });
-      loadStudentsData();
+    // Excel Export Function for Students
+    function exportStudentsToExcel() {
+      let csv = `Sr No,Admission No,Name,Roll No,Class,Section,Father Name,Mobile No,DOB,Address\n`;
+      students.forEach((s, idx) => {
+        csv += `${idx + 1},"${s.scholar_no || '759'}","${s.name}",${s.roll_no},"${s.class_name || '8th'}","${s.section || 'A'}","${s.father_name}","${s.mobile_no}","${s.dob}","${s.address}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Students_List_SMPS.csv`;
+      link.click();
     }
 
     // ==========================================
