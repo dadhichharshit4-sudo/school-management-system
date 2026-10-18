@@ -1,0 +1,247 @@
+<div class="directory-container">
+  <!-- Top Navigation & Controls Bar -->
+  <div class="filter-panel no-print" style="justify-content:space-between; align-items:center; background:#fff; border-radius:10px; padding:12px 16px; margin-bottom:14px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+    <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+      <select id="rep-class-select" class="filter-control" style="font-weight:700;" onchange="loadReportData()">
+        <option value="8th" selected>8th</option>
+        <option value="Class 10-A">Class 10-A</option>
+        <option value="6">6th</option>
+        <option value="1st">1st</option>
+        <option value="Pp.5+">Pp.5+</option>
+        <option value="Pp.4+">Pp.4+</option>
+        <option value="Pp.3+">Pp.3+</option>
+      </select>
+
+      <select id="rep-sec-select" class="filter-control" style="font-weight:700;" onchange="loadReportData()">
+        <option value="">-- सेक्शन --</option>
+        <option value="A" selected>Section A</option>
+        <option value="B">Section B</option>
+      </select>
+
+      <input type="month" id="rep-month-select" class="filter-control" value="2026-10" style="font-weight:700;" onchange="loadReportData()">
+
+      <button class="btn-action-pill" style="background:#0f172a; padding:7px 16px;" onclick="loadReportData()">
+        🔍 रजिस्टर देखें
+      </button>
+    </div>
+
+    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="btn-action-pill" style="background:#0f172a;" onclick="loadModule('attendance')">⬅ Back</button>
+      <button class="btn-action-pill btn-act-blue" onclick="openFrontCoverModal()">📘 Front Cover</button>
+      <button class="btn-action-pill btn-act-green" onclick="exportRegisterToExcel()">📊 Excel</button>
+      <button class="btn-action-pill btn-act-red" onclick="window.print()">🖨️ Print Register</button>
+    </div>
+  </div>
+
+  <!-- Master Register Sheet View -->
+  <div id="printable-register-area">
+    <div class="master-register-sheet">
+      <!-- School Header -->
+      <div class="register-school-header">
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
+          <div style="font-size:26px; border:2px solid #78350f; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center;">🏫</div>
+          <div>
+            <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
+            <p>Near Bada Balaji Choraha, Village - Singhpur, Teh - Kapasan, Dist - Chittorgarh PIN - 312207</p>
+          </div>
+        </div>
+        <div class="register-sub-header">
+          <span>कक्षा / Class: <strong id="rep-lbl-class" style="color:#991b1b;">8th</strong></span>
+          <span>वर्ग / Section: <strong id="rep-lbl-sec">A</strong></span>
+          <span style="font-size:14px; font-weight:900; color:#78350f; text-decoration:underline;">उपस्थिति रजिस्टर / ATTENDANCE REGISTER</span>
+          <span>माह / Month: <strong id="rep-lbl-month" style="color:#991b1b;">October 2026</strong></span>
+        </div>
+      </div>
+
+      <!-- 31-Day Matrix Table -->
+      <div style="overflow-x:auto;">
+        <table class="grid-register-table">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width:28px;">क्र.सं.</th>
+              <th rowspan="2" style="width:55px;">रजिस्टर संख्या</th>
+              <th rowspan="2" style="min-width:140px; text-align:left; padding-left:6px;">
+                छात्र/छात्रा का नाम<br><span style="font-size:8.5px; font-weight:normal;">(Name of Scholar)</span>
+              </th>
+              <!-- 31 Days Columns -->
+              <th colspan="31" style="font-size:10px; background:#78350f;">अक्टूबर माह की तारीख (Days of Month)</th>
+              <!-- Summary Columns -->
+              <th rowspan="2" style="width:40px; background:#166534;">उपस्थिति इस माह</th>
+              <th rowspan="2" style="width:36px;">गत माह तक</th>
+              <th rowspan="2" style="width:36px; background:#1e3a8a;">कुल Total</th>
+              <th rowspan="2" style="width:38px; color:#fee2e2; background:#991b1b;">अनुपस्थिति Absence</th>
+              <th rowspan="2" style="width:34px;">अवकाश Leave</th>
+              <th rowspan="2" style="min-width:70px;">विशेष विवरण Remarks</th>
+            </tr>
+            <tr id="reg-days-header-row">
+              <!-- Dynamically rendered 1 to 31 day headers -->
+            </tr>
+          </thead>
+          <tbody id="reg-table-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Bottom Signature Grid -->
+      <div class="register-footer-sig">
+        <div>
+          <div class="sig-line"></div>
+          <strong>कक्षाध्यापक के हस्ताक्षर</strong>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <strong>लिपिक / जांचकर्ता</strong>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <strong>संस्था प्रधान (मुहर सहित)</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Front Cover Modal -->
+<div id="front-cover-modal" class="modal-overlay hidden">
+  <div style="background:white; border-radius:14px; padding:22px; max-width:620px; width:100%; text-align:center;">
+    <div id="printable-cover-sheet" style="background:#fffbeb; border:4px double #78350f; border-radius:10px; padding:40px 24px;">
+      <div style="font-size:36px; margin-bottom:8px;">🏫</div>
+      <h2 style="color:#78350f; font-size:24px; font-weight:900;">श्री मेवाड़ पब्लिक स्कूल</h2>
+      <p style="font-size:12px; color:#475569;">बड़ा बालाजी चौराहा, सिंहपुर, कपासन (चित्तौड़गढ़)</p>
+      
+      <div style="border-top:2px solid #78350f; border-bottom:2px solid #78350f; padding:12px 0; margin:24px 0;">
+        <h1 style="color:#991b1b; font-size:25px; font-weight:900; letter-spacing:0.5px;">विद्यार्थी दैनिक उपस्थिति रजिस्टर</h1>
+        <p style="font-size:14px; font-weight:800; color:#1e3a8a; margin-top:4px;">शैक्षणिक सत्र: 2026 - 2027</p>
+      </div>
+
+      <div style="text-align:left; font-size:13px; line-height:2.2; max-width:320px; margin:0 auto; font-weight:700; color:#334155;">
+        <div>कक्षा (Class): <span id="cov-modal-class" style="color:#991b1b;">8th</span></div>
+        <div>सेक्शन (Section): <span id="cov-modal-sec" style="color:#991b1b;">A</span></div>
+        <div>माह (Month): <span id="cov-modal-month" style="color:#991b1b;">October 2026</span></div>
+        <div>कक्षाध्यापक: <span>श्री सुरेश चंद्र व्यास</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px; display:flex; gap:10px; justify-content:center;" class="no-print">
+      <button class="btn-action-pill btn-act-red" onclick="window.print()">🖨️ कवर प्रिंट करें</button>
+      <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('front-cover-modal').classList.add('hidden')">बंद करें</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .master-register-sheet {
+    background: #ffffff;
+    border: 2px solid #78350f;
+    padding: 16px 20px;
+    margin: 0 auto;
+    font-size: 11px;
+    color: #0f172a;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+  .register-school-header {
+    text-align: center;
+    border-bottom: 2px solid #78350f;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .register-school-header h2 {
+    color: #78350f;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+  }
+  .register-school-header p {
+    font-size: 10.5px;
+    color: #475569;
+  }
+  .register-sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 11.5px;
+    font-weight: 800;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 6px;
+  }
+
+  /* Matrix Grid Table */
+  .grid-register-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    text-align: center;
+  }
+  .grid-register-table th, .grid-register-table td {
+    border: 1px solid #64748b;
+    padding: 3px 1px;
+    white-space: nowrap;
+  }
+  .grid-register-table th {
+    background: #78350f;
+    color: white;
+    font-weight: 800;
+  }
+  .grid-register-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  /* Vertical Day/Holiday Columns (Exact like photo 3) */
+  .col-sunday {
+    background: #eff6ff !important;
+    color: #1e40af;
+    font-weight: 800;
+    width: 18px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding: 6px 0 !important;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+  }
+  .col-holiday-festival {
+    background: #fdf2f8 !important;
+    color: #9d174d;
+    font-weight: 800;
+    width: 18px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding: 6px 0 !important;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+  }
+
+  .register-footer-sig {
+    margin-top: 36px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 11px;
+  }
+  .sig-line {
+    border-top: 1.5px dashed #475569;
+    width: 150px;
+    margin-bottom: 4px;
+  }
+
+  @media print {
+    body * { visibility: hidden; }
+    #printable-register-area, #printable-register-area *,
+    #printable-cover-sheet, #printable-cover-sheet * {
+      visibility: visible;
+    }
+    #printable-register-area {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .master-register-sheet {
+      border: 1px solid #000;
+      box-shadow: none;
+      padding: 10px;
+    }
+    .no-print { display: none !important; }
+  }
+</style>
