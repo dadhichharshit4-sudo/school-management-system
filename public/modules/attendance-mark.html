@@ -1,85 +1,118 @@
 <div class="directory-container">
-  <!-- Top Navigation & Heading -->
-  <div style="background:#991b1b; color:white; padding:10px 16px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-weight:800;">
-    <div style="font-size:15px; letter-spacing:0.5px;">🌸 दैनिक उपस्थिति मार्किंग (Daily Attendance) 🌸</div>
-    <div style="display:flex; gap:8px;">
-      <button class="btn-action-pill" style="background:#0284c7; padding:5px 12px; font-size:11.5px;" onclick="loadModule('attendance')">📑 Attendance Report / Register</button>
-      <button class="btn-action-pill btn-act-orange" style="padding:5px 12px; font-size:11.5px;" onclick="loadModule('attendance')">⬅ कमांड सेंटर</button>
+  <!-- Top Title Header matching Photo 2 -->
+  <div style="background:#831843; color:white; padding:8px 16px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-weight:800; flex-wrap:wrap; gap:8px;">
+    <div>
+      <span style="font-size:16px;">🌸 SHREE MEWAR PUBLIC SCHOOL 🌸</span>
+      <span style="font-size:11px; opacity:0.9; margin-left:10px;">उपस्थिति - <span id="m-lbl-header-date">18/10/2026</span></span>
+    </div>
+    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+      <button class="btn-action-pill" style="background:#ea580c; font-size:11px; padding:4px 8px;">👥 बल्क हाजिरी</button>
+      <button class="btn-action-pill" style="background:#0f172a; font-size:11px; padding:4px 8px;">🖥️ कियोस्क मोड</button>
+      <button class="btn-action-pill" style="background:#b91c1c; font-size:11px; padding:4px 8px;">📷 स्मार्ट फेस कैमरा</button>
+      <button class="btn-action-pill btn-act-blue" style="font-size:11px; padding:4px 8px;" onclick="loadModule('attendance-report')">📊 Attendance Report</button>
+      <button class="btn-action-pill btn-act-red" style="font-size:11px; padding:4px 8px;" onclick="loadModule('dashboard')">⬅ डैशबोर्ड</button>
     </div>
   </div>
 
-  <!-- Filters & Quick Actions -->
-  <div class="filter-panel" style="justify-content:space-between;">
-    <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-      <label style="font-size:12px; font-weight:700; color:#475569;">
-        तारीख: 
-        <input type="date" id="mark-date" class="filter-control" style="font-weight:700;" onchange="renderMarkingTable()">
+  <!-- Filter Bar -->
+  <div class="filter-panel" style="background:#fff; border-radius:8px; padding:8px 14px; margin-bottom:12px;">
+    <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; width:100%;">
+      <label style="font-size:11.5px; font-weight:700;">
+        📅 <input type="date" id="mark-date" class="filter-control" style="font-weight:700;" onchange="renderMarkingTable()">
       </label>
 
-      <label style="font-size:12px; font-weight:700; color:#475569;">
-        कक्षा: 
+      <label style="font-size:11.5px; font-weight:700;">
+        🖥️ 
         <select id="mark-class" class="filter-control" style="font-weight:700;" onchange="renderMarkingTable()">
-          <option value="Pp.3+">Pp.3+</option>
-          <option value="Pp.4+">Pp.4+</option>
-          <option value="Pp.5+">Pp.5+</option>
-          <option value="1st">1st</option>
-          <option value="2nd">2nd</option>
-          <option value="3rd">3rd</option>
-          <option value="4th">4th</option>
-          <option value="5th">5th</option>
+          <option value="8th" selected>8th</option>
+          <option value="Class 10-A">Class 10-A</option>
           <option value="6">6th</option>
-          <option value="7th">7th</option>
-          <option value="8th">8th</option>
-          <option value="Class 10-A" selected>Class 10-A</option>
+          <option value="1st">1st</option>
+          <option value="Pp.5+">Pp.5+</option>
+          <option value="Pp.4+">Pp.4+</option>
+          <option value="Pp.3+">Pp.3+</option>
         </select>
       </label>
 
-      <label style="font-size:12px; font-weight:700; color:#475569;">
-        सेक्शन: 
+      <label style="font-size:11.5px; font-weight:700;">
+        👥 
         <select id="mark-sec" class="filter-control" style="font-weight:700;" onchange="renderMarkingTable()">
+          <option value="A">-- सभी सेक्शन --</option>
           <option value="A">Section A</option>
           <option value="B">Section B</option>
         </select>
       </label>
-    </div>
 
-    <!-- 1-Click Bulk Toggles -->
-    <div style="display:flex; gap:8px;">
-      <button class="btn-action-pill btn-act-green" onclick="setAllMarking('Present')">✔ सभी को Present करें</button>
-      <button class="btn-action-pill btn-act-red" onclick="setAllMarking('Absent')">✖ सभी को Absent करें</button>
+      <label style="font-size:11.5px; font-weight:700;">
+        👁️ 
+        <select id="mark-filter-status" class="filter-control" style="font-weight:700;">
+          <option value="">-- सभी स्थिति --</option>
+          <option value="Present">Present</option>
+          <option value="Absent">Absent</option>
+          <option value="Holiday">स्कूल अवकाश</option>
+        </select>
+      </label>
     </div>
   </div>
 
-  <!-- Summary Pills for Selected Class -->
-  <div class="summary-badges-bar" style="margin-bottom:12px;">
-    <span class="sum-badge" style="background:#0284c7;">👥 कुल छात्र: <span id="m-total-cnt">0</span></span>
-    <span class="sum-badge" style="background:#16a34a;">✔ उपस्थित (Present): <span id="m-pres-cnt">0</span></span>
-    <span class="sum-badge" style="background:#dc2626;">✖ अनुपस्थित (Absent): <span id="m-abs-cnt">0</span></span>
+  <!-- 3 Summary Badges matching Photo 2 -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:12px;">
+    <div style="background:#831843; color:white; border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h2 style="font-size:24px; font-weight:900;" id="m-total-cnt">13</h2>
+        <div style="font-size:11.5px; font-weight:700;">कुल छात्र</div>
+      </div>
+      <div style="font-size:28px;">👥</div>
+    </div>
+
+    <div style="background:#0f766e; color:white; border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h2 style="font-size:24px; font-weight:900;" id="m-pres-cnt">0</h2>
+        <div style="font-size:11.5px; font-weight:700;">उपस्थित</div>
+      </div>
+      <div style="font-size:28px;">👤</div>
+    </div>
+
+    <div style="background:#be123c; color:white; border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h2 style="font-size:24px; font-weight:900;" id="m-abs-cnt">13</h2>
+        <div style="font-size:11.5px; font-weight:700;">अनुपस्थित</div>
+      </div>
+      <div style="font-size:28px;">✖</div>
+    </div>
   </div>
 
-  <!-- Attendance Marking Table -->
+  <!-- 4 Action Buttons matching Photo 2 -->
+  <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; margin-bottom:14px;">
+    <button class="btn-action-pill btn-act-green" onclick="setAllMarking('Present')">✔ सभी को Present करें</button>
+    <button class="btn-action-pill btn-act-red" onclick="setAllMarking('Absent')">✖ सभी को Absent करें</button>
+    <button class="btn-action-pill btn-act-blue" onclick="setAllMarking('Leave')">⏳ सभी को Leave सेट करें</button>
+    <button class="btn-action-pill" style="background:#0284c7;" onclick="declareHolidayAll()">🏖️ अवकाश घोषित करें</button>
+  </div>
+
+  <!-- Attendance Table matching Photo 2 -->
   <div class="table-responsive">
     <table class="custom-table">
       <thead>
         <tr>
-          <th style="width:40px; text-align:center;">क्र.</th>
+          <th style="width:36px; text-align:center;">क्र.</th>
           <th>कक्षा-सेक्शन</th>
           <th style="width:80px; text-align:center;">रोल नं.</th>
           <th>छात्र का नाम</th>
-          <th style="width:160px; text-align:center;">उपस्थिति स्थिति (Status)</th>
-          <th>टिप्पणी / रिमार्क</th>
-          <th style="width:100px; text-align:center;">एक्शन</th>
+          <th style="width:190px; text-align:center;">स्थिति</th>
+          <th>टिप्पणी</th>
+          <th style="width:90px; text-align:center;">एक्शन</th>
         </tr>
       </thead>
       <tbody id="mark-tbody"></tbody>
     </table>
   </div>
 
-  <!-- Bottom Save Bar -->
-  <div style="text-align:center; margin:24px 0 30px;">
-    <button class="btn-action-pill btn-act-green" style="padding:14px 44px; font-size:15px; box-shadow:0 4px 12px rgba(22,163,74,0.3);" onclick="saveMarkingData()">
-      💾 उपस्थिति सुरक्षित सेव करें (Save Attendance)
+  <!-- Save Button -->
+  <div style="text-align:center; margin:20px 0;">
+    <button class="btn-action-pill btn-act-green" style="padding:12px 40px; font-size:15px;" onclick="saveMarkingData()">
+      💾 उपस्थिति सुरक्षित सेव करें
     </button>
-    <div id="mark-save-msg" style="margin-top:10px; font-weight:800; font-size:13.5px;"></div>
+    <div id="mark-save-msg" style="margin-top:8px; font-weight:800;"></div>
   </div>
 </div>
