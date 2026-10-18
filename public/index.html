@@ -173,10 +173,11 @@
     @media print {
       body * { visibility: hidden; }
       #printable-id-card-area, #printable-id-card-area *,
-      #printable-doc-area, #printable-doc-area * {
+      #printable-doc-area, #printable-doc-area *,
+      #printable-tc-area, #printable-tc-area * {
         visibility: visible;
       }
-      #printable-id-card-area, #printable-doc-area { position: absolute; left: 0; top: 0; width: 100%; }
+      #printable-id-card-area, #printable-doc-area, #printable-tc-area { position: absolute; left: 0; top: 0; width: 100%; }
       .no-print { display: none !important; }
     }
   </style>
@@ -214,7 +215,7 @@
           </div>
           <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#475569; margin-bottom:14px;">
             <span>क्रमांक: <strong id="doc-ref-no">SMPS/DOC/2026/01</strong></span>
-            <span>दिनांक: <strong id="doc-date">17-Oct-2026</strong></span>
+            <span>दिनांक: <strong id="doc-date">18-Oct-2026</strong></span>
           </div>
           <div class="doc-title-badge"><span id="doc-title-text">अनुबंध पत्र</span></div>
           <div id="doc-content-body" style="font-size:13px; text-align:justify; color:#1e293b;"></div>
@@ -231,37 +232,12 @@
     </div>
   </div>
 
-  <!-- MODAL: ID CARD -->
-  <div id="id-preview-modal" class="modal-overlay hidden">
-    <div style="background:white; border-radius:14px; padding:22px; max-width:440px; width:100%; text-align:center;">
-      <div id="printable-id-card-area">
-        <div class="id-card-box">
-          <div class="id-card-header"><h4 style="margin:0; font-size:13px;">SHREE MEWAR PUBLIC SCHOOL</h4><p style="margin:2px 0 0; font-size:9.5px; color:#fde047;">Singhpur, Chittorgarh</p></div>
-          <div class="id-card-body">
-            <div class="id-card-photo" id="idc-photo-box">👤</div>
-            <div class="id-card-details">
-              <strong>नाम:</strong> <span id="idc-name">-</span><br>
-              <strong>स्कॉलर/पद:</strong> <span id="idc-code">-</span><br>
-              <strong>कक्षा/विभाग:</strong> <span id="idc-dept">-</span><br>
-              <strong>मोबाइल:</strong> <span id="idc-mob">-</span><br>
-              <strong>पता:</strong> सिंहपुर, चित्तौड़गढ़
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="btn-action-pill btn-act-green" style="margin-top:14px;" onclick="window.print()">🖨️ प्रिंट निकालें</button>
-      <button class="btn-action-pill" style="background:#64748b; margin-top:14px;" onclick="document.getElementById('id-preview-modal').classList.add('hidden')">बंद करें</button>
-    </div>
-  </div>
-
   <input type="file" id="global-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
 
   <script>
     let students = [];
     let employees = [];
     let feesList = [];
-    let activeFeeStudent = null;
-    let markingMap = {};
     let photoUploadContext = { targetType: null, id: null };
 
     const ALL_CLASSES = [
@@ -279,7 +255,9 @@
       { name: 'Class 10-A', sec: '1 Sections', count: 5, bg: '#16a34a' }
     ];
 
-    // DYNAMIC MODULE LOADER WITH ROBUST ERROR HANDLING
+    // ==========================================
+    // MODULE LOADER
+    // ==========================================
     async function loadModule(moduleName) {
       const container = document.getElementById('main-content-area');
       if (!container) return;
@@ -317,8 +295,8 @@
       }
 
       try {
-        const res = await fetch(`/modules/${moduleName}.html`);
-        if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
+        const res = await fetch('/modules/' + moduleName + '.html');
+        if (!res.ok) throw new Error('Status ' + res.status);
         const html = await res.text();
         container.innerHTML = html;
 
@@ -334,8 +312,7 @@
           renderCommandCenter();
         } else if (moduleName === 'fees') {
           loadFeesData();
-        }
-      } else if (moduleName === 'tc') {
+        } else if (moduleName === 'tc') {
           initTcModule();
         }
       } catch (err) {
@@ -343,15 +320,17 @@
         container.innerHTML = `
           <div style="text-align:center; padding:40px; background:white; max-width:600px; margin:30px auto; border-radius:12px; border:2px dashed #f87171;">
             <div style="font-size:32px;">⚠️</div>
-            <h3 style="color:#dc2626; margin-top:8px;">मॉड्यूल लोड नहीं हो सका: ${moduleName}.html</h3>
-            <p style="color:#64748b; font-size:12px; margin-top:6px;">सुनिश्चित करें कि 'public/modules/${moduleName}.html' फ़ाइल GitHub में मौजूद है।</p>
-            <button class="btn-action-pill btn-act-orange" style="margin-top:14px;" onclick="loadModule('login')">वापस लॉगिन स्क्रीन</button>
+            <h3 style="color:#dc2626; margin-top:8px;">फ़ाइल लोड नहीं हो सकी: ${moduleName}.html</h3>
+            <p style="color:#64748b; font-size:12px; margin-top:6px;">जांचें कि GitHub पर <strong>public/modules/${moduleName}.html</strong> मौजूद है।</p>
+            <button class="btn-action-pill btn-act-orange" style="margin-top:14px;" onclick="loadModule('dashboard')">डैशबोर्ड खोलें</button>
           </div>
         `;
       }
     }
 
-    /* STUDENTS DATA */
+    // ==========================================
+    // STUDENTS LOGIC
+    // ==========================================
     async function loadStudentsData() {
       try {
         const res = await fetch('/api/students');
@@ -464,28 +443,16 @@
       renderStudentsTable(filtered);
     }
 
-    function updateFeeDisplay() {
-      const val = document.getElementById('form-total-fees')?.value || 0;
-      if (document.getElementById('display-fee-val')) {
-        document.getElementById('display-fee-val').innerText = `₹ ${Number(val).toLocaleString('en-IN')}.00`;
-      }
-    }
-
-    async function submitCompleteAdmission() {
-      const fname = document.getElementById('form-fname')?.value.trim();
-      const roll_no = document.getElementById('form-roll-no')?.value;
-      const father_name = document.getElementById('form-father')?.value.trim();
-      const mobile_no = document.getElementById('form-mobile')?.value.trim();
-      if (!fname || !roll_no || !father_name || !mobile_no) return alert("नाम, रोल, पिता और मोबाइल अनिवार्य हैं!");
-
-      const payload = {
-        name: fname, roll_no, father_name, mobile_no,
-        scholar_no: document.getElementById('form-scholar-no')?.value || '760',
-        class_name: document.getElementById('form-class')?.value || 'Class 10-A',
-        total_fees: document.getElementById('form-total-fees')?.value || 20000
-      };
-      await fetch('/api/students', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      loadModule('students');
+    function exportStudentsToExcel() {
+      let csv = `Sr No,Admission No,Name,Roll No,Class,Section,Father Name,Mobile No,DOB,Address\n`;
+      students.forEach((s, idx) => {
+        csv += `${idx + 1},"${s.scholar_no || '759'}","${s.name}",${s.roll_no},"${s.class_name || '8th'}","${s.section || 'A'}","${s.father_name}","${s.mobile_no}","${s.dob}","${s.address}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Students_List_SMPS.csv`;
+      link.click();
     }
 
     async function deleteStudent(id) {
@@ -494,7 +461,9 @@
       loadStudentsData();
     }
 
-    /* EMPLOYEES DATA */
+    // ==========================================
+    // EMPLOYEES LOGIC
+    // ==========================================
     async function loadEmployeesData() {
       try {
         const res = await fetch('/api/employees');
@@ -587,17 +556,6 @@
       }).then(() => loadEmployeesData());
     }
 
-    function openStaffIdCardModal(id) {
-      const emp = employees.find(e => e.id == id) || employees[0];
-      if (!emp) return;
-      document.getElementById('idc-name').innerText = emp.name;
-      document.getElementById('idc-code').innerText = `${emp.designation} (${emp.emp_code})`;
-      document.getElementById('idc-dept').innerText = emp.department;
-      document.getElementById('idc-mob').innerText = emp.mobile_no;
-      document.getElementById('idc-photo-box').innerHTML = emp.photo_url ? `<img src="${emp.photo_url}" style="width:100%; height:100%; object-fit:cover;" />` : `👨‍🏫`;
-      document.getElementById('id-preview-modal').classList.remove('hidden');
-    }
-
     function generateStaffDocument(empId, docType) {
       const emp = employees.find(e => e.id == empId) || employees[0];
       if (!emp) return;
@@ -640,7 +598,9 @@
       e.target.value = '';
     }
 
-    /* FEES DATA */
+    // ==========================================
+    // FEES LOGIC
+    // ==========================================
     async function loadFeesData() {
       try {
         const res = await fetch('/api/fees/summary');
@@ -660,7 +620,9 @@
       } catch (err) { console.error(err); }
     }
 
-    /* ATTENDANCE DATA */
+    // ==========================================
+    // ATTENDANCE LOGIC
+    // ==========================================
     function renderCommandCenter() {
       const grid = document.getElementById('cmd-class-grid');
       if (!grid) return;
@@ -673,19 +635,17 @@
             <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
             <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
             <div class="class-card-btns">
-              <button class="btn-card-action" onclick="alert('मासिक उपस्थिति रिपोर्ट')">📑 रिपोर्ट</button>
-              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="alert('दैनिक उपस्थिति मार्किंग')">✍ दर्ज करें</button>
+              <button class="btn-card-action" onclick="alert('मासिक रिपोर्ट')">📑 रिपोर्ट</button>
+              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="alert('मार्किंग स्क्रीन')">✍ दर्ज करें</button>
             </div>
           </div>
         `;
       });
     }
 
-    // Default Startup: Always Login
-    window.onload = () => {
-      loadModule('login');
-    };
-    // TC Module Dropdown Initializer
+    // ==========================================
+    // TC MODULE LOGIC
+    // ==========================================
     async function initTcModule() {
       try {
         if (!students || students.length === 0) {
@@ -735,7 +695,11 @@
         document.getElementById('tc-p-conduct').innerText = conductEl.value;
       }
     }
+
+    // Default Startup Screen: Login
+    window.onload = function() {
+      loadModule('login');
+    };
   </script>
 </body>
 </html>
-```
