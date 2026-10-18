@@ -39,11 +39,13 @@ const studentsRouter = require('./routes/students');
 const employeesRouter = require('./routes/employees');
 const attendanceRouter = require('./routes/attendance');
 const feesRouter = require('./routes/fees');
+const notificationsRouter = require('./routes/notifications');
 
 app.use('/api/students', studentsRouter(pool));
 app.use('/api/employees', employeesRouter(pool));
 app.use('/api/attendance', attendanceRouter(pool));
 app.use('/api/fees', feesRouter(pool));
+app.use('/api/notifications', notificationsRouter(pool));
 
 // SPA Fallback रूट (Node v24 / Express संगत)
 app.use((req, res) => {
