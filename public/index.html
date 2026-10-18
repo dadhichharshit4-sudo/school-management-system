@@ -153,7 +153,7 @@
     .std-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 140px; margin: 0 auto; }
     .btn-std-act { border: none; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; padding: 4px 6px; cursor: pointer; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 3px; }
 
-    /* Modals & Receipts */
+    /* Modals & Documents */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
     .id-card-box { width: 345px; height: 220px; background: #ffffff; border: 2px solid #991b1b; border-radius: 12px; overflow: hidden; margin: 14px auto; box-shadow: 0 8px 24px rgba(0,0,0,0.18); text-align: left; }
     .id-card-header { background: #991b1b; color: white; padding: 6px 10px; text-align: center; }
@@ -238,6 +238,9 @@
     let students = [];
     let employees = [];
     let feesList = [];
+    let markingMap = {};
+    let currentMarkingClass = 'Class 10-A';
+    let currentMarkingSec = 'A';
     let photoUploadContext = { targetType: null, id: null };
 
     const ALL_CLASSES = [
@@ -300,7 +303,7 @@
         const html = await res.text();
         container.innerHTML = html;
 
-       if (moduleName === 'dashboard') {
+        if (moduleName === 'dashboard') {
           loadStudentsData();
           loadEmployeesData();
           loadFeesData();
@@ -623,7 +626,7 @@
     }
 
     // ==========================================
-    // ATTENDANCE LOGIC
+    // ATTENDANCE CENTER & MARKING CONTROLLER
     // ==========================================
     function renderCommandCenter() {
       const grid = document.getElementById('cmd-class-grid');
@@ -637,19 +640,13 @@
             <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
             <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
             <div class="class-card-btns">
-              <button class="btn-card-action" onclick="alert('मासिक रिपोर्ट')">📑 रिपोर्ट</button>
-              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="alert('मार्किंग स्क्रीन')">✍ दर्ज करें</button>
+              <button class="btn-card-action" onclick="alert('मासिक उपस्थिति रिपोर्ट')">📑 रिपोर्ट</button>
+              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="openClassMarkingScreen('${cls.name}', 'A')">✍ दर्ज करें</button>
             </div>
           </div>
         `;
       });
     }
-
-    // ==========================================
-    // ATTENDANCE MARKING CONTROLLER
-    // ==========================================
-    let currentMarkingClass = 'Class 10-A';
-    let currentMarkingSec = 'A';
 
     function openClassMarkingScreen(cls, sec) {
       currentMarkingClass = cls || 'Class 10-A';
@@ -684,7 +681,6 @@
 
       let list = students.filter(s => (s.class_name || '8th') === cls);
       if (list.length === 0) {
-        // डिफ़ॉल्ट छात्र अगर डेटाबेस में उस कक्षा का छात्र न हो
         list = [
           { id: 101, roll_no: '101', name: 'Rahul Sharma', mobile_no: '9876543210' },
           { id: 102, roll_no: '102', name: 'Priya Verma', mobile_no: '9876543210' },
@@ -780,18 +776,18 @@
         });
         const data = await res.json();
         if (res.ok) {
-          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति दिनांक ${dateVal} को सफलतापूर्वक सुरक्षित हुई!`;
+          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति दिनांक ${dateVal} को सुरक्षित हुई!`;
           msg.style.color = '#15803d';
         } else {
-          msg.innerText = data.error || 'सेव करने में त्रुटि!';
+          msg.innerText = data.error || 'सेव त्रुटि!';
           msg.style.color = '#dc2626';
         }
       } catch (e) {
-        msg.innerText = 'सर्वर से संपर्क नहीं हो पाया!';
+        msg.innerText = 'सर्वर त्रुटि!';
         msg.style.color = '#dc2626';
       }
     }
-    
+
     // ==========================================
     // TC MODULE LOGIC
     // ==========================================
