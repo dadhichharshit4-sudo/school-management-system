@@ -335,6 +335,9 @@
         } else if (moduleName === 'fees') {
           loadFeesData();
         }
+      } else if (moduleName === 'tc') {
+          initTcModule();
+        }
       } catch (err) {
         console.error("Module Load Failed:", err);
         container.innerHTML = `
@@ -682,6 +685,56 @@
     window.onload = () => {
       loadModule('login');
     };
+    // TC Module Dropdown Initializer
+    async function initTcModule() {
+      try {
+        if (!students || students.length === 0) {
+          const res = await fetch('/api/students');
+          students = await res.json();
+        }
+        const sel = document.getElementById('tc-student-select');
+        if (!sel) return;
+        sel.innerHTML = '<option value="">-- विद्यार्थी चुनें (नाम / स्कॉलर नं) --</option>';
+        students.forEach(s => {
+          sel.innerHTML += `<option value="${s.id}">${s.name} (स्कॉलर नं: ${s.scholar_no || '759'} | कक्षा: ${s.class_name || '8th'})</option>`;
+        });
+        if (students.length > 0) {
+          sel.value = students[0].id;
+          populateTcFields();
+        }
+      } catch (err) {
+        console.error("TC Load Error:", err);
+      }
+    }
+
+    function populateTcFields() {
+      const sel = document.getElementById('tc-student-select');
+      if (!sel) return;
+      const studId = sel.value;
+      const s = students.find(x => x.id == studId) || students[0];
+      if (!s) return;
+
+      if (document.getElementById('tc-display-no')) document.getElementById('tc-display-no').innerText = `TC-2026/${String(s.id).padStart(3, '0')}`;
+      if (document.getElementById('tc-display-scholar')) document.getElementById('tc-display-scholar').innerText = s.scholar_no || '759';
+      if (document.getElementById('tc-p-name')) document.getElementById('tc-p-name').innerText = s.name;
+      if (document.getElementById('tc-p-father')) document.getElementById('tc-p-father').innerText = s.father_name || 'श्री देविलाल जी';
+      if (document.getElementById('tc-p-mother')) document.getElementById('tc-p-mother').innerText = s.mother_name || 'श्रीमती सरिता देवी';
+      if (document.getElementById('tc-p-class')) document.getElementById('tc-p-class').innerText = `${s.class_name || 'Class 8th'} - Section ${s.section || 'A'}`;
+      if (document.getElementById('tc-p-dob')) document.getElementById('tc-p-dob').innerText = s.dob || '01/01/2012';
+      if (document.getElementById('tc-p-category')) document.getElementById('tc-p-category').innerText = s.category ? `${s.category}` : 'सामान्य (GEN)';
+      updateTcPreview();
+    }
+
+    function updateTcPreview() {
+      const reasonEl = document.getElementById('tc-reason');
+      const conductEl = document.getElementById('tc-conduct');
+      if (reasonEl && document.getElementById('tc-p-reason')) {
+        document.getElementById('tc-p-reason').innerText = reasonEl.value;
+      }
+      if (conductEl && document.getElementById('tc-p-conduct')) {
+        document.getElementById('tc-p-conduct').innerText = conductEl.value;
+      }
+    }
   </script>
 </body>
 </html>
