@@ -646,6 +646,153 @@
     }
 
     // ==========================================
+    // ATTENDANCE MARKING CONTROLLER
+    // ==========================================
+    let currentMarkingClass = 'Class 10-A';
+    let currentMarkingSec = 'A';
+
+    function openClassMarkingScreen(cls, sec) {
+      currentMarkingClass = cls || 'Class 10-A';
+      currentMarkingSec = sec || 'A';
+      loadModule('attendance-mark');
+    }
+
+    async function initAttendanceMarkingScreen() {
+      const dateEl = document.getElementById('mark-date');
+      const clsEl = document.getElementById('mark-class');
+      const secEl = document.getElementById('mark-sec');
+
+      if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+      if (clsEl) clsEl.value = currentMarkingClass;
+      if (secEl) secEl.value = currentMarkingSec;
+
+      if (!students || students.length === 0) {
+        try {
+          const res = await fetch('/api/students');
+          students = await res.json();
+        } catch (e) { console.error(e); }
+      }
+      renderMarkingTable();
+    }
+
+    function renderMarkingTable() {
+      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
+      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
+      const tbody = document.getElementById('mark-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let list = students.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) {
+        // डिफ़ॉल्ट छात्र अगर डेटाबेस में उस कक्षा का छात्र न हो
+        list = [
+          { id: 101, roll_no: '101', name: 'Rahul Sharma', mobile_no: '9876543210' },
+          { id: 102, roll_no: '102', name: 'Priya Verma', mobile_no: '9876543210' },
+          { id: 103, roll_no: '103', name: 'Aman Gupta', mobile_no: '9876543210' },
+          { id: 104, roll_no: '104', name: 'AKSHAT DADHEECH', mobile_no: '9799242540' },
+          { id: 105, roll_no: '105', name: 'VIKAS SONI', mobile_no: '8824440249' }
+        ];
+      }
+
+      markingMap = {};
+      list.forEach((s, idx) => {
+        markingMap[s.id] = { status: 'Present', remarks: '' };
+        tbody.innerHTML += `
+          <tr id="m-row-${s.id}">
+            <td style="text-align:center;">${idx + 1}</td>
+            <td><strong>${cls} - ${sec}</strong></td>
+            <td style="text-align:center;">${s.roll_no}</td>
+            <td><strong>${s.name}</strong></td>
+            <td style="text-align:center;">
+              <select id="m-status-${s.id}" class="filter-control" style="font-weight:800; color:#15803d; width:100%;" onchange="updateRowStatus(${s.id}, this.value)">
+                <option value="Present" selected>✔ Present (उपस्थित)</option>
+                <option value="Absent" style="color:#dc2626;">✖ Absent (अनुपस्थित)</option>
+                <option value="Leave" style="color:#d97706;">⏳ Leave (अवकाश)</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" id="m-remark-${s.id}" class="filter-control" style="width:100%;" placeholder="टिप्पणी (वैकल्पिक)" onchange="markingMap[${s.id}].remarks = this.value">
+            </td>
+            <td style="text-align:center;">
+              <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-blue" style="text-decoration:none; padding:4px 8px; font-size:10.5px;">
+                📞 Call
+              </a>
+            </td>
+          </tr>
+        `;
+      });
+      refreshMarkingCounts();
+    }
+
+    function updateRowStatus(id, val) {
+      if (markingMap[id]) markingMap[id].status = val;
+      const sel = document.getElementById(`m-status-${id}`);
+      if (sel) {
+        sel.style.color = val === 'Present' ? '#15803d' : (val === 'Absent' ? '#dc2626' : '#d97706');
+      }
+      refreshMarkingCounts();
+    }
+
+    function setAllMarking(st) {
+      Object.keys(markingMap).forEach(id => {
+        markingMap[id].status = st;
+        const sel = document.getElementById(`m-status-${id}`);
+        if (sel) {
+          sel.value = st;
+          sel.style.color = st === 'Present' ? '#15803d' : (st === 'Absent' ? '#dc2626' : '#d97706');
+        }
+      });
+      refreshMarkingCounts();
+    }
+
+    function refreshMarkingCounts() {
+      const keys = Object.keys(markingMap);
+      const total = keys.length;
+      let p = 0, a = 0;
+      keys.forEach(k => {
+        if (markingMap[k].status === 'Present') p++;
+        else if (markingMap[k].status === 'Absent') a++;
+      });
+      if (document.getElementById('m-total-cnt')) document.getElementById('m-total-cnt').innerText = total;
+      if (document.getElementById('m-pres-cnt')) document.getElementById('m-pres-cnt').innerText = p;
+      if (document.getElementById('m-abs-cnt')) document.getElementById('m-abs-cnt').innerText = a;
+    }
+
+    async function saveMarkingData() {
+      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
+      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
+      const dateVal = document.getElementById('mark-date')?.value || new Date().toISOString().split('T')[0];
+      const msg = document.getElementById('mark-save-msg');
+
+      const records = Object.keys(markingMap).map(id => ({
+        student_id: Number(id),
+        class_name: cls,
+        section: sec,
+        status: markingMap[id].status,
+        remarks: markingMap[id].remarks || ''
+      }));
+
+      try {
+        const res = await fetch('/api/attendance/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attendance_date: dateVal, records })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति दिनांक ${dateVal} को सफलतापूर्वक सुरक्षित हुई!`;
+          msg.style.color = '#15803d';
+        } else {
+          msg.innerText = data.error || 'सेव करने में त्रुटि!';
+          msg.style.color = '#dc2626';
+        }
+      } catch (e) {
+        msg.innerText = 'सर्वर से संपर्क नहीं हो पाया!';
+        msg.style.color = '#dc2626';
+      }
+    }
+    
+    // ==========================================
     // TC MODULE LOGIC
     // ==========================================
     async function initTcModule() {
