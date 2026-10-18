@@ -300,7 +300,7 @@
         const html = await res.text();
         container.innerHTML = html;
 
-        if (moduleName === 'dashboard') {
+       if (moduleName === 'dashboard') {
           loadStudentsData();
           loadEmployeesData();
           loadFeesData();
@@ -310,6 +310,8 @@
           loadEmployeesData();
         } else if (moduleName === 'attendance') {
           renderCommandCenter();
+        } else if (moduleName === 'attendance-mark') {
+          initAttendanceMarkingScreen();
         } else if (moduleName === 'fees') {
           loadFeesData();
         } else if (moduleName === 'tc') {
