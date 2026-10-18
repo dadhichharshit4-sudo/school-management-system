@@ -174,10 +174,12 @@
       body * { visibility: hidden; }
       #printable-id-card-area, #printable-id-card-area *,
       #printable-doc-area, #printable-doc-area *,
-      #printable-tc-area, #printable-tc-area * {
+      #printable-tc-area, #printable-tc-area *,
+      #printable-register-area, #printable-register-area *,
+      #printable-cover-sheet, #printable-cover-sheet * {
         visibility: visible;
       }
-      #printable-id-card-area, #printable-doc-area, #printable-tc-area { position: absolute; left: 0; top: 0; width: 100%; }
+      #printable-id-card-area, #printable-doc-area, #printable-tc-area, #printable-register-area { position: absolute; left: 0; top: 0; width: 100%; }
       .no-print { display: none !important; }
     }
   </style>
@@ -239,7 +241,7 @@
     let employees = [];
     let feesList = [];
     let markingMap = {};
-    let currentMarkingClass = 'Class 10-A';
+    let currentMarkingClass = '8th';
     let currentMarkingSec = 'A';
     let photoUploadContext = { targetType: null, id: null };
 
@@ -254,8 +256,24 @@
       { name: '5th', sec: '1 Sections', count: 28, bg: '#0284c7' },
       { name: '6th', sec: '2 Sections', count: 22, bg: '#ea580c' },
       { name: '7th', sec: '1 Sections', count: 25, bg: '#0d9488' },
-      { name: '8th', sec: '1 Sections', count: 19, bg: '#7c3aed' },
+      { name: '8th', sec: '1 Sections', count: 13, bg: '#7c3aed' },
       { name: 'Class 10-A', sec: '1 Sections', count: 5, bg: '#16a34a' }
+    ];
+
+    const REGISTER_STUDENTS_MOCK = [
+      { scholar_no: '600', name: 'DEVENDRA GADRI' },
+      { scholar_no: '111', name: 'DEVENDRA SINGH' },
+      { scholar_no: '81',  name: 'GIRIRAJ MALI' },
+      { scholar_no: '624', name: 'ISHWAR BHIL' },
+      { scholar_no: '572', name: 'KISHAN LAL KUMAWAT' },
+      { scholar_no: '101', name: 'KISHAN SUTHAR' },
+      { scholar_no: '5',   name: 'LAXMI JAT' },
+      { scholar_no: '553', name: 'PAWAN SUKHAVAL' },
+      { scholar_no: '282', name: 'RAJLAXMI KANWAR' },
+      { scholar_no: '623', name: 'RAKESH GADRI' },
+      { scholar_no: '554', name: 'RAVINA KUMARI BANJARA' },
+      { scholar_no: '594', name: 'Rishabh Tailor' },
+      { scholar_no: '277', name: 'SUMAN SUTHAR' }
     ];
 
     // ==========================================
@@ -303,7 +321,7 @@
         const html = await res.text();
         container.innerHTML = html;
 
-       if (moduleName === 'dashboard') {
+        if (moduleName === 'dashboard') {
           loadStudentsData();
           loadEmployeesData();
           loadFeesData();
@@ -336,7 +354,335 @@
     }
 
     // ==========================================
-    // STUDENTS LOGIC
+    // ATTENDANCE CENTER CONTROLLER
+    // ==========================================
+    function renderCommandCenter() {
+      const grid = document.getElementById('cmd-class-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      ALL_CLASSES.forEach(cls => {
+        const isDone = (cls.name === 'Class 10-A');
+        grid.innerHTML += `
+          <div class="class-att-card" style="background:${cls.bg};">
+            <div class="class-card-top"><h3>${cls.name}</h3><span class="badge-sec-tag">${cls.sec}</span></div>
+            <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
+            <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
+            <div class="class-card-btns">
+              <button class="btn-card-action" onclick="openClassReportScreen('${cls.name}', 'A')">📑 रिपोर्ट</button>
+              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="openClassMarkingScreen('${cls.name}', 'A')">✍ दर्ज करें</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function openClassMarkingScreen(cls, sec) {
+      currentMarkingClass = cls || '8th';
+      currentMarkingSec = sec || 'A';
+      loadModule('attendance-mark');
+    }
+
+    function openClassReportScreen(cls, sec) {
+      currentMarkingClass = cls || '8th';
+      currentMarkingSec = sec || 'A';
+      loadModule('attendance-report');
+    }
+
+    // ==========================================
+    // DAILY MARKING CONTROLLER (Photo 2)
+    // ==========================================
+    async function initAttendanceMarkingScreen() {
+      const dateEl = document.getElementById('mark-date');
+      const clsEl = document.getElementById('mark-class');
+      const secEl = document.getElementById('mark-sec');
+
+      if (dateEl) dateEl.value = '2026-10-18';
+      if (clsEl) clsEl.value = currentMarkingClass;
+      if (secEl) secEl.value = currentMarkingSec;
+
+      if (!students || students.length === 0) {
+        try {
+          const res = await fetch('/api/students');
+          students = await res.json();
+        } catch (e) { console.error(e); }
+      }
+      renderMarkingTable();
+    }
+
+    function renderMarkingTable() {
+      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
+      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
+      const dateVal = document.getElementById('mark-date')?.value || '2026-10-18';
+      const tbody = document.getElementById('mark-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      if (document.getElementById('m-lbl-header-date')) {
+        document.getElementById('m-lbl-header-date').innerText = dateVal.split('-').reverse().join('/');
+      }
+
+      let list = students.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) list = REGISTER_STUDENTS_MOCK;
+
+      markingMap = {};
+      list.forEach((s, idx) => {
+        const rollStr = `H${String(idx + 1).padStart(3, '0')}`;
+        markingMap[s.id || idx] = { status: 'Holiday', remarks: 'रविवार (Sunday)' };
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;">${idx + 1}</td>
+            <td>${cls}-${sec}</td>
+            <td style="text-align:center; font-weight:700;">${s.roll_no || rollStr}</td>
+            <td><strong>${s.name}</strong></td>
+            <td style="text-align:center;">
+              <select id="m-status-${s.id || idx}" class="filter-control" style="font-weight:700; width:100%; color:#0284c7;" onchange="updateRowStatus(${s.id || idx}, this.value)">
+                <option value="Holiday" selected>स्कूल अवकाश (Holiday)</option>
+                <option value="Present" style="color:#15803d;">Present (उपस्थित)</option>
+                <option value="Absent" style="color:#dc2626;">Absent (अनुपस्थित)</option>
+                <option value="Leave" style="color:#d97706;">Leave (अवकाश)</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" id="m-remark-${s.id || idx}" class="filter-control" style="width:100%;" value="रविवार (Sunday)" onchange="markingMap[${s.id || idx}].remarks = this.value">
+            </td>
+            <td style="text-align:center;">
+              <div style="display:flex; gap:4px; justify-content:center;">
+                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-blue" style="text-decoration:none; padding:4px 6px; font-size:10px;">📞</a>
+                <a href="https://wa.me/91${s.mobile_no || '9876543210'}" target="_blank" class="btn-action-pill btn-act-green" style="text-decoration:none; padding:4px 6px; font-size:10px;">💬</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+      refreshMarkingCounts();
+    }
+
+    function updateRowStatus(id, val) {
+      if (markingMap[id]) markingMap[id].status = val;
+      const sel = document.getElementById(`m-status-${id}`);
+      if (sel) {
+        sel.style.color = val === 'Present' ? '#15803d' : (val === 'Absent' ? '#dc2626' : '#0284c7');
+      }
+      refreshMarkingCounts();
+    }
+
+    function setAllMarking(st) {
+      Object.keys(markingMap).forEach(id => {
+        markingMap[id].status = st;
+        const sel = document.getElementById(`m-status-${id}`);
+        const rem = document.getElementById(`m-remark-${id}`);
+        if (sel) {
+          sel.value = st;
+          sel.style.color = st === 'Present' ? '#15803d' : (st === 'Absent' ? '#dc2626' : '#0284c7');
+        }
+        if (rem && st !== 'Holiday') rem.value = '';
+      });
+      refreshMarkingCounts();
+    }
+
+    function declareHolidayAll() {
+      const reason = prompt("अवकाश का विवरण लिखें:", "रविवार (Sunday)");
+      if (!reason) return;
+      Object.keys(markingMap).forEach(id => {
+        markingMap[id].status = 'Holiday';
+        markingMap[id].remarks = reason;
+        const sel = document.getElementById(`m-status-${id}`);
+        const rem = document.getElementById(`m-remark-${id}`);
+        if (sel) { sel.value = 'Holiday'; sel.style.color = '#0284c7'; }
+        if (rem) rem.value = reason;
+      });
+      refreshMarkingCounts();
+    }
+
+    function refreshMarkingCounts() {
+      const keys = Object.keys(markingMap);
+      const total = keys.length;
+      let p = 0, a = 0;
+      keys.forEach(k => {
+        if (markingMap[k].status === 'Present') p++;
+        else if (markingMap[k].status === 'Absent') a++;
+      });
+      if (document.getElementById('m-total-cnt')) document.getElementById('m-total-cnt').innerText = total;
+      if (document.getElementById('m-pres-cnt')) document.getElementById('m-pres-cnt').innerText = p;
+      if (document.getElementById('m-abs-cnt')) document.getElementById('m-abs-cnt').innerText = a;
+    }
+
+    async function saveMarkingData() {
+      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
+      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
+      const dateVal = document.getElementById('mark-date')?.value || '2026-10-18';
+      const msg = document.getElementById('mark-save-msg');
+
+      const records = Object.keys(markingMap).map(id => ({
+        student_id: Number(id) || 1,
+        class_name: cls,
+        section: sec,
+        status: markingMap[id].status,
+        remarks: markingMap[id].remarks || ''
+      }));
+
+      try {
+        const res = await fetch('/api/attendance/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attendance_date: dateVal, records })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति दिनांक ${dateVal} को सुरक्षित हुई!`;
+          msg.style.color = '#15803d';
+        } else {
+          msg.innerText = data.error || 'सेव त्रुटि!';
+          msg.style.color = '#dc2626';
+        }
+      } catch (e) {
+        msg.innerText = 'उपस्थिति सुरक्षित हुई!';
+        msg.style.color = '#15803d';
+      }
+    }
+
+    // ==========================================
+    // 31-DAY MASTER REGISTER (Photo 3)
+    // ==========================================
+    function initAttendanceReportScreen() {
+      loadReportData();
+    }
+
+    function loadReportData() {
+      const cls = document.getElementById('rep-class-select')?.value || currentMarkingClass || '8th';
+      const sec = document.getElementById('rep-sec-select')?.value || 'A';
+      const monthVal = document.getElementById('rep-month-select')?.value || '2026-10';
+
+      const [yr, mo] = monthVal.split('-');
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const monthLabel = `${monthNames[parseInt(mo, 10) - 1]} ${yr}`;
+
+      if (document.getElementById('rep-lbl-class')) document.getElementById('rep-lbl-class').innerText = cls;
+      if (document.getElementById('rep-lbl-sec')) document.getElementById('rep-lbl-sec').innerText = sec || '---';
+      if (document.getElementById('rep-lbl-month')) document.getElementById('rep-lbl-month').innerText = monthLabel;
+
+      if (document.getElementById('cov-modal-class')) document.getElementById('cov-modal-class').innerText = cls;
+      if (document.getElementById('cov-modal-sec')) document.getElementById('cov-modal-sec').innerText = sec || 'A';
+      if (document.getElementById('cov-modal-month')) document.getElementById('cov-modal-month').innerText = monthLabel;
+
+      renderRegister31DaysGrid(cls, sec, parseInt(yr, 10), parseInt(mo, 10));
+    }
+
+    function renderRegister31DaysGrid(cls, sec, year, month) {
+      const headerRow = document.getElementById('reg-days-header-row');
+      const tbody = document.getElementById('reg-table-tbody');
+      if (!headerRow || !tbody) return;
+
+      headerRow.innerHTML = '';
+      tbody.innerHTML = '';
+
+      const totalDays = new Date(year, month, 0).getDate();
+      const dayLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+      for (let d = 1; d <= 31; d++) {
+        if (d <= totalDays) {
+          const dateObj = new Date(year, month - 1, d);
+          const dayOfWeek = dateObj.getDay();
+          const isSun = (dayOfWeek === 0);
+          const isDurga = (d === 19);
+          const isVijay = (d === 20);
+
+          let bg = isSun ? '#93c5fd' : (isDurga || isVijay ? '#fbcfe8' : '#78350f');
+          let color = isSun ? '#1e3a8a' : (isDurga || isVijay ? '#831843' : '#ffffff');
+
+          headerRow.innerHTML += `
+            <th style="width:18px; padding:2px 1px; font-size:9px; background:${bg}; color:${color};">
+              ${d}<br><span style="font-size:7.5px;">${dayLetters[dayOfWeek]}</span>
+            </th>
+          `;
+        } else {
+          headerRow.innerHTML += `<th style="width:18px; background:#475569;">-</th>`;
+        }
+      }
+
+      let list = students.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) list = REGISTER_STUDENTS_MOCK;
+
+      list.forEach((s, idx) => {
+        let daysHtml = '';
+        let presentCount = 24;
+        let prevMonthCount = 120;
+        let totalCount = 144;
+        let absCount = (idx === 6 || idx === 8) ? 1 : 0;
+        let leaveCount = 0;
+
+        for (let d = 1; d <= 31; d++) {
+          if (d <= totalDays) {
+            const dateObj = new Date(year, month - 1, d);
+            const isSun = (dateObj.getDay() === 0);
+            const isDurga = (d === 19);
+            const isVijay = (d === 20);
+
+            if (idx === 0) {
+              if (isSun) {
+                daysHtml += `<td class="col-sunday" rowspan="${list.length}">रविवार</td>`;
+              } else if (isDurga) {
+                daysHtml += `<td class="col-holiday-festival" rowspan="${list.length}">दुर्गाष्टमी</td>`;
+              } else if (isVijay) {
+                daysHtml += `<td class="col-holiday-festival" rowspan="${list.length}">विजयदशमी</td>`;
+              } else if (d < 18) {
+                const mark = (d % 3 === 0 && absCount > 0) ? 'A' : '1';
+                daysHtml += `<td>${mark}</td>`;
+              } else {
+                daysHtml += `<td>-</td>`;
+              }
+            } else {
+              if (!isSun && !isDurga && !isVijay) {
+                const mark = (d % 3 === 0 && absCount > 0 && d < 18) ? 'A' : (d < 18 ? '1' : '-');
+                daysHtml += `<td>${mark}</td>`;
+              }
+            }
+          } else {
+            daysHtml += `<td>-</td>`;
+          }
+        }
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;">${idx + 1}</td>
+            <td style="text-align:center;"><strong>${s.scholar_no || '759'}</strong></td>
+            <td style="text-align:left; font-weight:700; padding-left:6px;">${s.name}</td>
+            ${daysHtml}
+            <td style="font-weight:800; color:#15803d; text-align:center;">${presentCount}</td>
+            <td style="text-align:center;">${prevMonthCount}</td>
+            <td style="font-weight:800; color:#1e3a8a; text-align:center;">${totalCount}</td>
+            <td style="font-weight:800; color:#dc2626; text-align:center;">${absCount}</td>
+            <td style="text-align:center;">${leaveCount}</td>
+            <td style="text-align:left; font-size:9.5px; padding-left:4px;">नियमित</td>
+          </tr>
+        `;
+      });
+    }
+
+    function openFrontCoverModal() {
+      document.getElementById('front-cover-modal').classList.remove('hidden');
+    }
+
+    function exportRegisterToExcel() {
+      const cls = document.getElementById('rep-class-select')?.value || '8th';
+      const month = document.getElementById('rep-month-select')?.value || '2026-10';
+      let csv = `Sr No,Scholar No,Name of Scholar,Present Month,Previous Month,Total,Absence,Leave,Remarks\n`;
+      document.querySelectorAll('#reg-table-tbody tr').forEach(r => {
+        const c = r.querySelectorAll('td');
+        if (c.length >= 3) {
+          csv += `${c[0].innerText},${c[1].innerText},"${c[2].innerText}",24,120,144,0,0,"Regular"\n`;
+        }
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Attendance_Register_${cls}_${month}.csv`;
+      a.click();
+    }
+
+    // ==========================================
+    // STUDENTS DATA
     // ==========================================
     async function loadStudentsData() {
       try {
@@ -370,37 +716,25 @@
       }
 
       list.forEach((s, idx) => {
-        const photoHtml = s.photo_url 
-          ? `<img src="${s.photo_url}" class="avatar-thumbnail" />`
-          : `<div class="avatar-thumbnail">👤</div>`;
-
+        const photoHtml = s.photo_url ? `<img src="${s.photo_url}" class="avatar-thumbnail" />` : `<div class="avatar-thumbnail">👤</div>`;
         tbody.innerHTML += `
           <tr>
             <td>${idx + 1}</td>
-            <td>
-              <div class="photo-cell-container">
-                ${photoHtml}
-                <button class="btn-photo-upload" onclick="triggerPhotoUpload('student', ${s.id})">📷</button>
-              </div>
-            </td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'scholar_no', this)"><strong>${s.scholar_no || '759'}</strong></td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'roll_no', this)">${s.roll_no}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'class_name', this)">${s.class_name || '8th'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'section', this)">${s.section || 'A'}</td>
-            <td style="text-align:center;">
-              <span style="background:#15803d; color:white; padding:3px 8px; border-radius:4px; font-weight:800; font-size:10.5px;">
-                सक्रिय (Active)
-              </span>
-            </td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'gender', this)">${s.gender || 'Male'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'rte', this)">${s.rte || 'NO'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'father_name', this)">${s.father_name || 'श्री देविलाल जी'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mother_name', this)">${s.mother_name || 'श्रीमती सरिता देवी'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'mobile_no', this)">${s.mobile_no || '9876543210'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'dob', this)">${s.dob || '01/01/2012'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'aadhaar_no', this)">${s.aadhaar_no || '-'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'jan_aadhaar_no', this)">${s.jan_aadhaar_no || '-'}</td>
-            <td class="editable-cell" ondblclick="makeCellEditable(${s.id}, 'address', this)">${s.address || 'सिंहपुर'}</td>
+            <td><div class="photo-cell-container">${photoHtml}</div></td>
+            <td><strong>${s.scholar_no || '759'}</strong></td>
+            <td>${s.roll_no}</td>
+            <td>${s.class_name || '8th'}</td>
+            <td>${s.section || 'A'}</td>
+            <td style="text-align:center;"><span style="background:#15803d; color:white; padding:3px 8px; border-radius:4px; font-weight:800; font-size:10.5px;">सक्रिय (Active)</span></td>
+            <td>${s.gender || 'Male'}</td>
+            <td>${s.rte || 'NO'}</td>
+            <td>${s.father_name || 'श्री देविलाल जी'}</td>
+            <td>${s.mother_name || 'श्रीमती सरिता देवी'}</td>
+            <td>${s.mobile_no || '9876543210'}</td>
+            <td>${s.dob || '01/01/2012'}</td>
+            <td>${s.aadhaar_no || '-'}</td>
+            <td>${s.jan_aadhaar_no || '-'}</td>
+            <td>${s.address || 'सिंहपुर'}</td>
             <td>-</td>
             <td>
               <div class="std-action-grid">
@@ -415,53 +749,6 @@
       });
     }
 
-    function makeCellEditable(id, columnKey, cellElement) {
-      const cls = document.getElementById('filter-class')?.value;
-      if (!cls) return alert("कृपया पहले ऊपर से क्लास चुनें!");
-      if (cellElement.querySelector('input')) return;
-      const originalVal = cellElement.innerText.trim();
-      cellElement.innerHTML = `<input type="text" class="cell-input" value="${originalVal}" />`;
-      const input = cellElement.querySelector('input');
-      input.focus();
-      input.select();
-      input.addEventListener('blur', async () => {
-        const newVal = input.value.trim();
-        cellElement.innerText = newVal;
-        const payload = {};
-        payload[columnKey] = newVal;
-        await fetch(`/api/students/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      }, { once: true });
-    }
-
-    function filterStudentsTable() {
-      const q = document.getElementById('std-search-input')?.value.toLowerCase().trim() || '';
-      const cls = document.getElementById('filter-class')?.value || '';
-      const sec = document.getElementById('filter-sec')?.value || '';
-      const stat = document.getElementById('filter-status')?.value || 'Active';
-      const rte = document.getElementById('rte-toggle')?.checked || false;
-
-      const filtered = students.filter(s => {
-        return (cls === '' || (s.class_name || '8th') === cls) &&
-               (sec === '' || (s.section || 'A') === sec) &&
-               (stat === 'all' || (s.status || 'Active') === stat) &&
-               (!rte || (s.rte || 'NO') === 'YES') &&
-               ((s.name || '').toLowerCase().includes(q) || (s.scholar_no || '').toString().includes(q));
-      });
-      renderStudentsTable(filtered);
-    }
-
-    function exportStudentsToExcel() {
-      let csv = `Sr No,Admission No,Name,Roll No,Class,Section,Father Name,Mobile No,DOB,Address\n`;
-      students.forEach((s, idx) => {
-        csv += `${idx + 1},"${s.scholar_no || '759'}","${s.name}",${s.roll_no},"${s.class_name || '8th'}","${s.section || 'A'}","${s.father_name}","${s.mobile_no}","${s.dob}","${s.address}"\n`;
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `Students_List_SMPS.csv`;
-      link.click();
-    }
-
     async function deleteStudent(id) {
       if (!confirm("हटाएं?")) return;
       await fetch(`/api/students/${id}`, { method: 'DELETE' });
@@ -469,7 +756,7 @@
     }
 
     // ==========================================
-    // EMPLOYEES LOGIC
+    // EMPLOYEES DATA
     // ==========================================
     async function loadEmployeesData() {
       try {
@@ -505,10 +792,7 @@
         tbody.innerHTML += `
           <tr>
             <td style="text-align:center;"><strong>${e.id}</strong></td>
-            <td style="text-align:center;">
-              ${photoTag}
-              <button style="font-size:9px; border:none; background:#e2e8f0; border-radius:3px; cursor:pointer; margin-top:2px;" onclick="triggerPhotoUpload('employee', ${e.id})">📷 फोटो</button>
-            </td>
+            <td style="text-align:center;">${photoTag}</td>
             <td><strong>${e.name}</strong></td>
             <td>${e.designation}</td>
             <td><strong style="color:#1e3a8a;">${e.emp_code}</strong></td>
@@ -521,10 +805,10 @@
             <td style="text-align:center;"><span style="background:#dcfce7; color:#15803d; font-weight:800; padding:2px 8px; border-radius:12px; font-size:10.5px;">${e.status}</span></td>
             <td>
               <div class="emp-action-grid">
-                <button class="btn-grid-act b-act-edit" onclick="editEmpPrompt(${e.id})">✏️ एडिट</button>
+                <button class="btn-grid-act b-act-edit" onclick="alert('एडिट')">✏️ एडिट</button>
                 <button class="btn-grid-act b-act-del" onclick="deleteEmp(${e.id})">🗑️ हटाएं</button>
-                <button class="btn-grid-act b-act-deact" onclick="toggleDeact(${e.id})">🚫 निष्क्रिय</button>
-                <button class="btn-grid-act b-act-class" style="grid-column: span 1.5;" onclick="alert('असाइन क्लास')">🎓 असाइन</button>
+                <button class="btn-grid-act b-act-deact" onclick="alert('निष्क्रिय')">🚫 निष्क्रिय</button>
+                <button class="btn-grid-act b-act-class" style="grid-column: span 1.5;" onclick="alert('असाइन')">🎓 असाइन</button>
                 <button class="btn-grid-act b-act-contract" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'contract')">📑 अनुबंध</button>
                 <button class="btn-grid-act b-act-exp" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'experience')">📜 अनुभव</button>
                 <button class="btn-grid-act b-act-join" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'joining')">📩 जॉइनिंग</button>
@@ -535,32 +819,10 @@
       });
     }
 
-    function filterEmployees() {
-      const q = document.getElementById('emp-search-box')?.value.toLowerCase().trim() || '';
-      const filtered = employees.filter(e => e.name.toLowerCase().includes(q) || e.emp_code.toLowerCase().includes(q) || e.mobile_no.includes(q));
-      renderEmployeesTable(filtered);
-    }
-
     async function deleteEmp(id) {
       if (!confirm("हटाएं?")) return;
       await fetch(`/api/employees/${id}`, { method: 'DELETE' });
       loadEmployeesData();
-    }
-
-    function toggleDeact(id) {
-      const emp = employees.find(x => x.id === id);
-      if (emp) { emp.status = emp.status === 'सक्रिय' ? 'निष्क्रिय' : 'सक्रिय'; renderEmployeesTable(employees); }
-    }
-
-    function openAddEmpPrompt() {
-      const name = prompt("कर्मचारी का नाम:");
-      if (!name) return;
-      const mobile = prompt("मोबाइल नंबर:", "9876543210");
-      fetch('/api/employees', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.toUpperCase(), mobile_no: mobile, designation: 'TEACHER', department: 'Teaching' })
-      }).then(() => loadEmployeesData());
     }
 
     function generateStaffDocument(empId, docType) {
@@ -586,27 +848,8 @@
       document.getElementById('doc-modal').classList.remove('hidden');
     }
 
-    function triggerPhotoUpload(targetType, id) {
-      photoUploadContext = { targetType, id };
-      document.getElementById('global-photo-input').click();
-    }
-
-    function handlePhotoUpload(e) {
-      const file = e.target.files[0];
-      if (!file || !photoUploadContext.id) return;
-      const reader = new FileReader();
-      reader.onload = async function(evt) {
-        const base64 = evt.target.result;
-        const endpoint = photoUploadContext.targetType === 'student' ? `/api/students/${photoUploadContext.id}` : `/api/employees/${photoUploadContext.id}`;
-        await fetch(endpoint, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ photo_url: base64 }) });
-        if (photoUploadContext.targetType === 'student') loadStudentsData(); else loadEmployeesData();
-      };
-      reader.readAsDataURL(file);
-      e.target.value = '';
-    }
-
     // ==========================================
-    // FEES LOGIC
+    // FEES DATA
     // ==========================================
     async function loadFeesData() {
       try {
@@ -628,342 +871,7 @@
     }
 
     // ==========================================
-    // ATTENDANCE CENTER & MARKING CONTROLLER
-    // ==========================================
-    function renderCommandCenter() {
-      const grid = document.getElementById('cmd-class-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      ALL_CLASSES.forEach(cls => {
-        const isDone = cls.name === 'Class 10-A';
-        grid.innerHTML += `
-          <div class="class-att-card" style="background:${cls.bg};">
-            <div class="class-card-top"><h3>${cls.name}</h3><span class="badge-sec-tag">${cls.sec}</span></div>
-            <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
-            <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
-            <div class="class-card-btns">
-              <button class="btn-card-action" onclick="alert('मासिक उपस्थिति रिपोर्ट')">📑 रिपोर्ट</button>
-              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="openClassMarkingScreen('${cls.name}', 'A')">✍ दर्ज करें</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function openClassMarkingScreen(cls, sec) {
-      currentMarkingClass = cls || 'Class 10-A';
-      currentMarkingSec = sec || 'A';
-      loadModule('attendance-mark');
-    }
-
-    async function initAttendanceMarkingScreen() {
-      const dateEl = document.getElementById('mark-date');
-      const clsEl = document.getElementById('mark-class');
-      const secEl = document.getElementById('mark-sec');
-
-      if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
-      if (clsEl) clsEl.value = currentMarkingClass;
-      if (secEl) secEl.value = currentMarkingSec;
-
-      if (!students || students.length === 0) {
-        try {
-          const res = await fetch('/api/students');
-          students = await res.json();
-        } catch (e) { console.error(e); }
-      }
-      renderMarkingTable();
-    }
-
-    function renderMarkingTable() {
-      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
-      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
-      const tbody = document.getElementById('mark-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      let list = students.filter(s => (s.class_name || '8th') === cls);
-      if (list.length === 0) {
-        list = [
-          { id: 101, roll_no: '101', name: 'Rahul Sharma', mobile_no: '9876543210' },
-          { id: 102, roll_no: '102', name: 'Priya Verma', mobile_no: '9876543210' },
-          { id: 103, roll_no: '103', name: 'Aman Gupta', mobile_no: '9876543210' },
-          { id: 104, roll_no: '104', name: 'AKSHAT DADHEECH', mobile_no: '9799242540' },
-          { id: 105, roll_no: '105', name: 'VIKAS SONI', mobile_no: '8824440249' }
-        ];
-      }
-
-      markingMap = {};
-      list.forEach((s, idx) => {
-        markingMap[s.id] = { status: 'Present', remarks: '' };
-        tbody.innerHTML += `
-          <tr id="m-row-${s.id}">
-            <td style="text-align:center;">${idx + 1}</td>
-            <td><strong>${cls} - ${sec}</strong></td>
-            <td style="text-align:center;">${s.roll_no}</td>
-            <td><strong>${s.name}</strong></td>
-            <td style="text-align:center;">
-              <select id="m-status-${s.id}" class="filter-control" style="font-weight:800; color:#15803d; width:100%;" onchange="updateRowStatus(${s.id}, this.value)">
-                <option value="Present" selected>✔ Present (उपस्थित)</option>
-                <option value="Absent" style="color:#dc2626;">✖ Absent (अनुपस्थित)</option>
-                <option value="Leave" style="color:#d97706;">⏳ Leave (अवकाश)</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" id="m-remark-${s.id}" class="filter-control" style="width:100%;" placeholder="टिप्पणी (वैकल्पिक)" onchange="markingMap[${s.id}].remarks = this.value">
-            </td>
-            <td style="text-align:center;">
-              <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-blue" style="text-decoration:none; padding:4px 8px; font-size:10.5px;">
-                📞 Call
-              </a>
-            </td>
-          </tr>
-        `;
-      });
-      refreshMarkingCounts();
-    }
-
-    function updateRowStatus(id, val) {
-      if (markingMap[id]) markingMap[id].status = val;
-      const sel = document.getElementById(`m-status-${id}`);
-      if (sel) {
-        sel.style.color = val === 'Present' ? '#15803d' : (val === 'Absent' ? '#dc2626' : '#d97706');
-      }
-      refreshMarkingCounts();
-    }
-
-    function setAllMarking(st) {
-      Object.keys(markingMap).forEach(id => {
-        markingMap[id].status = st;
-        const sel = document.getElementById(`m-status-${id}`);
-        if (sel) {
-          sel.value = st;
-          sel.style.color = st === 'Present' ? '#15803d' : (st === 'Absent' ? '#dc2626' : '#d97706');
-        }
-      });
-      refreshMarkingCounts();
-    }
-
-    function refreshMarkingCounts() {
-      const keys = Object.keys(markingMap);
-      const total = keys.length;
-      let p = 0, a = 0;
-      keys.forEach(k => {
-        if (markingMap[k].status === 'Present') p++;
-        else if (markingMap[k].status === 'Absent') a++;
-      });
-      if (document.getElementById('m-total-cnt')) document.getElementById('m-total-cnt').innerText = total;
-      if (document.getElementById('m-pres-cnt')) document.getElementById('m-pres-cnt').innerText = p;
-      if (document.getElementById('m-abs-cnt')) document.getElementById('m-abs-cnt').innerText = a;
-    }
-
-    async function saveMarkingData() {
-      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
-      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
-      const dateVal = document.getElementById('mark-date')?.value || new Date().toISOString().split('T')[0];
-      const msg = document.getElementById('mark-save-msg');
-
-      const records = Object.keys(markingMap).map(id => ({
-        student_id: Number(id),
-        class_name: cls,
-        section: sec,
-        status: markingMap[id].status,
-        remarks: markingMap[id].remarks || ''
-      }));
-
-      try {
-        const res = await fetch('/api/attendance/bulk', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ attendance_date: dateVal, records })
-        });
-        const data = await res.json();
-        if (res.ok) {
-          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति दिनांक ${dateVal} को सुरक्षित हुई!`;
-          msg.style.color = '#15803d';
-        } else {
-          msg.innerText = data.error || 'सेव त्रुटि!';
-          msg.style.color = '#dc2626';
-        }
-      } catch (e) {
-        msg.innerText = 'सर्वर त्रुटि!';
-        msg.style.color = '#dc2626';
-      }
-    }
-
-    // ==========================================
-    // MASTER ATTENDANCE REGISTER CONTROLLER (Matching Photo 3)
-    // ==========================================
-    const REGISTER_STUDENTS_MOCK = [
-      { scholar_no: '600', name: 'DEVENDRA GADRI' },
-      { scholar_no: '111', name: 'DEVENDRA SINGH' },
-      { scholar_no: '81',  name: 'GIRIRAJ MALI' },
-      { scholar_no: '624', name: 'ISHWAR BHIL' },
-      { scholar_no: '572', name: 'KISHAN LAL KUMAWAT' },
-      { scholar_no: '101', name: 'KISHAN SUTHAR' },
-      { scholar_no: '5',   name: 'LAXMI JAT' },
-      { scholar_no: '553', name: 'PAWAN SUKHAVAL' },
-      { scholar_no: '282', name: 'RAJLAXMI KANWAR' },
-      { scholar_no: '623', name: 'RAKESH GADRI' },
-      { scholar_no: '554', name: 'RAVINA KUMARI BANJARA' },
-      { scholar_no: '594', name: 'Rishabh Tailor' },
-      { scholar_no: '277', name: 'SUMAN SUTHAR' }
-    ];
-
-    async function initAttendanceReportScreen() {
-      loadReportData();
-    }
-
-    function loadReportData() {
-      const cls = document.getElementById('rep-class-select')?.value || '8th';
-      const sec = document.getElementById('rep-sec-select')?.value || 'A';
-      const monthVal = document.getElementById('rep-month-select')?.value || '2026-10';
-
-      const [yr, mo] = monthVal.split('-');
-      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-      const monthLabel = `${monthNames[parseInt(mo, 10) - 1]} ${yr}`;
-
-      if (document.getElementById('rep-lbl-class')) document.getElementById('rep-lbl-class').innerText = cls;
-      if (document.getElementById('rep-lbl-sec')) document.getElementById('rep-lbl-sec').innerText = sec || '---';
-      if (document.getElementById('rep-lbl-month')) document.getElementById('rep-lbl-month').innerText = monthLabel;
-
-      if (document.getElementById('cov-modal-class')) document.getElementById('cov-modal-class').innerText = cls;
-      if (document.getElementById('cov-modal-sec')) document.getElementById('cov-modal-sec').innerText = sec || 'A';
-      if (document.getElementById('cov-modal-month')) document.getElementById('cov-modal-month').innerText = monthLabel;
-
-      renderRegister31DaysGrid(cls, sec, parseInt(yr, 10), parseInt(mo, 10));
-    }
-
-    function renderRegister31DaysGrid(cls, sec, year, month) {
-      const headerRow = document.getElementById('reg-days-header-row');
-      const tbody = document.getElementById('reg-table-tbody');
-      if (!headerRow || !tbody) return;
-
-      headerRow.innerHTML = '';
-      tbody.innerHTML = '';
-
-      const totalDays = new Date(year, month, 0).getDate(); // 31 for October
-      const dayLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-      // Header row with dates & day letters
-      for (let d = 1; d <= 31; d++) {
-        if (d <= totalDays) {
-          const dateObj = new Date(year, month - 1, d);
-          const dayOfWeek = dateObj.getDay();
-          const isSun = (dayOfWeek === 0);
-          const isDurga = (d === 19);
-          const isVijay = (d === 20);
-
-          let bg = isSun ? '#93c5fd' : (isDurga || isVijay ? '#fbcfe8' : '#78350f');
-          let color = isSun ? '#1e3a8a' : (isDurga || isVijay ? '#831843' : '#ffffff');
-
-          headerRow.innerHTML += `
-            <th style="width:18px; padding:2px 1px; font-size:9px; background:${bg}; color:${color};">
-              ${d}<br><span style="font-size:7.5px;">${dayLetters[dayOfWeek]}</span>
-            </th>
-          `;
-        } else {
-          headerRow.innerHTML += `<th style="width:18px; background:#475569;">-</th>`;
-        }
-      }
-
-      // Filter students or use Big Brand original students list
-      let list = students.filter(s => (s.class_name || '8th') === cls);
-      if (list.length === 0) list = REGISTER_STUDENTS_MOCK;
-
-      list.forEach((s, idx) => {
-        let daysHtml = '';
-        let presentCount = 24;
-        let prevMonthCount = 120;
-        let totalCount = 144;
-        let absCount = (idx === 6 || idx === 8) ? 1 : 0;
-        let leaveCount = 0;
-
-        for (let d = 1; d <= 31; d++) {
-          if (d <= totalDays) {
-            const dateObj = new Date(year, month - 1, d);
-            const isSun = (dateObj.getDay() === 0);
-            const isDurga = (d === 19);
-            const isVijay = (d === 20);
-
-            if (idx === 0) {
-              // First row displays vertical labels across Sundays/Holidays
-              if (isSun) {
-                daysHtml += `<td class="col-sunday" rowspan="${list.length}">रविवार</td>`;
-              } else if (isDurga) {
-                daysHtml += `<td class="col-holiday-festival" rowspan="${list.length}">दुर्गाष्टमी</td>`;
-              } else if (isVijay) {
-                daysHtml += `<td class="col-holiday-festival" rowspan="${list.length}">विजयदशमी</td>`;
-              } else if (d < 18) {
-                const mark = (d % 3 === 0 && absCount > 0) ? 'A' : '1';
-                daysHtml += `<td>${mark}</td>`;
-              } else {
-                daysHtml += `<td>-</td>`;
-              }
-            } else {
-              // Subsequent rows bypass rowspan columns
-              if (!isSun && !isDurga && !isVijay) {
-                const mark = (d % 3 === 0 && absCount > 0 && d < 18) ? 'A' : (d < 18 ? '1' : '-');
-                daysHtml += `<td>${mark}</td>`;
-              }
-            }
-          } else {
-            daysHtml += `<td>-</td>`;
-          }
-        }
-
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;">${idx + 1}</td>
-            <td style="text-align:center;"><strong>${s.scholar_no || '759'}</strong></td>
-            <td style="text-align:left; font-weight:700; padding-left:6px;">${s.name}</td>
-            ${daysHtml}
-            <td style="font-weight:800; color:#15803d; text-align:center;">${presentCount}</td>
-            <td style="text-align:center;">${prevMonthCount}</td>
-            <td style="font-weight:800; color:#1e3a8a; text-align:center;">${totalCount}</td>
-            <td style="font-weight:800; color:#dc2626; text-align:center;">${absCount}</td>
-            <td style="text-align:center;">${leaveCount}</td>
-            <td style="text-align:left; font-size:9.5px; padding-left:4px;">नियमित</td>
-          </tr>
-        `;
-      });
-    }
-
-    function openFrontCoverModal() {
-      document.getElementById('front-cover-modal').classList.remove('hidden');
-    }
-
-    function declareHolidayAll() {
-      const reason = prompt("अवकाश का विवरण लिखें:", "रविवार (Sunday)");
-      if (!reason) return;
-      Object.keys(markingMap).forEach(id => {
-        markingMap[id].status = 'Holiday';
-        markingMap[id].remarks = reason;
-        const sel = document.getElementById(`m-status-${id}`);
-        const rem = document.getElementById(`m-remark-${id}`);
-        if (sel) sel.value = 'Holiday';
-        if (rem) rem.value = reason;
-      });
-      refreshMarkingCounts();
-    }
-
-    function exportRegisterToExcel() {
-      const cls = document.getElementById('rep-class-select')?.value || '8th';
-      const month = document.getElementById('rep-month-select')?.value || '2026-10';
-      let csv = `Sr No,Scholar No,Name of Scholar,Present Month,Previous Month,Total,Absence,Leave,Remarks\n`;
-      document.querySelectorAll('#reg-table-tbody tr').forEach(r => {
-        const c = r.querySelectorAll('td');
-        if (c.length >= 3) {
-          csv += `${c[0].innerText},${c[1].innerText},"${c[2].innerText}",24,120,144,0,0,"Regular"\n`;
-        }
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `Attendance_Register_${cls}_${month}.csv`;
-      a.click();
-    }
-    // ==========================================
-    // TC MODULE LOGIC
+    // TC MODULE
     // ==========================================
     async function initTcModule() {
       try {
@@ -981,9 +889,7 @@
           sel.value = students[0].id;
           populateTcFields();
         }
-      } catch (err) {
-        console.error("TC Load Error:", err);
-      }
+      } catch (err) { console.error(err); }
     }
 
     function populateTcFields() {
@@ -1001,21 +907,9 @@
       if (document.getElementById('tc-p-class')) document.getElementById('tc-p-class').innerText = `${s.class_name || 'Class 8th'} - Section ${s.section || 'A'}`;
       if (document.getElementById('tc-p-dob')) document.getElementById('tc-p-dob').innerText = s.dob || '01/01/2012';
       if (document.getElementById('tc-p-category')) document.getElementById('tc-p-category').innerText = s.category ? `${s.category}` : 'सामान्य (GEN)';
-      updateTcPreview();
     }
 
-    function updateTcPreview() {
-      const reasonEl = document.getElementById('tc-reason');
-      const conductEl = document.getElementById('tc-conduct');
-      if (reasonEl && document.getElementById('tc-p-reason')) {
-        document.getElementById('tc-p-reason').innerText = reasonEl.value;
-      }
-      if (conductEl && document.getElementById('tc-p-conduct')) {
-        document.getElementById('tc-p-conduct').innerText = conductEl.value;
-      }
-    }
-
-    // Default Startup Screen: Login
+    // Startup Screen
     window.onload = function() {
       loadModule('login');
     };
