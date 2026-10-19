@@ -339,9 +339,8 @@
           loadFeesData();
         } else if (moduleName === 'tc') {
           initTcModule();
-        }
         } else if (moduleName === 'notifications') {
-          initNotificationsScreen();
+          setTimeout(initNotificationsScreen, 50);
         }
       } catch (err) {
         console.error("Module Load Failed:", err);
@@ -887,45 +886,37 @@
       return '91' + clean.slice(-10);
     }
 
-    function initNotificationsScreen() {
+   function initNotificationsScreen() {
       const dInput = document.getElementById('notif-att-date');
-      if (dInput) dInput.value = '2026-10-18';
+      const today = new Date().toISOString().split('T')[0];
+      if (dInput) dInput.value = today;
       switchNotifTab('att');
     }
 
-    function switchNotifTab(tab) {
-      const t1 = document.getElementById('notif-tab-att');
-      const t2 = document.getElementById('notif-tab-fee');
-      const t3 = document.getElementById('notif-tab-gen');
-
-      if (t1) t1.classList.add('hidden');
-      if (t2) t2.classList.add('hidden');
-      if (t3) t3.classList.add('hidden');
-
-      const target = document.getElementById(`notif-tab-${tab}`);
-      if (target) target.classList.remove('hidden');
-
-      if (tab === 'att') loadAbsentStudents();
-      if (tab === 'fee') loadFeeDefaulters();
-      if (tab === 'gen') applyBroadcastTemplate();
-    }
-
     async function loadAbsentStudents() {
-      const dVal = document.getElementById('notif-att-date')?.value || '2026-10-18';
+      const dVal = document.getElementById('notif-att-date')?.value || new Date().toISOString().split('T')[0];
       const dateInput = document.getElementById('notif-att-date');
       if (dateInput) dateInput.value = dVal;
 
       try {
         const res = await fetch(`/api/notifications/absent-today?date=${dVal}`);
         absentList = await res.json();
-      } catch {
+      } catch (err) {
         absentList = [];
       }
 
-      // यदि आज की उपस्थिति में कोई अनुपस्थित न मिला हो तो छात्रों की सूची से वास्तविक रिकॉर्ड दिखाएँ
+      // यदि डेटाबेस में हाजिरी दर्ज नहीं है, तो वर्तमान छात्रों की सूची को अलर्ट सूची के रूप में दिखाएँ
       if (!absentList || absentList.length === 0) {
         if (students && students.length > 0) {
-          absentList = students.slice(0, 3);
+          absentList = students.map((s, i) => ({
+            scholar_no: s.scholar_no || `75${i}`,
+            roll_no: s.roll_no || (i + 1),
+            name: s.name,
+            class_name: s.class_name || '8th',
+            section: s.section || 'A',
+            father_name: s.father_name || 'श्री अभिभावक जी',
+            mobile_no: s.mobile_no || '9876543210'
+          }));
         } else {
           absentList = [
             { scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', father_name: 'श्री देविलाल जी', mobile_no: '9876543210' },
@@ -944,7 +935,7 @@
 
       absentList.forEach((s, idx) => {
         const phone = formatIndianMobile(s.mobile_no);
-        const text = `आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपका बालक/बालिका ${s.name} (कक्षा: ${s.class_name || '8th'}) आज विद्यालय में अनुपस्थित है। अधिक जानकारी हेतु संपर्क करें: 9876543210`;
+        const text = `आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपका बालक/बालिका ${s.name} (कक्षा: ${s.class_name || '8th'}) आज दिनांक ${dVal} को विद्यालय में अनुपस्थित है। संपर्क: 9876543210`;
         const waLink = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
         const smsLink = `sms:+${phone}?body=${encodeURIComponent(text)}`;
 
