@@ -44,8 +44,8 @@ app.use('/api/attendance', attendanceRouter(pool));
 app.use('/api/fees', feesRouter(pool));
 app.use('/api/notifications', notificationsRouter(pool));
 
-// Fallback HTML routing
-app.get('*', (req, res) => {
+// Fallback HTML routing (Node.js 24 / Express 5 compatible: use regex instead of '*')
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
