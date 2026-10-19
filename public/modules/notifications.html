@@ -275,3 +275,106 @@
   // डिफॉल्ट लोड
   loadAbsentStudents();
 </script>
+<div class="directory-container">
+  <!-- Top Bar -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+    <button class="btn-action-pill btn-act-orange" onclick="loadModule('dashboard')">⬅ वापस (Dashboard)</button>
+    <div style="font-weight:800; color:#78350f;">सत्र: 2026-27 | SMS एवं WhatsApp अलर्ट संचार केंद्र</div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div style="display:flex; gap:10px; margin-bottom:16px;">
+    <button id="tab-btn-att" class="btn-action-pill btn-act-green" onclick="switchNotifTab('att')">📋 अनुपस्थिति अलर्ट (WhatsApp)</button>
+    <button id="tab-btn-fee" class="btn-action-pill" style="background:#ea580c;" onclick="switchNotifTab('fee')">💰 फीस रिमाइंडर अलर्ट</button>
+    <button id="tab-btn-gen" class="btn-action-pill btn-act-blue" onclick="switchNotifTab('gen')">📢 सामान्य घोषणा / नोटिस ब्रॉडकास्ट</button>
+  </div>
+
+  <!-- TAB 1: ATTENDANCE ABSENT ALERTS -->
+  <div id="notif-tab-att" class="emp-panel-card">
+    <div class="emp-section-title"><span>📱</span> आज अनुपस्थित छात्रों के अभिभावकों को WhatsApp अलर्ट भेजें</div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+      <div style="display:flex; gap:8px; align-items:center;">
+        <label style="font-size:12px; font-weight:700;">दिनांक: <input type="date" id="notif-att-date" class="filter-control" onchange="loadAbsentStudents()"></label>
+        <button class="btn-action-pill btn-act-blue" onclick="loadAbsentStudents()">🔄 सूची रीफ्रेश करें</button>
+      </div>
+      <div style="font-size:12px; font-weight:800; color:#991b1b;">कुल अनुपस्थित छात्र: <span id="notif-absent-count">0</span></div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th style="width:36px; text-align:center;">क्र.</th>
+            <th>स्कॉलर नं</th>
+            <th>रोल नं</th>
+            <th>छात्र का नाम</th>
+            <th>कक्षा-वर्ग</th>
+            <th>अभिभावक</th>
+            <th>मोबाइल नंबर</th>
+            <th style="text-align:center; min-width:140px;">एक्शन</th>
+          </tr>
+        </thead>
+        <tbody id="notif-att-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB 2: FEES REMINDERS -->
+  <div id="notif-tab-fee" class="emp-panel-card hidden">
+    <div class="emp-section-title"><span>💳</span> बकाया फीस वाले अभिभावकों को रिमाइंडर भेजें</div>
+    <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+      <input type="text" id="notif-fee-search" class="filter-control" style="width:300px;" placeholder="🔍 छात्र या अभिभावक का नाम खोजें..." onkeyup="filterFeeDefaulters()">
+      <div style="font-size:12px; font-weight:800; color:#ea580c;">कुल बकायादार: <span id="notif-fee-count">0</span></div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th style="width:36px; text-align:center;">क्र.</th>
+            <th>स्कॉलर नं</th>
+            <th>छात्र का नाम</th>
+            <th>कक्षा</th>
+            <th>अभिभावक</th>
+            <th>मोबाइल नंबर</th>
+            <th>बकाया राशि</th>
+            <th style="text-align:center; min-width:140px;">एक्शन</th>
+          </tr>
+        </thead>
+        <tbody id="notif-fee-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB 3: GENERAL BROADCAST -->
+  <div id="notif-tab-gen" class="emp-panel-card hidden">
+    <div class="emp-section-title"><span>📢</span> सामान्य स्कूल सूचना / नोटिस प्रेषण</div>
+    <div style="max-width:650px; margin:0 auto; background:#fafafa; border:1px solid #fed7aa; padding:18px; border-radius:10px;">
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">कक्षा चुनें:</label>
+        <select id="broad-class" class="filter-control" style="width:100%;">
+          <option value="all">-- समस्त विद्यालय (सभी कक्षाएं) --</option>
+          <option value="8th">8th</option>
+          <option value="Class 10-A">Class 10-A</option>
+          <option value="6">6th</option>
+        </select>
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">सूचना का प्रकार:</label>
+        <select id="broad-template" class="filter-control" style="width:100%;" onchange="applyBroadcastTemplate()">
+          <option value="ptm">अभिभावक-शिक्षक बैठक (PTM)</option>
+          <option value="holiday">विद्यालय अवकाश सूचना (Holiday Notice)</option>
+          <option value="exam">परीक्षा सूचना (Exam Notice)</option>
+          <option value="custom">कस्टम संदेश (Custom Message)</option>
+        </select>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">संदेश प्रारूप (Message Body):</label>
+        <textarea id="broad-msg" class="filter-control" style="width:100%; height:110px; font-size:12.5px; line-height:1.6;"></textarea>
+      </div>
+      <button class="btn-action-pill btn-act-green" style="width:100%; padding:12px; font-size:14px;" onclick="sendBroadcastPreview()">
+        💬 WhatsApp पर साझा करें
+      </button>
+    </div>
+  </div>
+</div>
