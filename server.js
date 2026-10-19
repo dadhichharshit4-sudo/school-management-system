@@ -1,57 +1,55 @@
 const express = require('express');
-const { Pool } = require('pg');
+const cors = require('cors');
 const path = require('path');
+const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+// Middlewares
+app.use(cors());
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  if (req.method === 'OPTIONS') return res.sendStatus(200);
-  next();
-});
-
-// public डायरेक्टरी स्टैटिक फ़ाइलों के लिए
+// Static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Supabase डेटाबेस कनेक्शन पूल
+// PostgreSQL Database Connection (Supabase)
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
+// Test Database Connection
 pool.connect((err, client, release) => {
   if (err) {
-    console.error('Database connection error:', err.stack);
+    console.error('❌ Database Connection Error:', err.stack);
   } else {
-    console.log('Connected to PostgreSQL Database successfully!');
+    console.log('✅ PostgreSQL Database connected successfully!');
     release();
   }
 });
 
-// मॉड्यूलर रूट्स (routes/ फ़ोल्डर से)
+// Import API Routers
 const studentsRouter = require('./routes/students');
 const employeesRouter = require('./routes/employees');
 const attendanceRouter = require('./routes/attendance');
 const feesRouter = require('./routes/fees');
 const notificationsRouter = require('./routes/notifications');
 
+// Register API Routes
 app.use('/api/students', studentsRouter(pool));
 app.use('/api/employees', employeesRouter(pool));
 app.use('/api/attendance', attendanceRouter(pool));
 app.use('/api/fees', feesRouter(pool));
 app.use('/api/notifications', notificationsRouter(pool));
 
-// SPA Fallback रूट (Node v24 / Express संगत)
-app.use((req, res) => {
+// Fallback HTML routing
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Start Server
 app.listen(PORT, () => {
-  console.log(`Server is running smoothly on port ${PORT}`);
+  console.log(`🚀 Shree Mewar Public School ERP Server running on port ${PORT}`);
 });
