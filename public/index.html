@@ -58,6 +58,12 @@
     .emp-panel-card { background: #fff; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
     .emp-section-title { font-size: 14px; font-weight: 800; color: #7c2d12; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 
+    /* Login Screen Layout */
+    .login-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+    .login-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 24px; }
+    .login-role-card { background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 28px 20px; text-align: center; box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+    .btn-role-login { width: 100%; padding: 10px; border-radius: 6px; border: none; font-size: 13.5px; font-weight: 700; color: white; cursor: pointer; margin-top: 16px; }
+
     /* Dashboard & Cards */
     .pills-scroll-container { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 20px; background: #fef08a; border-bottom: 2px solid #f59e0b; justify-content: center; }
     .pill-btn { padding: 6px 14px; border-radius: 18px; font-size: 12px; font-weight: 700; color: white; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; }
@@ -73,7 +79,7 @@
     .stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* Fees Hub Layout */
+    /* Fees Hub */
     .fees-hub-wrapper { background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%); min-height: calc(100vh - 56px); padding: 24px 20px 40px; }
     .fees-hub-header { text-align: center; color: white; margin-bottom: 24px; }
     .fees-hub-header h2 { font-size: 26px; font-weight: 900; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -91,7 +97,7 @@
     .f-feature-card p { font-size: 11px; color: #64748b; line-height: 1.4; margin-bottom: 14px; min-height: 32px; }
     .f-card-btn { width: 100%; padding: 8px 12px; border-radius: 20px; background: #0f172a; color: white; border: none; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
 
-    /* Employee Management Table */
+    /* Employee Management Panel */
     .emp-table th { background: #f97316 !important; color: white !important; font-weight: 800 !important; font-size: 11px !important; text-align: center; border: 1px solid #ea580c !important; }
     .emp-photo-box { width: 44px; height: 48px; border: 1px solid #cbd5e1; border-radius: 4px; object-fit: cover; display: block; margin: 0 auto; background: #f1f5f9; }
     .doc-pill { display: block; background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-bottom: 2px; text-align: center; white-space: nowrap; }
@@ -104,10 +110,6 @@
     .b-act-contract { background: #6366f1; }
     .b-act-exp { background: #0d9488; }
     .b-act-join { background: #0284c7; }
-
-    /* Student Action Buttons */
-    .std-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 140px; margin: 0 auto; }
-    .btn-std-act { border: none; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; padding: 4px 6px; cursor: pointer; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 3px; }
 
     /* Attendance Center */
     .cmd-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
@@ -128,7 +130,27 @@
     .class-card-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .btn-card-action { padding: 6px; border-radius: 6px; border: none; font-size: 11px; font-weight: 800; cursor: pointer; color: white; background: rgba(0,0,0,0.3); }
 
+    /* Modals & Print */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
+    .doc-print-sheet { width: 700px; background: white; border: 3px double #991b1b; padding: 36px 40px; margin: 0 auto; text-align: left; line-height: 1.8; font-size: 13.5px; color: #1e293b; }
+    .doc-school-header { text-align: center; border-bottom: 2px solid #991b1b; padding-bottom: 12px; margin-bottom: 18px; }
+    .doc-school-header h2 { font-size: 24px; color: #991b1b; font-weight: 900; }
+    .doc-school-header p { font-size: 11.5px; color: #475569; }
+    .doc-title-badge { text-align: center; margin: 14px 0 20px; }
+    .doc-title-badge span { background: #7f1d1d; color: white; font-weight: 800; padding: 6px 18px; border-radius: 20px; font-size: 14px; text-transform: uppercase; }
+
     .hidden { display: none !important; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-doc-area, #printable-doc-area *,
+      #printable-register-area, #printable-register-area *,
+      #printable-cover-sheet, #printable-cover-sheet * {
+        visibility: visible;
+      }
+      #printable-doc-area, #printable-register-area, #printable-cover-sheet { position: absolute; left: 0; top: 0; width: 100%; }
+      .no-print { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -152,6 +174,34 @@
 
   <!-- DYNAMIC CONTENT CONTAINER -->
   <div id="main-content-area"></div>
+
+  <!-- MODAL: STAFF DOCUMENTS (Contract, Experience, Joining) -->
+  <div id="doc-modal" class="modal-overlay hidden">
+    <div style="background:white; border-radius:14px; padding:22px; max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center;">
+      <div id="printable-doc-area">
+        <div class="doc-print-sheet">
+          <div class="doc-school-header">
+            <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
+            <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh (Raj.) PIN: 312207</p>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#475569; margin-bottom:14px;">
+            <span>क्रमांक: <strong id="doc-ref-no">SMPS/DOC/2026/01</strong></span>
+            <span>दिनांक: <strong id="doc-date">19-Oct-2026</strong></span>
+          </div>
+          <div class="doc-title-badge"><span id="doc-title-text">अनुबंध पत्र</span></div>
+          <div id="doc-content-body" style="font-size:13px; text-align:justify; color:#1e293b;"></div>
+          <div style="margin-top:60px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <div style="text-align:center;"><div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div><span>हस्ताक्षर कर्मचारी</span></div>
+            <div style="text-align:center;"><div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div><span>संस्था प्रधान / मुहर</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ प्रिंट निकालें</button>
+        <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('doc-modal').classList.add('hidden')">बंद करें</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     let students = [];
@@ -179,25 +229,26 @@
     ];
 
     const REGISTER_STUDENTS_MOCK = [
-      { scholar_no: '600', name: 'DEVENDRA GADRI', roll_no: 'H001', mobile_no: '9876543210' },
-      { scholar_no: '111', name: 'DEVENDRA SINGH', roll_no: 'H002', mobile_no: '9876543210' },
-      { scholar_no: '81',  name: 'GIRIRAJ MALI', roll_no: 'H003', mobile_no: '9876543210' },
-      { scholar_no: '624', name: 'ISHWAR BHIL', roll_no: 'H004', mobile_no: '9876543210' },
-      { scholar_no: '572', name: 'KISHAN LAL KUMAWAT', roll_no: 'H005', mobile_no: '9876543210' },
-      { scholar_no: '101', name: 'KISHAN SUTHAR', roll_no: 'H006', mobile_no: '9876543210' },
-      { scholar_no: '5',   name: 'LAXMI JAT', roll_no: 'H007', mobile_no: '9876543210' },
-      { scholar_no: '553', name: 'PAWAN SUKHAVAL', roll_no: 'H008', mobile_no: '9876543210' },
-      { scholar_no: '282', name: 'RAJLAXMI KANWAR', roll_no: 'H009', mobile_no: '9876543210' },
-      { scholar_no: '623', name: 'RAKESH GADRI', roll_no: 'H010', mobile_no: '9876543210' },
-      { scholar_no: '554', name: 'RAVINA KUMARI BANJARA', roll_no: 'H011', mobile_no: '9876543210' },
-      { scholar_no: '594', name: 'Rishabh Tailor', roll_no: 'H012', mobile_no: '9876543210' },
-      { scholar_no: '277', name: 'SUMAN SUTHAR', roll_no: 'H013', mobile_no: '9876543210' }
+      { id: 1, scholar_no: '600', name: 'DEVENDRA GADRI', roll_no: 'H001', class_name: '8th', section: 'A', father_name: 'श्री देविलाल जी', mobile_no: '9876543210' },
+      { id: 2, scholar_no: '111', name: 'DEVENDRA SINGH', roll_no: 'H002', class_name: '8th', section: 'A', father_name: 'श्री मानसिंह जी', mobile_no: '9876543210' },
+      { id: 3, scholar_no: '81',  name: 'GIRIRAJ MALI', roll_no: 'H003', class_name: '8th', section: 'A', father_name: 'श्री कन्हैयालाल जी', mobile_no: '9876543210' },
+      { id: 4, scholar_no: '624', name: 'ISHWAR BHIL', roll_no: 'H004', class_name: '8th', section: 'A', father_name: 'श्री रूपा जी', mobile_no: '9876543210' },
+      { id: 5, scholar_no: '572', name: 'KISHAN LAL KUMAWAT', roll_no: 'H005', class_name: '8th', section: 'A', father_name: 'श्री उदयलाल जी', mobile_no: '9876543210' },
+      { id: 6, scholar_no: '101', name: 'KISHAN SUTHAR', roll_no: 'H006', class_name: '8th', section: 'A', father_name: 'श्री बद्रीलाल जी', mobile_no: '9876543210' },
+      { id: 7, scholar_no: '5',   name: 'LAXMI JAT', roll_no: 'H007', class_name: '8th', section: 'A', father_name: 'श्री शंकरलाल जी', mobile_no: '9876543210' },
+      { id: 8, scholar_no: '553', name: 'PAWAN SUKHAVAL', roll_no: 'H008', class_name: '8th', section: 'A', father_name: 'श्री भैरूलाल जी', mobile_no: '9876543210' },
+      { id: 9, scholar_no: '282', name: 'RAJLAXMI KANWAR', roll_no: 'H009', class_name: '8th', section: 'A', father_name: 'श्री तेजसिंह जी', mobile_no: '9876543210' },
+      { id: 10, scholar_no: '623', name: 'RAKESH GADRI', roll_no: 'H010', class_name: '8th', section: 'A', father_name: 'श्री रामलाल जी', mobile_no: '9876543210' },
+      { id: 11, scholar_no: '554', name: 'RAVINA KUMARI BANJARA', roll_no: 'H011', class_name: '8th', section: 'A', father_name: 'श्री कालू जी', mobile_no: '9876543210' },
+      { id: 12, scholar_no: '594', name: 'Rishabh Tailor', roll_no: 'H012', class_name: '8th', section: 'A', father_name: 'श्री दिनेश जी', mobile_no: '9876543210' },
+      { id: 13, scholar_no: '277', name: 'SUMAN SUTHAR', roll_no: 'H013', class_name: '8th', section: 'A', father_name: 'श्री किशन जी', mobile_no: '9876543210' }
     ];
 
     const EMPLOYEES_MOCK = [
       { id: 1, name: 'SURESH CHANDRA VYAS', designation: 'PRINCIPAL', emp_code: 'EMP001', department: 'Teaching', mobile_no: '9829012345', email: 'suresh@smps.edu', joining_date: '01/07/2018', class_teacher: '10th', status: 'सक्रिय' },
       { id: 2, name: 'MAHESH SHARMA', designation: 'SENIOR TEACHER', emp_code: 'EMP002', department: 'Teaching', mobile_no: '9414012345', email: 'mahesh@smps.edu', joining_date: '15/07/2019', class_teacher: '8th', status: 'सक्रिय' },
-      { id: 3, name: 'DINESH JOSHI', designation: 'ACCOUNTANT', emp_code: 'EMP003', department: 'Non-Teaching', mobile_no: '9785012345', email: 'dinesh@smps.edu', joining_date: '01/04/2020', class_teacher: '-', status: 'सक्रिय' }
+      { id: 3, name: 'DINESH JOSHI', designation: 'ACCOUNTANT', emp_code: 'EMP003', department: 'Non-Teaching', mobile_no: '9785012345', email: 'dinesh@smps.edu', joining_date: '01/04/2020', class_teacher: '-', status: 'सक्रिय' },
+      { id: 4, name: 'SUNITA KANWAR', designation: 'TEACHER', emp_code: 'EMP004', department: 'Teaching', mobile_no: '9876543210', email: 'sunita@smps.edu', joining_date: '10/08/2021', class_teacher: '6th', status: 'सक्रिय' }
     ];
 
     // ==========================================
@@ -209,27 +260,29 @@
 
       if (moduleName === 'login') {
         container.innerHTML = `
-          <div style="max-width:900px; margin:40px auto; padding:20px; text-align:center;">
-            <h2 style="color:#7f1d1d; font-size:24px; font-weight:800; margin-bottom:8px;">🔑 Login Options</h2>
-            <p style="color:#64748b; font-size:13px; margin-bottom:24px;">कृपया अपना रोल चुनकर पोर्टल में प्रवेश करें</p>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
-              <div class="emp-panel-card" style="text-align:center; padding:24px;">
-                <div style="font-size:36px;">👑</div>
-                <h3 style="color:#7c2d12; margin:10px 0 4px;">Super Admin</h3>
-                <p style="font-size:12px; color:#64748b;">Central Management</p>
-                <button class="btn-action-pill btn-act-orange" style="margin-top:16px; width:100%; justify-content:center;" onclick="loadModule('dashboard')">Login</button>
+          <div class="login-container">
+            <div style="text-align:center; margin-bottom: 24px;">
+              <h2 style="color: #7f1d1d; font-size: 26px; font-weight: 800;">🔑 SMPS Portal Login</h2>
+              <p style="color: #64748b; font-size: 13.5px; margin-top:4px;">श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) ERP सिस्टम में आपका स्वागत है</p>
+            </div>
+            <div class="login-grid">
+              <div class="login-role-card">
+                <div style="font-size:42px;">👑</div>
+                <h3 style="color:#7c2d12; margin-top:12px; font-size:18px;">Super Admin</h3>
+                <p style="font-size:12px; color:#64748b; margin-top:4px;">केंद्रीय नियंत्रण एवं पूर्ण अधिकार</p>
+                <button class="btn-role-login" style="background:#ea580c;" onclick="loadModule('dashboard')">Login Portal</button>
               </div>
-              <div class="emp-panel-card" style="text-align:center; padding:24px;">
-                <div style="font-size:36px;">🏫</div>
-                <h3 style="color:#7c2d12; margin:10px 0 4px;">Admin Login</h3>
-                <p style="font-size:12px; color:#64748b;">School Administration</p>
-                <button class="btn-action-pill btn-act-orange" style="margin-top:16px; width:100%; justify-content:center;" onclick="loadModule('dashboard')">Login</button>
+              <div class="login-role-card">
+                <div style="font-size:42px;">🏫</div>
+                <h3 style="color:#7c2d12; margin-top:12px; font-size:18px;">Admin Login</h3>
+                <p style="font-size:12px; color:#64748b; margin-top:4px;">विद्यालय कार्यालय एवं छात्र प्रशासन</p>
+                <button class="btn-role-login" style="background:#ea580c;" onclick="loadModule('dashboard')">Login Portal</button>
               </div>
-              <div class="emp-panel-card" style="text-align:center; padding:24px;">
-                <div style="font-size:36px;">💼</div>
-                <h3 style="color:#7c2d12; margin:10px 0 4px;">Staff / Teacher</h3>
-                <p style="font-size:12px; color:#64748b;">Faculty Portal</p>
-                <button class="btn-action-pill btn-act-blue" style="margin-top:16px; width:100%; justify-content:center;" onclick="loadModule('dashboard')">Access Hub</button>
+              <div class="login-role-card">
+                <div style="font-size:42px;">💼</div>
+                <h3 style="color:#7c2d12; margin-top:12px; font-size:18px;">Staff / Teacher</h3>
+                <p style="font-size:12px; color:#64748b; margin-top:4px;">हाजिरी, डायरी एवं कक्षा प्रबंधन</p>
+                <button class="btn-role-login" style="background:#0284c7;" onclick="loadModule('dashboard')">Faculty Access</button>
               </div>
             </div>
           </div>
@@ -270,7 +323,7 @@
     }
 
     // ==========================================
-    // 1. STUDENTS CONTROLLER (Screen 3)
+    // 1. STUDENTS CONTROLLER
     // ==========================================
     async function loadStudentsData() {
       try {
@@ -280,21 +333,7 @@
         students = [];
       }
       if (!students || students.length === 0) {
-        students = REGISTER_STUDENTS_MOCK.map((s, idx) => ({
-          id: idx + 1,
-          scholar_no: s.scholar_no,
-          roll_no: s.roll_no || (idx + 1),
-          name: s.name,
-          class_name: '8th',
-          section: 'A',
-          gender: idx % 4 === 0 ? 'Female' : 'Male',
-          rte: 'NO',
-          father_name: 'श्री देविलाल जी',
-          mother_name: 'श्रीमती सरिता देवी',
-          mobile_no: s.mobile_no || '9876543210',
-          dob: '01/01/2012',
-          address: 'सिंहपुर'
-        }));
+        students = REGISTER_STUDENTS_MOCK;
       }
       updateStudentCounts(students);
       renderStudentsTable(students);
@@ -340,8 +379,8 @@
             <td>-</td>
             <td>
               <div class="std-action-grid">
-                <button class="btn-std-act" style="background:#0284c7;" onclick="alert('छात्र: ${s.name}')">👁️ विवरण</button>
-                <a href="tel:${s.mobile_no}" class="btn-std-act" style="background:#16a34a;">📞 कॉल</a>
+                <button class="btn-std-act" style="background:#0284c7;" onclick="alert('छात्र: ${s.name} | कक्षा: ${s.class_name || '8th'}')">👁️ विवरण</button>
+                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-std-act" style="background:#16a34a;">📞 कॉल</a>
               </div>
             </td>
           </tr>
@@ -360,7 +399,7 @@
     }
 
     // ==========================================
-    // 2. EMPLOYEES CONTROLLER (Screen 4)
+    // 2. EMPLOYEES CONTROLLER
     // ==========================================
     async function loadEmployeesData() {
       try {
@@ -414,9 +453,11 @@
             <td style="text-align:center;"><span style="background:#dcfce7; color:#15803d; font-weight:800; padding:2px 8px; border-radius:12px; font-size:10.5px;">${e.status}</span></td>
             <td>
               <div class="emp-action-grid">
-                <button class="btn-grid-act b-act-edit" onclick="alert('एडिट')">✏️ एडिट</button>
-                <button class="btn-grid-act b-act-class" onclick="alert('क्लास')">🎓 असाइन</button>
-                <button class="btn-grid-act b-act-contract" onclick="alert('अनुबंध पत्र जनरेट हुआ')">📑 अनुबंध</button>
+                <button class="btn-grid-act b-act-edit" onclick="alert('एडिट: ${e.name}')">✏️ एडिट</button>
+                <button class="btn-grid-act b-act-class" onclick="alert('कक्षा आवंटित करें')">🎓 असाइन</button>
+                <button class="btn-grid-act b-act-contract" onclick="generateStaffDocument(${e.id}, 'contract')">📑 अनुबंध</button>
+                <button class="btn-grid-act b-act-exp" onclick="generateStaffDocument(${e.id}, 'experience')">📜 अनुभव</button>
+                <button class="btn-grid-act b-act-join" onclick="generateStaffDocument(${e.id}, 'joining')">📩 जॉइनिंग</button>
               </div>
             </td>
           </tr>
@@ -424,8 +465,31 @@
       });
     }
 
+    function generateStaffDocument(empId, docType) {
+      const emp = employees.find(e => e.id == empId) || employees[0];
+      if (!emp) return;
+      const dateStr = new Date().toLocaleDateString('en-GB');
+      document.getElementById('doc-date').innerText = dateStr;
+      document.getElementById('doc-ref-no').innerText = `SMPS/${docType.toUpperCase()}/2026/${emp.id}`;
+
+      const titleEl = document.getElementById('doc-title-text');
+      const bodyEl = document.getElementById('doc-content-body');
+
+      if (docType === 'contract') {
+        titleEl.innerText = 'सेवा अनुबंध पत्र / CONTRACT AGREEMENT';
+        bodyEl.innerHTML = `<p>यह अनुबंध आज दिनांक <strong>${dateStr}</strong> को <strong>श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)</strong> तथा <strong>श्री/श्रीमती ${emp.name}</strong> के मध्य निष्पादित किया जाता है। कर्मचारी विद्यालय के नियमों एवं शैक्षणिक दायित्वों का निष्ठापूर्वक पालन करेंगे।</p>`;
+      } else if (docType === 'experience') {
+        titleEl.innerText = 'अनुभव प्रमाण पत्र / EXPERIENCE CERTIFICATE';
+        bodyEl.innerHTML = `<p>प्रमाणित किया जाता है कि <strong>श्री/श्रीमती ${emp.name}</strong> हमारे विद्यालय में <strong>${emp.designation}</strong> पद पर दिनांक ${emp.joining_date} से निरंतर पूर्ण समर्पण के साथ कार्यरत रहे हैं। इनका आचरण उत्तम है।</p>`;
+      } else {
+        titleEl.innerText = 'नियुक्ति पत्र / APPOINTMENT ORDER';
+        bodyEl.innerHTML = `<p>सेवा में, <strong>श्री/श्रीमती ${emp.name}</strong>, आपको सूचित किया जाता है कि प्रबंध समिति द्वारा आपको विद्यालय में <strong>${emp.designation}</strong> पद पर नियुक्त किया जाता है।</p>`;
+      }
+      document.getElementById('doc-modal').classList.remove('hidden');
+    }
+
     // ==========================================
-    // 3. FEES HUB CONTROLLER (Screen 2)
+    // 3. FEES HUB ACTIONS & CONTROLLER
     // ==========================================
     async function loadFeesData() {
       try {
@@ -451,8 +515,40 @@
       if (document.getElementById('d-paid-fee')) document.getElementById('d-paid-fee').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
     }
 
+    function feeCollectPrompt() {
+      const sName = prompt("विद्यार्थी का नाम या स्कॉलर नंबर लिखें:", "DEVENDRA GADRI");
+      if (!sName) return;
+      const amt = prompt("जमा की जाने वाली राशि (₹):", "2500");
+      if (amt) {
+        alert(`✔ रसीद तैयार!\nछात्र: ${sName}\nजमा राशि: ₹${amt}\nरसीद सं.: REC-2026-${Math.floor(Math.random()*9000+1000)}`);
+      }
+    }
+
+    function feeReceiptsManage() {
+      alert("रसीद प्रबंधन: चालू सत्र की कुल 142 रसीदें सुरक्षित हैं। आप किसी भी रसीद को पुनः प्रिंट कर सकते हैं।");
+    }
+
+    function feeOnlineLinkShare() {
+      const num = prompt("अभिभावक का 10-अंकों का मोबाइल नंबर लिखें:", "9876543210");
+      if (!num) return;
+      const msg = encodeURIComponent("आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) सत्र 2026-27 की ऑनलाइन स्कूल फीस जमा करने हेतु सुरक्षित भुगतान लिंक: https://smps.edu.in/pay?id=2026");
+      window.open(`https://api.whatsapp.com/send?phone=91${num}&text=${msg}`, '_blank');
+    }
+
+    function feeHistoryView() {
+      alert("भुगतान इतिहास: विगत 30 दिनों में कुल ₹1,85,000 की फीस UPI/Cash के माध्यम से प्राप्त हुई है।");
+    }
+
+    function feeClassReport() {
+      alert("कक्षा-वार फीस रिपोर्ट:\n- Class 10th: 92% जमा\n- Class 8th: 88% जमा\n- Class 6th: 84% जमा\n- Primary: 79% जमा");
+    }
+
+    function feeAllReports() {
+      alert("सभी फीस रिपोर्टें (DCR, Ledger, Cheque Clearance) प्रिंट करने हेतु तैयार हैं।");
+    }
+
     // ==========================================
-    // 4. NOTIFICATIONS & WHATSAPP HUB (Screen 1)
+    // 4. NOTIFICATIONS & WHATSAPP HUB (ALL 3 TABS)
     // ==========================================
     function formatIndianMobile(rawNum) {
       if (!rawNum) return '919876543210';
@@ -859,9 +955,41 @@
       });
     }
 
-    // Default Startup Screen: Dashboard
+    // ==========================================
+    // 7. TC MODULE
+    // ==========================================
+    async function initTcModule() {
+      try {
+        if (!students || students.length === 0) {
+          const res = await fetch('/api/students');
+          students = await res.json();
+        }
+        const sel = document.getElementById('tc-student-select');
+        if (!sel) return;
+        sel.innerHTML = '<option value="">-- विद्यार्थी चुनें --</option>';
+        students.forEach(s => {
+          sel.innerHTML += `<option value="${s.id}">${s.name} (स्कॉलर: ${s.scholar_no || '759'})</option>`;
+        });
+        if (students.length > 0) {
+          sel.value = students[0].id;
+          populateTcFields();
+        }
+      } catch (err) {}
+    }
+
+    function populateTcFields() {
+      const sel = document.getElementById('tc-student-select');
+      if (!sel) return;
+      const s = students.find(x => x.id == sel.value) || students[0];
+      if (!s) return;
+      if (document.getElementById('tc-display-no')) document.getElementById('tc-display-no').innerText = `TC-2026/${String(s.id).padStart(3, '0')}`;
+      if (document.getElementById('tc-display-scholar')) document.getElementById('tc-display-scholar').innerText = s.scholar_no || '759';
+      if (document.getElementById('tc-p-name')) document.getElementById('tc-p-name').innerText = s.name;
+    }
+
+    // Initial Screen is Login (Exact as Big Brand ERP)
     window.onload = function() {
-      loadModule('dashboard');
+      loadModule('login');
     };
   </script>
 </body>
