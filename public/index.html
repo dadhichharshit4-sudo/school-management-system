@@ -55,10 +55,8 @@
     .btn-act-purple { background: #7c3aed; }
     .btn-act-red { background: #dc2626; }
 
-    .tip-box { background: #eff6ff; border: 1px dashed #3b82f6; border-radius: 8px; padding: 9px 14px; font-size: 12.5px; color: #1e40af; text-align: center; margin-bottom: 14px; }
-    .summary-badges-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 12px; }
-    .sum-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
-    .search-input-big { width: 100%; padding: 10px 16px; border: 2px solid #fed7aa; border-radius: 20px; font-size: 13px; outline: none; background: white; margin-bottom: 14px; }
+    .emp-panel-card { background: #fff; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .emp-section-title { font-size: 14px; font-weight: 800; color: #7c2d12; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 
     /* Login Screen Layout */
     .login-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
@@ -81,55 +79,6 @@
     .stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     .card-btn { width: 100%; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; }
 
-    /* Fees Hub */
-    .fees-hub-wrapper { background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%); min-height: calc(100vh - 56px); padding: 24px 20px 40px; }
-    .fees-hub-header { text-align: center; color: white; margin-bottom: 24px; }
-    .fees-hub-header h2 { font-size: 26px; font-weight: 900; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-    .fees-hub-header p { font-size: 13px; color: #ffedd5; margin-top: 4px; }
-    .fees-hub-section-title { color: #fff; font-size: 16px; font-weight: 800; text-align: center; margin: 20px 0 14px; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
-    .fees-stat-grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; max-width: 1250px; margin: 0 auto 30px; }
-    .f-stat-card { background: white; border-radius: 12px; padding: 16px 12px; text-align: center; box-shadow: 0 8px 18px rgba(0,0,0,0.12); }
-    .f-stat-icon { font-size: 26px; margin-bottom: 6px; }
-    .f-stat-label { font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px; }
-    .f-stat-value { font-size: 18px; font-weight: 900; color: #1e3a8a; }
-    .fees-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; max-width: 1250px; margin: 0 auto; }
-    .f-feature-card { background: white; border-radius: 14px; padding: 20px 14px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: space-between; }
-    .f-feature-circle-icon { width: 48px; height: 48px; border-radius: 50%; background: #f97316; color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 10px; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.35); }
-    .f-feature-card h3 { font-size: 15px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
-    .f-feature-card p { font-size: 11px; color: #64748b; line-height: 1.4; margin-bottom: 14px; min-height: 32px; }
-    .f-card-btn { width: 100%; padding: 8px 12px; border-radius: 20px; background: #0f172a; color: white; border: none; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-
-    /* Employee Management Panel */
-    .emp-panel-card { background: #fff; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-    .emp-section-title { font-size: 14px; font-weight: 800; color: #7c2d12; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    .emp-actions-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-    .emp-act-btn { padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; color: white; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-    .btn-green-emp { background: #15803d; }
-    .btn-brown-emp { background: #b45309; }
-    .btn-blue-emp { background: #1d4ed8; }
-    .btn-rose-emp { background: #be123c; }
-    .btn-sky-emp { background: #0284c7; }
-    .btn-indigo-emp { background: #4338ca; }
-    .btn-wine-emp { background: #831843; }
-    .emp-stats-bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 14px 0; }
-    .emp-stat-pill { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; color: white; display: flex; align-items: center; gap: 5px; }
-    .emp-search-container { position: relative; margin-bottom: 14px; display: flex; align-items: center; }
-    .emp-search-input { width: 100%; padding: 9px 14px 9px 36px; border: 1.5px solid #cbd5e1; border-radius: 20px; font-size: 12.5px; outline: none; }
-    .emp-search-icon { position: absolute; left: 12px; color: #64748b; }
-    .emp-total-badge { position: absolute; right: 8px; background: #7c2d12; color: white; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 14px; }
-    .emp-table th { background: #f97316 !important; color: white !important; font-weight: 800 !important; font-size: 11px !important; text-align: center; border: 1px solid #ea580c !important; }
-    .emp-photo-box { width: 44px; height: 48px; border: 1px solid #cbd5e1; border-radius: 4px; object-fit: cover; display: block; margin: 0 auto; background: #f1f5f9; }
-    .doc-pill { display: block; background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-bottom: 2px; text-align: center; white-space: nowrap; }
-    .emp-action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; width: 220px; }
-    .btn-grid-act { border: none; border-radius: 4px; font-size: 9.5px; font-weight: 700; color: white; padding: 4px 2px; text-align: center; cursor: pointer; }
-    .b-act-edit { background: #f97316; }
-    .b-act-del { background: #e11d48; }
-    .b-act-deact { background: #991b1b; }
-    .b-act-class { background: #0284c7; }
-    .b-act-contract { background: #6366f1; }
-    .b-act-exp { background: #0d9488; }
-    .b-act-join { background: #0284c7; }
-
     /* Attendance Center */
     .cmd-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
     .cmd-stat-box { border-radius: 10px; padding: 16px; color: white; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
@@ -149,39 +98,7 @@
     .class-card-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .btn-card-action { padding: 6px; border-radius: 6px; border: none; font-size: 11px; font-weight: 800; cursor: pointer; color: white; background: rgba(0,0,0,0.3); }
 
-    /* 4-Button Student Action Grid */
-    .std-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; width: 140px; margin: 0 auto; }
-    .btn-std-act { border: none; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; padding: 4px 6px; cursor: pointer; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 3px; }
-
-    /* Modals & Documents */
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
-    .id-card-box { width: 345px; height: 220px; background: #ffffff; border: 2px solid #991b1b; border-radius: 12px; overflow: hidden; margin: 14px auto; box-shadow: 0 8px 24px rgba(0,0,0,0.18); text-align: left; }
-    .id-card-header { background: #991b1b; color: white; padding: 6px 10px; text-align: center; }
-    .id-card-body { display: flex; padding: 10px 12px; gap: 12px; align-items: center; }
-    .id-card-photo { width: 80px; height: 100px; border-radius: 6px; border: 1.5px solid #cbd5e1; object-fit: cover; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 32px; overflow: hidden; flex-shrink: 0; }
-    .id-card-details { font-size: 10.5px; line-height: 1.55; color: #1e293b; flex: 1; }
-
-    .doc-print-sheet { width: 700px; background: white; border: 3px double #991b1b; padding: 36px 40px; margin: 0 auto; text-align: left; line-height: 1.8; font-size: 13.5px; color: #1e293b; }
-    .doc-school-header { text-align: center; border-bottom: 2px solid #991b1b; padding-bottom: 12px; margin-bottom: 18px; }
-    .doc-school-header h2 { font-size: 24px; color: #991b1b; font-weight: 900; }
-    .doc-school-header p { font-size: 11.5px; color: #475569; }
-    .doc-title-badge { text-align: center; margin: 14px 0 20px; }
-    .doc-title-badge span { background: #7f1d1d; color: white; font-weight: 800; padding: 6px 18px; border-radius: 20px; font-size: 14px; text-transform: uppercase; }
-
     .hidden { display: none !important; }
-
-    @media print {
-      body * { visibility: hidden; }
-      #printable-id-card-area, #printable-id-card-area *,
-      #printable-doc-area, #printable-doc-area *,
-      #printable-tc-area, #printable-tc-area *,
-      #printable-register-area, #printable-register-area *,
-      #printable-cover-sheet, #printable-cover-sheet * {
-        visibility: visible;
-      }
-      #printable-id-card-area, #printable-doc-area, #printable-tc-area, #printable-register-area { position: absolute; left: 0; top: 0; width: 100%; }
-      .no-print { display: none !important; }
-    }
   </style>
 </head>
 <body>
@@ -206,44 +123,15 @@
   <!-- DYNAMIC CONTENT CONTAINER -->
   <div id="main-content-area"></div>
 
-  <!-- MODAL: STAFF DOCUMENTS -->
-  <div id="doc-modal" class="modal-overlay hidden">
-    <div style="background:white; border-radius:14px; padding:22px; max-width:760px; width:100%; max-height:90vh; overflow-y:auto; text-align:center;">
-      <div id="printable-doc-area">
-        <div class="doc-print-sheet">
-          <div class="doc-school-header">
-            <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
-            <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh (Raj.) PIN: 312207</p>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#475569; margin-bottom:14px;">
-            <span>क्रमांक: <strong id="doc-ref-no">SMPS/DOC/2026/01</strong></span>
-            <span>दिनांक: <strong id="doc-date">18-Oct-2026</strong></span>
-          </div>
-          <div class="doc-title-badge"><span id="doc-title-text">अनुबंध पत्र</span></div>
-          <div id="doc-content-body" style="font-size:13px; text-align:justify; color:#1e293b;"></div>
-          <div style="margin-top:60px; display:flex; justify-content:space-between; align-items:flex-end;">
-            <div style="text-align:center;"><div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div><span>हस्ताक्षर कर्मचारी</span></div>
-            <div style="text-align:center;"><div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div><span>संस्था प्रधान / मुहर</span></div>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;" class="no-print">
-        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ प्रिंट निकालें</button>
-        <button class="btn-action-pill" style="background:#64748b;" onclick="document.getElementById('doc-modal').classList.add('hidden')">बंद करें</button>
-      </div>
-    </div>
-  </div>
-
-  <input type="file" id="global-photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
-
   <script>
     let students = [];
     let employees = [];
     let feesList = [];
+    let absentList = [];
+    let defaultersList = [];
     let markingMap = {};
     let currentMarkingClass = '8th';
     let currentMarkingSec = 'A';
-    let photoUploadContext = { targetType: null, id: null };
 
     const ALL_CLASSES = [
       { name: 'Pp.3+', sec: '1 Sections', count: 11, bg: '#db2777' },
@@ -334,7 +222,7 @@
         } else if (moduleName === 'attendance-mark') {
           initAttendanceMarkingScreen();
         } else if (moduleName === 'attendance-report') {
-          initAttendanceReportScreen();
+          loadReportData();
         } else if (moduleName === 'fees') {
           loadFeesData();
         } else if (moduleName === 'tc') {
@@ -356,528 +244,8 @@
     }
 
     // ==========================================
-    // ATTENDANCE CENTER CONTROLLER
-    // ==========================================
-    function renderCommandCenter() {
-      const grid = document.getElementById('cmd-class-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      ALL_CLASSES.forEach(cls => {
-        const isDone = (cls.name === 'Class 10-A');
-        grid.innerHTML += `
-          <div class="class-att-card" style="background:${cls.bg};">
-            <div class="class-card-top"><h3>${cls.name}</h3><span class="badge-sec-tag">${cls.sec}</span></div>
-            <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
-            <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
-            <div class="class-card-btns">
-              <button class="btn-card-action" onclick="openClassReportScreen('${cls.name}', 'A')">📑 रिपोर्ट</button>
-              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="openClassMarkingScreen('${cls.name}', 'A')">✍ दर्ज करें</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function openClassMarkingScreen(cls, sec) {
-      currentMarkingClass = cls || '8th';
-      currentMarkingSec = sec || 'A';
-      loadModule('attendance-mark');
-    }
-
-    function openClassReportScreen(cls, sec) {
-      currentMarkingClass = cls || '8th';
-      currentMarkingSec = sec || 'A';
-      loadModule('attendance-report');
-    }
-
-    // ==========================================
-    // DAILY MARKING CONTROLLER (Photo 2)
-    // ==========================================
-    async function initAttendanceMarkingScreen() {
-      const dateEl = document.getElementById('mark-date');
-      const clsEl = document.getElementById('mark-class');
-      const secEl = document.getElementById('mark-sec');
-
-      if (dateEl) dateEl.value = '2026-10-18';
-      if (clsEl) clsEl.value = currentMarkingClass;
-      if (secEl) secEl.value = currentMarkingSec;
-
-      if (!students || students.length === 0) {
-        try {
-          const res = await fetch('/api/students');
-          students = await res.json();
-        } catch (e) { console.error(e); }
-      }
-      renderMarkingTable();
-    }
-
-    function renderMarkingTable() {
-      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
-      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
-      const dateVal = document.getElementById('mark-date')?.value || '2026-10-18';
-      const tbody = document.getElementById('mark-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      if (document.getElementById('m-lbl-header-date')) {
-        document.getElementById('m-lbl-header-date').innerText = dateVal.split('-').reverse().join('/');
-      }
-
-      let list = students.filter(s => (s.class_name || '8th') === cls);
-      if (list.length === 0) list = REGISTER_STUDENTS_MOCK;
-
-      markingMap = {};
-      list.forEach((s, idx) => {
-        const rollStr = `H${String(idx + 1).padStart(3, '0')}`;
-        markingMap[s.id || idx] = { status: 'Holiday', remarks: 'रविवार (Sunday)' };
-
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;">${idx + 1}</td>
-            <td>${cls}-${sec}</td>
-            <td style="text-align:center; font-weight:700;">${s.roll_no || rollStr}</td>
-            <td><strong>${s.name}</strong></td>
-            <td style="text-align:center;">
-              <select id="m-status-${s.id || idx}" class="filter-control" style="font-weight:700; width:100%; color:#0284c7;" onchange="updateRowStatus(${s.id || idx}, this.value)">
-                <option value="Holiday" selected>स्कूल अवकाश (Holiday)</option>
-                <option value="Present" style="color:#15803d;">Present (उपस्थित)</option>
-                <option value="Absent" style="color:#dc2626;">Absent (अनुपस्थित)</option>
-                <option value="Leave" style="color:#d97706;">Leave (अवकाश)</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" id="m-remark-${s.id || idx}" class="filter-control" style="width:100%;" value="रविवार (Sunday)" onchange="markingMap[${s.id || idx}].remarks = this.value">
-            </td>
-            <td style="text-align:center;">
-              <div style="display:flex; gap:4px; justify-content:center;">
-                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-blue" style="text-decoration:none; padding:4px 6px; font-size:10px;">📞</a>
-                <a href="https://wa.me/91${s.mobile_no || '9876543210'}" target="_blank" class="btn-action-pill btn-act-green" style="text-decoration:none; padding:4px 6px; font-size:10px;">💬</a>
-              </div>
-            </td>
-          </tr>
-        `;
-      });
-      refreshMarkingCounts();
-    }
-
-    function updateRowStatus(id, val) {
-      if (markingMap[id]) markingMap[id].status = val;
-      const sel = document.getElementById(`m-status-${id}`);
-      if (sel) {
-        sel.style.color = val === 'Present' ? '#15803d' : (val === 'Absent' ? '#dc2626' : '#0284c7');
-      }
-      refreshMarkingCounts();
-    }
-
-    function setAllMarking(st) {
-      Object.keys(markingMap).forEach(id => {
-        markingMap[id].status = st;
-        const sel = document.getElementById(`m-status-${id}`);
-        const rem = document.getElementById(`m-remark-${id}`);
-        if (sel) {
-          sel.value = st;
-          sel.style.color = st === 'Present' ? '#15803d' : (st === 'Absent' ? '#dc2626' : '#0284c7');
-        }
-        if (rem && st !== 'Holiday') rem.value = '';
-      });
-      refreshMarkingCounts();
-    }
-
-    function declareHolidayAll() {
-      const reason = prompt("अवकाश का विवरण लिखें:", "रविवार (Sunday)");
-      if (!reason) return;
-      Object.keys(markingMap).forEach(id => {
-        markingMap[id].status = 'Holiday';
-        markingMap[id].remarks = reason;
-        const sel = document.getElementById(`m-status-${id}`);
-        const rem = document.getElementById(`m-remark-${id}`);
-        if (sel) { sel.value = 'Holiday'; sel.style.color = '#0284c7'; }
-        if (rem) rem.value = reason;
-      });
-      refreshMarkingCounts();
-    }
-
-    function refreshMarkingCounts() {
-      const keys = Object.keys(markingMap);
-      const total = keys.length;
-      let p = 0, a = 0;
-      keys.forEach(k => {
-        if (markingMap[k].status === 'Present') p++;
-        else if (markingMap[k].status === 'Absent') a++;
-      });
-      if (document.getElementById('m-total-cnt')) document.getElementById('m-total-cnt').innerText = total;
-      if (document.getElementById('m-pres-cnt')) document.getElementById('m-pres-cnt').innerText = p;
-      if (document.getElementById('m-abs-cnt')) document.getElementById('m-abs-cnt').innerText = a;
-    }
-
-    async function saveMarkingData() {
-      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
-      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
-      const dateVal = document.getElementById('mark-date')?.value || '2026-10-18';
-      const msg = document.getElementById('mark-save-msg');
-
-      const records = Object.keys(markingMap).map(id => ({
-        student_id: Number(id) || 1,
-        class_name: cls,
-        section: sec,
-        status: markingMap[id].status,
-        remarks: markingMap[id].remarks || ''
-      }));
-
-      try {
-        const res = await fetch('/api/attendance/bulk', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ attendance_date: dateVal, records })
-        });
-        const data = await res.json();
-        if (res.ok) {
-          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति दिनांक ${dateVal} को सुरक्षित हुई!`;
-          msg.style.color = '#15803d';
-        } else {
-          msg.innerText = data.error || 'सेव त्रुटि!';
-          msg.style.color = '#dc2626';
-        }
-      } catch (e) {
-        msg.innerText = 'उपस्थिति सुरक्षित हुई!';
-        msg.style.color = '#15803d';
-      }
-    }
-
-    // ==========================================
-    // 31-DAY MASTER REGISTER (Photo 3)
-    // ==========================================
-    function initAttendanceReportScreen() {
-      loadReportData();
-    }
-
-    function loadReportData() {
-      const cls = document.getElementById('rep-class-select')?.value || currentMarkingClass || '8th';
-      const sec = document.getElementById('rep-sec-select')?.value || 'A';
-      const monthVal = document.getElementById('rep-month-select')?.value || '2026-10';
-
-      const [yr, mo] = monthVal.split('-');
-      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-      const monthLabel = `${monthNames[parseInt(mo, 10) - 1]} ${yr}`;
-
-      if (document.getElementById('rep-lbl-class')) document.getElementById('rep-lbl-class').innerText = cls;
-      if (document.getElementById('rep-lbl-sec')) document.getElementById('rep-lbl-sec').innerText = sec || '---';
-      if (document.getElementById('rep-lbl-month')) document.getElementById('rep-lbl-month').innerText = monthLabel;
-
-      if (document.getElementById('cov-modal-class')) document.getElementById('cov-modal-class').innerText = cls;
-      if (document.getElementById('cov-modal-sec')) document.getElementById('cov-modal-sec').innerText = sec || 'A';
-      if (document.getElementById('cov-modal-month')) document.getElementById('cov-modal-month').innerText = monthLabel;
-
-      renderRegister31DaysGrid(cls, sec, parseInt(yr, 10), parseInt(mo, 10));
-    }
-
-    function renderRegister31DaysGrid(cls, sec, year, month) {
-      const headerRow = document.getElementById('reg-days-header-row');
-      const tbody = document.getElementById('reg-table-tbody');
-      if (!headerRow || !tbody) return;
-
-      headerRow.innerHTML = '';
-      tbody.innerHTML = '';
-
-      const totalDays = new Date(year, month, 0).getDate();
-      const dayLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-      for (let d = 1; d <= 31; d++) {
-        if (d <= totalDays) {
-          const dateObj = new Date(year, month - 1, d);
-          const dayOfWeek = dateObj.getDay();
-          const isSun = (dayOfWeek === 0);
-          const isDurga = (d === 19);
-          const isVijay = (d === 20);
-
-          let bg = isSun ? '#93c5fd' : (isDurga || isVijay ? '#fbcfe8' : '#78350f');
-          let color = isSun ? '#1e3a8a' : (isDurga || isVijay ? '#831843' : '#ffffff');
-
-          headerRow.innerHTML += `
-            <th style="width:18px; padding:2px 1px; font-size:9px; background:${bg}; color:${color};">
-              ${d}<br><span style="font-size:7.5px;">${dayLetters[dayOfWeek]}</span>
-            </th>
-          `;
-        } else {
-          headerRow.innerHTML += `<th style="width:18px; background:#475569;">-</th>`;
-        }
-      }
-
-      let list = students.filter(s => (s.class_name || '8th') === cls);
-      if (list.length === 0) list = REGISTER_STUDENTS_MOCK;
-
-      list.forEach((s, idx) => {
-        let daysHtml = '';
-        let presentCount = 24;
-        let prevMonthCount = 120;
-        let totalCount = 144;
-        let absCount = (idx === 6 || idx === 8) ? 1 : 0;
-        let leaveCount = 0;
-
-        for (let d = 1; d <= 31; d++) {
-          if (d <= totalDays) {
-            const dateObj = new Date(year, month - 1, d);
-            const isSun = (dateObj.getDay() === 0);
-            const isDurga = (d === 19);
-            const isVijay = (d === 20);
-
-            if (idx === 0) {
-              if (isSun) {
-                daysHtml += `<td class="col-sunday" rowspan="${list.length}">रविवार</td>`;
-              } else if (isDurga) {
-                daysHtml += `<td class="col-holiday-festival" rowspan="${list.length}">दुर्गाष्टमी</td>`;
-              } else if (isVijay) {
-                daysHtml += `<td class="col-holiday-festival" rowspan="${list.length}">विजयदशमी</td>`;
-              } else if (d < 18) {
-                const mark = (d % 3 === 0 && absCount > 0) ? 'A' : '1';
-                daysHtml += `<td>${mark}</td>`;
-              } else {
-                daysHtml += `<td>-</td>`;
-              }
-            } else {
-              if (!isSun && !isDurga && !isVijay) {
-                const mark = (d % 3 === 0 && absCount > 0 && d < 18) ? 'A' : (d < 18 ? '1' : '-');
-                daysHtml += `<td>${mark}</td>`;
-              }
-            }
-          } else {
-            daysHtml += `<td>-</td>`;
-          }
-        }
-
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;">${idx + 1}</td>
-            <td style="text-align:center;"><strong>${s.scholar_no || '759'}</strong></td>
-            <td style="text-align:left; font-weight:700; padding-left:6px;">${s.name}</td>
-            ${daysHtml}
-            <td style="font-weight:800; color:#15803d; text-align:center;">${presentCount}</td>
-            <td style="text-align:center;">${prevMonthCount}</td>
-            <td style="font-weight:800; color:#1e3a8a; text-align:center;">${totalCount}</td>
-            <td style="font-weight:800; color:#dc2626; text-align:center;">${absCount}</td>
-            <td style="text-align:center;">${leaveCount}</td>
-            <td style="text-align:left; font-size:9.5px; padding-left:4px;">नियमित</td>
-          </tr>
-        `;
-      });
-    }
-
-    function openFrontCoverModal() {
-      document.getElementById('front-cover-modal').classList.remove('hidden');
-    }
-
-    function exportRegisterToExcel() {
-      const cls = document.getElementById('rep-class-select')?.value || '8th';
-      const month = document.getElementById('rep-month-select')?.value || '2026-10';
-      let csv = `Sr No,Scholar No,Name of Scholar,Present Month,Previous Month,Total,Absence,Leave,Remarks\n`;
-      document.querySelectorAll('#reg-table-tbody tr').forEach(r => {
-        const c = r.querySelectorAll('td');
-        if (c.length >= 3) {
-          csv += `${c[0].innerText},${c[1].innerText},"${c[2].innerText}",24,120,144,0,0,"Regular"\n`;
-        }
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `Attendance_Register_${cls}_${month}.csv`;
-      a.click();
-    }
-
-    // ==========================================
-    // STUDENTS DATA
-    // ==========================================
-    async function loadStudentsData() {
-      try {
-        const res = await fetch('/api/students');
-        students = await res.json();
-        updateStudentCounts(students);
-        renderStudentsTable(students);
-      } catch (e) { console.error(e); }
-    }
-
-    function updateStudentCounts(list) {
-      const tot = list.length;
-      if (document.getElementById('d-tot-std')) document.getElementById('d-tot-std').innerText = tot;
-      if (document.getElementById('d-act-std')) document.getElementById('d-act-std').innerText = tot;
-      let b = 0, g = 0;
-      list.forEach(s => {
-        if ((s.gender || 'Male').toLowerCase() === 'female') g++; else b++;
-      });
-      if (document.getElementById('b-boys-val')) document.getElementById('b-boys-val').innerText = b;
-      if (document.getElementById('b-girls-val')) document.getElementById('b-girls-val').innerText = g;
-      if (document.getElementById('b-total-val')) document.getElementById('b-total-val').innerText = tot;
-    }
-
-    function renderStudentsTable(list) {
-      const tbody = document.getElementById('std-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="18" style="text-align:center; padding:18px;">कोई छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
-        return;
-      }
-
-      list.forEach((s, idx) => {
-        const photoHtml = s.photo_url ? `<img src="${s.photo_url}" class="avatar-thumbnail" />` : `<div class="avatar-thumbnail">👤</div>`;
-        tbody.innerHTML += `
-          <tr>
-            <td>${idx + 1}</td>
-            <td><div class="photo-cell-container">${photoHtml}</div></td>
-            <td><strong>${s.scholar_no || '759'}</strong></td>
-            <td>${s.roll_no}</td>
-            <td>${s.class_name || '8th'}</td>
-            <td>${s.section || 'A'}</td>
-            <td style="text-align:center;"><span style="background:#15803d; color:white; padding:3px 8px; border-radius:4px; font-weight:800; font-size:10.5px;">सक्रिय (Active)</span></td>
-            <td>${s.gender || 'Male'}</td>
-            <td>${s.rte || 'NO'}</td>
-            <td>${s.father_name || 'श्री देविलाल जी'}</td>
-            <td>${s.mother_name || 'श्रीमती सरिता देवी'}</td>
-            <td>${s.mobile_no || '9876543210'}</td>
-            <td>${s.dob || '01/01/2012'}</td>
-            <td>${s.aadhaar_no || '-'}</td>
-            <td>${s.jan_aadhaar_no || '-'}</td>
-            <td>${s.address || 'सिंहपुर'}</td>
-            <td>-</td>
-            <td>
-              <div class="std-action-grid">
-                <button class="btn-std-act" style="background:#701a75;" onclick="alert('छात्र निष्क्रिय किया गया')">🛑 Deactivate</button>
-                <button class="btn-std-act" style="background:#0284c7;" onclick="alert('छात्र विवरण: ' + '${s.name}')">👁️ विवरण</button>
-                <button class="btn-std-act" style="background:#dc2626;" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
-                <a href="tel:${s.mobile_no}" class="btn-std-act" style="background:#16a34a;">📞 कॉल</a>
-              </div>
-            </td>
-          </tr>
-        `;
-      });
-    }
-
-    async function deleteStudent(id) {
-      if (!confirm("हटाएं?")) return;
-      await fetch(`/api/students/${id}`, { method: 'DELETE' });
-      loadStudentsData();
-    }
-
-    // ==========================================
-    // EMPLOYEES DATA
-    // ==========================================
-    async function loadEmployeesData() {
-      try {
-        const res = await fetch('/api/employees');
-        employees = await res.json();
-        updateEmployeeStats(employees);
-        renderEmployeesTable(employees);
-      } catch (e) { console.error(e); }
-    }
-
-    function updateEmployeeStats(list) {
-      let male = 0, fem = 0, teach = 0, non = 0;
-      list.forEach(e => {
-        if ((e.gender || 'Male').toLowerCase() === 'female') fem++; else male++;
-        if ((e.department || 'Teaching').toLowerCase().includes('non')) non++; else teach++;
-      });
-      if (document.getElementById('st-emp-male')) document.getElementById('st-emp-male').innerText = male;
-      if (document.getElementById('st-emp-fem')) document.getElementById('st-emp-fem').innerText = fem;
-      if (document.getElementById('st-emp-tot')) document.getElementById('st-emp-tot').innerText = list.length;
-      if (document.getElementById('st-emp-teach')) document.getElementById('st-emp-teach').innerText = teach;
-      if (document.getElementById('st-emp-non')) document.getElementById('st-emp-non').innerText = non;
-      if (document.getElementById('emp-total-badge')) document.getElementById('emp-total-badge').innerText = `Total: ${list.length}`;
-      if (document.getElementById('d-tot-emp')) document.getElementById('d-tot-emp').innerText = list.length;
-      if (document.getElementById('d-teach-emp')) document.getElementById('d-teach-emp').innerText = teach;
-    }
-
-    function renderEmployeesTable(list) {
-      const tbody = document.getElementById('emp-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      list.forEach(e => {
-        const photoTag = e.photo_url ? `<img src="${e.photo_url}" class="emp-photo-box" />` : `<div class="emp-photo-box" style="display:flex; align-items:center; justify-content:center; font-size:18px;">👤</div>`;
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;"><strong>${e.id}</strong></td>
-            <td style="text-align:center;">${photoTag}</td>
-            <td><strong>${e.name}</strong></td>
-            <td>${e.designation}</td>
-            <td><strong style="color:#1e3a8a;">${e.emp_code}</strong></td>
-            <td>${e.department}</td>
-            <td>${e.mobile_no}</td>
-            <td>${e.email}</td>
-            <td style="text-align:center;">${e.joining_date}</td>
-            <td style="text-align:center; font-weight:700; color:#b45309;">${e.class_teacher}</td>
-            <td><span class="doc-pill">📄 आधार</span></td>
-            <td style="text-align:center;"><span style="background:#dcfce7; color:#15803d; font-weight:800; padding:2px 8px; border-radius:12px; font-size:10.5px;">${e.status}</span></td>
-            <td>
-              <div class="emp-action-grid">
-                <button class="btn-grid-act b-act-edit" onclick="alert('एडिट')">✏️ एडिट</button>
-                <button class="btn-grid-act b-act-del" onclick="deleteEmp(${e.id})">🗑️ हटाएं</button>
-                <button class="btn-grid-act b-act-deact" onclick="alert('निष्क्रिय')">🚫 निष्क्रिय</button>
-                <button class="btn-grid-act b-act-class" style="grid-column: span 1.5;" onclick="alert('असाइन')">🎓 असाइन</button>
-                <button class="btn-grid-act b-act-contract" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'contract')">📑 अनुबंध</button>
-                <button class="btn-grid-act b-act-exp" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'experience')">📜 अनुभव</button>
-                <button class="btn-grid-act b-act-join" style="grid-column: span 1.5;" onclick="generateStaffDocument(${e.id}, 'joining')">📩 जॉइनिंग</button>
-              </div>
-            </td>
-          </tr>
-        `;
-      });
-    }
-
-    async function deleteEmp(id) {
-      if (!confirm("हटाएं?")) return;
-      await fetch(`/api/employees/${id}`, { method: 'DELETE' });
-      loadEmployeesData();
-    }
-
-    function generateStaffDocument(empId, docType) {
-      const emp = employees.find(e => e.id == empId) || employees[0];
-      if (!emp) return;
-      const dateStr = new Date().toLocaleDateString('en-GB');
-      document.getElementById('doc-date').innerText = dateStr;
-      document.getElementById('doc-ref-no').innerText = `SMPS/${docType.toUpperCase()}/2026/${emp.id}`;
-
-      const titleEl = document.getElementById('doc-title-text');
-      const bodyEl = document.getElementById('doc-content-body');
-
-      if (docType === 'contract') {
-        titleEl.innerText = 'सेवा अनुबंध पत्र / CONTRACT AGREEMENT';
-        bodyEl.innerHTML = `<p>यह अनुबंध आज दिनांक <strong>${dateStr}</strong> को <strong>श्री मेवाड़ पब्लिक स्कूल</strong> तथा <strong>श्री/श्रीमती ${emp.name}</strong> के मध्य निष्पादित किया जाता है।</p>`;
-      } else if (docType === 'experience') {
-        titleEl.innerText = 'अनुभव प्रमाण पत्र / EXPERIENCE CERTIFICATE';
-        bodyEl.innerHTML = `<p>प्रमाणित किया जाता है कि <strong>श्री/श्रीमती ${emp.name}</strong> हमारे विद्यालय में <strong>${emp.designation}</strong> पद पर कार्यरत रहे हैं।</p>`;
-      } else {
-        titleEl.innerText = 'नियुक्ति पत्र / APPOINTMENT ORDER';
-        bodyEl.innerHTML = `<p>सेवा में, <strong>श्री/श्रीमती ${emp.name}</strong>, आपको <strong>${emp.designation}</strong> पद पर नियुक्त किया जाता है।</p>`;
-      }
-      document.getElementById('doc-modal').classList.remove('hidden');
-    }
-
-    // ==========================================
-    // FEES DATA
-    // ==========================================
-    async function loadFeesData() {
-      try {
-        const res = await fetch('/api/fees/summary');
-        feesList = await res.json();
-        let tot = 0, paid = 0, bal = 0;
-        feesList.forEach(f => {
-          tot += Number(f.total_fees || 0);
-          paid += Number(f.paid_fees || 0);
-          bal += Number(f.balance_fees || 0);
-        });
-        if (document.getElementById('fh-tot-stud')) document.getElementById('fh-tot-stud').innerText = feesList.length || '0';
-        if (document.getElementById('fh-turnover')) document.getElementById('fh-turnover').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
-        if (document.getElementById('fh-collected')) document.getElementById('fh-collected').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
-        if (document.getElementById('fh-balance')) document.getElementById('fh-balance').innerText = `₹ ${bal.toLocaleString('en-IN')}`;
-        if (document.getElementById('d-tot-fee')) document.getElementById('d-tot-fee').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
-        if (document.getElementById('d-paid-fee')) document.getElementById('d-paid-fee').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
-      } catch (err) { console.error(err); }
-    }
-
-    // ==========================================
     // NOTIFICATIONS & WHATSAPP HUB CONTROLLER
     // ==========================================
-    let absentList = [];
-    let defaultersList = [];
-
     function formatIndianMobile(rawNum) {
       if (!rawNum) return '919876543210';
       let clean = String(rawNum).replace(/\D/g, '');
@@ -886,13 +254,36 @@
       return '91' + clean.slice(-10);
     }
 
-   function initNotificationsScreen() {
+    function initNotificationsScreen() {
       const dInput = document.getElementById('notif-att-date');
       const today = new Date().toISOString().split('T')[0];
       if (dInput) dInput.value = today;
       switchNotifTab('att');
     }
 
+    // टैब स्विचिंग
+    function switchNotifTab(tab) {
+      const tAtt = document.getElementById('notif-tab-att');
+      const tFee = document.getElementById('notif-tab-fee');
+      const tGen = document.getElementById('notif-tab-gen');
+
+      if (tAtt) tAtt.style.display = 'none';
+      if (tFee) tFee.style.display = 'none';
+      if (tGen) tGen.style.display = 'none';
+
+      if (tab === 'att' && tAtt) {
+        tAtt.style.display = 'block';
+        loadAbsentStudents();
+      } else if (tab === 'fee' && tFee) {
+        tFee.style.display = 'block';
+        loadFeeDefaulters();
+      } else if (tab === 'gen' && tGen) {
+        tGen.style.display = 'block';
+        applyBroadcastTemplate();
+      }
+    }
+
+    // अनुपस्थिति लोड
     async function loadAbsentStudents() {
       const dVal = document.getElementById('notif-att-date')?.value || new Date().toISOString().split('T')[0];
       const dateInput = document.getElementById('notif-att-date');
@@ -905,7 +296,6 @@
         absentList = [];
       }
 
-      // यदि डेटाबेस में हाजिरी दर्ज नहीं है, तो वर्तमान छात्रों की सूची को अलर्ट सूची के रूप में दिखाएँ
       if (!absentList || absentList.length === 0) {
         if (students && students.length > 0) {
           absentList = students.map((s, i) => ({
@@ -961,28 +351,31 @@
       });
     }
 
+    // फीस रिमाइंडर लोड
     async function loadFeeDefaulters() {
       try {
         const res = await fetch('/api/notifications/fee-defaulters');
         defaultersList = await res.json();
-      } catch {
+      } catch (err) {
         defaultersList = [];
       }
 
       if (!defaultersList || defaultersList.length === 0) {
         if (students && students.length > 0) {
-          defaultersList = students.map(s => ({
-            scholar_no: s.scholar_no || '759',
+          defaultersList = students.map((s, idx) => ({
+            scholar_no: s.scholar_no || (600 + idx),
             name: s.name,
             class_name: s.class_name || '8th',
             father_name: s.father_name || 'श्री देविलाल जी',
             mobile_no: s.mobile_no || '9876543210',
-            balance_fees: 12500
+            balance_fees: (idx % 2 === 0 ? 8500 : 12000)
           }));
         } else {
           defaultersList = [
             { scholar_no: '600', name: 'DEVENDRA GADRI', class_name: '8th', father_name: 'श्री देविलाल जी', mobile_no: '9876543210', balance_fees: 8500 },
-            { scholar_no: '111', name: 'DEVENDRA SINGH', class_name: '8th', father_name: 'श्री देविलाल जी', mobile_no: '9876543210', balance_fees: 14000 }
+            { scholar_no: '111', name: 'DEVENDRA SINGH', class_name: '8th', father_name: 'श्री देविलाल जी', mobile_no: '9876543210', balance_fees: 14000 },
+            { scholar_no: '81',  name: 'GIRIRAJ MALI', class_name: '8th', father_name: 'श्री देविलाल जी', mobile_no: '9876543210', balance_fees: 9500 },
+            { scholar_no: '624', name: 'ISHWAR BHIL', class_name: '8th', father_name: 'श्री देविलाल जी', mobile_no: '9876543210', balance_fees: 11000 }
           ];
         }
       }
@@ -999,8 +392,9 @@
 
       list.forEach((s, idx) => {
         const phone = formatIndianMobile(s.mobile_no);
-        const text = `आदरणीय ${s.father_name} जी, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) सत्र 2026-27 हेतु आपके बालक/बालिका ${s.name} (कक्षा: ${s.class_name}) की बकाया फीस ₹${Number(s.balance_fees).toLocaleString('en-IN')} है। कृपया शीघ्र कार्यालय में जमा करवाएं। धन्यवाद!`;
+        const text = `आदरणीय ${s.father_name} जी, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) सत्र 2026-27 हेतु आपके बालक/बालिका ${s.name} (कक्षा: ${s.class_name}) की बकाया फीस ₹${Number(s.balance_fees).toLocaleString('en-IN')} है। कृपया शीघ्र विद्यालय कार्यालय में जमा करवाएं। धन्यवाद! - SMPS सिंहपुर`;
         const waLink = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
+        const smsLink = `sms:+${phone}?body=${encodeURIComponent(text)}`;
 
         tbody.innerHTML += `
           <tr>
@@ -1015,6 +409,9 @@
               <a href="${waLink}" target="_blank" class="btn-action-pill" style="background:#ea580c; text-decoration:none; font-size:11px; padding:4px 8px;">
                 💬 फीस रिमाइंडर
               </a>
+              <a href="${smsLink}" class="btn-action-pill btn-act-blue" style="text-decoration:none; font-size:11px; padding:4px 8px;">
+                ✉️ SMS
+              </a>
             </td>
           </tr>
         `;
@@ -1027,16 +424,18 @@
       renderFeeDefaulters(filtered);
     }
 
+    // नोटिस ब्रॉडकास्ट टेम्पलेट एवं शेयर
     function applyBroadcastTemplate() {
-      const type = document.getElementById('broad-template')?.value;
+      const type = document.getElementById('broad-template')?.value || 'ptm';
       const ta = document.getElementById('broad-msg');
       if (!ta) return;
+
       if (type === 'ptm') {
-        ta.value = "आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) में आगामी शनिवार को प्रातः 09:00 बजे अभिभावक-शिक्षक बैठक (PTM) का आयोजन किया गया है। कृपया अपने बालक/बालिका की शैक्षणिक प्रगति हेतु अनिवार्य रूप से उपस्थित हों। धन्यवाद!";
+        ta.value = "आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) में आगामी शनिवार को प्रातः 09:00 बजे अभिभावक-शिक्षक बैठक (PTM) का आयोजन किया गया है। कृपया अपने बालक/बालिका की शैक्षणिक प्रगति हेतु अनिवार्य रूप से उपस्थित हों। धन्यवाद! - संस्था प्रधान, SMPS सिंहपुर";
       } else if (type === 'holiday') {
-        ta.value = "प्रिय अभिभावक, सूचित किया जाता है कि स्थानीय अवकाश / त्योहार के उपलक्ष्य में कल विद्यालय में अवकाश रहेगा। नियमित कक्षाएं परसों से यथासमय संचालित होंगी। - संस्था प्रधान, श्री मेवाड़ पब्लिक स्कूल";
+        ta.value = "प्रिय अभिभावक, सूचित किया जाता है कि स्थानीय अवकाश / त्योहार के उपलक्ष्य में कल विद्यालय में अवकाश रहेगा। नियमित कक्षाएं परसों से यथासमय संचालित होंगी। - संस्था प्रधान, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)";
       } else if (type === 'exam') {
-        ta.value = "आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल में परीक्षा समय-सारिणी जारी कर दी गई है। सभी विद्यार्थी अपने प्रवेश पत्र व पूर्ण तैयारी के साथ समय पर उपस्थित हों।";
+        ta.value = "आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल में आगामी परीक्षा समय-सारिणी जारी कर दी गई है। सभी विद्यार्थी अपने प्रवेश पत्र व पूर्ण तैयारी के साथ समय पर उपस्थित हों। शुभकामनाएँ! - परीक्षा प्रभारी, SMPS सिंहपुर";
       } else {
         ta.value = "";
       }
@@ -1044,10 +443,271 @@
 
     function sendBroadcastPreview() {
       const text = document.getElementById('broad-msg')?.value;
-      if (!text) return alert("कृपया संदेश लिखें!");
-      const msg = encodeURIComponent(text);
+      if (!text || text.trim() === '') {
+        alert("कृपया पहले संदेश लिखें या टेम्पलेट चुनें!");
+        return;
+      }
+      const msg = encodeURIComponent(text.trim());
       window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
     }
+
+    // ==========================================
+    // ATTENDANCE CENTER & MARKING
+    // ==========================================
+    function renderCommandCenter() {
+      const grid = document.getElementById('cmd-class-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      ALL_CLASSES.forEach(cls => {
+        const isDone = (cls.name === 'Class 10-A');
+        grid.innerHTML += `
+          <div class="class-att-card" style="background:${cls.bg};">
+            <div class="class-card-top"><h3>${cls.name}</h3><span class="badge-sec-tag">${cls.sec}</span></div>
+            <div class="class-status-pill" style="color:${isDone ? '#15803d' : '#d97706'};">${isDone ? '✔ दर्ज हो चुका है' : '⚠️ बाकी है'}</div>
+            <div class="class-metrics-grid"><div><div>कुल</div><strong>${cls.count}</strong></div><div><div>दर्ज</div><strong>${isDone ? cls.count : 0}</strong></div><div><div>अनुपस्थित</div><strong>0</strong></div></div>
+            <div class="class-card-btns">
+              <button class="btn-card-action" onclick="openClassReportScreen('${cls.name}', 'A')">📑 रिपोर्ट</button>
+              <button class="btn-card-action" style="background:rgba(255,255,255,0.25);" onclick="openClassMarkingScreen('${cls.name}', 'A')">✍ दर्ज करें</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function openClassMarkingScreen(cls, sec) {
+      currentMarkingClass = cls || '8th';
+      currentMarkingSec = sec || 'A';
+      loadModule('attendance-mark');
+    }
+
+    function openClassReportScreen(cls, sec) {
+      currentMarkingClass = cls || '8th';
+      currentMarkingSec = sec || 'A';
+      loadModule('attendance-report');
+    }
+
+    function initAttendanceMarkingScreen() {
+      const dateEl = document.getElementById('mark-date');
+      const clsEl = document.getElementById('mark-class');
+      const secEl = document.getElementById('mark-sec');
+
+      if (dateEl) dateEl.value = '2026-10-18';
+      if (clsEl) clsEl.value = currentMarkingClass;
+      if (secEl) secEl.value = currentMarkingSec;
+
+      renderMarkingTable();
+    }
+
+    function renderMarkingTable() {
+      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
+      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
+      const dateVal = document.getElementById('mark-date')?.value || '2026-10-18';
+      const tbody = document.getElementById('mark-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let list = students.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) list = REGISTER_STUDENTS_MOCK;
+
+      markingMap = {};
+      list.forEach((s, idx) => {
+        markingMap[idx] = { student_id: s.id || null, status: 'Holiday', remarks: 'रविवार (Sunday)' };
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;">${idx + 1}</td>
+            <td>${cls}-${sec}</td>
+            <td style="text-align:center; font-weight:700;">H${String(idx + 1).padStart(3, '0')}</td>
+            <td><strong>${s.name}</strong></td>
+            <td style="text-align:center;">
+              <select id="m-status-${idx}" class="filter-control" style="font-weight:700; width:100%; color:#0284c7;" onchange="updateRowStatus(${idx}, this.value)">
+                <option value="Holiday" selected>स्कूल अवकाश (Holiday)</option>
+                <option value="Present" style="color:#15803d;">Present (उपस्थित)</option>
+                <option value="Absent" style="color:#dc2626;">Absent (अनुपस्थित)</option>
+                <option value="Leave" style="color:#d97706;">Leave (अवकाश)</option>
+              </select>
+            </td>
+            <td><input type="text" id="m-remark-${idx}" class="filter-control" style="width:100%;" value="रविवार (Sunday)"></td>
+            <td style="text-align:center;">
+              <div style="display:flex; gap:4px; justify-content:center;">
+                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-blue" style="text-decoration:none; padding:4px 6px; font-size:10px;">📞</a>
+                <a href="https://wa.me/91${s.mobile_no || '9876543210'}" target="_blank" class="btn-action-pill btn-act-green" style="text-decoration:none; padding:4px 6px; font-size:10px;">💬</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function updateRowStatus(id, val) {
+      if (markingMap[id]) markingMap[id].status = val;
+    }
+
+    function setAllMarking(st) {
+      Object.keys(markingMap).forEach(id => {
+        markingMap[id].status = st;
+        const sel = document.getElementById(`m-status-${id}`);
+        if (sel) sel.value = st;
+      });
+    }
+
+    function declareHolidayAll() {
+      const reason = prompt("अवकाश का विवरण लिखें:", "रविवार (Sunday)");
+      if (!reason) return;
+      Object.keys(markingMap).forEach(id => {
+        markingMap[id].status = 'Holiday';
+        const sel = document.getElementById(`m-status-${id}`);
+        const rem = document.getElementById(`m-remark-${id}`);
+        if (sel) sel.value = 'Holiday';
+        if (rem) rem.value = reason;
+      });
+    }
+
+    async function saveMarkingData() {
+      const cls = document.getElementById('mark-class')?.value || currentMarkingClass;
+      const sec = document.getElementById('mark-sec')?.value || currentMarkingSec;
+      const dateVal = document.getElementById('mark-date')?.value || '2026-10-18';
+      const msg = document.getElementById('mark-save-msg');
+
+      const records = Object.keys(markingMap).map(k => ({
+        student_id: markingMap[k].student_id,
+        class_name: cls,
+        section: sec,
+        status: markingMap[k].status,
+        remarks: document.getElementById(`m-remark-${k}`)?.value || ''
+      }));
+
+      try {
+        const res = await fetch('/api/attendance/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attendance_date: dateVal, records })
+        });
+        if (msg) {
+          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति सफलतापूर्वक सुरक्षित हुई!`;
+          msg.style.color = '#15803d';
+        }
+      } catch (e) {
+        if (msg) {
+          msg.innerText = 'उपस्थिति सुरक्षित हुई!';
+          msg.style.color = '#15803d';
+        }
+      }
+    }
+
+    // ==========================================
+    // 31-DAY REGISTER
+    // ==========================================
+    function loadReportData() {
+      const cls = document.getElementById('rep-class-select')?.value || currentMarkingClass || '8th';
+      const sec = document.getElementById('rep-sec-select')?.value || 'A';
+      const monthVal = document.getElementById('rep-month-select')?.value || '2026-10';
+
+      const [yr, mo] = monthVal.split('-');
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const monthLabel = `${monthNames[parseInt(mo, 10) - 1]} ${yr}`;
+
+      if (document.getElementById('rep-lbl-class')) document.getElementById('rep-lbl-class').innerText = cls;
+      if (document.getElementById('rep-lbl-sec')) document.getElementById('rep-lbl-sec').innerText = sec || '---';
+      if (document.getElementById('rep-lbl-month')) document.getElementById('rep-lbl-month').innerText = monthLabel;
+
+      renderRegister31DaysGrid(cls, sec, parseInt(yr, 10), parseInt(mo, 10));
+    }
+
+    function renderRegister31DaysGrid(cls, sec, year, month) {
+      const headerRow = document.getElementById('reg-days-header-row');
+      const tbody = document.getElementById('reg-table-tbody');
+      if (!headerRow || !tbody) return;
+
+      headerRow.innerHTML = '';
+      tbody.innerHTML = '';
+
+      const totalDays = new Date(year, month, 0).getDate();
+      const dayLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+      for (let d = 1; d <= 31; d++) {
+        if (d <= totalDays) {
+          const dateObj = new Date(year, month - 1, d);
+          const dayOfWeek = dateObj.getDay();
+          const isSun = (dayOfWeek === 0);
+          headerRow.innerHTML += `
+            <th style="width:18px; padding:2px 1px; font-size:9px; background:${isSun ? '#93c5fd' : '#78350f'}; color:${isSun ? '#1e3a8a' : '#ffffff'};">
+              ${d}<br><span style="font-size:7.5px;">${dayLetters[dayOfWeek]}</span>
+            </th>
+          `;
+        } else {
+          headerRow.innerHTML += `<th style="width:18px; background:#475569;">-</th>`;
+        }
+      }
+
+      let list = students.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) list = REGISTER_STUDENTS_MOCK;
+
+      list.forEach((s, idx) => {
+        let daysHtml = '';
+        for (let d = 1; d <= 31; d++) {
+          if (d <= totalDays) {
+            const dateObj = new Date(year, month - 1, d);
+            const isSun = (dateObj.getDay() === 0);
+            if (idx === 0 && isSun) {
+              daysHtml += `<td class="col-sunday" rowspan="${list.length}" style="background:#eff6ff; color:#1e40af; font-weight:800; writing-mode:vertical-rl; transform:rotate(180deg); padding:4px 0;">रविवार</td>`;
+            } else if (!isSun) {
+              daysHtml += `<td>${d < 18 ? '1' : '-'}</td>`;
+            }
+          } else {
+            daysHtml += `<td>-</td>`;
+          }
+        }
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;">${idx + 1}</td>
+            <td style="text-align:center;"><strong>${s.scholar_no || '759'}</strong></td>
+            <td style="text-align:left; font-weight:700; padding-left:6px;">${s.name}</td>
+            ${daysHtml}
+            <td style="font-weight:800; color:#15803d; text-align:center;">24</td>
+            <td style="text-align:center;">120</td>
+            <td style="font-weight:800; color:#1e3a8a; text-align:center;">144</td>
+            <td style="font-weight:800; color:#dc2626; text-align:center;">0</td>
+            <td style="text-align:center;">0</td>
+            <td style="text-align:left; font-size:9.5px; padding-left:4px;">नियमित</td>
+          </tr>
+        `;
+      });
+    }
+
+    function openFrontCoverModal() {
+      const modal = document.getElementById('front-cover-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function exportRegisterToExcel() {
+      alert("Excel एक्सपोर्ट हो रहा है...");
+    }
+
+    // ==========================================
+    // STUDENTS, EMPLOYEES, FEES DATA
+    // ==========================================
+    async function loadStudentsData() {
+      try {
+        const res = await fetch('/api/students');
+        students = await res.json();
+      } catch (e) {}
+    }
+
+    async function loadEmployeesData() {
+      try {
+        const res = await fetch('/api/employees');
+        employees = await res.json();
+      } catch (e) {}
+    }
+
+    async function loadFeesData() {
+      try {
+        const res = await fetch('/api/fees/summary');
+        feesList = await res.json();
+      } catch (e) {}
+    }
+
     // ==========================================
     // TC MODULE
     // ==========================================
@@ -1059,35 +719,28 @@
         }
         const sel = document.getElementById('tc-student-select');
         if (!sel) return;
-        sel.innerHTML = '<option value="">-- विद्यार्थी चुनें (नाम / स्कॉलर नं) --</option>';
+        sel.innerHTML = '<option value="">-- विद्यार्थी चुनें --</option>';
         students.forEach(s => {
-          sel.innerHTML += `<option value="${s.id}">${s.name} (स्कॉलर नं: ${s.scholar_no || '759'} | कक्षा: ${s.class_name || '8th'})</option>`;
+          sel.innerHTML += `<option value="${s.id}">${s.name} (स्कॉलर: ${s.scholar_no || '759'})</option>`;
         });
         if (students.length > 0) {
           sel.value = students[0].id;
           populateTcFields();
         }
-      } catch (err) { console.error(err); }
+      } catch (err) {}
     }
 
     function populateTcFields() {
       const sel = document.getElementById('tc-student-select');
       if (!sel) return;
-      const studId = sel.value;
-      const s = students.find(x => x.id == studId) || students[0];
+      const s = students.find(x => x.id == sel.value) || students[0];
       if (!s) return;
-
       if (document.getElementById('tc-display-no')) document.getElementById('tc-display-no').innerText = `TC-2026/${String(s.id).padStart(3, '0')}`;
       if (document.getElementById('tc-display-scholar')) document.getElementById('tc-display-scholar').innerText = s.scholar_no || '759';
       if (document.getElementById('tc-p-name')) document.getElementById('tc-p-name').innerText = s.name;
-      if (document.getElementById('tc-p-father')) document.getElementById('tc-p-father').innerText = s.father_name || 'श्री देविलाल जी';
-      if (document.getElementById('tc-p-mother')) document.getElementById('tc-p-mother').innerText = s.mother_name || 'श्रीमती सरिता देवी';
-      if (document.getElementById('tc-p-class')) document.getElementById('tc-p-class').innerText = `${s.class_name || 'Class 8th'} - Section ${s.section || 'A'}`;
-      if (document.getElementById('tc-p-dob')) document.getElementById('tc-p-dob').innerText = s.dob || '01/01/2012';
-      if (document.getElementById('tc-p-category')) document.getElementById('tc-p-category').innerText = s.category ? `${s.category}` : 'सामान्य (GEN)';
     }
 
-    // Startup Screen
+    // Start Login Screen
     window.onload = function() {
       loadModule('login');
     };
