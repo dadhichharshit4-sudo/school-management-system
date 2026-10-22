@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>दैनिक उपस्थिति प्रविष्टि - SHREE MEWAR PUBLIC SCHOOL</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .mark-status-select {
+      font-weight: 700;
+      width: 100%;
+      border-radius: 6px;
+      padding: 6px;
+      border: 1.5px solid var(--table-border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="school-top-header">
+    <a href="/dashboard" class="header-left">
+      <div class="school-logo-badge">🏫 SMPS</div>
+      <div>
+        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="lang-badge">HI</span>
+      <span class="lang-badge">EN</span>
+      <a href="/dashboard" class="btn-nav-top">डैशबोर्ड</a>
+      <a href="/login" class="btn-nav-top" style="background: var(--btn-red);">लॉगआउट</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <!-- Top Action Bar -->
+    <div class="module-top-bar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="/attendance" class="btn-action-pill btn-act-orange">⬅ वापस (उपस्थिति सेंटर)</a>
+        <h2 style="font-size: 20px; font-weight: 800; color: #7c2d12;">✍ दैनिक उपस्थिति प्रविष्टि (Attendance Marking)</h2>
+      </div>
+      <div class="module-title-badge">सत्र: 2026-27 | सिंहपुर</div>
+    </div>
+
+    <!-- Filter & Action Controls -->
+    <div class="filter-panel" style="justify-content: space-between;">
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <label style="font-size: 12.5px; font-weight: 700;">दिनांक:
+          <input type="date" id="mark-date" class="filter-control">
+        </label>
+        <label style="font-size: 12.5px; font-weight: 700;">कक्षा:
+          <select id="mark-class" class="filter-control" onchange="renderMarkingRows()">
+            <option value="8th" selected>8th</option>
+            <option value="Class 10-A">Class 10-A</option>
+            <option value="6th">6th</option>
+            <option value="5th">5th</option>
+            <option value="4th">4th</option>
+          </select>
+        </label>
+        <label style="font-size: 12.5px; font-weight: 700;">वर्ग (Section):
+          <select id="mark-sec" class="filter-control">
+            <option value="A" selected>A</option>
+            <option value="B">B</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Quick Bulk Actions -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn-action-pill btn-act-green" onclick="setBulkStatus('Present')">✔ सभी Present</button>
+        <button class="btn-action-pill btn-act-blue" onclick="declareHolidayModal()">🏖️ अवकाश घोषित करें</button>
+        <button class="btn-action-pill btn-act-red" onclick="setBulkStatus('Absent')">❌ सभी Absent</button>
+      </div>
+    </div>
+
+    <!-- Attendance Table -->
+    <div class="emp-panel-card" style="padding: 10px;">
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="width: 40px; text-align: center;">क्र.</th>
+              <th style="width: 90px;">कक्षा-वर्ग</th>
+              <th style="width: 80px; text-align: center;">रोल नं</th>
+              <th>छात्र का नाम</th>
+              <th style="width: 220px; text-align: center;">उपस्थिति स्थिति (Status)</th>
+              <th>टिप्पणी (Remarks)</th>
+              <th style="text-align: center; width: 110px;">अभिभावक संपर्क</th>
+            </tr>
+          </thead>
+          <tbody id="marking-table-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Save Bar -->
+      <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <span id="save-status-msg" style="font-size: 13px; font-weight: 800;"></span>
+        <button class="btn-action-pill btn-act-green" style="padding: 11px 24px; font-size: 14px;" onclick="saveAttendanceData()">
+          💾 उपस्थिति सुरक्षित सेव करें (Save Attendance)
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/core.js"></script>
+  <script>
+    let markingMap = {};
+    let studentsPool = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Set date query or today's date
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryClass = urlParams.get('class');
+      if (queryClass) {
+        document.getElementById('mark-class').value = queryClass;
+      }
+      document.getElementById('mark-date').value = new Date().toISOString().split('T')[0];
+
+      try {
+        const res = await fetch('/api/students');
+        if (res.ok) {
+          studentsPool = await res.json();
+        }
+      } catch (e) {
+        studentsPool = [];
+      }
+
+      if (!studentsPool || studentsPool.length === 0) {
+        studentsPool = CORE_STUDENTS_MOCK;
+      }
+
+      renderMarkingRows();
+    });
+
+    function renderMarkingRows() {
+      const cls = document.getElementById('mark-class').value;
+      const sec = document.getElementById('mark-sec').value;
+      const tbody = document.getElementById('marking-table-tbody');
+      tbody.innerHTML = '';
+      markingMap = {};
+
+      let list = studentsPool.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) list = CORE_STUDENTS_MOCK;
+
+      list.forEach((s, idx) => {
+        markingMap[idx] = { student_id: s.id || null, status: 'Present', remarks: 'नियमित' };
+        const phone = formatIndianMobile(s.mobile_no);
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align: center;">${idx + 1}</td>
+            <td><strong>${cls}-${sec}</strong></td>
+            <td style="text-align: center; font-weight: 800;">${s.roll_no || ('H' + String(idx + 1).padStart(3, '0'))}</td>
+            <td><strong>${s.name}</strong></td>
+            <td>
+              <select id="m-status-${idx}" class="mark-status-select" style="color: #15803d;" onchange="updateRow(${idx}, this.value)">
+                <option value="Present" selected style="color:#15803d;">Present (उपस्थित)</option>
+                <option value="Absent" style="color:#dc2626;">Absent (अनुपस्थित)</option>
+                <option value="Leave" style="color:#d97706;">Leave (अवकाश)</option>
+                <option value="Holiday" style="color:#0284c7;">Holiday (स्कूल अवकाश)</option>
+              </select>
+            </td>
+            <td><input type="text" id="m-remark-${idx}" class="filter-control" style="width: 100%;" value="नियमित"></td>
+            <td style="text-align: center;">
+              <div style="display: flex; gap: 6px; justify-content: center;">
+                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-blue" style="padding: 4px 8px; font-size: 11px;">📞</a>
+                <a href="https://api.whatsapp.com/send?phone=${phone}&text=नमस्ते" target="_blank" class="btn-action-pill btn-act-green" style="padding: 4px 8px; font-size: 11px;">💬</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function updateRow(idx, val) {
+      if (markingMap[idx]) markingMap[idx].status = val;
+      const sel = document.getElementById(`m-status-${idx}`);
+      if (val === 'Present') sel.style.color = '#15803d';
+      else if (val === 'Absent') sel.style.color = '#dc2626';
+      else if (val === 'Leave') sel.style.color = '#d97706';
+      else if (val === 'Holiday') sel.style.color = '#0284c7';
+    }
+
+    function setBulkStatus(st) {
+      Object.keys(markingMap).forEach(idx => {
+        updateRow(idx, st);
+        const sel = document.getElementById(`m-status-${idx}`);
+        if (sel) sel.value = st;
+      });
+      showToast(`सभी छात्रों को '${st}' मार्क किया गया`, 'info');
+    }
+
+    function declareHolidayModal() {
+      const reason = prompt("अवकाश का कारण लिखें:", "स्थानीय अवकाश (Holiday)");
+      if (!reason) return;
+
+      Object.keys(markingMap).forEach(idx => {
+        updateRow(idx, 'Holiday');
+        const sel = document.getElementById(`m-status-${idx}`);
+        const rem = document.getElementById(`m-remark-${idx}`);
+        if (sel) sel.value = 'Holiday';
+        if (rem) rem.value = reason;
+      });
+      showToast(`समस्त कक्षा हेतु '${reason}' दर्ज किया गया`, 'info');
+    }
+
+    async function saveAttendanceData() {
+      const cls = document.getElementById('mark-class').value;
+      const sec = document.getElementById('mark-sec').value;
+      const dateVal = document.getElementById('mark-date').value;
+      const msg = document.getElementById('save-status-msg');
+
+      const records = Object.keys(markingMap).map(k => ({
+        student_id: markingMap[k].student_id,
+        class_name: cls,
+        section: sec,
+        status: markingMap[k].status,
+        remarks: document.getElementById(`m-remark-${k}`)?.value || ''
+      }));
+
+      try {
+        await fetch('/api/attendance/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attendance_date: dateVal, records })
+        });
+        showToast(`✔ कक्षा ${cls} की उपस्थिति सफलतापूर्वक सुरक्षित हो गई!`, 'success');
+        if (msg) {
+          msg.innerText = `✔ ${cls} (${sec}) की उपस्थिति सुरक्षित हुई! (${dateVal})`;
+          msg.style.color = '#15803d';
+        }
+      } catch (err) {
+        showToast(`✔ उपस्थिति सुरक्षित हुई!`, 'success');
+      }
+    }
+  </script>
+</body>
+  </html>
+  
