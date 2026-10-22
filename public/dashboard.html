@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>डैशबोर्ड - SHREE MEWAR PUBLIC SCHOOL</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .pills-scroll-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-gold);
+      border-bottom: 2px solid var(--gold-border);
+      justify-content: center;
+    }
+    .pill-btn {
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: filter 0.15s ease;
+    }
+    .pill-btn:hover { filter: brightness(1.1); }
+    .pill-blue { background: var(--btn-blue); }
+    .pill-green { background: var(--btn-green); }
+    .pill-orange { background: var(--btn-orange); }
+    .pill-purple { background: #7c3aed; }
+
+    .dashboard-grid-full {
+      max-width: 1300px;
+      margin: 20px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+    }
+    .erp-card {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #fed7aa;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-head {
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-body {
+      padding: 14px;
+      flex: 1;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 12.5px;
+    }
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+    .card-action-btn {
+      width: 100%;
+      color: #ffffff;
+      border: none;
+      padding: 9px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      transition: filter 0.15s ease;
+    }
+    .card-action-btn:hover { filter: brightness(1.1); }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="school-top-header">
+    <a href="/dashboard" class="header-left">
+      <div class="school-logo-badge">🏫 SMPS</div>
+      <div>
+        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="lang-badge">HI</span>
+      <span class="lang-badge">EN</span>
+      <a href="/dashboard" class="btn-nav-top">डैशबोर्ड</a>
+      <a href="/login" class="btn-nav-top" style="background: var(--btn-red);">लॉगआउट</a>
+    </div>
+  </header>
+
+  <!-- Quick Access Navigation Pills -->
+  <nav class="pills-scroll-container">
+    <a href="/students" class="pill-btn pill-blue">👥 विद्यार्थी प्रबंधन</a>
+    <a href="/employees" class="pill-btn pill-green">💼 कर्मचारी प्रबंधन</a>
+    <a href="/attendance" class="pill-btn pill-purple">📋 उपस्थिति कमांड सेंटर</a>
+    <a href="/attendance-mark" class="pill-btn pill-blue">✍ दैनिक हाजिरी</a>
+    <a href="/attendance-report" class="pill-btn pill-green">📑 31-दिन मास्टर रजिस्टर</a>
+    <a href="/fees" class="pill-btn pill-orange">💰 फीस हब</a>
+    <a href="/notifications" class="pill-btn pill-blue">📱 SMS / WhatsApp संचार</a>
+  </nav>
+
+  <!-- Dashboard Overview Cards -->
+  <main class="dashboard-grid-full">
+    <!-- Card 1: Students -->
+    <div class="erp-card">
+      <div>
+        <div class="card-head" style="background: #0369a1;"><span>👥</span> विद्यार्थी सांख्यिकी</div>
+        <div class="card-body">
+          <div class="stat-row"><span>कुल नामांकित छात्र:</span><strong id="d-tot-std">245</strong></div>
+          <div class="stat-row"><span>सक्रिय छात्र:</span><strong style="color: var(--btn-green);" id="d-act-std">245</strong></div>
+          <div class="stat-row"><span>RTE प्रवेशित:</span><strong>38</strong></div>
+          <div class="stat-row"><span>छात्र / छात्राएं:</span><strong>138 / 107</strong></div>
+        </div>
+      </div>
+      <div style="padding: 0 14px 14px;">
+        <a href="/students" class="card-action-btn" style="background: var(--btn-blue);">विद्यार्थी डायरेक्टरी खोलें ➔</a>
+      </div>
+    </div>
+
+    <!-- Card 2: Employees -->
+    <div class="erp-card">
+      <div>
+        <div class="card-head" style="background: #15803d;"><span>💼</span> स्टाफ एवं कर्मचारी</div>
+        <div class="card-body">
+          <div class="stat-row"><span>कुल कर्मचारी:</span><strong id="d-tot-emp">18</strong></div>
+          <div class="stat-row"><span>शिक्षण संकाय (Teachers):</span><strong id="d-teach-emp">14</strong></div>
+          <div class="stat-row"><span>कार्यालय / सहायक स्टाफ:</span><strong>4</strong></div>
+          <div class="stat-row"><span>उपस्थिति स्थिति:</span><strong style="color: var(--btn-green);">100% बायोमेट्रिक</strong></div>
+        </div>
+      </div>
+      <div style="padding: 0 14px 14px;">
+        <a href="/employees" class="card-action-btn" style="background: var(--btn-green);">स्टाफ डायरेक्टरी खोलें ➔</a>
+      </div>
+    </div>
+
+    <!-- Card 3: Attendance -->
+    <div class="erp-card">
+      <div>
+        <div class="card-head" style="background: #7c3aed;"><span>📋</span> आज की दैनिक उपस्थिति</div>
+        <div class="card-body">
+          <div class="stat-row"><span>दिनांक:</span><strong id="d-today-date">--</strong></div>
+          <div class="stat-row"><span>हाजिरी दर्ज कक्षाएं:</span><strong style="color: var(--btn-green);">12 / 12</strong></div>
+          <div class="stat-row"><span>कुल उपस्थित छात्र:</span><strong style="color: var(--btn-green);">238</strong></div>
+          <div class="stat-row"><span>कुल अनुपस्थित छात्र:</span><strong style="color: var(--btn-red);">7</strong></div>
+        </div>
+      </div>
+      <div style="padding: 0 14px 14px;">
+        <a href="/attendance" class="card-action-btn" style="background: #7c3aed;">उपस्थिति कमांड सेंटर ➔</a>
+      </div>
+    </div>
+
+    <!-- Card 4: Fees -->
+    <div class="erp-card">
+      <div>
+        <div class="card-head" style="background: #c2410c;"><span>💰</span> विद्यालय शुल्क सारांश</div>
+        <div class="card-body">
+          <div class="stat-row"><span>वार्षिक टर्नओवर:</span><strong id="d-tot-fee">₹ 24,50,000</strong></div>
+          <div class="stat-row"><span>एकत्रित शुल्क:</span><strong style="color: var(--btn-green);" id="d-paid-fee">₹ 18,90,000</strong></div>
+          <div class="stat-row"><span>कुल बकाया राशि:</span><strong style="color: var(--btn-red);">₹ 5,60,000</strong></div>
+          <div class="stat-row"><span>वसूली प्रतिशत:</span><strong>77.1%</strong></div>
+        </div>
+      </div>
+      <div style="padding: 0 14px 14px;">
+        <a href="/fees" class="card-action-btn" style="background: var(--btn-orange);">फीस प्रबंधन हब ➔</a>
+      </div>
+    </div>
+
+    <!-- Card 5: WhatsApp Notifications -->
+    <div class="erp-card">
+      <div>
+        <div class="card-head" style="background: #0f766e;"><span>📱</span> SMS एवं WhatsApp हब</div>
+        <div class="card-body">
+          <div class="stat-row"><span>अनुपस्थिति अलर्ट:</span><strong style="color: var(--btn-green);">सक्रिय</strong></div>
+          <div class="stat-row"><span>फीस बकाया रिमाइंडर:</span><strong style="color: var(--btn-orange);">सक्रिय</strong></div>
+          <div class="stat-row"><span>सामान्य नोटिस प्रसारण:</span><strong>PTM / अवकाश</strong></div>
+          <div class="stat-row"><span>संदेश माध्यम:</span><strong>WhatsApp & SMS</strong></div>
+        </div>
+      </div>
+      <div style="padding: 0 14px 14px;">
+        <a href="/notifications" class="card-action-btn" style="background: #0f766e;">संचार केंद्र खोलें ➔</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/core.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Set today's date
+      const today = new Date().toLocaleDateString('hi-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      const dateEl = document.getElementById('d-today-date');
+      if (dateEl) dateEl.innerText = today;
+
+      // Fetch dynamic stats from APIs if available
+      try {
+        const [stdRes, empRes, feeRes] = await Promise.all([
+          fetch('/api/students'),
+          fetch('/api/employees'),
+          fetch('/api/fees/summary')
+        ]);
+
+        if (stdRes.ok) {
+          const stdList = await stdRes.json();
+          if (stdList && stdList.length > 0) {
+            document.getElementById('d-tot-std').innerText = stdList.length;
+            document.getElementById('d-act-std').innerText = stdList.length;
+          }
+        }
+
+        if (empRes.ok) {
+          const empList = await empRes.json();
+          if (empList && empList.length > 0) {
+            document.getElementById('d-tot-emp').innerText = empList.length;
+            const teachers = empList.filter(e => (e.department || 'Teaching').toLowerCase().includes('teach')).length;
+            document.getElementById('d-teach-emp').innerText = teachers || empList.length;
+          }
+        }
+
+        if (feeRes.ok) {
+          const feeData = await feeRes.json();
+          if (feeData && feeData.length > 0) {
+            let tot = 0, paid = 0;
+            feeData.forEach(f => {
+              tot += Number(f.total_fees || 0);
+              paid += Number(f.paid_fees || 0);
+            });
+            document.getElementById('d-tot-fee').innerText = `₹ ${tot.toLocaleString('en-IN')}`;
+            document.getElementById('d-paid-fee').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+          }
+        }
+      } catch (e) {
+        console.log("Using core fallback stats");
+      }
+    });
+  </script>
+</body>
+</html>
