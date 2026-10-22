@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>उपस्थिति कमांड सेंटर - SHREE MEWAR PUBLIC SCHOOL</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .cmd-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .cmd-stat-box {
+      border-radius: 12px;
+      padding: 18px 14px;
+      color: #ffffff;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .cmd-stat-box h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .cmd-stat-box p {
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0.95;
+    }
+    .class-grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .class-att-card {
+      border-radius: 12px;
+      padding: 14px;
+      color: #ffffff;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease;
+    }
+    .class-att-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .class-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .class-card-top h3 {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .badge-sec-tag {
+      background: rgba(0,0,0,0.25);
+      font-size: 10.5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .class-status-pill {
+      background: rgba(255,255,255,0.92);
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .class-metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      background: rgba(255,255,255,0.18);
+      border-radius: 8px;
+      padding: 8px 4px;
+      text-align: center;
+      font-size: 11.5px;
+      margin-bottom: 12px;
+    }
+    .class-card-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .btn-card-action {
+      padding: 7px;
+      border-radius: 6px;
+      border: none;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      color: #ffffff;
+      background: rgba(0,0,0,0.3);
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.15s ease;
+    }
+    .btn-card-action:hover {
+      background: rgba(0,0,0,0.45);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="school-top-header">
+    <a href="/dashboard" class="header-left">
+      <div class="school-logo-badge">🏫 SMPS</div>
+      <div>
+        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="lang-badge">HI</span>
+      <span class="lang-badge">EN</span>
+      <a href="/dashboard" class="btn-nav-top">डैशबोर्ड</a>
+      <a href="/login" class="btn-nav-top" style="background: var(--btn-red);">लॉगआउट</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <!-- Top Action Bar -->
+    <div class="module-top-bar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="/dashboard" class="btn-action-pill btn-act-orange">⬅ वापस (Dashboard)</a>
+        <h2 style="font-size: 20px; font-weight: 800; color: #7c2d12;">📋 उपस्थिति कमांड एवं मॉनिटरिंग सेंटर</h2>
+      </div>
+      <div class="module-title-badge">सत्र: 2026-27 | सिंहपुर, चित्तौड़गढ़</div>
+    </div>
+
+    <!-- 4 Command Stat Boxes -->
+    <div class="cmd-stats-grid">
+      <div class="cmd-stat-box" style="background: #0284c7;">
+        <h2 id="cs-tot-students">245</h2>
+        <p>कुल नामांकित विद्यार्थी</p>
+      </div>
+      <div class="cmd-stat-box" style="background: #16a34a;">
+        <h2 id="cs-tot-present">238</h2>
+        <p>आज उपस्थित विद्यार्थी</p>
+      </div>
+      <div class="cmd-stat-box" style="background: #dc2626;">
+        <h2 id="cs-tot-absent">7</h2>
+        <p>आज अनुपस्थित विद्यार्थी</p>
+      </div>
+      <div class="cmd-stat-box" style="background: #ea580c;">
+        <h2>97.1%</h2>
+        <p>आज की कुल उपस्थिति दर</p>
+      </div>
+    </div>
+
+    <!-- Class Grid -->
+    <div class="emp-panel-card">
+      <div class="emp-section-title" style="justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>🏫</span> कक्षा-वार दैनिक उपस्थिति स्थिति (All Classes)
+        </div>
+        <div style="font-size: 12.5px; font-weight: 700; color: #64748b;">
+          दिनांक: <span id="cs-current-date" style="color: #7c2d12;">--</span>
+        </div>
+      </div>
+
+      <div class="class-grid-cards" id="cmd-classes-container"></div>
+    </div>
+  </main>
+
+  <script src="/js/core.js"></script>
+  <script>
+    const CLASSES_CONFIG = [
+      { name: 'Pp.3+', sec: '1 Section', count: 11, bg: '#db2777', done: false },
+      { name: 'Pp.4+', sec: '1 Section', count: 14, bg: '#0284c7', done: false },
+      { name: 'Pp.5+', sec: '1 Section', count: 30, bg: '#ea580c', done: false },
+      { name: '1st', sec: '1 Section', count: 28, bg: '#0d9488', done: false },
+      { name: '2nd', sec: '1 Section', count: 18, bg: '#7c3aed', done: false },
+      { name: '3rd', sec: '2 Sections', count: 27, bg: '#2563eb', done: false },
+      { name: '4th', sec: '1 Section', count: 17, bg: '#c026d3', done: false },
+      { name: '5th', sec: '1 Section', count: 28, bg: '#0284c7', done: false },
+      { name: '6th', sec: '2 Sections', count: 22, bg: '#ea580c', done: false },
+      { name: '7th', sec: '1 Section', count: 25, bg: '#0d9488', done: false },
+      { name: '8th', sec: '1 Section', count: 13, bg: '#7c3aed', done: true },
+      { name: 'Class 10-A', sec: '1 Section', count: 5, bg: '#16a34a', done: true }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const today = new Date().toLocaleDateString('hi-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      document.getElementById('cs-current-date').innerText = today;
+
+      const container = document.getElementById('cmd-classes-container');
+      container.innerHTML = '';
+
+      CLASSES_CONFIG.forEach(cls => {
+        const statusText = cls.done ? '✔ उपस्थिति दर्ज है' : '⚠️ दर्ज होना बाकी है';
+        const statusColor = cls.done ? '#15803d' : '#d97706';
+        const markedCount = cls.done ? cls.count : 0;
+
+        container.innerHTML += `
+          <div class="class-att-card" style="background: ${cls.bg};">
+            <div>
+              <div class="class-card-top">
+                <h3>${cls.name}</h3>
+                <span class="badge-sec-tag">${cls.sec}</span>
+              </div>
+              <div class="class-status-pill" style="color: ${statusColor};">${statusText}</div>
+              <div class="class-metrics-grid">
+                <div><div>कुल</div><strong>${cls.count}</strong></div>
+                <div><div>दर्ज</div><strong>${markedCount}</strong></div>
+                <div><div>अनुपस्थित</div><strong>0</strong></div>
+              </div>
+            </div>
+            <div class="class-card-btns">
+              <a href="/attendance-report?class=${encodeURIComponent(cls.name)}" class="btn-card-action">📑 रजिस्टर</a>
+              <a href="/attendance-mark?class=${encodeURIComponent(cls.name)}" class="btn-card-action" style="background: rgba(255,255,255,0.25);">✍ हाजिरी भरें</a>
+            </div>
+          </div>
+        `;
+      });
+    });
+  </script>
+</body>
+  </html>
+  
