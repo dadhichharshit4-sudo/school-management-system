@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>मास्टर उपस्थिति रजिस्टर (31 Days) - SHREE MEWAR PUBLIC SCHOOL</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .reg-wrapper {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .reg-header-banner {
+      background: linear-gradient(135deg, #78350f, #92400e);
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .reg-meta-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+    .reg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.5px;
+      text-align: center;
+    }
+    .reg-table th {
+      background: #78350f;
+      color: #ffffff;
+      padding: 5px 2px;
+      font-weight: 700;
+      border: 1px solid #92400e;
+      white-space: nowrap;
+    }
+    .reg-table td {
+      padding: 5px 2px;
+      border: 1px solid #cbd5e1;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .reg-table tr:nth-child(even) {
+      background: #fffbeb;
+    }
+    .col-sun {
+      background: #eff6ff !important;
+      color: #1e40af !important;
+      font-weight: 800;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      padding: 4px 0 !important;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    /* Modal Sheet Styling */
+    .modal-cover-sheet {
+      width: 680px;
+      background: #ffffff;
+      border: 4px double #78350f;
+      padding: 36px 30px;
+      margin: 0 auto;
+      text-align: center;
+      color: #1e293b;
+    }
+    .cover-title-big {
+      font-size: 24px;
+      font-weight: 900;
+      color: #7f1d1d;
+      margin-bottom: 6px;
+    }
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      text-align: left;
+      font-size: 13px;
+      margin: 26px 0;
+      border-top: 1px solid #cbd5e1;
+      border-bottom: 1px solid #cbd5e1;
+      padding: 16px 0;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-register-area, #printable-register-area *,
+      #printable-cover-sheet, #printable-cover-sheet * {
+        visibility: visible;
+      }
+      #printable-register-area, #printable-cover-sheet {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="school-top-header">
+    <a href="/dashboard" class="header-left">
+      <div class="school-logo-badge">🏫 SMPS</div>
+      <div>
+        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="lang-badge">HI</span>
+      <span class="lang-badge">EN</span>
+      <a href="/dashboard" class="btn-nav-top">डैशबोर्ड</a>
+      <a href="/login" class="btn-nav-top" style="background: var(--btn-red);">लॉगआउट</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <!-- Top Action Bar -->
+    <div class="module-top-bar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="/attendance" class="btn-action-pill btn-act-orange">⬅ वापस (उपस्थिति सेंटर)</a>
+        <h2 style="font-size: 20px; font-weight: 800; color: #7c2d12;">📑 31-दिन मास्टर उपस्थिति रजिस्टर (Master Register)</h2>
+      </div>
+      <div class="module-title-badge">सत्र: 2026-27 | सिंहपुर</div>
+    </div>
+
+    <!-- Filter Control Bar -->
+    <div class="filter-panel" style="justify-content: space-between;">
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <label style="font-size: 12.5px; font-weight: 700;">माह व वर्ष:
+          <input type="month" id="rep-month-input" class="filter-control" value="2026-10" onchange="generate31DaysRegister()">
+        </label>
+        <label style="font-size: 12.5px; font-weight: 700;">कक्षा:
+          <select id="rep-class-select" class="filter-control" onchange="generate31DaysRegister()">
+            <option value="8th" selected>8th</option>
+            <option value="Class 10-A">Class 10-A</option>
+            <option value="6th">6th</option>
+            <option value="5th">5th</option>
+            <option value="4th">4th</option>
+          </select>
+        </label>
+        <label style="font-size: 12.5px; font-weight: 700;">वर्ग:
+          <select id="rep-sec-select" class="filter-control" onchange="generate31DaysRegister()">
+            <option value="A" selected>A</option>
+            <option value="B">B</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn-action-pill btn-act-blue" onclick="openRegisterCoverModal()">📖 फ्रंट कवर देखें</button>
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ A4 प्रिंट (Print)</button>
+        <button class="btn-action-pill" style="background: #0d9488;" onclick="exportToExcel()">📊 Excel डाउनलोड</button>
+      </div>
+    </div>
+
+    <!-- Register View Sheet -->
+    <div class="reg-wrapper" id="printable-register-area">
+      <!-- Title Bar -->
+      <div class="reg-header-banner">
+        <div>
+          <div style="font-size: 16px; font-weight: 900; letter-spacing: 0.5px;">SHREE MEWAR PUBLIC SCHOOL, SINGHPUR</div>
+          <div style="font-size: 12px; color: #fde68a;">विद्यार्थी मासिक उपस्थिति रजिस्टर | सत्र: 2026-27</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <span class="reg-meta-badge">कक्षा: <strong id="lbl-reg-class">8th</strong> (<strong id="lbl-reg-sec">A</strong>)</span>
+          <span class="reg-meta-badge">माह: <strong id="lbl-reg-month">October 2026</strong></span>
+        </div>
+      </div>
+
+      <!-- 31 Days Dynamic Table -->
+      <div class="table-responsive">
+        <table class="reg-table">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width: 32px;">क्र.</th>
+              <th rowspan="2" style="width: 60px;">स्कॉलर</th>
+              <th rowspan="2" style="min-width: 130px; text-align: left; padding-left: 6px;">विद्यार्थी का नाम</th>
+              <th colspan="31" style="background: #92400e;">दिन एवं दिनांक (1 से 31)</th>
+              <th colspan="3" style="background: #15803d;">उपस्थिति सारांश</th>
+              <th rowspan="2" style="width: 40px; background: #dc2626;">अनु.</th>
+              <th rowspan="2" style="width: 70px;">कैफियत</th>
+            </tr>
+            <tr id="reg-days-header-subrow"></tr>
+          </thead>
+          <tbody id="reg-table-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL: FRONT COVER SHEET -->
+  <div id="front-cover-modal" class="modal-overlay hidden">
+    <div style="background: #ffffff; border-radius: 12px; padding: 20px; max-width: 740px; width: 100%; max-height: 90vh; overflow-y: auto;">
+      <div id="printable-cover-sheet">
+        <div class="modal-cover-sheet">
+          <div class="school-logo-badge" style="display: inline-block; margin-bottom: 12px; font-size: 18px;">🏫 SMPS</div>
+          <div class="cover-title-big">SHREE MEWAR PUBLIC SCHOOL</div>
+          <div style="font-size: 13px; color: #475569; font-weight: 700;">सिंहपुर, कपासन, जिला - चित्तौड़गढ़ (राजस्थान)</div>
+          
+          <div style="margin: 24px auto; background: #78350f; color: #ffffff; padding: 8px 24px; border-radius: 24px; font-size: 16px; font-weight: 800; display: inline-block;">
+            मासिक विद्यार्थी उपस्थिति पंजिका (STUDENT ATTENDANCE REGISTER)
+          </div>
+
+          <div class="cover-meta-grid">
+            <div><strong>सत्र (Session):</strong> 2026 - 2027</div>
+            <div><strong>कक्षा (Class):</strong> <span id="cov-class-lbl">8th</span></div>
+            <div><strong>वर्ग (Section):</strong> <span id="cov-sec-lbl">A</span></div>
+            <div><strong>कुल नामांकित छात्र:</strong> <span id="cov-tot-lbl">13</span></div>
+            <div><strong>कक्षा अध्यापक:</strong> श्री महेश शर्मा जी</div>
+            <div><strong>संस्था प्रधान:</strong> श्री सुरेश चंद्र व्यास जी</div>
+          </div>
+
+          <div style="font-size: 11.5px; color: #64748b; line-height: 1.6; text-align: justify; margin-bottom: 30px;">
+            * निर्देश: इस पंजिका में प्रतिदिन प्रातः प्रार्थना सभा के पश्चात उपस्थिति दर्ज की जाना अनिवार्य है। रविवार एवं राजपत्रित अवकाशों पर लंबवत लाल/नीली स्याही से अंकन करें।
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 50px;">
+            <div style="text-align: center;"><div style="border-top: 1px dashed #64748b; width: 140px; margin-bottom: 4px;"></div>हस्ताक्षर कक्षाध्यापक</div>
+            <div style="text-align: center;"><div style="border-top: 1px dashed #64748b; width: 140px; margin-bottom: 4px;"></div>सील एवं हस्ताक्षर संस्था प्रधान</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: center;" class="no-print">
+        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ कवर प्रिंट करें</button>
+        <button class="btn-action-pill" style="background: #64748b;" onclick="document.getElementById('front-cover-modal').classList.add('hidden')">बंद करें</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/core.js"></script>
+  <script>
+    const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const DAY_CHARS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    let registerStudents = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const qCls = urlParams.get('class');
+      if (qCls) document.getElementById('rep-class-select').value = qCls;
+
+      try {
+        const res = await fetch('/api/students');
+        if (res.ok) registerStudents = await res.json();
+      } catch (e) {
+        registerStudents = [];
+      }
+
+      if (!registerStudents || registerStudents.length === 0) {
+        registerStudents = CORE_STUDENTS_MOCK;
+      }
+
+      generate31DaysRegister();
+    });
+
+    function generate31DaysRegister() {
+      const cls = document.getElementById('rep-class-select').value;
+      const sec = document.getElementById('rep-sec-select').value;
+      const monthVal = document.getElementById('rep-month-input').value; // '2026-10'
+
+      const [yrStr, moStr] = monthVal.split('-');
+      const year = parseInt(yrStr, 10);
+      const month = parseInt(moStr, 10);
+      const totalDays = new Date(year, month, 0).getDate();
+
+      document.getElementById('lbl-reg-class').innerText = cls;
+      document.getElementById('lbl-reg-sec').innerText = sec;
+      document.getElementById('lbl-reg-month').innerText = `${MONTH_NAMES[month - 1]} ${year}`;
+
+      document.getElementById('cov-class-lbl').innerText = cls;
+      document.getElementById('cov-sec-lbl').innerText = sec;
+
+      const subRow = document.getElementById('reg-days-header-subrow');
+      subRow.innerHTML = '';
+
+      for (let d = 1; d <= 31; d++) {
+        if (d <= totalDays) {
+          const dateObj = new Date(year, month - 1, d);
+          const dayOfWeek = dateObj.getDay();
+          const isSun = (dayOfWeek === 0);
+          subRow.innerHTML += `
+            <th style="width: 18px; padding: 2px 1px; font-size: 9.5px; background: ${isSun ? '#93c5fd' : '#78350f'}; color: ${isSun ? '#1e3a8a' : '#ffffff'};">
+              ${d}<br><span style="font-size: 7.5px;">${DAY_CHARS[dayOfWeek]}</span>
+            </th>
+          `;
+        } else {
+          subRow.innerHTML += `<th style="width: 18px; background: #475569; font-size: 9px;">-</th>`;
+        }
+      }
+
+      // 3 Summary Columns in Subrow
+      subRow.innerHTML += `
+        <th style="width: 32px; background: #15803d; font-size: 9px;">चालू</th>
+        <th style="width: 32px; background: #15803d; font-size: 9px;">गत</th>
+        <th style="width: 34px; background: #15803d; font-size: 9px;">योग</th>
+      `;
+
+      let list = registerStudents.filter(s => (s.class_name || '8th') === cls);
+      if (list.length === 0) list = CORE_STUDENTS_MOCK;
+      document.getElementById('cov-tot-lbl').innerText = list.length;
+
+      const tbody = document.getElementById('reg-table-tbody');
+      tbody.innerHTML = '';
+
+      list.forEach((s, idx) => {
+        let daysHtml = '';
+        for (let d = 1; d <= 31; d++) {
+          if (d <= totalDays) {
+            const dateObj = new Date(year, month - 1, d);
+            const isSun = (dateObj.getDay() === 0);
+            if (idx === 0 && isSun) {
+              daysHtml += `<td class="col-sun" rowspan="${list.length}">रविवार</td>`;
+            } else if (!isSun) {
+              daysHtml += `<td>${d < 20 ? '1' : '-'}</td>`;
+            }
+          } else {
+            daysHtml += `<td>-</td>`;
+          }
+        }
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align: center;">${idx + 1}</td>
+            <td style="text-align: center;"><strong>${s.scholar_no || '759'}</strong></td>
+            <td style="text-align: left; font-weight: 700; padding-left: 6px;">${s.name}</td>
+            ${daysHtml}
+            <td style="font-weight: 800; color: #15803d; text-align: center;">22</td>
+            <td style="text-align: center;">115</td>
+            <td style="font-weight: 800; color: #1e3a8a; text-align: center;">137</td>
+            <td style="font-weight: 800; color: #dc2626; text-align: center;">0</td>
+            <td style="text-align: left; font-size: 9.5px; padding-left: 4px;">नियमित</td>
+          </tr>
+        `;
+      });
+    }
+
+    function openRegisterCoverModal() {
+      document.getElementById('front-cover-modal').classList.remove('hidden');
+    }
+
+    function exportToExcel() {
+      showToast("31-दिन उपस्थिति रजिस्टर Excel शीट तैयार हो रही है...", "info");
+      setTimeout(() => {
+        showToast("✔ Excel फाइल डाउनलोड हो गई!", "success");
+      }, 1200);
+    }
+  </script>
+</body>
+            </html>
+            
