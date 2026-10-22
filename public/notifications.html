@@ -283,7 +283,7 @@
 
       list.forEach((s, idx) => {
         const phone = formatIndianMobile(s.mobile_no);
-        const text = `आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपका बालक/बालिका ${s.name} (कक्षा: ${s.class_name || '8th'}) आज दिनांक ${dateVal} को विद्यालय में अनुपस्थित है। अधिक जानकारी हेतु कार्यालय में संपर्क करें: 9876543210`;
+        const text = `आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपका बालक/बालिका ${s.name} (कक्षा: ${s.class_name || '8th'}) आज दिनांक ${dateVal} को विद्यालय में अनुपस्थित है। अधिक जानकारी हेतु कार्यालय में संपर्क करें: 9799242540`;
         const waLink = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
         const smsLink = `sms:+${phone}?body=${encodeURIComponent(text)}`;
 
