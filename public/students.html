@@ -3,21 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>विद्यार्थी डायरेक्टरी - SHREE MEWAR PUBLIC SCHOOL</title>
+  <title>विद्यार्थी प्रबंधन - SHREE MEWAR PUBLIC SCHOOL</title>
   <link rel="stylesheet" href="/css/style.css">
   <style>
     .avatar-thumbnail {
-      width: 34px;
-      height: 38px;
+      width: 38px;
+      height: 42px;
       border-radius: 4px;
-      border: 1px solid #cbd5e1;
+      border: 1.5px solid #cbd5e1;
       object-fit: cover;
       background: #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 18px;
       margin: 0 auto;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .avatar-thumbnail:hover::after {
+      content: '📷';
+      position: absolute;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 14px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .badge-gender {
       font-size: 11px;
@@ -35,14 +55,146 @@
       border-radius: 12px;
       font-size: 10.5px;
     }
-    .std-action-grid {
-      display: flex;
-      gap: 4px;
-      justify-content: center;
+    .editable-td {
+      cursor: pointer;
+      transition: background 0.15s ease;
     }
+    .editable-td:hover {
+      background: #fef08a !important;
+    }
+    .inline-edit-input {
+      width: 100%;
+      padding: 4px 6px;
+      font-size: 12px;
+      border: 2px solid #0284c7;
+      border-radius: 4px;
+      outline: none;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 16px;
+    }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-header {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .modal-header h3 {
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-close-modal {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px;
+    }
+    .form-group-full {
+      grid-column: span 2;
+    }
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12.5px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .form-input:focus {
+      border-color: #0284c7;
+    }
+
+    /* Profile Card View */
+    .profile-card-body {
+      padding: 20px;
+    }
+    .profile-top-info {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      border-bottom: 1.5px solid #f1f5f9;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+    }
+    .profile-avatar-big {
+      width: 80px;
+      height: 90px;
+      border-radius: 8px;
+      border: 2px solid #cbd5e1;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .profile-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .profile-row {
+      background: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+    .profile-row strong {
+      color: #7f1d1d;
+    }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
+
+  <!-- Hidden File Input for Photo Upload -->
+  <input type="file" id="photo-upload-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
 
   <!-- Top Global Header -->
   <header class="school-top-header">
@@ -82,6 +234,7 @@
           <option value="Class 10-A">Class 10-A</option>
           <option value="6th">6th</option>
           <option value="5th">5th</option>
+          <option value="4th">4th</option>
         </select>
         <select id="std-rte-filter" class="filter-control" onchange="filterStudents()">
           <option value="">-- RTE स्थिति --</option>
@@ -90,16 +243,20 @@
         </select>
       </div>
 
-      <!-- Quick Metrics & Excel Download -->
+      <!-- Quick Metrics & Actions -->
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
         <div style="font-size: 12.5px; font-weight: 800; color: #78350f;">
           छात्र: <span id="std-cnt-boys" style="color:#0284c7;">0</span> | 
           छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">0</span> | 
           कुल: <span id="std-cnt-total" style="color:#15803d;">0</span>
         </div>
-        <button class="btn-action-pill btn-act-green" onclick="addNewStudentPrompt()">+ नया प्रवेश (Add)</button>
+        <button class="btn-action-pill btn-act-green" onclick="openAddStudentModal()">+ नया प्रवेश फॉर्म</button>
         <button class="btn-action-pill" style="background:#0d9488;" onclick="downloadStudentsExcel()">📊 Excel डाउनलोड</button>
       </div>
+    </div>
+
+    <div style="margin-bottom: 8px; font-size: 11.5px; color: #64748b; font-weight: 600;">
+      💡 <strong>टिप:</strong> किसी भी छात्र के नाम, रोल नं, मोबाइल या पते पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। फोटो बदलने के लिए अवतार पर क्लिक करें।
     </div>
 
     <!-- Students Directory Table -->
@@ -109,7 +266,7 @@
           <thead>
             <tr>
               <th style="width: 36px; text-align: center;">क्र.</th>
-              <th style="width: 48px; text-align: center;">फोटो</th>
+              <th style="width: 50px; text-align: center;">फोटो</th>
               <th style="width: 80px;">स्कॉलर नं</th>
               <th style="width: 60px; text-align: center;">रोल नं</th>
               <th>विद्यार्थी का नाम</th>
@@ -131,9 +288,137 @@
     </div>
   </main>
 
+  <!-- MODAL 1: ADD NEW STUDENT FORM -->
+  <div id="add-student-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><span>📝</span> नवीन छात्र प्रवेश फॉर्म (सत्र: 2026-27)</h3>
+        <button class="btn-close-modal" onclick="closeAddStudentModal()">×</button>
+      </div>
+      <form id="add-student-form" onsubmit="saveNewStudent(event)">
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">स्कॉलर नंबर (Admission No.) *</label>
+            <input type="text" id="f-scholar-no" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">रोल नंबर *</label>
+            <input type="text" id="f-roll-no" class="form-input" required>
+          </div>
+          <div class="form-group-full">
+            <label class="form-label">विद्यार्थी का पूरा नाम (अंग्रेज़ी बड़े अक्षर) *</label>
+            <input type="text" id="f-name" class="form-input" style="text-transform: uppercase;" required>
+          </div>
+          <div>
+            <label class="form-label">कक्षा (Class) *</label>
+            <select id="f-class" class="form-input" required>
+              <option value="8th" selected>8th</option>
+              <option value="Class 10-A">Class 10-A</option>
+              <option value="7th">7th</option>
+              <option value="6th">6th</option>
+              <option value="5th">5th</option>
+              <option value="4th">4th</option>
+              <option value="3rd">3rd</option>
+              <option value="2nd">2nd</option>
+              <option value="1st">1st</option>
+              <option value="Pp.5+">Pp.5+</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">वर्ग (Section) *</label>
+            <select id="f-section" class="form-input" required>
+              <option value="A" selected>A</option>
+              <option value="B">B</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">लिंग (Gender) *</label>
+            <select id="f-gender" class="form-input" required>
+              <option value="Male" selected>छात्र (Male)</option>
+              <option value="Female">छात्रा (Female)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">RTE प्रवेश स्थिति *</label>
+            <select id="f-rte" class="form-input" required>
+              <option value="NO" selected>सामान्य (Non-RTE)</option>
+              <option value="YES">RTE प्रवेशित</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">पिता का नाम *</label>
+            <input type="text" id="f-father-name" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">माता का नाम *</label>
+            <input type="text" id="f-mother-name" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">अभिभावक मोबाइल नंबर *</label>
+            <input type="tel" id="f-mobile" class="form-input" maxlength="10" placeholder="10-अंकीय मोबाइल" required>
+          </div>
+          <div>
+            <label class="form-label">जन्मतिथि (DOB)</label>
+            <input type="date" id="f-dob" class="form-input">
+          </div>
+          <div class="form-group-full">
+            <label class="form-label">स्थायी पता / निवास स्थान</label>
+            <input type="text" id="f-address" class="form-input" value="सिंहपुर, चित्तौड़गढ़">
+          </div>
+        </div>
+        <div style="background:#f8fafc; padding: 14px 20px; border-top: 1px solid #e2e8f0; display:flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="closeAddStudentModal()">रद्द करें</button>
+          <button type="submit" class="btn-action-pill btn-act-green">💾 विद्यार्थी सुरक्षित सेव करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: FULL PROFILE VIEW -->
+  <div id="profile-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><span>🎓</span> विद्यार्थी विस्तृत प्रोफाइल कार्ड</h3>
+        <button class="btn-close-modal" onclick="closeProfileModal()">×</button>
+      </div>
+      <div class="profile-card-body">
+        <div class="profile-top-info">
+          <div class="profile-avatar-big" id="p-avatar-box">👤</div>
+          <div>
+            <h2 id="p-full-name" style="color: #7f1d1d; font-size: 20px; font-weight: 900; margin-bottom: 4px;">--</h2>
+            <div style="font-size: 13px; color: #475569;">
+              स्कॉलर नंबर: <strong id="p-scholar" style="color:#0284c7;">--</strong> | 
+              कक्षा: <strong id="p-class">--</strong>
+            </div>
+            <div style="margin-top: 6px;">
+              <span id="p-gender-badge" class="badge-gender">--</span>
+              <span id="p-rte-badge" style="margin-left: 6px; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 700; background: #fef3c7; color: #b45309;">--</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-details-grid">
+          <div class="profile-row">पिता का नाम: <strong id="p-father">--</strong></div>
+          <div class="profile-row">माता का नाम: <strong id="p-mother">--</strong></div>
+          <div class="profile-row">रोल नंबर: <strong id="p-roll">--</strong></div>
+          <div class="profile-row">मोबाइल: <strong id="p-mobile">--</strong></div>
+          <div class="profile-row">जन्मतिथि: <strong id="p-dob">--</strong></div>
+          <div class="profile-row">प्रवेश स्थिति: <strong style="color:#15803d;">सक्रिय (Active)</strong></div>
+          <div class="profile-row" style="grid-column: span 2;">स्थायी पता: <strong id="p-address">--</strong></div>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+          <a id="p-call-link" href="#" class="btn-action-pill btn-act-green" style="text-decoration:none;">📞 अभिभावक से बात करें</a>
+          <button class="btn-action-pill btn-act-blue" onclick="window.print()">🖨️ A4 प्रिंट प्रोफाइल</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="/js/core.js"></script>
   <script>
     let allStudents = [];
+    let currentPhotoTargetId = null;
 
     document.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -147,11 +432,11 @@
 
       if (!allStudents || allStudents.length === 0) {
         allStudents = [
-          { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '12/04/2012', address: 'सिंहपुर' },
-          { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '05/08/2012', address: 'सिंहपुर' },
-          { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '18/11/2011', address: 'सिंहपुर' },
-          { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '22/01/2012', address: 'सिंहपुर' },
-          { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '14/06/2012', address: 'सिंहपुर' }
+          { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '2012-04-12', address: 'सिंहपुर, कपासन', photo: null },
+          { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '2012-08-05', address: 'सिंहपुर, कपासन', photo: null },
+          { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '2011-11-18', address: 'सिंहपुर, कपासन', photo: null },
+          { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '2012-01-22', address: 'सिंहपुर, कपासन', photo: null },
+          { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null }
         ];
       }
 
@@ -182,91 +467,27 @@
       list.forEach((s, idx) => {
         const isFem = (s.gender || 'Male').toLowerCase() === 'female';
         const genderBadge = isFem ? '<span class="badge-gender badge-female">छात्रा</span>' : '<span class="badge-gender badge-male">छात्र</span>';
-        const phone = formatIndianMobile(s.mobile_no);
+        const photoContent = s.photo ? `<img src="${s.photo}" class="avatar-img">` : `👤`;
 
         tbody.innerHTML += `
-          <tr>
+          <tr data-id="${s.id}">
             <td style="text-align: center;">${idx + 1}</td>
-            <td style="text-align: center;"><div class="avatar-thumbnail">👤</div></td>
-            <td><strong>${s.scholar_no || '759'}</strong></td>
-            <td style="text-align: center; font-weight: 800;">${s.roll_no || (idx + 1)}</td>
-            <td><strong>${s.name}</strong></td>
+            <td style="text-align: center;">
+              <div class="avatar-thumbnail" onclick="triggerPhotoUpload(${s.id})" title="फोटो बदलने के लिए क्लिक करें">
+                ${photoContent}
+              </div>
+            </td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'scholar_no')"><strong>${s.scholar_no || '759'}</strong></td>
+            <td style="text-align: center; font-weight: 800;" class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'roll_no')">${s.roll_no || (idx + 1)}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'name')"><strong>${s.name}</strong></td>
             <td>${s.class_name || '8th'}-${s.section || 'A'}</td>
             <td style="text-align: center;"><span class="status-active-pill">सक्रिय</span></td>
             <td>${genderBadge}</td>
             <td style="text-align: center; font-weight: 700; color:${s.rte === 'YES' ? '#dc2626' : '#64748b'};">${s.rte || 'NO'}</td>
-            <td>${s.father_name || 'श्री देविलाल जी'}</td>
-            <td>${s.mother_name || 'श्रीमती सरिता देवी'}</td>
-            <td>${s.mobile_no || '9876543210'}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'father_name')">${s.father_name || 'श्री देविलाल जी'}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mother_name')">${s.mother_name || 'श्रीमती सरिता देवी'}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mobile_no')">${s.mobile_no || '9876543210'}</td>
             <td>${s.dob || '01/01/2012'}</td>
-            <td>${s.address || 'सिंहपुर'}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'address')">${s.address || 'सिंहपुर'}</td>
             <td style="text-align: center;">
-              <div class="std-action-grid">
-                <button class="btn-action-pill btn-act-blue" style="font-size: 11px; padding: 4px 8px;" onclick="viewStudentProfile(${s.id || idx})">👁️ प्रोफाइल</button>
-                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-green" style="font-size: 11px; padding: 4px 8px;">📞 कॉल</a>
-              </div>
-            </td>
-          </tr>
-        `;
-      });
-    }
-
-    function filterStudents() {
-      const q = document.getElementById('std-search-box').value.toLowerCase().trim();
-      const cls = document.getElementById('std-class-filter').value;
-      const rte = document.getElementById('std-rte-filter').value;
-
-      const filtered = allStudents.filter(s => {
-        const matchesQuery = (s.name || '').toLowerCase().includes(q) ||
-                             (s.father_name || '').toLowerCase().includes(q) ||
-                             (s.scholar_no || '').toString().includes(q);
-        const matchesClass = !cls || (s.class_name || '') === cls;
-        const matchesRte = !rte || (s.rte || 'NO') === rte;
-        return matchesQuery && matchesClass && matchesRte;
-      });
-
-      updateMetrics(filtered);
-      renderTable(filtered);
-    }
-
-    function viewStudentProfile(id) {
-      const s = allStudents.find(x => x.id === id) || allStudents[0];
-      alert(`विद्यार्थी प्रोफाइल:\n- नाम: ${s.name}\n- स्कॉलर नं: ${s.scholar_no}\n- कक्षा: ${s.class_name}-${s.section}\n- पिता का नाम: ${s.father_name}\n- मोबाइल: ${s.mobile_no}\n- पता: ${s.address}`);
-    }
-
-    function addNewStudentPrompt() {
-      const name = prompt("नए विद्यार्थी का नाम लिखें:");
-      if (!name) return;
-      const scholar = prompt("स्कॉलर नंबर (Admission No):", "76" + Math.floor(Math.random() * 90 + 10));
-      const cls = prompt("प्रवेश कक्षा:", "8th");
-
-      const newStd = {
-        id: allStudents.length + 1,
-        scholar_no: scholar,
-        roll_no: allStudents.length + 1,
-        name: name.toUpperCase(),
-        class_name: cls,
-        section: 'A',
-        gender: 'Male',
-        rte: 'NO',
-        father_name: 'श्री अभिभावक जी',
-        mother_name: 'श्रीमती माता जी',
-        mobile_no: '9876543210',
-        dob: '01/01/2012',
-        address: 'सिंहपुर'
-      };
-
-      allStudents.unshift(newStd);
-      filterStudents();
-      showToast(`✔ विद्यार्थी ${name} का नवीन प्रवेश सफलतापूर्वक दर्ज हुआ!`, "success");
-    }
-
-    function downloadStudentsExcel() {
-      showToast("विद्यार्थी डायरेक्टरी Excel शीट तैयार की जा रही है...", "info");
-      setTimeout(() => {
-        showToast("✔ Excel फाइल डाउनलोड हो गई!", "success");
-      }, 1200);
-    }
-  </script>
-</body>
-</html>
+              <div style="
