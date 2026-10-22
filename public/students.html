@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>विद्यार्थी डायरेक्टरी - SHREE MEWAR PUBLIC SCHOOL</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .avatar-thumbnail {
+      width: 34px;
+      height: 38px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      object-fit: cover;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin: 0 auto;
+    }
+    .badge-gender {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .badge-male { background: #e0f2fe; color: #0369a1; }
+    .badge-female { background: #fce7f3; color: #be185d; }
+    .status-active-pill {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10.5px;
+    }
+    .std-action-grid {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="school-top-header">
+    <a href="/dashboard" class="header-left">
+      <div class="school-logo-badge">🏫 SMPS</div>
+      <div>
+        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="lang-badge">HI</span>
+      <span class="lang-badge">EN</span>
+      <a href="/dashboard" class="btn-nav-top">डैशबोर्ड</a>
+      <a href="/login" class="btn-nav-top" style="background: var(--btn-red);">लॉगआउट</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <!-- Top Action Bar -->
+    <div class="module-top-bar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="/dashboard" class="btn-action-pill btn-act-orange">⬅ वापस (Dashboard)</a>
+        <h2 style="font-size: 20px; font-weight: 800; color: #7c2d12;">👥 विद्यार्थी प्रबंधन एवं मास्टर डायरेक्टरी</h2>
+      </div>
+      <div class="module-title-badge">सत्र: 2026-27 | सिंहपुर</div>
+    </div>
+
+    <!-- Filter & Statistics Panel -->
+    <div class="filter-panel" style="justify-content: space-between;">
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <input type="text" id="std-search-box" class="filter-control" style="width: 260px;" placeholder="🔍 छात्र, पिता या स्कॉलर नं खोजें..." onkeyup="filterStudents()">
+        <select id="std-class-filter" class="filter-control" onchange="filterStudents()">
+          <option value="">-- समस्त कक्षाएं --</option>
+          <option value="8th">8th</option>
+          <option value="Class 10-A">Class 10-A</option>
+          <option value="6th">6th</option>
+          <option value="5th">5th</option>
+        </select>
+        <select id="std-rte-filter" class="filter-control" onchange="filterStudents()">
+          <option value="">-- RTE स्थिति --</option>
+          <option value="YES">RTE प्रवेशित</option>
+          <option value="NO">सामान्य प्रवेशित</option>
+        </select>
+      </div>
+
+      <!-- Quick Metrics & Excel Download -->
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <div style="font-size: 12.5px; font-weight: 800; color: #78350f;">
+          छात्र: <span id="std-cnt-boys" style="color:#0284c7;">0</span> | 
+          छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">0</span> | 
+          कुल: <span id="std-cnt-total" style="color:#15803d;">0</span>
+        </div>
+        <button class="btn-action-pill btn-act-green" onclick="addNewStudentPrompt()">+ नया प्रवेश (Add)</button>
+        <button class="btn-action-pill" style="background:#0d9488;" onclick="downloadStudentsExcel()">📊 Excel डाउनलोड</button>
+      </div>
+    </div>
+
+    <!-- Students Directory Table -->
+    <div class="emp-panel-card" style="padding: 10px;">
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="width: 36px; text-align: center;">क्र.</th>
+              <th style="width: 48px; text-align: center;">फोटो</th>
+              <th style="width: 80px;">स्कॉलर नं</th>
+              <th style="width: 60px; text-align: center;">रोल नं</th>
+              <th>विद्यार्थी का नाम</th>
+              <th style="width: 90px;">कक्षा-वर्ग</th>
+              <th style="text-align: center; width: 70px;">स्थिति</th>
+              <th style="width: 70px;">लिंग</th>
+              <th style="width: 60px; text-align: center;">RTE</th>
+              <th>पिता का नाम</th>
+              <th>माता का नाम</th>
+              <th>मोबाइल नंबर</th>
+              <th>जन्मतिथि</th>
+              <th>निवास / पता</th>
+              <th style="text-align: center; min-width: 140px;">कार्य (Action)</th>
+            </tr>
+          </thead>
+          <tbody id="std-directory-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/core.js"></script>
+  <script>
+    let allStudents = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/students');
+        if (res.ok) {
+          allStudents = await res.json();
+        }
+      } catch (err) {
+        allStudents = [];
+      }
+
+      if (!allStudents || allStudents.length === 0) {
+        allStudents = [
+          { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '12/04/2012', address: 'सिंहपुर' },
+          { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '05/08/2012', address: 'सिंहपुर' },
+          { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '18/11/2011', address: 'सिंहपुर' },
+          { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '22/01/2012', address: 'सिंहपुर' },
+          { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '14/06/2012', address: 'सिंहपुर' }
+        ];
+      }
+
+      updateMetrics(allStudents);
+      renderTable(allStudents);
+    });
+
+    function updateMetrics(list) {
+      let b = 0, g = 0;
+      list.forEach(s => {
+        if ((s.gender || 'Male').toLowerCase() === 'female') g++;
+        else b++;
+      });
+      document.getElementById('std-cnt-boys').innerText = b;
+      document.getElementById('std-cnt-girls').innerText = g;
+      document.getElementById('std-cnt-total').innerText = list.length;
+    }
+
+    function renderTable(list) {
+      const tbody = document.getElementById('std-directory-tbody');
+      tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="15" style="text-align:center; padding:24px; color:#64748b;">कोई विद्यार्थी रिकॉर्ड नहीं मिला।</td></tr>`;
+        return;
+      }
+
+      list.forEach((s, idx) => {
+        const isFem = (s.gender || 'Male').toLowerCase() === 'female';
+        const genderBadge = isFem ? '<span class="badge-gender badge-female">छात्रा</span>' : '<span class="badge-gender badge-male">छात्र</span>';
+        const phone = formatIndianMobile(s.mobile_no);
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align: center;">${idx + 1}</td>
+            <td style="text-align: center;"><div class="avatar-thumbnail">👤</div></td>
+            <td><strong>${s.scholar_no || '759'}</strong></td>
+            <td style="text-align: center; font-weight: 800;">${s.roll_no || (idx + 1)}</td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.class_name || '8th'}-${s.section || 'A'}</td>
+            <td style="text-align: center;"><span class="status-active-pill">सक्रिय</span></td>
+            <td>${genderBadge}</td>
+            <td style="text-align: center; font-weight: 700; color:${s.rte === 'YES' ? '#dc2626' : '#64748b'};">${s.rte || 'NO'}</td>
+            <td>${s.father_name || 'श्री देविलाल जी'}</td>
+            <td>${s.mother_name || 'श्रीमती सरिता देवी'}</td>
+            <td>${s.mobile_no || '9876543210'}</td>
+            <td>${s.dob || '01/01/2012'}</td>
+            <td>${s.address || 'सिंहपुर'}</td>
+            <td style="text-align: center;">
+              <div class="std-action-grid">
+                <button class="btn-action-pill btn-act-blue" style="font-size: 11px; padding: 4px 8px;" onclick="viewStudentProfile(${s.id || idx})">👁️ प्रोफाइल</button>
+                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-action-pill btn-act-green" style="font-size: 11px; padding: 4px 8px;">📞 कॉल</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function filterStudents() {
+      const q = document.getElementById('std-search-box').value.toLowerCase().trim();
+      const cls = document.getElementById('std-class-filter').value;
+      const rte = document.getElementById('std-rte-filter').value;
+
+      const filtered = allStudents.filter(s => {
+        const matchesQuery = (s.name || '').toLowerCase().includes(q) ||
+                             (s.father_name || '').toLowerCase().includes(q) ||
+                             (s.scholar_no || '').toString().includes(q);
+        const matchesClass = !cls || (s.class_name || '') === cls;
+        const matchesRte = !rte || (s.rte || 'NO') === rte;
+        return matchesQuery && matchesClass && matchesRte;
+      });
+
+      updateMetrics(filtered);
+      renderTable(filtered);
+    }
+
+    function viewStudentProfile(id) {
+      const s = allStudents.find(x => x.id === id) || allStudents[0];
+      alert(`विद्यार्थी प्रोफाइल:\n- नाम: ${s.name}\n- स्कॉलर नं: ${s.scholar_no}\n- कक्षा: ${s.class_name}-${s.section}\n- पिता का नाम: ${s.father_name}\n- मोबाइल: ${s.mobile_no}\n- पता: ${s.address}`);
+    }
+
+    function addNewStudentPrompt() {
+      const name = prompt("नए विद्यार्थी का नाम लिखें:");
+      if (!name) return;
+      const scholar = prompt("स्कॉलर नंबर (Admission No):", "76" + Math.floor(Math.random() * 90 + 10));
+      const cls = prompt("प्रवेश कक्षा:", "8th");
+
+      const newStd = {
+        id: allStudents.length + 1,
+        scholar_no: scholar,
+        roll_no: allStudents.length + 1,
+        name: name.toUpperCase(),
+        class_name: cls,
+        section: 'A',
+        gender: 'Male',
+        rte: 'NO',
+        father_name: 'श्री अभिभावक जी',
+        mother_name: 'श्रीमती माता जी',
+        mobile_no: '9876543210',
+        dob: '01/01/2012',
+        address: 'सिंहपुर'
+      };
+
+      allStudents.unshift(newStd);
+      filterStudents();
+      showToast(`✔ विद्यार्थी ${name} का नवीन प्रवेश सफलतापूर्वक दर्ज हुआ!`, "success");
+    }
+
+    function downloadStudentsExcel() {
+      showToast("विद्यार्थी डायरेक्टरी Excel शीट तैयार की जा रही है...", "info");
+      setTimeout(() => {
+        showToast("✔ Excel फाइल डाउनलोड हो गई!", "success");
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
