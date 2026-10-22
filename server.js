@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
-// Static frontend files
+// Static frontend folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // PostgreSQL Database Connection (Supabase)
@@ -20,7 +20,7 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Test Database Connection
+// Test Connection
 pool.connect((err, client, release) => {
   if (err) {
     console.error('❌ Database Connection Error:', err.stack);
@@ -29,6 +29,9 @@ pool.connect((err, client, release) => {
     release();
   }
 });
+
+// Health check route for UptimeRobot
+app.get('/api/health', (req, res) => res.status(200).send('OK'));
 
 // Import API Routers
 const studentsRouter = require('./routes/students');
@@ -44,12 +47,24 @@ app.use('/api/attendance', attendanceRouter(pool));
 app.use('/api/fees', feesRouter(pool));
 app.use('/api/notifications', notificationsRouter(pool));
 
-// Fallback HTML routing (Node.js 24 / Express 5 compatible: use regex instead of '*')
+// Direct Multi-Page HTML Routes
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'login.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'public', 'login.html')));
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'public', 'dashboard.html')));
+app.get('/students', (req, res) => res.sendFile(path.join(__dirname, 'public', 'students.html')));
+app.get('/employees', (req, res) => res.sendFile(path.join(__dirname, 'public', 'employees.html')));
+app.get('/attendance', (req, res) => res.sendFile(path.join(__dirname, 'public', 'attendance.html')));
+app.get('/attendance-mark', (req, res) => res.sendFile(path.join(__dirname, 'public', 'attendance-mark.html')));
+app.get('/attendance-report', (req, res) => res.sendFile(path.join(__dirname, 'public', 'attendance-report.html')));
+app.get('/fees', (req, res) => res.sendFile(path.join(__dirname, 'public', 'fees.html')));
+app.get('/notifications', (req, res) => res.sendFile(path.join(__dirname, 'public', 'notifications.html')));
+
+// Fallback to login
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`🚀 Shree Mewar Public School ERP Server running on port ${PORT}`);
+  console.log(`🚀 Shree Mewar Public School ERP running on port ${PORT}`);
 });
