@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>विद्यार्थी प्रबंधन - SHREE MEWAR PUBLIC SCHOOL</title>
+  <title>विद्यार्थी डायरेक्टरी - SHREE MEWAR PUBLIC SCHOOL</title>
   <link rel="stylesheet" href="/css/style.css">
   <style>
     .avatar-thumbnail {
@@ -146,7 +146,7 @@
       border-color: #0284c7;
     }
 
-    /* Profile Card View */
+    /* Profile View */
     .profile-card-body {
       padding: 20px;
     }
@@ -187,12 +187,28 @@
       color: #7f1d1d;
     }
 
+    /* Toast Notification inside page */
+    #local-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <!-- Hidden File Input for Photo Upload -->
+  <div id="local-toast"></div>
   <input type="file" id="photo-upload-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
 
   <!-- Top Global Header -->
@@ -243,9 +259,9 @@
 
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
         <div style="font-size: 12.5px; font-weight: 800; color: #78350f;">
-          छात्र: <span id="std-cnt-boys" style="color:#0284c7;">0</span> | 
-          छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">0</span> | 
-          कुल: <span id="std-cnt-total" style="color:#15803d;">0</span>
+          छात्र: <span id="std-cnt-boys" style="color:#0284c7;">5</span> | 
+          छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">2</span> | 
+          कुल: <span id="std-cnt-total" style="color:#15803d;">7</span>
         </div>
         <button class="btn-action-pill btn-act-green" onclick="openAddStudentModal()">+ नया प्रवेश फॉर्म</button>
         <button class="btn-action-pill" style="background:#0d9488;" onclick="downloadStudentsExcel()">📊 Excel डाउनलोड</button>
@@ -253,10 +269,10 @@
     </div>
 
     <div style="margin-bottom: 8px; font-size: 11.5px; color: #64748b; font-weight: 600;">
-      💡 <strong>टिप:</strong> किसी भी छात्र के नाम, रोल नं, पिता या मोबाइल पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। फोटो बदलने हेतु अवतार (👤) पर क्लिक करें।
+      💡 <strong>टिप:</strong> नाम, रोल नं, पिता, मोबाइल पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। फोटो हेतु अवतार (👤) पर क्लिक करें।
     </div>
 
-    <!-- Students Directory Table -->
+    <!-- Students Directory Table (Direct HTML Rows Pre-Rendered) -->
     <div class="emp-panel-card" style="padding: 10px;">
       <div class="table-responsive">
         <table class="custom-table">
@@ -279,7 +295,31 @@
               <th style="text-align: center; min-width: 140px;">कार्य (Action)</th>
             </tr>
           </thead>
-          <tbody id="std-directory-tbody"></tbody>
+          <tbody id="std-directory-tbody">
+            <!-- प्रारंभिक डायरेक्ट रो (ताकि स्क्रीन कभी खाली न रहे) -->
+            <tr data-id="1">
+              <td style="text-align:center;">1</td>
+              <td style="text-align:center;"><div class="avatar-thumbnail" onclick="triggerPhotoUpload(1)">👤</div></td>
+              <td class="editable-td" ondblclick="makeEditable(this, 1, 'scholar_no')"><strong>600</strong></td>
+              <td style="text-align:center; font-weight:800;" class="editable-td" ondblclick="makeEditable(this, 1, 'roll_no')">101</td>
+              <td class="editable-td" ondblclick="makeEditable(this, 1, 'name')"><strong>DEVENDRA GADRI</strong></td>
+              <td>8th-A</td>
+              <td style="text-align:center;"><span class="status-active-pill">सक्रिय</span></td>
+              <td><span class="badge-gender badge-male">छात्र</span></td>
+              <td style="text-align:center; font-weight:700; color:#64748b;">NO</td>
+              <td class="editable-td" ondblclick="makeEditable(this, 1, 'father_name')">श्री देविलाल जी</td>
+              <td class="editable-td" ondblclick="makeEditable(this, 1, 'mother_name')">श्रीमती सीता देवी</td>
+              <td class="editable-td" ondblclick="makeEditable(this, 1, 'mobile_no')">9876543210</td>
+              <td>12/04/2012</td>
+              <td class="editable-td" ondblclick="makeEditable(this, 1, 'address')">सिंहपुर, कपासन</td>
+              <td style="text-align:center;">
+                <div style="display:flex; gap:4px; justify-content:center;">
+                  <button class="btn-action-pill btn-act-blue" style="font-size:11px; padding:4px 8px;" onclick="viewStudentProfile(1)">👁️ प्रोफ़ाइल</button>
+                  <a href="tel:9876543210" class="btn-action-pill btn-act-green" style="font-size:11px; padding:4px 8px; text-decoration:none;">📞 कॉल</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -314,10 +354,6 @@
               <option value="7th">7th</option>
               <option value="6th">6th</option>
               <option value="5th">5th</option>
-              <option value="4th">4th</option>
-              <option value="3rd">3rd</option>
-              <option value="2nd">2nd</option>
-              <option value="1st">1st</option>
             </select>
           </div>
           <div>
@@ -404,89 +440,42 @@
         </div>
 
         <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-          <a id="p-call-link" href="#" class="btn-action-pill btn-act-green" style="text-decoration:none;">📞 अभिभावक से बात करें</a>
-          <button class="btn-action-pill btn-act-blue" onclick="window.print()">🖨️ A4 प्रिंट प्रोफाइल</button>
+          <a id="p-call-link" href="#" class="btn-action-pill btn-act-green" style="text-decoration:none;">📞 कॉल करें</a>
+          <button class="btn-action-pill btn-act-blue" onclick="window.print()">🖨️ A4 प्रिंट</button>
         </div>
       </div>
     </div>
   </div>
 
-    <script src="/js/core.js"></script>
   <script>
-    const SMPS_DEFAULT_STUDENTS = [
+    // इन-पेज टोस्ट यूटिलिटी (किसी बाहरी फ़ाइल की ज़रूरत नहीं)
+    function showAppToast(msg, isSuccess = true) {
+      const t = document.getElementById('local-toast');
+      if (!t) return;
+      t.innerText = msg;
+      t.style.background = isSuccess ? '#15803d' : '#b91c1c';
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3000);
+    }
+
+    // 7 छात्रों की प्राथमिक डिफ़ॉल्ट सूची
+    let allStudents = [
       { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '2012-04-12', address: 'सिंहपुर, कपासन', photo: null },
       { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '2012-08-05', address: 'सिंहपुर, कपासन', photo: null },
       { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '2011-11-18', address: 'सिंहपुर, कपासन', photo: null },
       { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '2012-01-22', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null }
+      { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 6, scholar_no: '624', roll_no: '106', name: 'ISHWAR BHIL', class_name: '8th', section: 'A', gender: 'Male', rte: 'YES', father_name: 'श्री रूपा जी', mother_name: 'श्रीमती धापू बाई', mobile_no: '9876543210', dob: '2012-09-10', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 7, scholar_no: '572', roll_no: '107', name: 'KISHAN LAL KUMAWAT', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री उदयलाल जी', mother_name: 'श्रीमती लीला देवी', mobile_no: '9876543210', dob: '2011-12-05', address: 'सिंहपुर, कपासन', photo: null }
     ];
 
-    let allStudents = [...SMPS_DEFAULT_STUDENTS];
     let currentPhotoTargetId = null;
-
-    // बिना किसी इवेंट पर निर्भर रहे तुरंत रेंडर करें
-    function initStudentsNow() {
-      updateMetrics(allStudents);
-      renderTable(allStudents);
-
-      // बैकएंड से बैकग्राउंड में अपडेट करें
-      fetch('/api/students')
-        .then(res => res.json())
-        .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            allStudents = data.map(item => ({
-              id: item.id || Math.random(),
-              scholar_no: item.scholar_no || item.admission_no || item.sr_no || '759',
-              roll_no: item.roll_no || '101',
-              name: item.name || item.student_name || 'STUDENT NAME',
-              class_name: item.class_name || item.class || '8th',
-              section: item.section || 'A',
-              gender: item.gender || 'Male',
-              rte: item.rte || 'NO',
-              father_name: item.father_name || 'श्री पिता जी',
-              mother_name: item.mother_name || 'श्रीमती माता जी',
-              mobile_no: item.mobile_no || item.phone || item.mobile || '9876543210',
-              dob: item.dob || '2012-01-01',
-              address: item.address || 'सिंहपुर, कपासन',
-              photo: item.photo || null
-            }));
-            updateMetrics(allStudents);
-            renderTable(allStudents);
-          }
-        })
-        .catch(err => console.log('Offline/Mock active'));
-    }
-
-    // सीधे कॉल
-    initStudentsNow();
-       
-    
-    function updateMetrics(list) {
-      let b = 0, g = 0;
-      list.forEach(s => {
-        if ((s.gender || 'Male').toLowerCase() === 'female') g++;
-        else b++;
-      });
-      document.getElementById('std-cnt-boys').innerText = b;
-      document.getElementById('std-cnt-girls').innerText = g;
-      document.getElementById('std-cnt-total').innerText = list.length;
-    }
 
     function renderTable(list) {
       const tbody = document.getElementById('std-directory-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
-
-      if (!list || list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="15" style="text-align:center; padding:24px; color:#64748b; font-weight:700;">कोई विद्यार्थी रिकॉर्ड नहीं मिला।</td></tr>`;
-        return;
-      }
 
       list.forEach((s, idx) => {
         const isFem = (s.gender || 'Male').toLowerCase() === 'female';
-        const genderBadge = isFem ? '<span class="badge-gender badge-female">छात्रा</span>' : '<span class="badge-gender badge-male">छात्र</span>';
-        const photoContent = s.photo ? `<img src="${s.photo}" class="avatar-img">` : `👤`;
-
-        tbody.innerHTML += `
-          <tr data-id="${s.id}">
-            <td style="text-align: center;">${idx + 1}</td>
-            <td style="tex
+        const genderBadge = isFem ? '<span class="badge-gender badge-female">छात्रा</span>' : '<span class="badge-
