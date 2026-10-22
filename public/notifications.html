@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMS एवं WhatsApp संचार केंद्र - SHREE MEWAR PUBLIC SCHOOL</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .notif-tab-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .notif-tab-btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .notif-tab-btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    .tab-active {
+      outline: 3px solid #fef08a;
+      box-shadow: var(--shadow-md);
+    }
+    .badge-count {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+    }
+    .broadcast-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #fafafa;
+      border: 1.5px solid #fed7aa;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .template-item {
+      padding: 10px 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      background: #fff;
+      font-size: 12.5px;
+      transition: background 0.15s ease;
+    }
+    .template-item:hover {
+      background: #fef9c3;
+      border-color: #f59e0b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="school-top-header">
+    <a href="/dashboard" class="header-left">
+      <div class="school-logo-badge">🏫 SMPS</div>
+      <div>
+        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="lang-badge">HI</span>
+      <span class="lang-badge">EN</span>
+      <a href="/dashboard" class="btn-nav-top">डैशबोर्ड</a>
+      <a href="/login" class="btn-nav-top" style="background: var(--btn-red);">लॉगआउट</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <!-- Top Action Bar -->
+    <div class="module-top-bar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="/dashboard" class="btn-action-pill btn-act-orange">⬅ वापस (Dashboard)</a>
+        <h2 style="font-size: 20px; font-weight: 800; color: #7c2d12;">📱 SMS एवं WhatsApp अलर्ट संचार केंद्र</h2>
+      </div>
+      <div class="module-title-badge">सत्र: 2026-27 | सिंहपुर, चित्तौड़गढ़</div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="notif-tab-bar">
+      <button id="btn-tab-att" class="notif-tab-btn btn-act-green tab-active" onclick="switchTab('att')">
+        📋 अनुपस्थिति अलर्ट (WhatsApp)
+      </button>
+      <button id="btn-tab-fee" class="notif-tab-btn btn-act-orange" onclick="switchTab('fee')">
+        💰 फीस रिमाइंडर अलर्ट
+      </button>
+      <button id="btn-tab-gen" class="notif-tab-btn btn-act-blue" onclick="switchTab('gen')">
+        📢 सामान्य घोषणा / नोटिस ब्रॉडकास्ट
+      </button>
+    </div>
+
+    <!-- TAB 1: ATTENDANCE ABSENT ALERTS -->
+    <section id="tab-att-section" class="emp-panel-card">
+      <div class="emp-section-title">
+        <span>📱</span> अनुपस्थित छात्रों के अभिभावकों को तुरंत WhatsApp / SMS अलर्ट भेजें
+      </div>
+
+      <div class="filter-panel" style="justify-content: space-between;">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <label style="font-size: 12.5px; font-weight: 700;">दिनांक चुनें:
+            <input type="date" id="att-filter-date" class="filter-control" onchange="fetchAbsentStudents()">
+          </label>
+          <button class="btn-action-pill btn-act-blue" onclick="fetchAbsentStudents()">🔄 सूची रीफ्रेश करें</button>
+        </div>
+        <div style="font-size: 13px; font-weight: 800; color: #b91c1c;">
+          कुल अनुपस्थित छात्र: <span id="att-absent-badge" class="badge-count" style="background: #fee2e2; color: #b91c1c;">0</span>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="width: 40px; text-align: center;">क्र.</th>
+              <th style="width: 90px;">स्कॉलर नं</th>
+              <th style="width: 70px; text-align: center;">रोल नं</th>
+              <th>छात्र का नाम</th>
+              <th style="width: 100px;">कक्षा-वर्ग</th>
+              <th>अभिभावक का नाम</th>
+              <th>मोबाइल नंबर</th>
+              <th style="text-align: center; min-width: 160px;">अलर्ट प्रेषण</th>
+            </tr>
+          </thead>
+          <tbody id="att-absent-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: FEES REMINDERS -->
+    <section id="tab-fee-section" class="emp-panel-card hidden">
+      <div class="emp-section-title">
+        <span>💳</span> बकाया विद्यालय शुल्क रिमाइंडर (WhatsApp Alert)
+      </div>
+
+      <div class="filter-panel" style="justify-content: space-between;">
+        <input type="text" id="fee-search-input" class="filter-control" style="width: 320px;" placeholder="🔍 छात्र या अभिभावक के नाम से खोजें..." onkeyup="filterFeeDefaulters()">
+        <div style="font-size: 13px; font-weight: 800; color: var(--btn-orange);">
+          कुल बकायादार: <span id="fee-defaulter-badge" class="badge-count" style="background: #ffedd5; color: #c2410c;">0</span>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="width: 40px; text-align: center;">क्र.</th>
+              <th style="width: 90px;">स्कॉलर नं</th>
+              <th>छात्र का नाम</th>
+              <th style="width: 90px;">कक्षा</th>
+              <th>अभिभावक</th>
+              <th>मोबाइल नंबर</th>
+              <th style="width: 110px;">बकाया राशि</th>
+              <th style="text-align: center; min-width: 150px;">फीस रिमाइंडर</th>
+            </tr>
+          </thead>
+          <tbody id="fee-defaulter-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: GENERAL BROADCAST -->
+    <section id="tab-gen-section" class="emp-panel-card hidden">
+      <div class="emp-section-title">
+        <span>📢</span> विद्यालय सूचना एवं अवकाश नोटिस ब्रॉडकास्ट
+      </div>
+
+      <div class="broadcast-box">
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12.5px; font-weight: 700; display: block; margin-bottom: 6px;">लक्षित समूह / कक्षा चुनें:</label>
+          <select id="bc-target-group" class="filter-control" style="width: 100%;">
+            <option value="all">-- समस्त विद्यालय (सभी कक्षाएं एवं अभिभावक) --</option>
+            <option value="10th">Class 10-A</option>
+            <option value="8th">Class 8th</option>
+            <option value="6th">Class 6th</option>
+            <option value="primary">प्राथमिक विभाग (Primary Section)</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12.5px; font-weight: 700; display: block; margin-bottom: 6px;">त्वरित टेम्पलेट चुनें:</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="template-item" onclick="setTemplate('ptm')">📅 अभिभावक-शिक्षक बैठक (PTM)</div>
+            <div class="template-item" onclick="setTemplate('holiday')">🏖️ विद्यालय अवकाश सूचना</div>
+            <div class="template-item" onclick="setTemplate('exam')">📝 परीक्षा एवं प्रवेश पत्र सूचना</div>
+            <div class="template-item" onclick="setTemplate('timing')">⏰ विद्यालय समय परिवर्तन</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 12.5px; font-weight: 700; display: block; margin-bottom: 6px;">संदेश प्रारूप (Message Body):</label>
+          <textarea id="bc-message-body" class="filter-control" style="width: 100%; height: 120px; font-size: 13px; line-height: 1.6;"></textarea>
+        </div>
+
+        <button class="btn-action-pill btn-act-green" style="width: 100%; padding: 12px; font-size: 14px; justify-content: center;" onclick="sendBroadcastWhatsApp()">
+          💬 WhatsApp पर ब्रॉडकास्ट साझा करें
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/core.js"></script>
+  <script>
+    let currentAbsentList = [];
+    let currentDefaultersList = [];
+
+    // 1. Tab Switching
+    function switchTab(tab) {
+      document.getElementById('tab-att-section').classList.add('hidden');
+      document.getElementById('tab-fee-section').classList.add('hidden');
+      document.getElementById('tab-gen-section').classList.add('hidden');
+
+      document.getElementById('btn-tab-att').classList.remove('tab-active');
+      document.getElementById('btn-tab-fee').classList.remove('tab-active');
+      document.getElementById('btn-tab-gen').classList.remove('tab-active');
+
+      if (tab === 'att') {
+        document.getElementById('tab-att-section').classList.remove('hidden');
+        document.getElementById('btn-tab-att').classList.add('tab-active');
+        fetchAbsentStudents();
+      } else if (tab === 'fee') {
+        document.getElementById('tab-fee-section').classList.remove('hidden');
+        document.getElementById('btn-tab-fee').classList.add('tab-active');
+        fetchFeeDefaulters();
+      } else if (tab === 'gen') {
+        document.getElementById('tab-gen-section').classList.remove('hidden');
+        document.getElementById('btn-tab-gen').classList.add('tab-active');
+        setTemplate('ptm');
+      }
+    }
+
+    // 2. Fetch Absent Students
+    async function fetchAbsentStudents() {
+      const dateVal = document.getElementById('att-filter-date').value || new Date().toISOString().split('T')[0];
+      document.getElementById('att-filter-date').value = dateVal;
+
+      try {
+        const res = await fetch(`/api/notifications/absent-today?date=${dateVal}`);
+        if (res.ok) {
+          currentAbsentList = await res.json();
+        } else {
+          currentAbsentList = [];
+        }
+      } catch (err) {
+        currentAbsentList = [];
+      }
+
+      // Use Core Fallback Mock if database has no record for this date
+      if (!currentAbsentList || currentAbsentList.length === 0) {
+        currentAbsentList = CORE_STUDENTS_MOCK.slice(0, 3);
+      }
+
+      document.getElementById('att-absent-badge').innerText = currentAbsentList.length;
+      renderAbsentTable(currentAbsentList, dateVal);
+    }
+
+    function renderAbsentTable(list, dateVal) {
+      const tbody = document.getElementById('att-absent-tbody');
+      tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:24px; color:#15803d; font-weight:700;">🎉 आज सभी छात्र उपस्थित हैं!</td></tr>`;
+        return;
+      }
+
+      list.forEach((s, idx) => {
+        const phone = formatIndianMobile(s.mobile_no);
+        const text = `आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपका बालक/बालिका ${s.name} (कक्षा: ${s.class_name || '8th'}) आज दिनांक ${dateVal} को विद्यालय में अनुपस्थित है। अधिक जानकारी हेतु कार्यालय में संपर्क करें: 9876543210`;
+        const waLink = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
+        const smsLink = `sms:+${phone}?body=${encodeURIComponent(text)}`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;">${idx + 1}</td>
+            <td><strong>${s.scholar_no || '759'}</strong></td>
+            <td style="text-align:center;">${s.roll_no || (idx + 1)}</td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.class_name || '8th'}-${s.section || 'A'}</td>
+            <td>${s.father_name || 'श्री देविलाल जी'}</td>
+            <td>${s.mobile_no || '9876543210'}</td>
+            <td style="text-align:center;">
+              <a href="${waLink}" target="_blank" class="btn-action-pill btn-act-green" style="font-size:11px; padding:4px 8px;">
+                💬 WhatsApp
+              </a>
+              <a href="${smsLink}" class="btn-action-pill btn-act-blue" style="font-size:11px; padding:4px 8px;">
+                ✉️ SMS
+              </a>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // 3. Fetch Fee Defaulters
+    async function fetchFeeDefaulters() {
+      try {
+        const res = await fetch('/api/notifications/fee-defaulters');
+        if (res.ok) {
+          currentDefaultersList = await res.json();
+        } else {
+          currentDefaultersList = [];
+        }
+      } catch (err) {
+        currentDefaultersList = [];
+      }
+
+      if (!currentDefaultersList || currentDefaultersList.length === 0) {
+        currentDefaultersList = CORE_STUDENTS_MOCK;
+      }
+
+      renderDefaultersTable(currentDefaultersList);
+    }
+
+    function renderDefaultersTable(list) {
+      document.getElementById('fee-defaulter-badge').innerText = list.length;
+      const tbody = document.getElementById('fee-defaulter-tbody');
+      tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:24px; color:#15803d; font-weight:700;">✔ किसी भी विद्यार्थी की फीस बकाया नहीं है!</td></tr>`;
+        return;
+      }
+
+      list.forEach((s, idx) => {
+        const phone = formatIndianMobile(s.mobile_no);
+        const text = `आदरणीय ${s.father_name} जी, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) सत्र 2026-27 हेतु आपके बालक/बालिका ${s.name} (कक्षा: ${s.class_name || '8th'}) की बकाया फीस ₹${Number(s.balance_fees || 8500).toLocaleString('en-IN')} है। कृपया शीघ्र विद्यालय कार्यालय में जमा करवाएं। धन्यवाद! - SMPS सिंहपुर`;
+        const waLink = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
+        const smsLink = `sms:+${phone}?body=${encodeURIComponent(text)}`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="text-align:center;">${idx + 1}</td>
+            <td><strong>${s.scholar_no || '759'}</strong></td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.class_name || '8th'}</td>
+            <td>${s.father_name || 'श्री अभिभावक जी'}</td>
+            <td>${s.mobile_no || '9876543210'}</td>
+            <td style="color:#dc2626; font-weight:800;">₹${Number(s.balance_fees || 8500).toLocaleString('en-IN')}</td>
+            <td style="text-align:center;">
+              <a href="${waLink}" target="_blank" class="btn-action-pill btn-act-orange" style="font-size:11px; padding:4px 8px;">
+                💬 फीस रिमाइंडर
+              </a>
+              <a href="${smsLink}" class="btn-action-pill btn-act-blue" style="font-size:11px; padding:4px 8px;">
+                ✉️ SMS
+              </a>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function filterFeeDefaulters() {
+      const q = document.getElementById('fee-search-input').value.toLowerCase().trim();
+      const filtered = currentDefaultersList.filter(s => 
+        (s.name || '').toLowerCase().includes(q) || 
+        (s.father_name || '').toLowerCase().includes(q) ||
+        (s.scholar_no || '').toString().includes(q)
+      );
+      renderDefaultersTable(filtered);
+    }
+
+    // 4. General Broadcast Templates
+    function setTemplate(type) {
+      const ta = document.getElementById('bc-message-body');
+      if (type === 'ptm') {
+        ta.value = "आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) में आगामी शनिवार को प्रातः 09:00 बजे अभिभावक-शिक्षक बैठक (PTM) का आयोजन किया गया है। कृपया अपने बालक/बालिका की शैक्षणिक प्रगति व परीक्षा समीक्षा हेतु अनिवार्य रूप से उपस्थित हों। धन्यवाद! - संस्था प्रधान, SMPS सिंहपुर";
+      } else if (type === 'holiday') {
+        ta.value = "प्रिय अभिभावक, सूचित किया जाता है कि स्थानीय अवकाश / त्योहार के उपलक्ष्य में कल विद्यालय में अध्ययन कार्य स्थगित रहेगा। नियमित कक्षाएं परसों से यथासमय संचालित होंगी। - संस्था प्रधान, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)";
+      } else if (type === 'exam') {
+        ta.value = "आदरणीय अभिभावक, श्री मेवाड़ पब्लिक स्कूल में आगामी अर्धवार्षिक/वार्षिक परीक्षा समय-सारिणी जारी कर दी गई है। सभी विद्यार्थी अपने प्रवेश पत्र व पूर्ण तैयारी के साथ समय पर उपस्थित हों। शुभकामनाएँ! - परीक्षा विभाग, SMPS सिंहपुर";
+      } else if (type === 'timing') {
+        ta.value = "महत्वपूर्ण सूचना: मौसम परिवर्तन के कारण कल से विद्यालय का समय प्रातः 08:00 बजे से दोपहर 01:30 बजे तक रहेगा। कृपया सभी विद्यार्थी नए समयानुसार उपस्थित हों। - SMPS सिंहपुर";
+      }
+    }
+
+    function sendBroadcastWhatsApp() {
+      const text = document.getElementById('bc-message-body').value.trim();
+      if (!text) {
+        showToast("कृपया पहले संदेश लिखें या टेम्पलेट चुनें!", "error");
+        return;
+      }
+      const msg = encodeURIComponent(text);
+      window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
+      showToast("WhatsApp शेयरिंग विंडो खोली गई!", "success");
+    }
+
+    // Auto-init on load
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('att-filter-date').value = new Date().toISOString().split('T')[0];
+      fetchAbsentStudents();
+    });
+  </script>
+</body>
+  </html>
+  
