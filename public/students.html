@@ -11,7 +11,6 @@
       height: 42px;
       border-radius: 4px;
       border: 1.5px solid #cbd5e1;
-      object-fit: cover;
       background: #e2e8f0;
       display: flex;
       align-items: center;
@@ -215,7 +214,6 @@
 
   <!-- Main Container -->
   <main class="main-wrapper">
-    <!-- Top Action Bar -->
     <div class="module-top-bar">
       <div style="display: flex; align-items: center; gap: 10px;">
         <a href="/dashboard" class="btn-action-pill btn-act-orange">⬅ वापस (Dashboard)</a>
@@ -232,9 +230,9 @@
           <option value="">-- समस्त कक्षाएं --</option>
           <option value="8th">8th</option>
           <option value="Class 10-A">Class 10-A</option>
+          <option value="7th">7th</option>
           <option value="6th">6th</option>
           <option value="5th">5th</option>
-          <option value="4th">4th</option>
         </select>
         <select id="std-rte-filter" class="filter-control" onchange="filterStudents()">
           <option value="">-- RTE स्थिति --</option>
@@ -243,7 +241,6 @@
         </select>
       </div>
 
-      <!-- Quick Metrics & Actions -->
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
         <div style="font-size: 12.5px; font-weight: 800; color: #78350f;">
           छात्र: <span id="std-cnt-boys" style="color:#0284c7;">0</span> | 
@@ -256,7 +253,7 @@
     </div>
 
     <div style="margin-bottom: 8px; font-size: 11.5px; color: #64748b; font-weight: 600;">
-      💡 <strong>टिप:</strong> किसी भी छात्र के नाम, रोल नं, मोबाइल या पते पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। फोटो बदलने के लिए अवतार पर क्लिक करें।
+      💡 <strong>टिप:</strong> किसी भी छात्र के नाम, रोल नं, पिता या मोबाइल पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। फोटो बदलने हेतु अवतार (👤) पर क्लिक करें।
     </div>
 
     <!-- Students Directory Table -->
@@ -321,7 +318,6 @@
               <option value="3rd">3rd</option>
               <option value="2nd">2nd</option>
               <option value="1st">1st</option>
-              <option value="Pp.5+">Pp.5+</option>
             </select>
           </div>
           <div>
@@ -359,7 +355,7 @@
           </div>
           <div>
             <label class="form-label">जन्मतिथि (DOB)</label>
-            <input type="date" id="f-dob" class="form-input">
+            <input type="date" id="f-dob" class="form-input" value="2012-01-01">
           </div>
           <div class="form-group-full">
             <label class="form-label">स्थायी पता / निवास स्थान</label>
@@ -417,6 +413,17 @@
 
   <script src="/js/core.js"></script>
   <script>
+    // डिफ़ॉल्ट स्कूल छात्र सूची (हमेशा उपलब्ध)
+    const SMPS_DEFAULT_STUDENTS = [
+      { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '2012-04-12', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '2012-08-05', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '2011-11-18', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '2012-01-22', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 6, scholar_no: '624', roll_no: '106', name: 'ISHWAR BHIL', class_name: '8th', section: 'A', gender: 'Male', rte: 'YES', father_name: 'श्री रूपा जी', mother_name: 'श्रीमती धापू बाई', mobile_no: '9876543210', dob: '2012-09-10', address: 'सिंहपुर, कपासन', photo: null },
+      { id: 7, scholar_no: '572', roll_no: '107', name: 'KISHAN LAL KUMAWAT', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री उदयलाल जी', mother_name: 'श्रीमती लीला देवी', mobile_no: '9876543210', dob: '2011-12-05', address: 'सिंहपुर, कपासन', photo: null }
+    ];
+
     let allStudents = [];
     let currentPhotoTargetId = null;
 
@@ -424,20 +431,33 @@
       try {
         const res = await fetch('/api/students');
         if (res.ok) {
-          allStudents = await res.json();
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            allStudents = data.map(item => ({
+              id: item.id || Math.random(),
+              scholar_no: item.scholar_no || item.admission_no || item.sr_no || '759',
+              roll_no: item.roll_no || '101',
+              name: item.name || item.student_name || 'STUDENT NAME',
+              class_name: item.class_name || item.class || '8th',
+              section: item.section || 'A',
+              gender: item.gender || 'Male',
+              rte: item.rte || 'NO',
+              father_name: item.father_name || 'श्री पिता जी',
+              mother_name: item.mother_name || 'श्रीमती माता जी',
+              mobile_no: item.mobile_no || item.phone || item.mobile || '9876543210',
+              dob: item.dob || '2012-01-01',
+              address: item.address || 'सिंहपुर, कपासन',
+              photo: item.photo || null
+            }));
+          }
         }
       } catch (err) {
-        allStudents = [];
+        console.log("Database fetch fallback:", err);
       }
 
+      // अगर डेटाबेस में कोई छात्र नहीं है तो डिफ़ॉल्ट छात्रों को तुरंत लोड करें
       if (!allStudents || allStudents.length === 0) {
-        allStudents = [
-          { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '2012-04-12', address: 'सिंहपुर, कपासन', photo: null },
-          { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '2012-08-05', address: 'सिंहपुर, कपासन', photo: null },
-          { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '2011-11-18', address: 'सिंहपुर, कपासन', photo: null },
-          { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '2012-01-22', address: 'सिंहपुर, कपासन', photo: null },
-          { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null }
-        ];
+        allStudents = [...SMPS_DEFAULT_STUDENTS];
       }
 
       updateMetrics(allStudents);
@@ -459,8 +479,8 @@
       const tbody = document.getElementById('std-directory-tbody');
       tbody.innerHTML = '';
 
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="15" style="text-align:center; padding:24px; color:#64748b;">कोई विद्यार्थी रिकॉर्ड नहीं मिला।</td></tr>`;
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="15" style="text-align:center; padding:24px; color:#64748b; font-weight:700;">कोई विद्यार्थी रिकॉर्ड नहीं मिला।</td></tr>`;
         return;
       }
 
@@ -472,22 +492,4 @@
         tbody.innerHTML += `
           <tr data-id="${s.id}">
             <td style="text-align: center;">${idx + 1}</td>
-            <td style="text-align: center;">
-              <div class="avatar-thumbnail" onclick="triggerPhotoUpload(${s.id})" title="फोटो बदलने के लिए क्लिक करें">
-                ${photoContent}
-              </div>
-            </td>
-            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'scholar_no')"><strong>${s.scholar_no || '759'}</strong></td>
-            <td style="text-align: center; font-weight: 800;" class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'roll_no')">${s.roll_no || (idx + 1)}</td>
-            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'name')"><strong>${s.name}</strong></td>
-            <td>${s.class_name || '8th'}-${s.section || 'A'}</td>
-            <td style="text-align: center;"><span class="status-active-pill">सक्रिय</span></td>
-            <td>${genderBadge}</td>
-            <td style="text-align: center; font-weight: 700; color:${s.rte === 'YES' ? '#dc2626' : '#64748b'};">${s.rte || 'NO'}</td>
-            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'father_name')">${s.father_name || 'श्री देविलाल जी'}</td>
-            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mother_name')">${s.mother_name || 'श्रीमती सरिता देवी'}</td>
-            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mobile_no')">${s.mobile_no || '9876543210'}</td>
-            <td>${s.dob || '01/01/2012'}</td>
-            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'address')">${s.address || 'सिंहपुर'}</td>
-            <td style="text-align: center;">
-              <div style="
+            <td style="tex
