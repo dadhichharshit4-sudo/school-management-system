@@ -411,27 +411,28 @@
     </div>
   </div>
 
-  <script src="/js/core.js"></script>
+    <script src="/js/core.js"></script>
   <script>
-    // डिफ़ॉल्ट स्कूल छात्र सूची (हमेशा उपलब्ध)
     const SMPS_DEFAULT_STUDENTS = [
       { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '2012-04-12', address: 'सिंहपुर, कपासन', photo: null },
       { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '2012-08-05', address: 'सिंहपुर, कपासन', photo: null },
       { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '2011-11-18', address: 'सिंहपुर, कपासन', photo: null },
       { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '2012-01-22', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 6, scholar_no: '624', roll_no: '106', name: 'ISHWAR BHIL', class_name: '8th', section: 'A', gender: 'Male', rte: 'YES', father_name: 'श्री रूपा जी', mother_name: 'श्रीमती धापू बाई', mobile_no: '9876543210', dob: '2012-09-10', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 7, scholar_no: '572', roll_no: '107', name: 'KISHAN LAL KUMAWAT', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री उदयलाल जी', mother_name: 'श्रीमती लीला देवी', mobile_no: '9876543210', dob: '2011-12-05', address: 'सिंहपुर, कपासन', photo: null }
+      { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null }
     ];
 
-    let allStudents = [];
+    let allStudents = [...SMPS_DEFAULT_STUDENTS];
     let currentPhotoTargetId = null;
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const res = await fetch('/api/students');
-        if (res.ok) {
-          const data = await res.json();
+    // बिना किसी इवेंट पर निर्भर रहे तुरंत रेंडर करें
+    function initStudentsNow() {
+      updateMetrics(allStudents);
+      renderTable(allStudents);
+
+      // बैकएंड से बैकग्राउंड में अपडेट करें
+      fetch('/api/students')
+        .then(res => res.json())
+        .then(data => {
           if (Array.isArray(data) && data.length > 0) {
             allStudents = data.map(item => ({
               id: item.id || Math.random(),
@@ -449,21 +450,17 @@
               address: item.address || 'सिंहपुर, कपासन',
               photo: item.photo || null
             }));
+            updateMetrics(allStudents);
+            renderTable(allStudents);
           }
-        }
-      } catch (err) {
-        console.log("Database fetch fallback:", err);
-      }
+        })
+        .catch(err => console.log('Offline/Mock active'));
+    }
 
-      // अगर डेटाबेस में कोई छात्र नहीं है तो डिफ़ॉल्ट छात्रों को तुरंत लोड करें
-      if (!allStudents || allStudents.length === 0) {
-        allStudents = [...SMPS_DEFAULT_STUDENTS];
-      }
-
-      updateMetrics(allStudents);
-      renderTable(allStudents);
-    });
-
+    // सीधे कॉल
+    initStudentsNow();
+       
+    
     function updateMetrics(list) {
       let b = 0, g = 0;
       list.forEach(s => {
