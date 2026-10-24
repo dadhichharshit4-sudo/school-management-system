@@ -299,9 +299,9 @@
     .btn-tbl-act {
       border: none;
       border-radius: 4px;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
-      padding: 4px 6px;
+      padding: 3px 5px;
       color: #ffffff;
       cursor: pointer;
       text-align: center;
@@ -621,8 +621,9 @@
     </div>
     <div>
       <select id="main-status-filter" class="bbs-select-ctrl" onchange="filterMainTable()">
+        <option value="">🔘 समस्त छात्र (All)</option>
         <option value="Active">🔘 सक्रिय (Active)</option>
-        <option value="All">समस्त छात्र (All)</option>
+        <option value="Inactive">🔘 निष्क्रिय (Inactive)</option>
       </select>
     </div>
     <div class="switch-container">
@@ -644,13 +645,13 @@
   <!-- STATS STRIP -->
   <div class="bbs-stats-strip">
     <div class="bbs-stat-pill pill-boys">
-      🚹 लड़के (Boys): <span id="stat-boys-cnt">129</span>
+      🚹 लड़के (Boys): <span id="stat-boys-cnt">0</span>
     </div>
     <div class="bbs-stat-pill pill-girls">
-      🚺 लड़कियाँ (Girls): <span id="stat-girls-cnt">93</span>
+      🚺 लड़कियाँ (Girls): <span id="stat-girls-cnt">0</span>
     </div>
     <div class="bbs-stat-pill pill-total">
-      👥 कुल छात्र (Total): <span id="stat-total-cnt">222</span>
+      👥 कुल छात्र (Total): <span id="stat-total-cnt">0</span>
     </div>
   </div>
 
@@ -691,7 +692,7 @@
     </table>
 
     <div class="bbs-pagination-bar">
-      <span class="page-info-pill" id="lbl-page-info">पेज 1 / 1 (4 छात्र)</span>
+      <span class="page-info-pill" id="lbl-page-info">पेज 1 / 1 (0 छात्र)</span>
     </div>
   </div>
 
@@ -838,7 +839,7 @@
           </div>
           <div style="margin-top:20px; display:flex; justify-content:space-between;">
             <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="switchFormTab(3)">⬅ पिछला</button>
-            <button type="button" class="bbs-btn-action btn-orange-edit" onclick="switchFormTab(5)">अगला: फीस पैकेज (Step 5) ➔</button>
+            <button type="button" class="bbs-btn-action btn-orange-edit" onclick="switchFormTab(5)">अगला: शुल्क पैकेज (Step 5) ➔</button>
           </div>
         </div>
 
@@ -925,6 +926,7 @@
               <option value="PP.5+">PP.5+</option>
               <option value="1st">1st</option>
               <option value="8th">8th</option>
+              <option value="Class 10-A">Class 10-A</option>
             </select>
           </div>
           <div style="display:flex; align-items:flex-end; justify-content:flex-end;">
@@ -1048,13 +1050,17 @@
       setTimeout(() => { t.style.display = 'none'; }, 2800);
     }
 
-    let masterStudents = [
+    // डिफ़ॉल्ट स्कूल छात्र सूची (Fallback)
+    const DEFAULT_STUDENTS_LIST = [
       { id: 1, scholar_no: '754', adm_date: '06/07/2026', name: 'AADITYA SALVI', pen_no: '-', roll_no: '1', class_name: 'PP.5+', section: 'A', status: 'सक्रिय (Active)', gender: 'Male', rte: 'NO', father_name: 'DEVI LAL BALAI', mother_name: 'SARITA SALVI', mobile_no: '7239868621', dob: '11/09/2020', aadhaar: '-', janaadhaar: '-', address: 'SINGHPUR CHITTORGARH RAJSTHAN 312207', documents: 'कोई नहीं', photo: null },
       { id: 2, scholar_no: '727', adm_date: '25/03/2026', name: 'AAROHI ACHARYA', pen_no: '-', roll_no: 'A001', class_name: '1st', section: 'A', status: 'सक्रिय (Active)', gender: 'Female', rte: 'NO', father_name: 'BABU LAL ACHARYA', mother_name: 'PRIYAKA ACHARYA', mobile_no: '8875772525', dob: '07/10/2019', aadhaar: '-', janaadhaar: '-', address: 'VPO SINGHPUR, TEH-KAPASAN, CHITTORGARH 312207', documents: 'कोई नहीं', photo: null },
       { id: 3, scholar_no: '725', adm_date: '25/03/2026', name: 'AAROHI MALI', pen_no: '-', roll_no: '2', class_name: 'PP.4+', section: 'A', status: 'सक्रिय (Active)', gender: 'Female', rte: 'NO', father_name: 'NARAYAN LAL MALI', mother_name: 'SEEMA MALI', mobile_no: '9799613473', dob: '09/08/2021', aadhaar: '-', janaadhaar: '-', address: 'VPO SINGHPUR, TEH-KAPASAN, CHITTORGARH 312207', documents: 'कोई नहीं', photo: null },
-      { id: 4, scholar_no: '714', adm_date: '25/03/2026', name: 'AARTI', pen_no: '-', roll_no: '3', class_name: 'PP.3+', section: 'A', status: 'सक्रिय (Active)', gender: 'Female', rte: 'NO', father_name: 'NARAYAN LAL', mother_name: 'DALI BAI', mobile_no: '9784852665', dob: '25/08/2022', aadhaar: '-', janaadhaar: '-', address: 'SINGHPUR', documents: 'कोई नहीं', photo: null }
+      { id: 4, scholar_no: '714', adm_date: '25/03/2026', name: 'AARTI', pen_no: '-', roll_no: '3', class_name: 'PP.3+', section: 'A', status: 'सक्रिय (Active)', gender: 'Female', rte: 'NO', father_name: 'NARAYAN LAL', mother_name: 'DALI BAI', mobile_no: '9784852665', dob: '25/08/2022', aadhaar: '-', janaadhaar: '-', address: 'SINGHPUR', documents: 'कोई नहीं', photo: null },
+      { id: 5, scholar_no: '101', adm_date: '01/07/2026', name: 'Rahul Sharma', pen_no: '-', roll_no: '101', class_name: 'Class 10-A', section: 'A', status: 'सक्रिय (Active)', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', aadhaar: '-', janaadhaar: '-', address: 'सिंहपुर', documents: 'कोई नहीं', photo: null },
+      { id: 6, scholar_no: '104', adm_date: '01/07/2026', name: 'AKSHAT DADHEECH', pen_no: '-', roll_no: '105', class_name: 'Class 10-A', section: 'A', status: 'सक्रिय (Active)', gender: 'Male', rte: 'NO', father_name: 'ratnesh kumar sharma', mother_name: 'bali devi', mobile_no: '9799242540', dob: '01/01/2012', aadhaar: '-', janaadhaar: '-', address: 'सिंहपुर', documents: 'कोई नहीं', photo: null }
     ];
 
+    let masterStudents = [...DEFAULT_STUDENTS_LIST];
     let currentPhotoTargetId = null;
 
     // 1. RENDER MAIN TABLE
@@ -1062,15 +1068,27 @@
       const tbody = document.getElementById('bbs-main-tbody');
       tbody.innerHTML = '';
 
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="20" style="text-align:center; padding:24px; color:#64748b;">कोई विद्यार्थी रिकॉर्ड नहीं मिला।</td></tr>`;
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="20" style="text-align:center; padding:24px; color:#64748b; font-weight:700;">कोई विद्यार्थी रिकॉर्ड नहीं मिला।</td></tr>`;
+        document.getElementById('lbl-page-info').innerText = `पेज 1 / 1 (0 छात्र)`;
+        updateStatsCounters(0, 0, 0);
         return;
       }
 
+      let boys = 0, girls = 0;
+
       list.forEach((s) => {
+        if ((s.gender || 'Male').toLowerCase() === 'female') girls++;
+        else boys++;
+
         const photoContent = s.photo 
           ? `<img src="${s.photo}" class="photo-thumb-img">` 
           : `<span style="font-size:16px;">👤</span>`;
+
+        const isInactive = (s.status || '').toLowerCase().includes('inactive') || (s.status || '').includes('निष्क्रिय');
+        const statusBadge = isInactive
+          ? `<span style="background:#fee2e2; color:#b91c1c; font-size:9.5px; padding:2px 6px; border-radius:4px; font-weight:800;">निष्क्रिय (Inactive)</span>`
+          : `<span style="background:#dcfce7; color:#15803d; font-size:9.5px; padding:2px 6px; border-radius:4px; font-weight:800;">सक्रिय (Active)</span>`;
 
         tbody.innerHTML += `
           <tr data-id="${s.id}">
@@ -1079,30 +1097,30 @@
                 ${photoContent}
               </div>
             </td>
-            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'scholar_no')"><strong>${s.scholar_no}</strong></td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'scholar_no')"><strong>${s.scholar_no || s.admission_no || '759'}</strong></td>
             <td>${s.adm_date || '01/07/2026'}</td>
             <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'name')"><strong>${s.name}</strong></td>
             <td>${s.pen_no || '-'}</td>
-            <td style="text-align:center; font-weight:800;" class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'roll_no')">${s.roll_no}</td>
-            <td>${s.class_name}</td>
+            <td style="text-align:center; font-weight:800;" class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'roll_no')">${s.roll_no || '-'}</td>
+            <td>${s.class_name || '8th'}</td>
             <td>${s.section || 'A'}</td>
-            <td style="text-align:center;"><span style="background:${s.status.includes('सक्रिय') ? '#dcfce7' : '#fee2e2'}; color:${s.status.includes('सक्रिय') ? '#15803d' : '#b91c1c'}; font-size:9.5px; padding:2px 6px; border-radius:4px; font-weight:800;">${s.status}</span></td>
-            <td>${s.gender}</td>
-            <td style="text-align:center; font-weight:700;">${s.rte}</td>
-            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'father_name')">${s.father_name}</td>
-            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'mother_name')">${s.mother_name}</td>
-            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'mobile_no')">${s.mobile_no}</td>
-            <td>${s.dob}</td>
+            <td style="text-align:center;">${statusBadge}</td>
+            <td>${(s.gender || 'Male').toLowerCase() === 'female' ? 'Female' : 'Male'}</td>
+            <td style="text-align:center; font-weight:700;">${s.rte || 'NO'}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'father_name')">${s.father_name || 'श्री पिता जी'}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'mother_name')">${s.mother_name || 'श्रीमती माता जी'}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'mobile_no')">${s.mobile_no || '9876543210'}</td>
+            <td>${s.dob || '01/01/2012'}</td>
             <td>${s.aadhaar || '-'}</td>
             <td>${s.janaadhaar || '-'}</td>
-            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'address')" style="max-width:180px; overflow:hidden; text-overflow:ellipsis;">${s.address}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'address')" style="max-width:180px; overflow:hidden; text-overflow:ellipsis;">${s.address || 'सिंहपुर'}</td>
             <td>${s.documents || 'कोई नहीं'}</td>
             <td>
               <div class="table-act-col">
-                <button type="button" class="btn-tbl-act tbl-act-deact" onclick="toggleDeactivate(${s.id})">${s.status.includes('सक्रिय') ? 'Deactivate' : 'Activate'}</button>
+                <button type="button" class="btn-tbl-act tbl-act-deact" onclick="toggleDeactivate(${s.id})">${isInactive ? 'Activate' : 'Deactivate'}</button>
                 <button type="button" class="btn-tbl-act tbl-act-view" onclick="viewDetails(${s.id})">👁️ विवरण</button>
                 <button type="button" class="btn-tbl-act tbl-act-edit" onclick="openFullEdit(${s.id})">✏️ एडिट</button>
-                <a href="tel:${s.mobile_no}" class="btn-tbl-act tbl-act-call">📞 कॉल</a>
+                <a href="tel:${s.mobile_no || '9876543210'}" class="btn-tbl-act tbl-act-call">📞 कॉल</a>
                 <button type="button" class="btn-tbl-act tbl-act-del" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
               </div>
             </td>
@@ -1111,31 +1129,45 @@
       });
 
       document.getElementById('lbl-page-info').innerText = `पेज 1 / 1 (${list.length} छात्र)`;
+      updateStatsCounters(boys, girls, list.length);
+    }
+
+    function updateStatsCounters(b, g, tot) {
+      document.getElementById('stat-boys-cnt').innerText = b;
+      document.getElementById('stat-girls-cnt').innerText = g;
+      document.getElementById('stat-total-cnt').innerText = tot;
     }
 
     function filterMainTable() {
-      const q = (document.getElementById('main-search-input').value || '').toLowerCase().trim();
-      const cls = document.getElementById('main-cls-filter').value;
-      const sec = document.getElementById('main-sec-filter').value;
-      const status = document.getElementById('main-status-filter').value;
-      const isRteOnly = document.getElementById('main-rte-toggle').checked;
+      const q = (document.getElementById('main-search-input')?.value || '').toLowerCase().trim();
+      const cls = document.getElementById('main-cls-filter')?.value || '';
+      const sec = document.getElementById('main-sec-filter')?.value || '';
+      const statusFilter = document.getElementById('main-status-filter')?.value || '';
+      const isRteOnly = document.getElementById('main-rte-toggle')?.checked || false;
 
       const filtered = masterStudents.filter(s => {
-        const matchesQuery = (s.name || '').toLowerCase().includes(q) ||
+        const matchesQuery = !q || 
+                             (s.name || '').toLowerCase().includes(q) ||
                              (s.father_name || '').toLowerCase().includes(q) ||
-                             (s.scholar_no || '').toString().includes(q) ||
-                             (s.mobile_no || '').includes(q);
-        const matchesClass = !cls || s.class_name === cls;
-        const matchesSec = !sec || s.section === sec;
-        const matchesStatus = status === 'All' || s.status.includes('सक्रिय');
-        const matchesRte = !isRteOnly || s.rte === 'YES';
+                             String(s.scholar_no || '').includes(q) ||
+                             String(s.mobile_no || '').includes(q);
+        
+        const matchesClass = !cls || (s.class_name || '') === cls;
+        const matchesSec = !sec || (s.section || 'A') === sec;
+        
+        let matchesStatus = true;
+        const isInactive = (s.status || '').toLowerCase().includes('inactive') || (s.status || '').includes('निष्क्रिय');
+        if (statusFilter === 'Active') matchesStatus = !isInactive;
+        else if (statusFilter === 'Inactive') matchesStatus = isInactive;
+
+        const matchesRte = !isRteOnly || (s.rte || 'NO') === 'YES';
         return matchesQuery && matchesClass && matchesSec && matchesStatus && matchesRte;
       });
 
       renderMainTable(filtered);
     }
 
-    // 2. PHOTO UPLOAD & COMPRESSION
+    // 2. PHOTO UPLOAD
     function triggerPhotoUpload(id) {
       currentPhotoTargetId = id;
       const fileInput = document.getElementById('photo-upload-input');
@@ -1170,7 +1202,7 @@
       reader.readAsDataURL(file);
     }
 
-    // 3. INLINE CELL DOUBLE CLICK EDIT
+    // 3. INLINE EDIT
     function makeEditable(cell, studentId, fieldName) {
       if (cell.querySelector('input')) return;
       const originalText = cell.innerText.trim();
@@ -1204,7 +1236,8 @@
     function toggleDeactivate(id) {
       const s = masterStudents.find(x => x.id === id);
       if (s) {
-        s.status = s.status.includes('सक्रिय') ? 'निष्क्रिय (Inactive)' : 'सक्रिय (Active)';
+        const isInactive = (s.status || '').toLowerCase().includes('inactive') || (s.status || '').includes('निष्क्रिय');
+        s.status = isInactive ? 'सक्रिय (Active)' : 'निष्क्रिय (Inactive)';
         filterMainTable();
         showAppToast(`विद्यार्थी स्थिति: ${s.status}`);
       }
@@ -1371,8 +1404,8 @@
     function liveEditSearch(val) {
       const resBox = document.getElementById('edit-search-results-box');
       if (val.length < 2) { resBox.innerHTML = ''; return; }
-      const matched = masterStudents.filter(s => s.name.toLowerCase().includes(val.toLowerCase()) || s.scholar_no.includes(val));
-      if (matched.length === 0) { resBox.innerHTML = '<div style="font-size:12px; color:#64748b;">कोई छात्र नहीं मिला</div>'; return; }
+      const matched = masterStudents.filter(s => s.name.toLowerCase().includes(val.toLowerCase()) || String(s.scholar_no).includes(val));
+      if (matched.length === 0) { resBox.innerHTML = '<div style="font-size:12px; color:#64748b; padding:8px;">कोई छात्र नहीं मिला</div>'; return; }
       let html = '<div style="background:#fff; border:1px solid #cbd5e1; border-radius:6px; padding:8px;">';
       matched.forEach(s => {
         html += `<div style="display:flex; justify-content:space-between; padding:6px; border-bottom:1px solid #f1f5f9; font-size:12px;">
@@ -1467,40 +1500,42 @@
       showAppToast('✔ Excel डेटा सफलतापूर्वक डाउनलोड हो रहा है...');
     }
 
-    // INITIAL LOAD
+    // INITIAL LOAD (Always runs immediately)
     filterMainTable();
 
-    // Backend sync
+    // BACKEND SYNC (Bulletproof field mapping)
     fetch('/api/students')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
           masterStudents = data.map((item, idx) => ({
             id: item.id || (idx + 1),
-            scholar_no: item.scholar_no || '750',
-            adm_date: item.adm_date || '01/07/2026',
-            name: item.name || 'STUDENT NAME',
+            scholar_no: item.scholar_no || item.admission_no || item.sr_no || '750',
+            adm_date: item.adm_date || item.admission_date || '01/07/2026',
+            name: item.name || item.student_name || 'STUDENT NAME',
             pen_no: item.pen_no || '-',
             roll_no: item.roll_no || (1 + idx),
-            class_name: item.class_name || 'PP.3+',
+            class_name: item.class_name || item.class || '8th',
             section: item.section || 'A',
             status: item.status || 'सक्रिय (Active)',
-            gender: item.gender || 'Female',
+            gender: item.gender || 'Male',
             rte: item.rte || 'NO',
-            father_name: item.father_name || 'FATHER NAME',
-            mother_name: item.mother_name || 'MOTHER NAME',
-            mobile_no: item.mobile_no || '9876543210',
-            dob: item.dob || '01/01/2022',
-            aadhaar: item.aadhaar || '-',
-            janaadhaar: item.janaadhaar || '-',
-            address: item.address || 'SINGHPUR',
-            documents: 'सत्यापित',
+            father_name: item.father_name || 'श्री पिता जी',
+            mother_name: item.mother_name || 'श्रीमती माता जी',
+            mobile_no: item.mobile_no || item.mobile || item.phone || '9876543210',
+            dob: item.dob || '01/01/2012',
+            aadhaar: item.aadhaar || item.aadhar_no || '-',
+            janaadhaar: item.janaadhaar || item.jan_aadhar_no || '-',
+            address: item.address || 'सिंहपुर',
+            documents: item.documents || 'सत्यापित',
             photo: item.photo || null
           }));
           filterMainTable();
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        // Backend offline hone par bhi local list hamesha loaded rahegi
+      });
   </script>
 </body>
 </html>
