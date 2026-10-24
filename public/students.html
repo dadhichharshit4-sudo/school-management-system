@@ -478,4 +478,241 @@
 
       list.forEach((s, idx) => {
         const isFem = (s.gender || 'Male').toLowerCase() === 'female';
-        const genderBadge = isFem ? '<span class="badge-gender badge-female">छात्रा</span>' : '<span class="badge-
+        const genderBadge = isFem ? '<span class="badge-gender badge-female">छात्रा</span>' : '<span class="badge-gender badge-male">छात्र</span>';
+        const photoContent = s.photo ? `<img src="${s.photo}" class="avatar-img">` : `👤`;
+
+        tbody.innerHTML += `
+          <tr data-id="${s.id}">
+            <td style="text-align: center;">${idx + 1}</td>
+            <td style="text-align: center;">
+              <div class="avatar-thumbnail" onclick="triggerPhotoUpload(${s.id})" title="फोटो बदलने के लिए क्लिक करें">
+                ${photoContent}
+              </div>
+            </td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'scholar_no')"><strong>${s.scholar_no}</strong></td>
+            <td style="text-align: center; font-weight: 800;" class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'roll_no')">${s.roll_no}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'name')"><strong>${s.name}</strong></td>
+            <td>${s.class_name}-${s.section}</td>
+            <td style="text-align: center;"><span class="status-active-pill">सक्रिय</span></td>
+            <td>${genderBadge}</td>
+            <td style="text-align: center; font-weight: 700; color:${s.rte === 'YES' ? '#dc2626' : '#64748b'};">${s.rte}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'father_name')">${s.father_name}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mother_name')">${s.mother_name}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mobile_no')">${s.mobile_no}</td>
+            <td>${s.dob}</td>
+            <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'address')">${s.address}</td>
+            <td style="text-align: center;">
+              <div style="display:flex; gap:4px; justify-content:center;">
+                <button class="btn-action-pill btn-act-blue" style="font-size: 11px; padding: 4px 8px;" onclick="viewStudentProfile(${s.id})">👁️ प्रोफ़ाइल</button>
+                <a href="tel:${s.mobile_no}" class="btn-action-pill btn-act-green" style="font-size: 11px; padding: 4px 8px; text-decoration:none;">📞 कॉल</a>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function updateMetrics(list) {
+      let b = 0, g = 0;
+      list.forEach(s => {
+        if ((s.gender || 'Male').toLowerCase() === 'female') g++;
+        else b++;
+      });
+      document.getElementById('std-cnt-boys').innerText = b;
+      document.getElementById('std-cnt-girls').innerText = g;
+      document.getElementById('std-cnt-total').innerText = list.length;
+    }
+
+    // तुरंत लोड करें
+    renderTable(allStudents);
+    updateMetrics(allStudents);
+
+    // बैकएंड सिंक (अगर उपलब्ध हो)
+    fetch('/api/students')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          allStudents = data.map((item, idx) => ({
+            id: item.id || (idx + 1),
+            scholar_no: item.scholar_no || '759',
+            roll_no: item.roll_no || (101 + idx),
+            name: item.name || 'STUDENT NAME',
+            class_name: item.class_name || '8th',
+            section: item.section || 'A',
+            gender: item.gender || 'Male',
+            rte: item.rte || 'NO',
+            father_name: item.father_name || 'श्री पिता जी',
+            mother_name: item.mother_name || 'श्रीमती माता जी',
+            mobile_no: item.mobile_no || '9876543210',
+            dob: item.dob || '2012-01-01',
+            address: item.address || 'सिंहपुर',
+            photo: item.photo || null
+          }));
+          renderTable(allStudents);
+          updateMetrics(allStudents);
+        }
+      })
+      .catch(() => {});
+
+    // 1. इनलाइन डबल क्लिक सेल एडिट
+    function makeEditable(cell, studentId, fieldName) {
+      if (cell.querySelector('input')) return;
+      const originalText = cell.innerText.trim();
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'inline-edit-input';
+      input.value = originalText;
+
+      cell.innerHTML = '';
+      cell.appendChild(input);
+      input.focus();
+
+      const finishEdit = () => {
+        const newVal = input.value.trim() || originalText;
+        cell.innerHTML = (fieldName === 'name' || fieldName === 'scholar_no') ? `<strong>${newVal}</strong>` : newVal;
+        const student = allStudents.find(s => s.id === studentId);
+        if (student && newVal !== originalText) {
+          student[fieldName] = newVal;
+          showAppToast(`✔ ${fieldName} अपडेट कर दिया गया`);
+        }
+      };
+
+      input.addEventListener('blur', finishEdit);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') finishEdit();
+        if (e.key === 'Escape') {
+          cell.innerHTML = (fieldName === 'name' || fieldName === 'scholar_no') ? `<strong>${originalText}</strong>` : originalText;
+        }
+      });
+    }
+
+    // 2. फोटो अपलोड एवं कंप्रेशन
+    function triggerPhotoUpload(studentId) {
+      currentPhotoTargetId = studentId;
+      document.getElementById('photo-upload-input').click();
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file || !currentPhotoTargetId) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = 200;
+          canvas.height = 200;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, 200, 200);
+
+          const compressed = canvas.toDataURL('image/jpeg', 0.7);
+          const student = allStudents.find(s => s.id === currentPhotoTargetId);
+          if (student) {
+            student.photo = compressed;
+            filterStudents();
+            showAppToast("✔ फोटो सफलतापूर्वक अपडेट हो गई!");
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    // 3. प्रोफ़ाइल पॉपअप
+    function viewStudentProfile(id) {
+      const s = allStudents.find(x => x.id === id) || allStudents[0];
+      if (!s) return;
+
+      document.getElementById('p-full-name').innerText = s.name;
+      document.getElementById('p-scholar').innerText = s.scholar_no;
+      document.getElementById('p-class').innerText = `${s.class_name}-${s.section}`;
+      document.getElementById('p-father').innerText = s.father_name;
+      document.getElementById('p-mother').innerText = s.mother_name;
+      document.getElementById('p-roll').innerText = s.roll_no;
+      document.getElementById('p-mobile').innerText = s.mobile_no;
+      document.getElementById('p-dob').innerText = s.dob;
+      document.getElementById('p-address').innerText = s.address;
+      document.getElementById('p-call-link').href = `tel:${s.mobile_no}`;
+
+      const avatarBox = document.getElementById('p-avatar-box');
+      avatarBox.innerHTML = s.photo ? `<img src="${s.photo}" style="width:100%; height:100%; object-fit:cover;">` : `👤`;
+
+      const isFem = (s.gender || 'Male').toLowerCase() === 'female';
+      const gBadge = document.getElementById('p-gender-badge');
+      gBadge.innerText = isFem ? 'छात्रा (Female)' : 'छात्र (Male)';
+      gBadge.className = `badge-gender ${isFem ? 'badge-female' : 'badge-male'}`;
+
+      document.getElementById('p-rte-badge').innerText = s.rte === 'YES' ? 'RTE प्रवेशित' : 'सामान्य (Non-RTE)';
+      document.getElementById('profile-modal').classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profile-modal').classList.add('hidden');
+    }
+
+    // 4. नया छात्र प्रवेश फॉर्म
+    function openAddStudentModal() {
+      document.getElementById('f-scholar-no').value = 760 + allStudents.length;
+      document.getElementById('f-roll-no').value = allStudents.length + 1;
+      document.getElementById('f-name').value = '';
+      document.getElementById('f-father-name').value = '';
+      document.getElementById('f-mother-name').value = '';
+      document.getElementById('f-mobile').value = '';
+      document.getElementById('add-student-modal').classList.remove('hidden');
+    }
+
+    function closeAddStudentModal() {
+      document.getElementById('add-student-modal').classList.add('hidden');
+    }
+
+    function saveNewStudent(event) {
+      event.preventDefault();
+      const newStd = {
+        id: allStudents.length + 1,
+        scholar_no: document.getElementById('f-scholar-no').value.trim(),
+        roll_no: document.getElementById('f-roll-no').value.trim(),
+        name: document.getElementById('f-name').value.trim().toUpperCase(),
+        class_name: document.getElementById('f-class').value,
+        section: document.getElementById('f-section').value,
+        gender: document.getElementById('f-gender').value,
+        rte: document.getElementById('f-rte').value,
+        father_name: document.getElementById('f-father-name').value.trim(),
+        mother_name: document.getElementById('f-mother-name').value.trim(),
+        mobile_no: document.getElementById('f-mobile').value.trim(),
+        dob: document.getElementById('f-dob').value,
+        address: document.getElementById('f-address').value.trim(),
+        photo: null
+      };
+
+      allStudents.unshift(newStd);
+      filterStudents();
+      closeAddStudentModal();
+      showAppToast(`✔ विद्यार्थी ${newStd.name} का प्रवेश दर्ज हुआ!`);
+    }
+
+    function filterStudents() {
+      const q = (document.getElementById('std-search-box').value || '').toLowerCase().trim();
+      const cls = document.getElementById('std-class-filter').value;
+      const rte = document.getElementById('std-rte-filter').value;
+
+      const filtered = allStudents.filter(s => {
+        const matchesQuery = (s.name || '').toLowerCase().includes(q) ||
+                             (s.father_name || '').toLowerCase().includes(q) ||
+                             (s.scholar_no || '').toString().includes(q);
+        const matchesClass = !cls || s.class_name === cls;
+        const matchesRte = !rte || s.rte === rte;
+        return matchesQuery && matchesClass && matchesRte;
+      });
+
+      renderTable(filtered);
+      updateMetrics(filtered);
+    }
+
+    function downloadStudentsExcel() {
+      showAppToast("✔ Excel फाइल तैयार हो रही है...");
+    }
+  </script>
+</body>
+</html>
