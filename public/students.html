@@ -76,7 +76,7 @@
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.75);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -87,23 +87,27 @@
     .modal-card {
       background: #ffffff;
       border-radius: 12px;
-      max-width: 680px;
+      max-width: 950px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       overflow-y: auto;
-      box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
     .modal-header {
       background: linear-gradient(135deg, #7f1d1d, #991b1b);
       color: #ffffff;
-      padding: 14px 20px;
+      padding: 14px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
     }
     .modal-header h3 {
       font-size: 16px;
@@ -117,40 +121,74 @@
       border: none;
       color: #fff;
       font-size: 18px;
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.15s ease;
     }
     .btn-close-modal:hover { background: rgba(255,255,255,0.4); }
 
-    .form-grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      padding: 20px;
+    /* COMMERCIAL ADMISSION FORM WIZARD TABS */
+    .form-tab-nav {
+      display: flex;
+      background: #f8fafc;
+      border-bottom: 2px solid #fed7aa;
+      padding: 0 16px;
+      gap: 6px;
+      overflow-x: auto;
     }
-    .form-group-full { grid-column: span 2; }
+    .form-tab-btn {
+      padding: 11px 16px;
+      border: none;
+      background: transparent;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .form-tab-btn.active {
+      color: #7f1d1d;
+      border-bottom-color: #7f1d1d;
+      background: #fff;
+    }
+
+    .form-section-body {
+      padding: 20px 24px;
+      flex: 1;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .form-group-full { grid-column: 1 / -1; }
     .form-label {
       font-size: 12px;
       font-weight: 700;
       color: #334155;
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
     .form-input {
       width: 100%;
-      padding: 8px 10px;
+      padding: 8px 12px;
       border: 1.5px solid #cbd5e1;
       border-radius: 6px;
       font-size: 12.5px;
       outline: none;
       box-sizing: border-box;
+      background: #ffffff;
+      transition: border-color 0.15s ease;
     }
     .form-input:focus { border-color: #0284c7; }
 
@@ -173,7 +211,6 @@
       display: inline-flex;
       align-items: center;
       gap: 2px;
-      transition: filter 0.15s ease;
     }
     .btn-table-action:hover { filter: brightness(1.1); }
     .act-btn-profile { background: #0284c7; }
@@ -182,7 +219,7 @@
     .act-btn-del { background: #dc2626; }
     .act-btn-call { background: #16a34a; }
 
-    /* ID CARD STYLING (Standard Size: 86mm x 54mm) */
+    /* ID CARD STYLING */
     .id-card-wrapper {
       width: 320px;
       height: 480px;
@@ -268,7 +305,6 @@
       border-top: 1px solid #e2e8f0;
     }
 
-    /* Print Setup */
     @media print {
       body * { visibility: hidden; }
       #printable-id-card, #printable-id-card * {
@@ -358,7 +394,7 @@
           छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">0</span> | 
           कुल: <span id="std-cnt-total" style="color:#15803d;">0</span>
         </div>
-        <button class="btn-action-pill btn-act-green" onclick="openAddStudentModal()">+ नया प्रवेश फॉर्म</button>
+        <button class="btn-action-pill btn-act-green" onclick="openAddStudentModal()">+ नया प्रवेश फॉर्म (Big Brand)</button>
         <button class="btn-action-pill" style="background:#0d9488;" onclick="downloadStudentsExcel()">📊 Excel डाउनलोड</button>
       </div>
     </div>
@@ -396,86 +432,253 @@
     </div>
   </main>
 
-  <!-- MODAL 1: ADD NEW STUDENT FORM -->
+  <!-- ==========================================================================
+       MODAL 1: BIG BRAND COMMERCIAL STUDENT ADMISSION FORM (ENTERPRISE WIZARD)
+       ========================================================================== -->
   <div id="add-student-modal" class="modal-overlay hidden">
     <div class="modal-card">
       <div class="modal-header">
-        <h3><span>📝</span> नवीन छात्र प्रवेश फॉर्म (सत्र: 2026-27)</h3>
+        <h3><span>🏫</span> SHREE MEWAR PUBLIC SCHOOL - नवीन छात्र प्रवेश फॉर्म (सत्र: 2026-27)</h3>
         <button class="btn-close-modal" onclick="closeAddStudentModal()">×</button>
       </div>
+
+      <!-- Admission Wizard Navigation Tabs -->
+      <div class="form-tab-nav">
+        <button type="button" class="form-tab-btn active" onclick="switchFormTab(1)" id="ftab-btn-1">
+          <span>1.</span> शैक्षणिक विवरण (Academic Info)
+        </button>
+        <button type="button" class="form-tab-btn" onclick="switchFormTab(2)" id="ftab-btn-2">
+          <span>2.</span> छात्र प्रोफाइल (Student Profile)
+        </button>
+        <button type="button" class="form-tab-btn" onclick="switchFormTab(3)" id="ftab-btn-3">
+          <span>3.</span> पारिवारिक व संपर्क (Family Details)
+        </button>
+        <button type="button" class="form-tab-btn" onclick="switchFormTab(4)" id="ftab-btn-4">
+          <span>4.</span> पूर्व विद्यालय व दस्तावेज (History & Docs)
+        </button>
+      </div>
+
       <form id="add-student-form" onsubmit="saveNewStudent(event)">
-        <div class="form-grid-2">
-          <div>
-            <label class="form-label">स्कॉलर नंबर (Admission No.) *</label>
-            <input type="text" id="f-scholar-no" class="form-input" required>
+        <!-- TAB 1: ACADEMIC INFO -->
+        <div class="form-section-body" id="fsec-1">
+          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
+            🎓 1. विद्यालय एवं शैक्षणिक प्रविष्टि (School Academic Details)
           </div>
-          <div>
-            <label class="form-label">रोल नंबर *</label>
-            <input type="text" id="f-roll-no" class="form-input" required>
+          <div class="form-grid-3">
+            <div>
+              <label class="form-label">स्कॉलर / एस.आर. नंबर (SR No.) *</label>
+              <input type="text" id="f-scholar-no" class="form-input" style="font-weight:800; color:#0284c7;" required>
+            </div>
+            <div>
+              <label class="form-label">प्रवेश दिनांक (Admission Date) *</label>
+              <input type="date" id="f-adm-date" class="form-input" value="2026-07-01" required>
+            </div>
+            <div>
+              <label class="form-label">सत्र (Academic Session) *</label>
+              <input type="text" class="form-input" value="2026-2027" readonly style="background:#f1f5f9;">
+            </div>
+            <div>
+              <label class="form-label">प्रवेश कक्षा (Class) *</label>
+              <select id="f-class" class="form-input" required>
+                <option value="Class 10-A">Class 10-A</option>
+                <option value="8th" selected>8th</option>
+                <option value="7th">7th</option>
+                <option value="6th">6th</option>
+                <option value="5th">5th</option>
+                <option value="4th">4th</option>
+                <option value="3rd">3rd</option>
+                <option value="2nd">2nd</option>
+                <option value="1st">1st</option>
+                <option value="Pp.5+">Pp.5+</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">वर्ग (Section) *</label>
+              <select id="f-section" class="form-input" required>
+                <option value="A" selected>A</option>
+                <option value="B">B</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">कक्षा रोल नंबर (Roll No.) *</label>
+              <input type="text" id="f-roll-no" class="form-input" required>
+            </div>
+            <div>
+              <label class="form-label">अध्ययन का माध्यम (Medium) *</label>
+              <select id="f-medium" class="form-input">
+                <option value="Hindi" selected>हिन्दी (Hindi Medium)</option>
+                <option value="English">English Medium</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">RTE प्रवेश स्थिति (Right to Education) *</label>
+              <select id="f-rte" class="form-input" required>
+                <option value="NO" selected>सामान्य (Non-RTE)</option>
+                <option value="YES">RTE प्रवेशित (Free Ship)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">विद्यार्थी प्रकार (Student Type)</label>
+              <select id="f-student-type" class="form-input">
+                <option value="Regular" selected>नियमित (Regular)</option>
+                <option value="Private">स्वाध्यायी (Private)</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group-full">
-            <label class="form-label">विद्यार्थी का पूरा नाम (अंग्रेज़ी बड़े अक्षर) *</label>
-            <input type="text" id="f-name" class="form-input" style="text-transform: uppercase;" required>
-          </div>
-          <div>
-            <label class="form-label">कक्षा (Class) *</label>
-            <select id="f-class" class="form-input" required>
-              <option value="Class 10-A" selected>Class 10-A</option>
-              <option value="8th">8th</option>
-              <option value="7th">7th</option>
-              <option value="6th">6th</option>
-              <option value="5th">5th</option>
-              <option value="4th">4th</option>
-              <option value="3rd">3rd</option>
-              <option value="2nd">2nd</option>
-              <option value="1st">1st</option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label">वर्ग (Section) *</label>
-            <select id="f-section" class="form-input" required>
-              <option value="A" selected>A</option>
-              <option value="B">B</option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label">लिंग (Gender) *</label>
-            <select id="f-gender" class="form-input" required>
-              <option value="Male" selected>छात्र (Male)</option>
-              <option value="Female">छात्रा (Female)</option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label">RTE प्रवेश स्थिति *</label>
-            <select id="f-rte" class="form-input" required>
-              <option value="NO" selected>सामान्य (Non-RTE)</option>
-              <option value="YES">RTE प्रवेशित</option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label">पिता का नाम *</label>
-            <input type="text" id="f-father-name" class="form-input" required>
-          </div>
-          <div>
-            <label class="form-label">माता का नाम *</label>
-            <input type="text" id="f-mother-name" class="form-input" required>
-          </div>
-          <div>
-            <label class="form-label">अभिभावक मोबाइल नंबर *</label>
-            <input type="tel" id="f-mobile" class="form-input" maxlength="10" placeholder="10-अंकीय मोबाइल" required>
-          </div>
-          <div>
-            <label class="form-label">जन्मतिथि (DOB)</label>
-            <input type="date" id="f-dob" class="form-input" value="2012-01-01">
-          </div>
-          <div class="form-group-full">
-            <label class="form-label">स्थायी पता / निवास स्थान</label>
-            <input type="text" id="f-address" class="form-input" value="सिंहपुर, चित्तौड़गढ़">
+          <div style="margin-top:20px; text-align:right;">
+            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(2)">अगला चरण (Next: छात्र प्रोफाइल) ➔</button>
           </div>
         </div>
-        <div style="background:#f8fafc; padding: 14px 20px; border-top: 1px solid #e2e8f0; display:flex; justify-content: flex-end; gap: 10px;">
-          <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="closeAddStudentModal()">रद्द करें</button>
-          <button type="submit" class="btn-action-pill btn-act-green">💾 विद्यार्थी सुरक्षित सेव करें</button>
+
+        <!-- TAB 2: STUDENT PROFILE -->
+        <div class="form-section-body hidden" id="fsec-2">
+          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
+            👤 2. छात्र की व्यक्तिगत जानकारी (Student Personal Information)
+          </div>
+          <div class="form-grid-3">
+            <div class="form-group-full">
+              <label class="form-label">विद्यार्थी का नाम (अंग्रेज़ी बड़े अक्षरों में - 10th मार्कशीट अनुसार) *</label>
+              <input type="text" id="f-name" class="form-input" style="text-transform:uppercase; font-weight:700;" placeholder="उदा. HARSHIT SHARMA" required>
+            </div>
+            <div>
+              <label class="form-label">विद्यार्थी का नाम (हिन्दी में)</label>
+              <input type="text" id="f-name-hindi" class="form-input" placeholder="उदा. हर्षित शर्मा">
+            </div>
+            <div>
+              <label class="form-label">जन्मतिथि (Date of Birth) *</label>
+              <input type="date" id="f-dob" class="form-input" value="2012-01-01" required>
+            </div>
+            <div>
+              <label class="form-label">लिंग (Gender) *</label>
+              <select id="f-gender" class="form-input" required>
+                <option value="Male" selected>छात्र (Male)</option>
+                <option value="Female">छात्रा (Female)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">सामाजिक श्रेणी (Category) *</label>
+              <select id="f-category" class="form-input">
+                <option value="General" selected>General (सामान्य)</option>
+                <option value="OBC">OBC (अन्य पिछड़ा वर्ग)</option>
+                <option value="SC">SC (अनुसूचित जाति)</option>
+                <option value="ST">ST (अनुसूचित जनजाति)</option>
+                <option value="EWS">EWS</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">धर्म (Religion)</label>
+              <input type="text" id="f-religion" class="form-input" value="Hindu">
+            </div>
+            <div>
+              <label class="form-label">रक्त समूह (Blood Group)</label>
+              <select id="f-blood-group" class="form-input">
+                <option value="B+" selected>B+</option>
+                <option value="A+">A+</option>
+                <option value="O+">O+</option>
+                <option value="AB+">AB+</option>
+                <option value="B-">B-</option>
+                <option value="A-">A-</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">आधार कार्ड नंबर (12-अंकीय)</label>
+              <input type="text" id="f-aadhar" class="form-input" maxlength="12" placeholder="XXXX XXXX XXXX">
+            </div>
+            <div>
+              <label class="form-label">जन-आधार परिवार पहचान संख्या</label>
+              <input type="text" id="f-janaadhar" class="form-input" maxlength="10" placeholder="10-अंकीय जन-आधार">
+            </div>
+          </div>
+          <div style="margin-top:20px; display:flex; justify-content:space-between;">
+            <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(1)">⬅ पिछला चरण</button>
+            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(3)">अगला चरण (Next: पारिवारिक विवरण) ➔</button>
+          </div>
+        </div>
+
+        <!-- TAB 3: FAMILY & CONTACT -->
+        <div class="form-section-body hidden" id="fsec-3">
+          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
+            👨‍👩‍👦 3. अभिभावक एवं स्थायी संपर्क विवरण (Parent & Contact Details)
+          </div>
+          <div class="form-grid-3">
+            <div>
+              <label class="form-label">पिता का नाम (Father's Name) *</label>
+              <input type="text" id="f-father-name" class="form-input" placeholder="श्री..." required>
+            </div>
+            <div>
+              <label class="form-label">पिता का व्यवसाय (Occupation)</label>
+              <input type="text" id="f-father-occ" class="form-input" value="कृषि / व्यवसाय">
+            </div>
+            <div>
+              <label class="form-label">माता का नाम (Mother's Name) *</label>
+              <input type="text" id="f-mother-name" class="form-input" placeholder="श्रीमती..." required>
+            </div>
+            <div>
+              <label class="form-label">प्राथमिक मोबाइल नंबर (WhatsApp) *</label>
+              <input type="tel" id="f-mobile" class="form-input" maxlength="10" placeholder="10-अंकीय मोबाइल" required>
+            </div>
+            <div>
+              <label class="form-label">वैकल्पिक दूरभाष (Emergency Contact)</label>
+              <input type="tel" id="f-alt-mobile" class="form-input" maxlength="10" placeholder="अन्य नंबर">
+            </div>
+            <div>
+              <label class="form-label">परिवार की वार्षिक आय (Annual Income)</label>
+              <input type="text" id="f-income" class="form-input" value="₹ 1,50,000">
+            </div>
+            <div class="form-group-full">
+              <label class="form-label">स्थायी निवास का पता (Full Permanent Address) *</label>
+              <input type="text" id="f-address" class="form-input" value="सिंहपुर, तहसील - कपासन, जिला - चित्तौड़गढ़ (राज.)" required>
+            </div>
+          </div>
+          <div style="margin-top:20px; display:flex; justify-content:space-between;">
+            <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(2)">⬅ पिछला चरण</button>
+            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(4)">अगला चरण (Next: पूर्व विद्यालय व दस्तावेज) ➔</button>
+          </div>
+        </div>
+
+        <!-- TAB 4: PREVIOUS SCHOOL & DOCS CHECKLIST -->
+        <div class="form-section-body hidden" id="fsec-4">
+          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
+            📑 4. पूर्व विद्यालय इतिहास एवं संलग्नक (Previous History & Documents)
+          </div>
+          <div class="form-grid-3">
+            <div class="form-group-full">
+              <label class="form-label">पूर्व विद्यालय का नाम (Last Attended School)</label>
+              <input type="text" id="f-prev-school" class="form-input" placeholder="पूर्व विद्यालय का नाम व स्थान">
+            </div>
+            <div>
+              <label class="form-label">पूर्व उत्तीर्ण कक्षा (Last Class Passed)</label>
+              <input type="text" id="f-prev-class" class="form-input" placeholder="उदा. 7th">
+            </div>
+            <div>
+              <label class="form-label">प्राप्तांक प्रतिशत / ग्रेड (% / Grade)</label>
+              <input type="text" id="f-prev-marks" class="form-input" placeholder="उदा. 78.5%">
+            </div>
+            <div>
+              <label class="form-label">स्थानांतरण प्रमाण पत्र (TC No.)</label>
+              <input type="text" id="f-tc-no" class="form-input" placeholder="टीसी क्रमांक">
+            </div>
+          </div>
+
+          <div style="margin-top:16px; background:#f8fafc; border:1px solid #fed7aa; border-radius:8px; padding:14px;">
+            <div style="font-size:12px; font-weight:800; color:#7c2d12; margin-bottom:8px;">📎 प्रवेश के समय संलग्न दस्तावेज (Checklist):</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px;">
+              <label><input type="checkbox" checked> मूल स्थानांतरण प्रमाण पत्र (Original TC)</label>
+              <label><input type="checkbox" checked> जन्म प्रमाण पत्र (Birth Certificate)</label>
+              <label><input type="checkbox" checked> छात्र एवं अभिभावक आधार कार्ड प्रति</label>
+              <label><input type="checkbox" checked> पूर्व कक्षा की मूल अंकतालिका (Marksheet)</label>
+              <label><input type="checkbox"> जाति प्रमाण पत्र (Caste Certificate)</label>
+              <label><input type="checkbox"> पासपोर्ट साइज 2 रंगीन फोटो</label>
+            </div>
+          </div>
+
+          <div style="margin-top:24px; display:flex; justify-content:space-between; align-items:center;">
+            <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(3)">⬅ पिछला चरण</button>
+            <button type="submit" class="btn-action-pill btn-act-green" style="padding:10px 24px; font-size:13.5px;">
+              💾 छात्र प्रवेश फॉर्म सबमिट व सुरक्षित करें
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -489,7 +692,6 @@
         <button class="btn-close-modal" onclick="closeIdCardModal()">×</button>
       </div>
       <div style="padding: 20px 10px; background: #f1f5f9;">
-        <!-- Printable ID Card Box -->
         <div id="printable-id-card">
           <div class="id-card-wrapper">
             <div class="id-card-top">
@@ -541,7 +743,7 @@
       </div>
       <form id="edit-student-form" onsubmit="saveEditedStudent(event)">
         <input type="hidden" id="edit-std-id">
-        <div class="form-grid-2">
+        <div class="form-grid-3" style="padding: 20px;">
           <div>
             <label class="form-label">स्कॉलर नंबर</label>
             <input type="text" id="e-scholar-no" class="form-input" required>
@@ -652,7 +854,6 @@
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
-    // मास्टर छात्र सूची (स्क्रीनशॉट के छात्रों सहित)
     let allStudents = [
       { id: 1, scholar_no: '101', roll_no: '101', name: 'Rahul Sharma', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
       { id: 2, scholar_no: '102', roll_no: '102', name: 'Priya Verma', class_name: 'Class 10-A', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
@@ -725,7 +926,7 @@
       document.getElementById('std-cnt-total').innerText = list.length;
     }
 
-    // 1. इनलाइन डबल-क्लिक सेल संपादन
+    // 1. INLINE EDIT
     function makeEditable(cell, studentId, fieldName) {
       if (cell.querySelector('input')) return;
       const originalText = cell.innerText.trim();
@@ -757,7 +958,58 @@
       });
     }
 
-    // 2. ID Card Generator
+    // 2. BIG BRAND FORM TABS SWITCHER
+    function switchFormTab(tabNum) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`fsec-${i}`).classList.add('hidden');
+        document.getElementById(`ftab-btn-${i}`).classList.remove('active');
+      }
+      document.getElementById(`fsec-${tabNum}`).classList.remove('hidden');
+      document.getElementById(`ftab-btn-${tabNum}`).classList.add('active');
+    }
+
+    // 3. OPEN/CLOSE ADMISSION WIZARD
+    function openAddStudentModal() {
+      document.getElementById('f-scholar-no').value = 760 + allStudents.length;
+      document.getElementById('f-roll-no').value = allStudents.length + 1;
+      document.getElementById('f-name').value = '';
+      document.getElementById('f-father-name').value = '';
+      document.getElementById('f-mother-name').value = '';
+      document.getElementById('f-mobile').value = '';
+      switchFormTab(1);
+      document.getElementById('add-student-modal').classList.remove('hidden');
+    }
+
+    function closeAddStudentModal() {
+      document.getElementById('add-student-modal').classList.add('hidden');
+    }
+
+    function saveNewStudent(event) {
+      event.preventDefault();
+      const newStd = {
+        id: allStudents.length + 1,
+        scholar_no: document.getElementById('f-scholar-no').value.trim(),
+        roll_no: document.getElementById('f-roll-no').value.trim(),
+        name: document.getElementById('f-name').value.trim().toUpperCase(),
+        class_name: document.getElementById('f-class').value,
+        section: document.getElementById('f-section').value,
+        gender: document.getElementById('f-gender').value,
+        rte: document.getElementById('f-rte').value,
+        father_name: document.getElementById('f-father-name').value.trim(),
+        mother_name: document.getElementById('f-mother-name').value.trim(),
+        mobile_no: document.getElementById('f-mobile').value.trim(),
+        dob: document.getElementById('f-dob').value,
+        address: document.getElementById('f-address').value.trim(),
+        photo: null
+      };
+
+      allStudents.unshift(newStd);
+      filterStudents();
+      closeAddStudentModal();
+      showAppToast(`✔ विद्यार्थी ${newStd.name} का संपूर्ण प्रवेश फॉर्म सुरक्षित हुआ!`);
+    }
+
+    // 4. STUDENT ID CARD
     function openStudentIdCard(id) {
       const s = allStudents.find(x => x.id === id) || allStudents[0];
       if (!s) return;
@@ -780,7 +1032,7 @@
       document.getElementById('idcard-modal').classList.add('hidden');
     }
 
-    // 3. Full Edit Modal Form
+    // 5. EDIT MODAL
     function openEditModal(id) {
       const s = allStudents.find(x => x.id === id);
       if (!s) return;
@@ -828,7 +1080,7 @@
       }
     }
 
-    // 4. Delete Student
+    // 6. DELETE STUDENT
     function deleteStudent(id) {
       const student = allStudents.find(s => s.id === id);
       if (!student) return;
@@ -839,47 +1091,7 @@
       }
     }
 
-    // 5. Add New Student Modal Form
-    function openAddStudentModal() {
-      document.getElementById('f-scholar-no').value = 760 + allStudents.length;
-      document.getElementById('f-roll-no').value = allStudents.length + 1;
-      document.getElementById('f-name').value = '';
-      document.getElementById('f-father-name').value = '';
-      document.getElementById('f-mother-name').value = '';
-      document.getElementById('f-mobile').value = '';
-      document.getElementById('add-student-modal').classList.remove('hidden');
-    }
-
-    function closeAddStudentModal() {
-      document.getElementById('add-student-modal').classList.add('hidden');
-    }
-
-    function saveNewStudent(event) {
-      event.preventDefault();
-      const newStd = {
-        id: allStudents.length + 1,
-        scholar_no: document.getElementById('f-scholar-no').value.trim(),
-        roll_no: document.getElementById('f-roll-no').value.trim(),
-        name: document.getElementById('f-name').value.trim().toUpperCase(),
-        class_name: document.getElementById('f-class').value,
-        section: document.getElementById('f-section').value,
-        gender: document.getElementById('f-gender').value,
-        rte: document.getElementById('f-rte').value,
-        father_name: document.getElementById('f-father-name').value.trim(),
-        mother_name: document.getElementById('f-mother-name').value.trim(),
-        mobile_no: document.getElementById('f-mobile').value.trim(),
-        dob: document.getElementById('f-dob').value,
-        address: document.getElementById('f-address').value.trim(),
-        photo: null
-      };
-
-      allStudents.unshift(newStd);
-      filterStudents();
-      closeAddStudentModal();
-      showAppToast(`✔ विद्यार्थी ${newStd.name} का प्रवेश सफलतापूर्वक दर्ज हुआ!`);
-    }
-
-    // 6. Photo Upload & Compression
+    // 7. PHOTO UPLOAD
     function triggerPhotoUpload(studentId) {
       currentPhotoTargetId = studentId;
       document.getElementById('photo-upload-input').click();
@@ -913,7 +1125,7 @@
       event.target.value = '';
     }
 
-    // 7. Profile View
+    // 8. PROFILE VIEW
     function viewStudentProfile(id) {
       const s = allStudents.find(x => x.id === id) || allStudents[0];
       if (!s) return;
@@ -967,7 +1179,7 @@
       showAppToast("✔ विद्यार्थी Excel शीट डाउनलोड हो रही है...");
     }
 
-    // Initial Render
+    // Initial render
     renderTable(allStudents);
     updateMetrics(allStudents);
 
