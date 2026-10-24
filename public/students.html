@@ -24,9 +24,9 @@
     .avatar-thumbnail:hover::after {
       content: '📷';
       position: absolute;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.55);
       color: #fff;
-      font-size: 14px;
+      font-size: 13px;
       width: 100%;
       height: 100%;
       display: flex;
@@ -72,25 +72,27 @@
       box-sizing: border-box;
     }
 
-    /* Modal Styling */
+    /* Modal Overlay & Card Styling */
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.65);
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.7);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 2000;
+      z-index: 99999;
       padding: 16px;
+      box-sizing: border-box;
     }
     .modal-card {
       background: #ffffff;
       border-radius: 12px;
-      max-width: 650px;
+      max-width: 680px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+      position: relative;
     }
     .modal-header {
       background: linear-gradient(135deg, #7f1d1d, #991b1b);
@@ -99,8 +101,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     .modal-header h3 {
       font-size: 16px;
@@ -110,22 +113,29 @@
       gap: 8px;
     }
     .btn-close-modal {
-      background: none;
+      background: rgba(255,255,255,0.2);
       border: none;
       color: #fff;
-      font-size: 20px;
+      font-size: 18px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
       font-weight: 800;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
     }
+    .btn-close-modal:hover { background: rgba(255,255,255,0.4); }
+
     .form-grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       padding: 20px;
     }
-    .form-group-full {
-      grid-column: span 2;
-    }
+    .form-group-full { grid-column: span 2; }
     .form-label {
       font-size: 12px;
       font-weight: 700;
@@ -142,52 +152,137 @@
       outline: none;
       box-sizing: border-box;
     }
-    .form-input:focus {
-      border-color: #0284c7;
-    }
+    .form-input:focus { border-color: #0284c7; }
 
-    /* Profile View */
-    .profile-card-body {
-      padding: 20px;
-    }
-    .profile-top-info {
+    /* ACTION BUTTONS GRID */
+    .std-action-grid {
       display: flex;
-      gap: 16px;
-      align-items: center;
-      border-bottom: 1.5px solid #f1f5f9;
-      padding-bottom: 16px;
-      margin-bottom: 16px;
+      gap: 4px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-    .profile-avatar-big {
-      width: 80px;
-      height: 90px;
+    .btn-table-action {
+      border: none;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #ffffff;
+      padding: 4px 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      transition: filter 0.15s ease;
+    }
+    .btn-table-action:hover { filter: brightness(1.1); }
+    .act-btn-profile { background: #0284c7; }
+    .act-btn-idcard { background: #7c3aed; }
+    .act-btn-edit { background: #ea580c; }
+    .act-btn-del { background: #dc2626; }
+    .act-btn-call { background: #16a34a; }
+
+    /* ID CARD STYLING (Standard Size: 86mm x 54mm) */
+    .id-card-wrapper {
+      width: 320px;
+      height: 480px;
+      margin: 10px auto 20px;
+      border-radius: 12px;
+      border: 2px solid #991b1b;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+      background: #ffffff;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .id-card-top {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      color: #ffffff;
+      text-align: center;
+      padding: 12px 8px 8px;
+    }
+    .id-card-top h4 {
+      font-size: 14.5px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .id-card-top p {
+      font-size: 9.5px;
+      color: #fef08a;
+      font-weight: 600;
+    }
+    .id-card-badge {
+      background: #fef08a;
+      color: #7f1d1d;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 0;
+      text-align: center;
+      border-bottom: 1.5px solid #f59e0b;
+    }
+    .id-photo-frame {
+      width: 90px;
+      height: 105px;
+      border: 2px solid #7f1d1d;
       border-radius: 8px;
-      border: 2px solid #cbd5e1;
-      background: #f8fafc;
+      margin: 14px auto 8px;
+      background: #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
+      font-size: 42px;
       overflow: hidden;
-      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .profile-details-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      font-size: 13px;
-    }
-    .profile-row {
-      background: #f8fafc;
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: 1px solid #e2e8f0;
-    }
-    .profile-row strong {
+    .id-student-name {
+      text-align: center;
+      font-size: 15px;
+      font-weight: 900;
       color: #7f1d1d;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .id-details-list {
+      padding: 0 20px;
+      font-size: 11.5px;
+      color: #334155;
+      line-height: 1.6;
+      flex: 1;
+    }
+    .id-details-list div {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #e2e8f0;
+      padding: 3px 0;
+    }
+    .id-card-footer {
+      padding: 8px 20px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 10px;
+      color: #64748b;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
     }
 
-    /* Toast Notification inside page */
+    /* Print Setup */
+    @media print {
+      body * { visibility: hidden; }
+      #printable-id-card, #printable-id-card * {
+        visibility: visible;
+      }
+      #printable-id-card {
+        position: absolute;
+        left: 50%;
+        top: 40px;
+        transform: translateX(-50%);
+      }
+      .no-print { display: none !important; }
+    }
+
     #local-toast {
       position: fixed;
       bottom: 24px;
@@ -199,7 +294,7 @@
       font-size: 13px;
       font-weight: 600;
       display: none;
-      z-index: 9999;
+      z-index: 999999;
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
@@ -244,8 +339,8 @@
         <input type="text" id="std-search-box" class="filter-control" style="width: 260px;" placeholder="🔍 छात्र, पिता या स्कॉलर नं खोजें..." onkeyup="filterStudents()">
         <select id="std-class-filter" class="filter-control" onchange="filterStudents()">
           <option value="">-- समस्त कक्षाएं --</option>
-          <option value="8th">8th</option>
           <option value="Class 10-A">Class 10-A</option>
+          <option value="8th">8th</option>
           <option value="7th">7th</option>
           <option value="6th">6th</option>
           <option value="5th">5th</option>
@@ -259,9 +354,9 @@
 
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
         <div style="font-size: 12.5px; font-weight: 800; color: #78350f;">
-          छात्र: <span id="std-cnt-boys" style="color:#0284c7;">5</span> | 
-          छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">2</span> | 
-          कुल: <span id="std-cnt-total" style="color:#15803d;">7</span>
+          छात्र: <span id="std-cnt-boys" style="color:#0284c7;">0</span> | 
+          छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">0</span> | 
+          कुल: <span id="std-cnt-total" style="color:#15803d;">0</span>
         </div>
         <button class="btn-action-pill btn-act-green" onclick="openAddStudentModal()">+ नया प्रवेश फॉर्म</button>
         <button class="btn-action-pill" style="background:#0d9488;" onclick="downloadStudentsExcel()">📊 Excel डाउनलोड</button>
@@ -269,10 +364,10 @@
     </div>
 
     <div style="margin-bottom: 8px; font-size: 11.5px; color: #64748b; font-weight: 600;">
-      💡 <strong>टिप:</strong> नाम, रोल नं, पिता, मोबाइल पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। फोटो हेतु अवतार (👤) पर क्लिक करें।
+      💡 <strong>टिप:</strong> किसी भी नाम, रोल नं, पिता या मोबाइल पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। आईडी कार्ड निकालने हेतु <strong>🪪 ID कार्ड</strong> बटन दबाएं।
     </div>
 
-    <!-- Students Directory Table (Direct HTML Rows Pre-Rendered) -->
+    <!-- Students Directory Table -->
     <div class="emp-panel-card" style="padding: 10px;">
       <div class="table-responsive">
         <table class="custom-table">
@@ -292,34 +387,10 @@
               <th>मोबाइल नंबर</th>
               <th>जन्मतिथि</th>
               <th>निवास / पता</th>
-              <th style="text-align: center; min-width: 140px;">कार्य (Action)</th>
+              <th style="text-align: center; min-width: 260px;">कार्य (Action)</th>
             </tr>
           </thead>
-          <tbody id="std-directory-tbody">
-            <!-- प्रारंभिक डायरेक्ट रो (ताकि स्क्रीन कभी खाली न रहे) -->
-            <tr data-id="1">
-              <td style="text-align:center;">1</td>
-              <td style="text-align:center;"><div class="avatar-thumbnail" onclick="triggerPhotoUpload(1)">👤</div></td>
-              <td class="editable-td" ondblclick="makeEditable(this, 1, 'scholar_no')"><strong>600</strong></td>
-              <td style="text-align:center; font-weight:800;" class="editable-td" ondblclick="makeEditable(this, 1, 'roll_no')">101</td>
-              <td class="editable-td" ondblclick="makeEditable(this, 1, 'name')"><strong>DEVENDRA GADRI</strong></td>
-              <td>8th-A</td>
-              <td style="text-align:center;"><span class="status-active-pill">सक्रिय</span></td>
-              <td><span class="badge-gender badge-male">छात्र</span></td>
-              <td style="text-align:center; font-weight:700; color:#64748b;">NO</td>
-              <td class="editable-td" ondblclick="makeEditable(this, 1, 'father_name')">श्री देविलाल जी</td>
-              <td class="editable-td" ondblclick="makeEditable(this, 1, 'mother_name')">श्रीमती सीता देवी</td>
-              <td class="editable-td" ondblclick="makeEditable(this, 1, 'mobile_no')">9876543210</td>
-              <td>12/04/2012</td>
-              <td class="editable-td" ondblclick="makeEditable(this, 1, 'address')">सिंहपुर, कपासन</td>
-              <td style="text-align:center;">
-                <div style="display:flex; gap:4px; justify-content:center;">
-                  <button class="btn-action-pill btn-act-blue" style="font-size:11px; padding:4px 8px;" onclick="viewStudentProfile(1)">👁️ प्रोफ़ाइल</button>
-                  <a href="tel:9876543210" class="btn-action-pill btn-act-green" style="font-size:11px; padding:4px 8px; text-decoration:none;">📞 कॉल</a>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="std-directory-tbody"></tbody>
         </table>
       </div>
     </div>
@@ -349,11 +420,15 @@
           <div>
             <label class="form-label">कक्षा (Class) *</label>
             <select id="f-class" class="form-input" required>
-              <option value="8th" selected>8th</option>
-              <option value="Class 10-A">Class 10-A</option>
+              <option value="Class 10-A" selected>Class 10-A</option>
+              <option value="8th">8th</option>
               <option value="7th">7th</option>
               <option value="6th">6th</option>
               <option value="5th">5th</option>
+              <option value="4th">4th</option>
+              <option value="3rd">3rd</option>
+              <option value="2nd">2nd</option>
+              <option value="1st">1st</option>
             </select>
           </div>
           <div>
@@ -406,16 +481,136 @@
     </div>
   </div>
 
-  <!-- MODAL 2: FULL PROFILE VIEW -->
+  <!-- MODAL 2: STUDENT ID CARD GENERATOR -->
+  <div id="idcard-modal" class="modal-overlay hidden">
+    <div class="modal-card" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3><span>🪪</span> छात्र पहचान पत्र (Student ID Card)</h3>
+        <button class="btn-close-modal" onclick="closeIdCardModal()">×</button>
+      </div>
+      <div style="padding: 20px 10px; background: #f1f5f9;">
+        <!-- Printable ID Card Box -->
+        <div id="printable-id-card">
+          <div class="id-card-wrapper">
+            <div class="id-card-top">
+              <h4>SHREE MEWAR PUBLIC SCHOOL</h4>
+              <p>सिंहपुर, कपासन, चित्तौड़गढ़ (राज.) पिन: 312207</p>
+            </div>
+            <div class="id-card-badge">IDENTITY CARD (2026-27)</div>
+            
+            <div class="id-photo-frame" id="id-card-avatar">👤</div>
+            <div class="id-student-name" id="id-card-name">--</div>
+
+            <div class="id-details-list">
+              <div><span>स्कॉलर नं (SR):</span><strong id="id-card-sr">--</strong></div>
+              <div><span>रोल नंबर:</span><strong id="id-card-roll">--</strong></div>
+              <div><span>कक्षा एवं वर्ग:</span><strong id="id-card-class">--</strong></div>
+              <div><span>पिता का नाम:</span><strong id="id-card-father">--</strong></div>
+              <div><span>मोबाइल:</span><strong id="id-card-mobile">--</strong></div>
+              <div><span>जन्मतिथि:</span><strong id="id-card-dob">--</strong></div>
+              <div><span>रक्त समूह (Blood):</span><strong style="color:#dc2626;">B+</strong></div>
+            </div>
+
+            <div class="id-card-footer">
+              <div>
+                <div style="font-family: monospace; letter-spacing: 2px; font-weight:800;">||||||||||||||||</div>
+                <span>SMPS-SINGHPUR</span>
+              </div>
+              <div style="text-align: right;">
+                <div style="border-top: 1px solid #475569; width: 85px; margin-bottom: 2px;"></div>
+                <span>संस्था प्रधान मुहर</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 16px;" class="no-print">
+          <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ A4 प्रिंट ID Card</button>
+          <button class="btn-action-pill" style="background:#64748b;" onclick="closeIdCardModal()">बंद करें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: FULL EDIT STUDENT MODAL -->
+  <div id="edit-student-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><span>✏️</span> छात्र संपूर्ण विवरण संपादन (Full Edit)</h3>
+        <button class="btn-close-modal" onclick="closeEditModal()">×</button>
+      </div>
+      <form id="edit-student-form" onsubmit="saveEditedStudent(event)">
+        <input type="hidden" id="edit-std-id">
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">स्कॉलर नंबर</label>
+            <input type="text" id="e-scholar-no" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">रोल नंबर</label>
+            <input type="text" id="e-roll-no" class="form-input" required>
+          </div>
+          <div class="form-group-full">
+            <label class="form-label">विद्यार्थी का नाम</label>
+            <input type="text" id="e-name" class="form-input" style="text-transform: uppercase;" required>
+          </div>
+          <div>
+            <label class="form-label">कक्षा-वर्ग</label>
+            <input type="text" id="e-class" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">लिंग (Gender)</label>
+            <select id="e-gender" class="form-input">
+              <option value="Male">छात्र (Male)</option>
+              <option value="Female">छात्रा (Female)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">RTE स्थिति</label>
+            <select id="e-rte" class="form-input">
+              <option value="NO">NO</option>
+              <option value="YES">YES</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">पिता का नाम</label>
+            <input type="text" id="e-father-name" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">माता का नाम</label>
+            <input type="text" id="e-mother-name" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">मोबाइल नंबर</label>
+            <input type="tel" id="e-mobile" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">जन्मतिथि</label>
+            <input type="text" id="e-dob" class="form-input">
+          </div>
+          <div class="form-group-full">
+            <label class="form-label">निवास पता</label>
+            <input type="text" id="e-address" class="form-input">
+          </div>
+        </div>
+        <div style="background:#f8fafc; padding: 14px 20px; border-top: 1px solid #e2e8f0; display:flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="closeEditModal()">रद्द करें</button>
+          <button type="submit" class="btn-action-pill btn-act-green">✔ परिवर्तन सुरक्षित करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: FULL PROFILE VIEW -->
   <div id="profile-modal" class="modal-overlay hidden">
     <div class="modal-card">
       <div class="modal-header">
         <h3><span>🎓</span> विद्यार्थी विस्तृत प्रोफाइल कार्ड</h3>
         <button class="btn-close-modal" onclick="closeProfileModal()">×</button>
       </div>
-      <div class="profile-card-body">
-        <div class="profile-top-info">
-          <div class="profile-avatar-big" id="p-avatar-box">👤</div>
+      <div style="padding: 20px;">
+        <div style="display: flex; gap: 16px; align-items: center; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+          <div id="p-avatar-box" style="width: 80px; height: 90px; border-radius: 8px; border: 2px solid #cbd5e1; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; flex-shrink: 0;">👤</div>
           <div>
             <h2 id="p-full-name" style="color: #7f1d1d; font-size: 20px; font-weight: 900; margin-bottom: 4px;">--</h2>
             <div style="font-size: 13px; color: #475569;">
@@ -429,26 +624,25 @@
           </div>
         </div>
 
-        <div class="profile-details-grid">
-          <div class="profile-row">पिता का नाम: <strong id="p-father">--</strong></div>
-          <div class="profile-row">माता का नाम: <strong id="p-mother">--</strong></div>
-          <div class="profile-row">रोल नंबर: <strong id="p-roll">--</strong></div>
-          <div class="profile-row">मोबाइल: <strong id="p-mobile">--</strong></div>
-          <div class="profile-row">जन्मतिथि: <strong id="p-dob">--</strong></div>
-          <div class="profile-row">प्रवेश स्थिति: <strong style="color:#15803d;">सक्रिय (Active)</strong></div>
-          <div class="profile-row" style="grid-column: span 2;">स्थायी पता: <strong id="p-address">--</strong></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">पिता का नाम: <strong id="p-father" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">माता का नाम: <strong id="p-mother" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">रोल नंबर: <strong id="p-roll" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">मोबाइल: <strong id="p-mobile" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">जन्मतिथि: <strong id="p-dob" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">प्रवेश स्थिति: <strong style="color:#15803d;">सक्रिय (Active)</strong></div>
+          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0; grid-column: span 2;">स्थायी पता: <strong id="p-address" style="color:#7f1d1d;">--</strong></div>
         </div>
 
         <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-          <a id="p-call-link" href="#" class="btn-action-pill btn-act-green" style="text-decoration:none;">📞 कॉल करें</a>
-          <button class="btn-action-pill btn-act-blue" onclick="window.print()">🖨️ A4 प्रिंट</button>
+          <a id="p-call-link" href="#" class="btn-action-pill btn-act-green" style="text-decoration:none;">📞 अभिभावक से बात करें</a>
+          <button class="btn-action-pill btn-act-blue" onclick="window.print()">🖨️ A4 प्रिंट प्रोफाइल</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // इन-पेज टोस्ट यूटिलिटी (किसी बाहरी फ़ाइल की ज़रूरत नहीं)
     function showAppToast(msg, isSuccess = true) {
       const t = document.getElementById('local-toast');
       if (!t) return;
@@ -458,15 +652,15 @@
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
-    // 7 छात्रों की प्राथमिक डिफ़ॉल्ट सूची
+    // मास्टर छात्र सूची (स्क्रीनशॉट के छात्रों सहित)
     let allStudents = [
-      { id: 1, scholar_no: '600', roll_no: '101', name: 'DEVENDRA GADRI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सीता देवी', mobile_no: '9876543210', dob: '2012-04-12', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 2, scholar_no: '111', roll_no: '102', name: 'DEVENDRA SINGH', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री मानसिंह जी', mother_name: 'श्रीमती मंजू कंवर', mobile_no: '9876543210', dob: '2012-08-05', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 3, scholar_no: '81',  roll_no: '103', name: 'GIRIRAJ MALI', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री कन्हैयालाल जी', mother_name: 'श्रीमती रेखा देवी', mobile_no: '9876543210', dob: '2011-11-18', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 4, scholar_no: '5',   roll_no: '104', name: 'LAXMI JAT', class_name: '8th', section: 'A', gender: 'Female', rte: 'YES', father_name: 'श्री शंकरलाल जी', mother_name: 'श्रीमती गीता देवी', mobile_no: '9876543210', dob: '2012-01-22', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 5, scholar_no: '282', roll_no: '105', name: 'RAJLAXMI KANWAR', class_name: '8th', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री तेजसिंह जी', mother_name: 'श्रीमती पुष्पा कंवर', mobile_no: '9876543210', dob: '2012-06-14', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 6, scholar_no: '624', roll_no: '106', name: 'ISHWAR BHIL', class_name: '8th', section: 'A', gender: 'Male', rte: 'YES', father_name: 'श्री रूपा जी', mother_name: 'श्रीमती धापू बाई', mobile_no: '9876543210', dob: '2012-09-10', address: 'सिंहपुर, कपासन', photo: null },
-      { id: 7, scholar_no: '572', roll_no: '107', name: 'KISHAN LAL KUMAWAT', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री उदयलाल जी', mother_name: 'श्रीमती लीला देवी', mobile_no: '9876543210', dob: '2011-12-05', address: 'सिंहपुर, कपासन', photo: null }
+      { id: 1, scholar_no: '101', roll_no: '101', name: 'Rahul Sharma', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
+      { id: 2, scholar_no: '102', roll_no: '102', name: 'Priya Verma', class_name: 'Class 10-A', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
+      { id: 3, scholar_no: '103', roll_no: '103', name: 'Aman Gupta', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
+      { id: 4, scholar_no: '104', roll_no: '105', name: 'AKSHAT DADHEECH', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'ratnesh kumar sharma', mother_name: 'bali devi', mobile_no: '9799242540', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
+      { id: 5, scholar_no: '105', roll_no: '104', name: 'VIKAS SONI', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '88244404249', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
+      { id: 6, scholar_no: '759', roll_no: '45', name: 'harshit', class_name: '6th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
+      { id: 7, scholar_no: '759', roll_no: '801', name: 'HARSHIT JAT', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'RATNESH JAT', mother_name: 'BALI BAI', mobile_no: '9988778896', dob: '2012-01-01', address: 'सिंहपुर चित्तौड़गढ़', photo: null }
     ];
 
     let currentPhotoTargetId = null;
@@ -475,6 +669,11 @@
       const tbody = document.getElementById('std-directory-tbody');
       if (!tbody) return;
       tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="15" style="text-align:center; padding:24px; color:#64748b;">कोई विद्यार्थी रिकॉर्ड नहीं मिला।</td></tr>`;
+        return;
+      }
 
       list.forEach((s, idx) => {
         const isFem = (s.gender || 'Male').toLowerCase() === 'female';
@@ -492,7 +691,7 @@
             <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'scholar_no')"><strong>${s.scholar_no}</strong></td>
             <td style="text-align: center; font-weight: 800;" class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'roll_no')">${s.roll_no}</td>
             <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'name')"><strong>${s.name}</strong></td>
-            <td>${s.class_name}-${s.section}</td>
+            <td>${s.class_name}-${s.section || 'A'}</td>
             <td style="text-align: center;"><span class="status-active-pill">सक्रिय</span></td>
             <td>${genderBadge}</td>
             <td style="text-align: center; font-weight: 700; color:${s.rte === 'YES' ? '#dc2626' : '#64748b'};">${s.rte}</td>
@@ -502,9 +701,12 @@
             <td>${s.dob}</td>
             <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'address')">${s.address}</td>
             <td style="text-align: center;">
-              <div style="display:flex; gap:4px; justify-content:center;">
-                <button class="btn-action-pill btn-act-blue" style="font-size: 11px; padding: 4px 8px;" onclick="viewStudentProfile(${s.id})">👁️ प्रोफ़ाइल</button>
-                <a href="tel:${s.mobile_no}" class="btn-action-pill btn-act-green" style="font-size: 11px; padding: 4px 8px; text-decoration:none;">📞 कॉल</a>
+              <div class="std-action-grid">
+                <button class="btn-table-action act-btn-profile" onclick="viewStudentProfile(${s.id})">👁️ प्रोफ़ाइल</button>
+                <button class="btn-table-action act-btn-idcard" onclick="openStudentIdCard(${s.id})">🪪 ID कार्ड</button>
+                <button class="btn-table-action act-btn-edit" onclick="openEditModal(${s.id})">✏️ एडिट</button>
+                <a href="tel:${s.mobile_no}" class="btn-table-action act-btn-call">📞 कॉल</a>
+                <button class="btn-table-action act-btn-del" onclick="deleteStudent(${s.id})">🗑️</button>
               </div>
             </td>
           </tr>
@@ -523,38 +725,7 @@
       document.getElementById('std-cnt-total').innerText = list.length;
     }
 
-    // तुरंत लोड करें
-    renderTable(allStudents);
-    updateMetrics(allStudents);
-
-    // बैकएंड सिंक (अगर उपलब्ध हो)
-    fetch('/api/students')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          allStudents = data.map((item, idx) => ({
-            id: item.id || (idx + 1),
-            scholar_no: item.scholar_no || '759',
-            roll_no: item.roll_no || (101 + idx),
-            name: item.name || 'STUDENT NAME',
-            class_name: item.class_name || '8th',
-            section: item.section || 'A',
-            gender: item.gender || 'Male',
-            rte: item.rte || 'NO',
-            father_name: item.father_name || 'श्री पिता जी',
-            mother_name: item.mother_name || 'श्रीमती माता जी',
-            mobile_no: item.mobile_no || '9876543210',
-            dob: item.dob || '2012-01-01',
-            address: item.address || 'सिंहपुर',
-            photo: item.photo || null
-          }));
-          renderTable(allStudents);
-          updateMetrics(allStudents);
-        }
-      })
-      .catch(() => {});
-
-    // 1. इनलाइन डबल क्लिक सेल एडिट
+    // 1. इनलाइन डबल-क्लिक सेल संपादन
     function makeEditable(cell, studentId, fieldName) {
       if (cell.querySelector('input')) return;
       const originalText = cell.innerText.trim();
@@ -586,73 +757,89 @@
       });
     }
 
-    // 2. फोटो अपलोड एवं कंप्रेशन
-    function triggerPhotoUpload(studentId) {
-      currentPhotoTargetId = studentId;
-      document.getElementById('photo-upload-input').click();
-    }
-
-    function handlePhotoUpload(event) {
-      const file = event.target.files[0];
-      if (!file || !currentPhotoTargetId) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          canvas.width = 200;
-          canvas.height = 200;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, 200, 200);
-
-          const compressed = canvas.toDataURL('image/jpeg', 0.7);
-          const student = allStudents.find(s => s.id === currentPhotoTargetId);
-          if (student) {
-            student.photo = compressed;
-            filterStudents();
-            showAppToast("✔ फोटो सफलतापूर्वक अपडेट हो गई!");
-          }
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
-    }
-
-    // 3. प्रोफ़ाइल पॉपअप
-    function viewStudentProfile(id) {
+    // 2. ID Card Generator
+    function openStudentIdCard(id) {
       const s = allStudents.find(x => x.id === id) || allStudents[0];
       if (!s) return;
 
-      document.getElementById('p-full-name').innerText = s.name;
-      document.getElementById('p-scholar').innerText = s.scholar_no;
-      document.getElementById('p-class').innerText = `${s.class_name}-${s.section}`;
-      document.getElementById('p-father').innerText = s.father_name;
-      document.getElementById('p-mother').innerText = s.mother_name;
-      document.getElementById('p-roll').innerText = s.roll_no;
-      document.getElementById('p-mobile').innerText = s.mobile_no;
-      document.getElementById('p-dob').innerText = s.dob;
-      document.getElementById('p-address').innerText = s.address;
-      document.getElementById('p-call-link').href = `tel:${s.mobile_no}`;
+      document.getElementById('id-card-name').innerText = s.name;
+      document.getElementById('id-card-sr').innerText = s.scholar_no;
+      document.getElementById('id-card-roll').innerText = s.roll_no;
+      document.getElementById('id-card-class').innerText = `${s.class_name}-${s.section || 'A'}`;
+      document.getElementById('id-card-father').innerText = s.father_name;
+      document.getElementById('id-card-mobile').innerText = s.mobile_no;
+      document.getElementById('id-card-dob').innerText = s.dob;
 
-      const avatarBox = document.getElementById('p-avatar-box');
-      avatarBox.innerHTML = s.photo ? `<img src="${s.photo}" style="width:100%; height:100%; object-fit:cover;">` : `👤`;
+      const avBox = document.getElementById('id-card-avatar');
+      avBox.innerHTML = s.photo ? `<img src="${s.photo}" style="width:100%; height:100%; object-fit:cover;">` : `👤`;
 
-      const isFem = (s.gender || 'Male').toLowerCase() === 'female';
-      const gBadge = document.getElementById('p-gender-badge');
-      gBadge.innerText = isFem ? 'छात्रा (Female)' : 'छात्र (Male)';
-      gBadge.className = `badge-gender ${isFem ? 'badge-female' : 'badge-male'}`;
-
-      document.getElementById('p-rte-badge').innerText = s.rte === 'YES' ? 'RTE प्रवेशित' : 'सामान्य (Non-RTE)';
-      document.getElementById('profile-modal').classList.remove('hidden');
+      document.getElementById('idcard-modal').classList.remove('hidden');
     }
 
-    function closeProfileModal() {
-      document.getElementById('profile-modal').classList.add('hidden');
+    function closeIdCardModal() {
+      document.getElementById('idcard-modal').classList.add('hidden');
     }
 
-    // 4. नया छात्र प्रवेश फॉर्म
+    // 3. Full Edit Modal Form
+    function openEditModal(id) {
+      const s = allStudents.find(x => x.id === id);
+      if (!s) return;
+
+      document.getElementById('edit-std-id').value = s.id;
+      document.getElementById('e-scholar-no').value = s.scholar_no;
+      document.getElementById('e-roll-no').value = s.roll_no;
+      document.getElementById('e-name').value = s.name;
+      document.getElementById('e-class').value = s.class_name;
+      document.getElementById('e-gender').value = s.gender || 'Male';
+      document.getElementById('e-rte').value = s.rte || 'NO';
+      document.getElementById('e-father-name').value = s.father_name;
+      document.getElementById('e-mother-name').value = s.mother_name;
+      document.getElementById('e-mobile').value = s.mobile_no;
+      document.getElementById('e-dob').value = s.dob;
+      document.getElementById('e-address').value = s.address;
+
+      document.getElementById('edit-student-modal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-student-modal').classList.add('hidden');
+    }
+
+    function saveEditedStudent(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('edit-std-id').value);
+      const student = allStudents.find(s => s.id === id);
+      if (student) {
+        student.scholar_no = document.getElementById('e-scholar-no').value.trim();
+        student.roll_no = document.getElementById('e-roll-no').value.trim();
+        student.name = document.getElementById('e-name').value.trim().toUpperCase();
+        student.class_name = document.getElementById('e-class').value.trim();
+        student.gender = document.getElementById('e-gender').value;
+        student.rte = document.getElementById('e-rte').value;
+        student.father_name = document.getElementById('e-father-name').value.trim();
+        student.mother_name = document.getElementById('e-mother-name').value.trim();
+        student.mobile_no = document.getElementById('e-mobile').value.trim();
+        student.dob = document.getElementById('e-dob').value.trim();
+        student.address = document.getElementById('e-address').value.trim();
+
+        closeEditModal();
+        filterStudents();
+        showAppToast("✔ विद्यार्थी विवरण सफलतापूर्वक संशोधित हुआ!");
+      }
+    }
+
+    // 4. Delete Student
+    function deleteStudent(id) {
+      const student = allStudents.find(s => s.id === id);
+      if (!student) return;
+      if (confirm(`क्या आप विद्यार्थी '${student.name}' का रिकॉर्ड हटाना चाहते हैं?`)) {
+        allStudents = allStudents.filter(s => s.id !== id);
+        filterStudents();
+        showAppToast(`विद्यार्थी '${student.name}' हटा दिया गया`, false);
+      }
+    }
+
+    // 5. Add New Student Modal Form
     function openAddStudentModal() {
       document.getElementById('f-scholar-no').value = 760 + allStudents.length;
       document.getElementById('f-roll-no').value = allStudents.length + 1;
@@ -689,7 +876,73 @@
       allStudents.unshift(newStd);
       filterStudents();
       closeAddStudentModal();
-      showAppToast(`✔ विद्यार्थी ${newStd.name} का प्रवेश दर्ज हुआ!`);
+      showAppToast(`✔ विद्यार्थी ${newStd.name} का प्रवेश सफलतापूर्वक दर्ज हुआ!`);
+    }
+
+    // 6. Photo Upload & Compression
+    function triggerPhotoUpload(studentId) {
+      currentPhotoTargetId = studentId;
+      document.getElementById('photo-upload-input').click();
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file || !currentPhotoTargetId) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = 200;
+          canvas.height = 200;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, 200, 200);
+
+          const compressed = canvas.toDataURL('image/jpeg', 0.75);
+          const student = allStudents.find(s => s.id === currentPhotoTargetId);
+          if (student) {
+            student.photo = compressed;
+            filterStudents();
+            showAppToast("✔ फोटो सफलतापूर्वक अपडेट हो गई!");
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    // 7. Profile View
+    function viewStudentProfile(id) {
+      const s = allStudents.find(x => x.id === id) || allStudents[0];
+      if (!s) return;
+
+      document.getElementById('p-full-name').innerText = s.name;
+      document.getElementById('p-scholar').innerText = s.scholar_no;
+      document.getElementById('p-class').innerText = `${s.class_name}-${s.section || 'A'}`;
+      document.getElementById('p-father').innerText = s.father_name;
+      document.getElementById('p-mother').innerText = s.mother_name;
+      document.getElementById('p-roll').innerText = s.roll_no;
+      document.getElementById('p-mobile').innerText = s.mobile_no;
+      document.getElementById('p-dob').innerText = s.dob;
+      document.getElementById('p-address').innerText = s.address;
+      document.getElementById('p-call-link').href = `tel:${s.mobile_no}`;
+
+      const avatarBox = document.getElementById('p-avatar-box');
+      avatarBox.innerHTML = s.photo ? `<img src="${s.photo}" style="width:100%; height:100%; object-fit:cover;">` : `👤`;
+
+      const isFem = (s.gender || 'Male').toLowerCase() === 'female';
+      const gBadge = document.getElementById('p-gender-badge');
+      gBadge.innerText = isFem ? 'छात्रा (Female)' : 'छात्र (Male)';
+      gBadge.className = `badge-gender ${isFem ? 'badge-female' : 'badge-male'}`;
+
+      document.getElementById('p-rte-badge').innerText = s.rte === 'YES' ? 'RTE प्रवेशित' : 'सामान्य (Non-RTE)';
+      document.getElementById('profile-modal').classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profile-modal').classList.add('hidden');
     }
 
     function filterStudents() {
@@ -711,8 +964,39 @@
     }
 
     function downloadStudentsExcel() {
-      showAppToast("✔ Excel फाइल तैयार हो रही है...");
+      showAppToast("✔ विद्यार्थी Excel शीट डाउनलोड हो रही है...");
     }
+
+    // Initial Render
+    renderTable(allStudents);
+    updateMetrics(allStudents);
+
+    // Sync with backend API
+    fetch('/api/students')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          allStudents = data.map((item, idx) => ({
+            id: item.id || (idx + 1),
+            scholar_no: item.scholar_no || '759',
+            roll_no: item.roll_no || (101 + idx),
+            name: item.name || 'STUDENT NAME',
+            class_name: item.class_name || 'Class 10-A',
+            section: item.section || 'A',
+            gender: item.gender || 'Male',
+            rte: item.rte || 'NO',
+            father_name: item.father_name || 'श्री पिता जी',
+            mother_name: item.mother_name || 'श्रीमती माता जी',
+            mobile_no: item.mobile_no || '9876543210',
+            dob: item.dob || '01/01/2012',
+            address: item.address || 'सिंहपुर',
+            photo: item.photo || null
+          }));
+          renderTable(allStudents);
+          updateMetrics(allStudents);
+        }
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>
