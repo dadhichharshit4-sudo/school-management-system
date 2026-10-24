@@ -5,13 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>विद्यार्थी डायरेक्टरी - SHREE MEWAR PUBLIC SCHOOL</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* ==========================================================================
+       BIG BRAND PREMIUM UI & COMMERCIAL WIZARD STYLING
+       ========================================================================== */
     .avatar-thumbnail {
       width: 38px;
       height: 42px;
-      border-radius: 4px;
+      border-radius: 6px;
       border: 1.5px solid #cbd5e1;
-      background: #e2e8f0;
+      background: #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -20,11 +24,17 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: all 0.2s ease;
+    }
+    .avatar-thumbnail:hover {
+      border-color: #0284c7;
+      transform: scale(1.05);
     }
     .avatar-thumbnail:hover::after {
       content: '📷';
       position: absolute;
-      background: rgba(0,0,0,0.55);
+      background: rgba(15, 23, 42, 0.7);
       color: #fff;
       font-size: 13px;
       width: 100%;
@@ -40,19 +50,31 @@
     }
     .badge-gender {
       font-size: 11px;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 3px 8px;
+      border-radius: 12px;
       font-weight: 700;
+      letter-spacing: 0.3px;
     }
-    .badge-male { background: #e0f2fe; color: #0369a1; }
-    .badge-female { background: #fce7f3; color: #be185d; }
+    .badge-male { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-female { background: #fce7f3; color: #be185d; border: 1px solid #fbcfe8; }
     .status-active-pill {
       background: #dcfce7;
       color: #15803d;
       font-weight: 800;
-      padding: 2px 8px;
+      padding: 3px 10px;
       border-radius: 12px;
       font-size: 10.5px;
+      border: 1px solid #bbf7d0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .status-active-pill::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #16a34a;
+      border-radius: 50%;
     }
     .editable-td {
       cursor: pointer;
@@ -72,11 +94,12 @@
       box-sizing: border-box;
     }
 
-    /* Modal Overlay & Card Styling */
+    /* PREMIUM MODAL CONTAINER */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -86,38 +109,41 @@
     }
     .modal-card {
       background: #ffffff;
-      border-radius: 12px;
-      max-width: 950px;
+      border-radius: 16px;
+      max-width: 980px;
       width: 100%;
       max-height: 92vh;
       overflow-y: auto;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+      box-shadow: 0 25px 60px -15px rgba(0,0,0,0.45);
       position: relative;
       display: flex;
       flex-direction: column;
+      border: 1px solid rgba(255,255,255,0.2);
     }
     .modal-header {
-      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #b91c1c 100%);
       color: #ffffff;
-      padding: 14px 22px;
+      padding: 16px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     .modal-header h3 {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 800;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
     .btn-close-modal {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.18);
       border: none;
       color: #fff;
       font-size: 18px;
@@ -129,20 +155,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.2s ease;
     }
-    .btn-close-modal:hover { background: rgba(255,255,255,0.4); }
+    .btn-close-modal:hover { 
+      background: rgba(255,255,255,0.35); 
+      transform: rotate(90deg);
+    }
 
-    /* COMMERCIAL ADMISSION FORM WIZARD TABS */
-    .form-tab-nav {
+    /* STEPPER TABS (BIG BRAND PROGRESS BAR) */
+    .stepper-nav {
       display: flex;
       background: #f8fafc;
-      border-bottom: 2px solid #fed7aa;
-      padding: 0 16px;
-      gap: 6px;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 6px 12px 0;
       overflow-x: auto;
     }
-    .form-tab-btn {
-      padding: 11px 16px;
+    .step-item {
+      flex: 1;
+      min-width: 170px;
+      padding: 12px 14px 10px;
       border: none;
       background: transparent;
       font-size: 12.5px;
@@ -151,19 +182,36 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       border-bottom: 3px solid transparent;
       transition: all 0.2s ease;
-      white-space: nowrap;
+      position: relative;
     }
-    .form-tab-btn.active {
+    .step-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .step-item.active {
       color: #7f1d1d;
       border-bottom-color: #7f1d1d;
-      background: #fff;
+      background: #ffffff;
+    }
+    .step-item.active .step-badge {
+      background: #7f1d1d;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(127, 29, 29, 0.4);
     }
 
     .form-section-body {
-      padding: 20px 24px;
+      padding: 24px;
       flex: 1;
     }
     .form-grid-3 {
@@ -175,24 +223,62 @@
     .form-label {
       font-size: 12px;
       font-weight: 700;
-      color: #334155;
+      color: #1e293b;
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     .form-input {
       width: 100%;
-      padding: 8px 12px;
+      padding: 9px 12px;
       border: 1.5px solid #cbd5e1;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 12.5px;
       outline: none;
       box-sizing: border-box;
       background: #ffffff;
-      transition: border-color 0.15s ease;
+      transition: all 0.2s ease;
+      color: #0f172a;
     }
-    .form-input:focus { border-color: #0284c7; }
+    .form-input:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
 
-    /* ACTION BUTTONS GRID */
+    /* FEE CALCULATOR SPECIAL BOX */
+    .fee-calc-box {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1.5px solid #fdba74;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 14px;
+    }
+    .fee-summary-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+      background: #ffffff;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #fed7aa;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .fee-strip-stat {
+      text-align: center;
+    }
+    .fee-strip-stat span {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 2px;
+    }
+    .fee-strip-stat strong {
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    /* ACTION BUTTONS */
     .std-action-grid {
       display: flex;
       gap: 4px;
@@ -201,18 +287,20 @@
     }
     .btn-table-action {
       border: none;
-      border-radius: 4px;
-      font-size: 10.5px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 700;
       color: #ffffff;
-      padding: 4px 6px;
+      padding: 5px 8px;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 2px;
+      gap: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: all 0.15s ease;
     }
-    .btn-table-action:hover { filter: brightness(1.1); }
+    .btn-table-action:hover { filter: brightness(1.1); transform: translateY(-1px); }
     .act-btn-profile { background: #0284c7; }
     .act-btn-idcard { background: #7c3aed; }
     .act-btn-edit { background: #ea580c; }
@@ -224,9 +312,9 @@
       width: 320px;
       height: 480px;
       margin: 10px auto 20px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 2px solid #991b1b;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.22);
       background: #ffffff;
       overflow: hidden;
       display: flex;
@@ -331,7 +419,7 @@
       font-weight: 600;
       display: none;
       z-index: 999999;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
     }
 
     .hidden { display: none !important; }
@@ -394,13 +482,15 @@
           छात्राएं: <span id="std-cnt-girls" style="color:#db2777;">0</span> | 
           कुल: <span id="std-cnt-total" style="color:#15803d;">0</span>
         </div>
-        <button class="btn-action-pill btn-act-green" onclick="openAddStudentModal()">+ नया प्रवेश फॉर्म (Big Brand)</button>
+        <button class="btn-action-pill btn-act-green" style="padding:8px 16px; font-size:13px;" onclick="openAddStudentModal()">
+          ✨ + नवीन छात्र प्रवेश (Big Brand ERP)
+        </button>
         <button class="btn-action-pill" style="background:#0d9488;" onclick="downloadStudentsExcel()">📊 Excel डाउनलोड</button>
       </div>
     </div>
 
     <div style="margin-bottom: 8px; font-size: 11.5px; color: #64748b; font-weight: 600;">
-      💡 <strong>टिप:</strong> किसी भी नाम, रोल नं, पिता या मोबाइल पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। आईडी कार्ड निकालने हेतु <strong>🪪 ID कार्ड</strong> बटन दबाएं।
+      💡 <strong>टिप:</strong> किसी भी नाम, रोल नं, पिता या मोबाइल पर <strong>डबल-क्लिक</strong> करके सीधे एडिट करें। आईडी कार्ड निकालने हेतु <strong>🪪 ID कार्ड</strong> दबाएं।
     </div>
 
     <!-- Students Directory Table -->
@@ -421,9 +511,9 @@
               <th>पिता का नाम</th>
               <th>माता का नाम</th>
               <th>मोबाइल नंबर</th>
-              <th>जन्मतिथि</th>
+              <th>बकाया फीस</th>
               <th>निवास / पता</th>
-              <th style="text-align: center; min-width: 260px;">कार्य (Action)</th>
+              <th style="text-align: center; min-width: 270px;">कार्य (Action)</th>
             </tr>
           </thead>
           <tbody id="std-directory-tbody"></tbody>
@@ -433,36 +523,39 @@
   </main>
 
   <!-- ==========================================================================
-       MODAL 1: BIG BRAND COMMERCIAL STUDENT ADMISSION FORM (ENTERPRISE WIZARD)
+       MODAL: 5-STEP COMMERCIAL ADMISSION WIZARD WITH INTEGRATED FEES & RECEIPT
        ========================================================================== -->
   <div id="add-student-modal" class="modal-overlay hidden">
     <div class="modal-card">
       <div class="modal-header">
-        <h3><span>🏫</span> SHREE MEWAR PUBLIC SCHOOL - नवीन छात्र प्रवेश फॉर्म (सत्र: 2026-27)</h3>
+        <h3><span>🏫</span> SHREE MEWAR PUBLIC SCHOOL - नवीन छात्र प्रवेश एवं शुल्क केंद्र (सत्र: 2026-27)</h3>
         <button class="btn-close-modal" onclick="closeAddStudentModal()">×</button>
       </div>
 
-      <!-- Admission Wizard Navigation Tabs -->
-      <div class="form-tab-nav">
-        <button type="button" class="form-tab-btn active" onclick="switchFormTab(1)" id="ftab-btn-1">
-          <span>1.</span> शैक्षणिक विवरण (Academic Info)
+      <!-- Stepper Nav Bar -->
+      <div class="stepper-nav">
+        <button type="button" class="step-item active" onclick="switchFormTab(1)" id="step-btn-1">
+          <span class="step-badge">1</span> शैक्षणिक प्रविष्टि
         </button>
-        <button type="button" class="form-tab-btn" onclick="switchFormTab(2)" id="ftab-btn-2">
-          <span>2.</span> छात्र प्रोफाइल (Student Profile)
+        <button type="button" class="step-item" onclick="switchFormTab(2)" id="step-btn-2">
+          <span class="step-badge">2</span> छात्र प्रोफाइल
         </button>
-        <button type="button" class="form-tab-btn" onclick="switchFormTab(3)" id="ftab-btn-3">
-          <span>3.</span> पारिवारिक व संपर्क (Family Details)
+        <button type="button" class="step-item" onclick="switchFormTab(3)" id="step-btn-3">
+          <span class="step-badge">3</span> अभिभावक विवरण
         </button>
-        <button type="button" class="form-tab-btn" onclick="switchFormTab(4)" id="ftab-btn-4">
-          <span>4.</span> पूर्व विद्यालय व दस्तावेज (History & Docs)
+        <button type="button" class="step-item" onclick="switchFormTab(4)" id="step-btn-4">
+          <span class="step-badge">4</span> पूर्व स्कूल व TC
+        </button>
+        <button type="button" class="step-item" onclick="switchFormTab(5)" id="step-btn-5" style="color:#c2410c;">
+          <span class="step-badge" style="background:#ffedd5; color:#c2410c;">5</span> 💰 शुल्क संरचना (Fees)
         </button>
       </div>
 
       <form id="add-student-form" onsubmit="saveNewStudent(event)">
-        <!-- TAB 1: ACADEMIC INFO -->
+        <!-- STEP 1: ACADEMIC DETAILS -->
         <div class="form-section-body" id="fsec-1">
-          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
-            🎓 1. विद्यालय एवं शैक्षणिक प्रविष्टि (School Academic Details)
+          <div style="font-size:14px; font-weight:800; color:#7f1d1d; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            <span>🎓</span> शैक्षणिक विवरण एवं कक्षा आवंटन (Academic Enrollment)
           </div>
           <div class="form-grid-3">
             <div>
@@ -474,12 +567,12 @@
               <input type="date" id="f-adm-date" class="form-input" value="2026-07-01" required>
             </div>
             <div>
-              <label class="form-label">सत्र (Academic Session) *</label>
-              <input type="text" class="form-input" value="2026-2027" readonly style="background:#f1f5f9;">
+              <label class="form-label">सत्र (Session) *</label>
+              <input type="text" class="form-input" value="2026-2027" readonly style="background:#f8fafc; font-weight:700;">
             </div>
             <div>
               <label class="form-label">प्रवेश कक्षा (Class) *</label>
-              <select id="f-class" class="form-input" required>
+              <select id="f-class" class="form-input" onchange="autoFillClassFee()" required>
                 <option value="Class 10-A">Class 10-A</option>
                 <option value="8th" selected>8th</option>
                 <option value="7th">7th</option>
@@ -500,7 +593,7 @@
               </select>
             </div>
             <div>
-              <label class="form-label">कक्षा रोल नंबर (Roll No.) *</label>
+              <label class="form-label">रोल नंबर (Roll No.) *</label>
               <input type="text" id="f-roll-no" class="form-input" required>
             </div>
             <div>
@@ -511,42 +604,42 @@
               </select>
             </div>
             <div>
-              <label class="form-label">RTE प्रवेश स्थिति (Right to Education) *</label>
-              <select id="f-rte" class="form-input" required>
+              <label class="form-label">RTE प्रवेश स्थिति *</label>
+              <select id="f-rte" class="form-input" onchange="handleRteFeeToggle()" required>
                 <option value="NO" selected>सामान्य (Non-RTE)</option>
                 <option value="YES">RTE प्रवेशित (Free Ship)</option>
               </select>
             </div>
             <div>
-              <label class="form-label">विद्यार्थी प्रकार (Student Type)</label>
+              <label class="form-label">विद्यार्थी प्रकार (Type)</label>
               <select id="f-student-type" class="form-input">
                 <option value="Regular" selected>नियमित (Regular)</option>
                 <option value="Private">स्वाध्यायी (Private)</option>
               </select>
             </div>
           </div>
-          <div style="margin-top:20px; text-align:right;">
-            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(2)">अगला चरण (Next: छात्र प्रोफाइल) ➔</button>
+          <div style="margin-top:24px; text-align:right;">
+            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(2)">अगला: छात्र प्रोफाइल ➔</button>
           </div>
         </div>
 
-        <!-- TAB 2: STUDENT PROFILE -->
+        <!-- STEP 2: STUDENT PROFILE -->
         <div class="form-section-body hidden" id="fsec-2">
-          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
-            👤 2. छात्र की व्यक्तिगत जानकारी (Student Personal Information)
+          <div style="font-size:14px; font-weight:800; color:#7f1d1d; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            <span>👤</span> छात्र की व्यक्तिगत जानकारी (Student Personal Details)
           </div>
           <div class="form-grid-3">
             <div class="form-group-full">
-              <label class="form-label">विद्यार्थी का नाम (अंग्रेज़ी बड़े अक्षरों में - 10th मार्कशीट अनुसार) *</label>
-              <input type="text" id="f-name" class="form-input" style="text-transform:uppercase; font-weight:700;" placeholder="उदा. HARSHIT SHARMA" required>
+              <label class="form-label">विद्यार्थी का नाम (अंग्रेज़ी बड़े अक्षरों में) *</label>
+              <input type="text" id="f-name" class="form-input" style="text-transform:uppercase; font-weight:700;" placeholder="उदा. DEVENDRA GADRI" required>
             </div>
             <div>
               <label class="form-label">विद्यार्थी का नाम (हिन्दी में)</label>
-              <input type="text" id="f-name-hindi" class="form-input" placeholder="उदा. हर्षित शर्मा">
+              <input type="text" id="f-name-hindi" class="form-input" placeholder="उदा. देवेन्द्र गाडरी">
             </div>
             <div>
               <label class="form-label">जन्मतिथि (Date of Birth) *</label>
-              <input type="date" id="f-dob" class="form-input" value="2012-01-01" required>
+              <input type="date" id="f-dob" class="form-input" value="2012-04-12" required>
             </div>
             <div>
               <label class="form-label">लिंग (Gender) *</label>
@@ -558,11 +651,11 @@
             <div>
               <label class="form-label">सामाजिक श्रेणी (Category) *</label>
               <select id="f-category" class="form-input">
-                <option value="General" selected>General (सामान्य)</option>
-                <option value="OBC">OBC (अन्य पिछड़ा वर्ग)</option>
-                <option value="SC">SC (अनुसूचित जाति)</option>
-                <option value="ST">ST (अनुसूचित जनजाति)</option>
-                <option value="EWS">EWS</option>
+                <option value="General" selected>General</option>
+                <option value="OBC">OBC</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="SBC">SBC</option>
               </select>
             </div>
             <div>
@@ -577,12 +670,10 @@
                 <option value="O+">O+</option>
                 <option value="AB+">AB+</option>
                 <option value="B-">B-</option>
-                <option value="A-">A-</option>
-                <option value="O-">O-</option>
               </select>
             </div>
             <div>
-              <label class="form-label">आधार कार्ड नंबर (12-अंकीय)</label>
+              <label class="form-label">आधार कार्ड नंबर (12 Digits)</label>
               <input type="text" id="f-aadhar" class="form-input" maxlength="12" placeholder="XXXX XXXX XXXX">
             </div>
             <div>
@@ -590,16 +681,16 @@
               <input type="text" id="f-janaadhar" class="form-input" maxlength="10" placeholder="10-अंकीय जन-आधार">
             </div>
           </div>
-          <div style="margin-top:20px; display:flex; justify-content:space-between;">
+          <div style="margin-top:24px; display:flex; justify-content:space-between;">
             <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(1)">⬅ पिछला चरण</button>
-            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(3)">अगला चरण (Next: पारिवारिक विवरण) ➔</button>
+            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(3)">अगला: अभिभावक विवरण ➔</button>
           </div>
         </div>
 
-        <!-- TAB 3: FAMILY & CONTACT -->
+        <!-- STEP 3: PARENT & CONTACT -->
         <div class="form-section-body hidden" id="fsec-3">
-          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
-            👨‍👩‍👦 3. अभिभावक एवं स्थायी संपर्क विवरण (Parent & Contact Details)
+          <div style="font-size:14px; font-weight:800; color:#7f1d1d; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            <span>👨‍👩‍👦</span> अभिभावक एवं पारिवारिक संपर्क (Family & Address)
           </div>
           <div class="form-grid-3">
             <div>
@@ -608,52 +699,52 @@
             </div>
             <div>
               <label class="form-label">पिता का व्यवसाय (Occupation)</label>
-              <input type="text" id="f-father-occ" class="form-input" value="कृषि / व्यवसाय">
+              <input type="text" id="f-father-occ" class="form-input" value="कृषि / व्यापार">
             </div>
             <div>
               <label class="form-label">माता का नाम (Mother's Name) *</label>
               <input type="text" id="f-mother-name" class="form-input" placeholder="श्रीमती..." required>
             </div>
             <div>
-              <label class="form-label">प्राथमिक मोबाइल नंबर (WhatsApp) *</label>
+              <label class="form-label">प्राथमिक WhatsApp मोबाइल नंबर *</label>
               <input type="tel" id="f-mobile" class="form-input" maxlength="10" placeholder="10-अंकीय मोबाइल" required>
             </div>
             <div>
-              <label class="form-label">वैकल्पिक दूरभाष (Emergency Contact)</label>
-              <input type="tel" id="f-alt-mobile" class="form-input" maxlength="10" placeholder="अन्य नंबर">
+              <label class="form-label">वैकल्पिक दूरभाष (Alt Mobile)</label>
+              <input type="tel" id="f-alt-mobile" class="form-input" maxlength="10" placeholder="वैकल्पिक नंबर">
             </div>
             <div>
-              <label class="form-label">परिवार की वार्षिक आय (Annual Income)</label>
+              <label class="form-label">परिवार की वार्षिक आय</label>
               <input type="text" id="f-income" class="form-input" value="₹ 1,50,000">
             </div>
             <div class="form-group-full">
-              <label class="form-label">स्थायी निवास का पता (Full Permanent Address) *</label>
-              <input type="text" id="f-address" class="form-input" value="सिंहपुर, तहसील - कपासन, जिला - चित्तौड़गढ़ (राज.)" required>
+              <label class="form-label">स्थायी निवास पता (Full Address) *</label>
+              <input type="text" id="f-address" class="form-input" value="सिंहपुर, कपासन, चित्तौड़गढ़ (राज.)" required>
             </div>
           </div>
-          <div style="margin-top:20px; display:flex; justify-content:space-between;">
+          <div style="margin-top:24px; display:flex; justify-content:space-between;">
             <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(2)">⬅ पिछला चरण</button>
-            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(4)">अगला चरण (Next: पूर्व विद्यालय व दस्तावेज) ➔</button>
+            <button type="button" class="btn-action-pill btn-act-blue" onclick="switchFormTab(4)">अगला: पूर्व स्कूल व TC ➔</button>
           </div>
         </div>
 
-        <!-- TAB 4: PREVIOUS SCHOOL & DOCS CHECKLIST -->
+        <!-- STEP 4: PREVIOUS HISTORY -->
         <div class="form-section-body hidden" id="fsec-4">
-          <div style="font-size:13.5px; font-weight:800; color:#7f1d1d; margin-bottom:14px; border-bottom:1.5px solid #fed7aa; padding-bottom:6px;">
-            📑 4. पूर्व विद्यालय इतिहास एवं संलग्नक (Previous History & Documents)
+          <div style="font-size:14px; font-weight:800; color:#7f1d1d; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            <span>📑</span> पूर्व विद्यालय इतिहास एवं संलग्नक (Previous History & Documents)
           </div>
           <div class="form-grid-3">
             <div class="form-group-full">
-              <label class="form-label">पूर्व विद्यालय का नाम (Last Attended School)</label>
-              <input type="text" id="f-prev-school" class="form-input" placeholder="पूर्व विद्यालय का नाम व स्थान">
+              <label class="form-label">पूर्व विद्यालय का नाम (Last School Attended)</label>
+              <input type="text" id="f-prev-school" class="form-input" placeholder="पूर्व विद्यालय का नाम व पता">
             </div>
             <div>
-              <label class="form-label">पूर्व उत्तीर्ण कक्षा (Last Class Passed)</label>
+              <label class="form-label">पूर्व उत्तीर्ण कक्षा (Last Class)</label>
               <input type="text" id="f-prev-class" class="form-input" placeholder="उदा. 7th">
             </div>
             <div>
-              <label class="form-label">प्राप्तांक प्रतिशत / ग्रेड (% / Grade)</label>
-              <input type="text" id="f-prev-marks" class="form-input" placeholder="उदा. 78.5%">
+              <label class="form-label">प्राप्तांक प्रतिशत / ग्रेड</label>
+              <input type="text" id="f-prev-marks" class="form-input" placeholder="उदा. 82.4%">
             </div>
             <div>
               <label class="form-label">स्थानांतरण प्रमाण पत्र (TC No.)</label>
@@ -661,22 +752,100 @@
             </div>
           </div>
 
-          <div style="margin-top:16px; background:#f8fafc; border:1px solid #fed7aa; border-radius:8px; padding:14px;">
-            <div style="font-size:12px; font-weight:800; color:#7c2d12; margin-bottom:8px;">📎 प्रवेश के समय संलग्न दस्तावेज (Checklist):</div>
+          <div style="margin-top:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px;">
+            <div style="font-size:12px; font-weight:800; color:#7c2d12; margin-bottom:8px;">📎 संलग्न किए गए मूल दस्तावेज (Document Checklist):</div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px;">
               <label><input type="checkbox" checked> मूल स्थानांतरण प्रमाण पत्र (Original TC)</label>
-              <label><input type="checkbox" checked> जन्म प्रमाण पत्र (Birth Certificate)</label>
-              <label><input type="checkbox" checked> छात्र एवं अभिभावक आधार कार्ड प्रति</label>
-              <label><input type="checkbox" checked> पूर्व कक्षा की मूल अंकतालिका (Marksheet)</label>
+              <label><input type="checkbox" checked> जन्म प्रमाण पत्र प्रति (DOB Proof)</label>
+              <label><input type="checkbox" checked> छात्र एवं अभिभावक आधार कार्ड</label>
+              <label><input type="checkbox" checked> पूर्व कक्षा की मूल अंकतालिका</label>
               <label><input type="checkbox"> जाति प्रमाण पत्र (Caste Certificate)</label>
-              <label><input type="checkbox"> पासपोर्ट साइज 2 रंगीन फोटो</label>
+              <label><input type="checkbox"> 2 रंगीन पासपोर्ट साइज फोटो</label>
+            </div>
+          </div>
+
+          <div style="margin-top:24px; display:flex; justify-content:space-between;">
+            <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(3)">⬅ पिछला चरण</button>
+            <button type="button" class="btn-action-pill btn-act-orange" onclick="switchFormTab(5)">अगला: शुल्क पैकेज व भुगतान (Step 5) ➔</button>
+          </div>
+        </div>
+
+        <!-- STEP 5: FEES CONFIGURATION & INITIAL PAYMENT (NEW EXCLUSIVE FEATURE) -->
+        <div class="form-section-body hidden" id="fsec-5">
+          <div style="font-size:14px; font-weight:800; color:#c2410c; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+            <span>💰</span> 5. विद्यालय शुल्क संरचना एवं अग्रिम रसीद (Fee Structure & Initial Deposit)
+          </div>
+
+          <div class="fee-calc-box">
+            <div class="form-grid-3">
+              <div>
+                <label class="form-label">वार्षिक शिक्षण शुल्क (Tuition Fee) *</label>
+                <input type="number" id="fee-tuition" class="form-input" value="12000" oninput="calculateNetFee()" required>
+              </div>
+              <div>
+                <label class="form-label">प्रवेश शुल्क (Admission Fee)</label>
+                <input type="number" id="fee-admission" class="form-input" value="1500" oninput="calculateNetFee()">
+              </div>
+              <div>
+                <label class="form-label">परीक्षा एवं गतिविधि शुल्क</label>
+                <input type="number" id="fee-exam" class="form-input" value="1500" oninput="calculateNetFee()">
+              </div>
+              <div>
+                <label class="form-label">वाहन / बस शुल्क (यदि लागू हो)</label>
+                <input type="number" id="fee-transport" class="form-input" value="0" oninput="calculateNetFee()">
+              </div>
+              <div>
+                <label class="form-label" style="color:#15803d;">विशेष रियायत / छूट (Discount/Concession)</label>
+                <input type="number" id="fee-discount" class="form-input" value="1000" oninput="calculateNetFee()" style="border-color:#86efac;">
+              </div>
+              <div>
+                <label class="form-label" style="color:#0284c7;">प्रवेश समय जमा राशि (Paid at Admission) *</label>
+                <input type="number" id="fee-initial-paid" class="form-input" value="4000" oninput="calculateNetFee()" style="border-color:#0284c7; font-weight:800;" required>
+              </div>
+              <div>
+                <label class="form-label">भुगतान का माध्यम (Payment Mode)</label>
+                <select id="fee-pay-mode" class="form-input">
+                  <option value="Cash" selected>नकद (Cash)</option>
+                  <option value="UPI">PhonePe / GooglePay (UPI)</option>
+                  <option value="Cheque">बैंक चेक (Cheque)</option>
+                  <option value="Bank Transfer">बैंक ट्रांसफर (NEFT/IMPS)</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">प्रवेश रसीद संख्या (Receipt No.)</label>
+                <input type="text" id="fee-receipt-no" class="form-input" value="REC-2026-081" readonly style="background:#f8fafc; font-weight:700;">
+              </div>
+            </div>
+
+            <!-- LIVE CALCULATED SUMMARY STRIP -->
+            <div class="fee-summary-strip">
+              <div class="fee-strip-stat">
+                <span>सकल कुल शुल्क (Gross)</span>
+                <strong id="disp-fee-gross" style="color:#1e293b;">₹ 15,000</strong>
+              </div>
+              <div class="fee-strip-stat">
+                <span>कुल छूट (Discount)</span>
+                <strong id="disp-fee-discount" style="color:#15803d;">- ₹ 1,000</strong>
+              </div>
+              <div class="fee-strip-stat">
+                <span>शुद्ध देय फीस (Net Payable)</span>
+                <strong id="disp-fee-net" style="color:#0284c7;">₹ 14,000</strong>
+              </div>
+              <div class="fee-strip-stat">
+                <span>जमा राशि (Paid)</span>
+                <strong id="disp-fee-paid" style="color:#16a34a;">₹ 4,000</strong>
+              </div>
+              <div class="fee-strip-stat">
+                <span>शेष बकाया (Balance Due)</span>
+                <strong id="disp-fee-balance" style="color:#dc2626;">₹ 10,000</strong>
+              </div>
             </div>
           </div>
 
           <div style="margin-top:24px; display:flex; justify-content:space-between; align-items:center;">
-            <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(3)">⬅ पिछला चरण</button>
-            <button type="submit" class="btn-action-pill btn-act-green" style="padding:10px 24px; font-size:13.5px;">
-              💾 छात्र प्रवेश फॉर्म सबमिट व सुरक्षित करें
+            <button type="button" class="btn-action-pill" style="background:#64748b;" onclick="switchFormTab(4)">⬅ पिछला चरण</button>
+            <button type="submit" class="btn-action-pill btn-act-green" style="padding:12px 28px; font-size:14px; box-shadow:0 4px 12px rgba(22,163,74,0.3);">
+              💾 संपूर्ण प्रवेश एवं फीस रसीद सुरक्षित करें
             </button>
           </div>
         </div>
@@ -787,8 +956,8 @@
             <input type="tel" id="e-mobile" class="form-input" required>
           </div>
           <div>
-            <label class="form-label">जन्मतिथि</label>
-            <input type="text" id="e-dob" class="form-input">
+            <label class="form-label">बकाया फीस (₹)</label>
+            <input type="number" id="e-balance-fees" class="form-input" required>
           </div>
           <div class="form-group-full">
             <label class="form-label">निवास पता</label>
@@ -810,33 +979,34 @@
         <h3><span>🎓</span> विद्यार्थी विस्तृत प्रोफाइल कार्ड</h3>
         <button class="btn-close-modal" onclick="closeProfileModal()">×</button>
       </div>
-      <div style="padding: 20px;">
-        <div style="display: flex; gap: 16px; align-items: center; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
-          <div id="p-avatar-box" style="width: 80px; height: 90px; border-radius: 8px; border: 2px solid #cbd5e1; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; flex-shrink: 0;">👤</div>
+      <div style="padding: 24px;">
+        <div style="display: flex; gap: 18px; align-items: center; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 18px; margin-bottom: 18px;">
+          <div id="p-avatar-box" style="width: 86px; height: 96px; border-radius: 10px; border: 2px solid #cbd5e1; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 38px; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);">👤</div>
           <div>
-            <h2 id="p-full-name" style="color: #7f1d1d; font-size: 20px; font-weight: 900; margin-bottom: 4px;">--</h2>
-            <div style="font-size: 13px; color: #475569;">
+            <h2 id="p-full-name" style="color: #7f1d1d; font-size: 22px; font-weight: 900; margin-bottom: 4px;">--</h2>
+            <div style="font-size: 13.5px; color: #475569;">
               स्कॉलर नंबर: <strong id="p-scholar" style="color:#0284c7;">--</strong> | 
               कक्षा: <strong id="p-class">--</strong>
             </div>
             <div style="margin-top: 6px;">
               <span id="p-gender-badge" class="badge-gender">--</span>
               <span id="p-rte-badge" style="margin-left: 6px; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 700; background: #fef3c7; color: #b45309;">--</span>
+              <span id="p-fee-badge" style="margin-left: 6px; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 800; background: #fee2e2; color: #b91c1c;">--</span>
             </div>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
-          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">पिता का नाम: <strong id="p-father" style="color:#7f1d1d;">--</strong></div>
-          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">माता का नाम: <strong id="p-mother" style="color:#7f1d1d;">--</strong></div>
-          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">रोल नंबर: <strong id="p-roll" style="color:#7f1d1d;">--</strong></div>
-          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">मोबाइल: <strong id="p-mobile" style="color:#7f1d1d;">--</strong></div>
-          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">जन्मतिथि: <strong id="p-dob" style="color:#7f1d1d;">--</strong></div>
-          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">प्रवेश स्थिति: <strong style="color:#15803d;">सक्रिय (Active)</strong></div>
-          <div style="background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0; grid-column: span 2;">स्थायी पता: <strong id="p-address" style="color:#7f1d1d;">--</strong></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
+          <div style="background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">पिता का नाम: <strong id="p-father" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">माता का नाम: <strong id="p-mother" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">रोल नंबर: <strong id="p-roll" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">मोबाइल: <strong id="p-mobile" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">जन्मतिथि: <strong id="p-dob" style="color:#7f1d1d;">--</strong></div>
+          <div style="background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">प्रवेश स्थिति: <strong style="color:#15803d;">सक्रिय (Active)</strong></div>
+          <div style="background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0; grid-column: span 2;">स्थायी पता: <strong id="p-address" style="color:#7f1d1d;">--</strong></div>
         </div>
 
-        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="margin-top: 22px; display: flex; justify-content: space-between; align-items: center;">
           <a id="p-call-link" href="#" class="btn-action-pill btn-act-green" style="text-decoration:none;">📞 अभिभावक से बात करें</a>
           <button class="btn-action-pill btn-act-blue" onclick="window.print()">🖨️ A4 प्रिंट प्रोफाइल</button>
         </div>
@@ -854,14 +1024,15 @@
       setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
+    // मास्टर छात्र सूची (बकाया फीस कॉलम सहित)
     let allStudents = [
-      { id: 1, scholar_no: '101', roll_no: '101', name: 'Rahul Sharma', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
-      { id: 2, scholar_no: '102', roll_no: '102', name: 'Priya Verma', class_name: 'Class 10-A', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
-      { id: 3, scholar_no: '103', roll_no: '103', name: 'Aman Gupta', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
-      { id: 4, scholar_no: '104', roll_no: '105', name: 'AKSHAT DADHEECH', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'ratnesh kumar sharma', mother_name: 'bali devi', mobile_no: '9799242540', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
-      { id: 5, scholar_no: '105', roll_no: '104', name: 'VIKAS SONI', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '88244404249', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
-      { id: 6, scholar_no: '759', roll_no: '45', name: 'harshit', class_name: '6th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', address: 'सिंहपुर', photo: null },
-      { id: 7, scholar_no: '759', roll_no: '801', name: 'HARSHIT JAT', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'RATNESH JAT', mother_name: 'BALI BAI', mobile_no: '9988778896', dob: '2012-01-01', address: 'सिंहपुर चित्तौड़गढ़', photo: null }
+      { id: 1, scholar_no: '101', roll_no: '101', name: 'Rahul Sharma', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', balance_fees: 8500, address: 'सिंहपुर', photo: null },
+      { id: 2, scholar_no: '102', roll_no: '102', name: 'Priya Verma', class_name: 'Class 10-A', section: 'A', gender: 'Female', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', balance_fees: 12000, address: 'सिंहपुर', photo: null },
+      { id: 3, scholar_no: '103', roll_no: '103', name: 'Aman Gupta', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', balance_fees: 5000, address: 'सिंहपुर', photo: null },
+      { id: 4, scholar_no: '104', roll_no: '105', name: 'AKSHAT DADHEECH', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'ratnesh kumar sharma', mother_name: 'bali devi', mobile_no: '9799242540', dob: '01/01/2012', balance_fees: 14000, address: 'सिंहपुर', photo: null },
+      { id: 5, scholar_no: '105', roll_no: '104', name: 'VIKAS SONI', class_name: 'Class 10-A', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '88244404249', dob: '01/01/2012', balance_fees: 9500, address: 'सिंहपुर', photo: null },
+      { id: 6, scholar_no: '759', roll_no: '45', name: 'harshit', class_name: '6th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'श्री देविलाल जी', mother_name: 'श्रीमती सरिता देवी', mobile_no: '9876543210', dob: '01/01/2012', balance_fees: 6000, address: 'सिंहपुर', photo: null },
+      { id: 7, scholar_no: '759', roll_no: '801', name: 'HARSHIT JAT', class_name: '8th', section: 'A', gender: 'Male', rte: 'NO', father_name: 'RATNESH JAT', mother_name: 'BALI BAI', mobile_no: '9988778896', dob: '2012-01-01', balance_fees: 11000, address: 'सिंहपुर चित्तौड़गढ़', photo: null }
     ];
 
     let currentPhotoTargetId = null;
@@ -880,6 +1051,7 @@
         const isFem = (s.gender || 'Male').toLowerCase() === 'female';
         const genderBadge = isFem ? '<span class="badge-gender badge-female">छात्रा</span>' : '<span class="badge-gender badge-male">छात्र</span>';
         const photoContent = s.photo ? `<img src="${s.photo}" class="avatar-img">` : `👤`;
+        const balFee = Number(s.balance_fees || 0);
 
         tbody.innerHTML += `
           <tr data-id="${s.id}">
@@ -899,7 +1071,7 @@
             <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'father_name')">${s.father_name}</td>
             <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mother_name')">${s.mother_name}</td>
             <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'mobile_no')">${s.mobile_no}</td>
-            <td>${s.dob}</td>
+            <td style="font-weight:800; color:#dc2626;" class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'balance_fees')">₹ ${balFee.toLocaleString('en-IN')}</td>
             <td class="editable-td" ondblclick="makeEditable(this, ${s.id}, 'address')">${s.address}</td>
             <td style="text-align: center;">
               <div class="std-action-grid">
@@ -933,7 +1105,7 @@
       const input = document.createElement('input');
       input.type = 'text';
       input.className = 'inline-edit-input';
-      input.value = originalText;
+      input.value = originalText.replace('₹', '').trim();
 
       cell.innerHTML = '';
       cell.appendChild(input);
@@ -941,7 +1113,7 @@
 
       const finishEdit = () => {
         const newVal = input.value.trim() || originalText;
-        cell.innerHTML = (fieldName === 'name' || fieldName === 'scholar_no') ? `<strong>${newVal}</strong>` : newVal;
+        cell.innerHTML = (fieldName === 'name' || fieldName === 'scholar_no') ? `<strong>${newVal}</strong>` : (fieldName === 'balance_fees' ? `₹ ${Number(newVal).toLocaleString('en-IN')}` : newVal);
         const student = allStudents.find(s => s.id === studentId);
         if (student && newVal !== originalText) {
           student[fieldName] = newVal;
@@ -953,22 +1125,71 @@
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') finishEdit();
         if (e.key === 'Escape') {
-          cell.innerHTML = (fieldName === 'name' || fieldName === 'scholar_no') ? `<strong>${originalText}</strong>` : originalText;
+          cell.innerHTML = originalText;
         }
       });
     }
 
-    // 2. BIG BRAND FORM TABS SWITCHER
-    function switchFormTab(tabNum) {
-      for (let i = 1; i <= 4; i++) {
+    // 2. BIG BRAND 5-STEP WIZARD SWITCHER
+    function switchFormTab(stepNum) {
+      for (let i = 1; i <= 5; i++) {
         document.getElementById(`fsec-${i}`).classList.add('hidden');
-        document.getElementById(`ftab-btn-${i}`).classList.remove('active');
+        document.getElementById(`step-btn-${i}`).classList.remove('active');
       }
-      document.getElementById(`fsec-${tabNum}`).classList.remove('hidden');
-      document.getElementById(`ftab-btn-${tabNum}`).classList.add('active');
+      document.getElementById(`fsec-${stepNum}`).classList.remove('hidden');
+      document.getElementById(`step-btn-${stepNum}`).classList.add('active');
     }
 
-    // 3. OPEN/CLOSE ADMISSION WIZARD
+    // 3. AUTO-FEE CALCULATION ENGINE
+    function calculateNetFee() {
+      const tuition = Number(document.getElementById('fee-tuition').value || 0);
+      const admission = Number(document.getElementById('fee-admission').value || 0);
+      const exam = Number(document.getElementById('fee-exam').value || 0);
+      const transport = Number(document.getElementById('fee-transport').value || 0);
+      const discount = Number(document.getElementById('fee-discount').value || 0);
+      const paid = Number(document.getElementById('fee-initial-paid').value || 0);
+
+      const gross = tuition + admission + exam + transport;
+      const net = Math.max(0, gross - discount);
+      const balance = Math.max(0, net - paid);
+
+      document.getElementById('disp-fee-gross').innerText = `₹ ${gross.toLocaleString('en-IN')}`;
+      document.getElementById('disp-fee-discount').innerText = `- ₹ ${discount.toLocaleString('en-IN')}`;
+      document.getElementById('disp-fee-net').innerText = `₹ ${net.toLocaleString('en-IN')}`;
+      document.getElementById('disp-fee-paid').innerText = `₹ ${paid.toLocaleString('en-IN')}`;
+      document.getElementById('disp-fee-balance').innerText = `₹ ${balance.toLocaleString('en-IN')}`;
+    }
+
+    function autoFillClassFee() {
+      const cls = document.getElementById('f-class').value;
+      let tuition = 10000;
+      if (cls === 'Class 10-A') tuition = 16000;
+      else if (cls === '8th' || cls === '7th') tuition = 12000;
+      else if (cls === '6th' || cls === '5th') tuition = 10000;
+      else tuition = 8000;
+
+      document.getElementById('fee-tuition').value = tuition;
+      calculateNetFee();
+    }
+
+    function handleRteFeeToggle() {
+      const rte = document.getElementById('f-rte').value;
+      if (rte === 'YES') {
+        document.getElementById('fee-tuition').value = 0;
+        document.getElementById('fee-admission').value = 0;
+        document.getElementById('fee-exam').value = 0;
+        document.getElementById('fee-discount').value = 0;
+        document.getElementById('fee-initial-paid').value = 0;
+      } else {
+        autoFillClassFee();
+        document.getElementById('fee-admission').value = 1500;
+        document.getElementById('fee-exam').value = 1500;
+        document.getElementById('fee-initial-paid').value = 4000;
+      }
+      calculateNetFee();
+    }
+
+    // 4. OPEN/CLOSE ADMISSION WIZARD
     function openAddStudentModal() {
       document.getElementById('f-scholar-no').value = 760 + allStudents.length;
       document.getElementById('f-roll-no').value = allStudents.length + 1;
@@ -976,6 +1197,8 @@
       document.getElementById('f-father-name').value = '';
       document.getElementById('f-mother-name').value = '';
       document.getElementById('f-mobile').value = '';
+      document.getElementById('fee-receipt-no').value = 'REC-2026-' + Math.floor(Math.random() * 900 + 100);
+      autoFillClassFee();
       switchFormTab(1);
       document.getElementById('add-student-modal').classList.remove('hidden');
     }
@@ -986,6 +1209,16 @@
 
     function saveNewStudent(event) {
       event.preventDefault();
+      const tuition = Number(document.getElementById('fee-tuition').value || 0);
+      const admission = Number(document.getElementById('fee-admission').value || 0);
+      const exam = Number(document.getElementById('fee-exam').value || 0);
+      const transport = Number(document.getElementById('fee-transport').value || 0);
+      const discount = Number(document.getElementById('fee-discount').value || 0);
+      const paid = Number(document.getElementById('fee-initial-paid').value || 0);
+      const net = Math.max(0, (tuition + admission + exam + transport) - discount);
+      const balance = Math.max(0, net - paid);
+      const recNo = document.getElementById('fee-receipt-no').value;
+
       const newStd = {
         id: allStudents.length + 1,
         scholar_no: document.getElementById('f-scholar-no').value.trim(),
@@ -999,6 +1232,7 @@
         mother_name: document.getElementById('f-mother-name').value.trim(),
         mobile_no: document.getElementById('f-mobile').value.trim(),
         dob: document.getElementById('f-dob').value,
+        balance_fees: balance,
         address: document.getElementById('f-address').value.trim(),
         photo: null
       };
@@ -1006,10 +1240,10 @@
       allStudents.unshift(newStd);
       filterStudents();
       closeAddStudentModal();
-      showAppToast(`✔ विद्यार्थी ${newStd.name} का संपूर्ण प्रवेश फॉर्म सुरक्षित हुआ!`);
+      showAppToast(`✔ छात्र ${newStd.name} का प्रवेश पूरा! रसीद ${recNo} (जमा: ₹${paid}) तैयार।`);
     }
 
-    // 4. STUDENT ID CARD
+    // 5. STUDENT ID CARD
     function openStudentIdCard(id) {
       const s = allStudents.find(x => x.id === id) || allStudents[0];
       if (!s) return;
@@ -1032,7 +1266,7 @@
       document.getElementById('idcard-modal').classList.add('hidden');
     }
 
-    // 5. EDIT MODAL
+    // 6. EDIT MODAL
     function openEditModal(id) {
       const s = allStudents.find(x => x.id === id);
       if (!s) return;
@@ -1047,7 +1281,7 @@
       document.getElementById('e-father-name').value = s.father_name;
       document.getElementById('e-mother-name').value = s.mother_name;
       document.getElementById('e-mobile').value = s.mobile_no;
-      document.getElementById('e-dob').value = s.dob;
+      document.getElementById('e-balance-fees').value = s.balance_fees || 0;
       document.getElementById('e-address').value = s.address;
 
       document.getElementById('edit-student-modal').classList.remove('hidden');
@@ -1071,7 +1305,7 @@
         student.father_name = document.getElementById('e-father-name').value.trim();
         student.mother_name = document.getElementById('e-mother-name').value.trim();
         student.mobile_no = document.getElementById('e-mobile').value.trim();
-        student.dob = document.getElementById('e-dob').value.trim();
+        student.balance_fees = Number(document.getElementById('e-balance-fees').value || 0);
         student.address = document.getElementById('e-address').value.trim();
 
         closeEditModal();
@@ -1080,7 +1314,7 @@
       }
     }
 
-    // 6. DELETE STUDENT
+    // 7. DELETE STUDENT
     function deleteStudent(id) {
       const student = allStudents.find(s => s.id === id);
       if (!student) return;
@@ -1091,7 +1325,7 @@
       }
     }
 
-    // 7. PHOTO UPLOAD
+    // 8. PHOTO UPLOAD
     function triggerPhotoUpload(studentId) {
       currentPhotoTargetId = studentId;
       document.getElementById('photo-upload-input').click();
@@ -1125,7 +1359,7 @@
       event.target.value = '';
     }
 
-    // 8. PROFILE VIEW
+    // 9. PROFILE VIEW
     function viewStudentProfile(id) {
       const s = allStudents.find(x => x.id === id) || allStudents[0];
       if (!s) return;
@@ -1150,6 +1384,8 @@
       gBadge.className = `badge-gender ${isFem ? 'badge-female' : 'badge-male'}`;
 
       document.getElementById('p-rte-badge').innerText = s.rte === 'YES' ? 'RTE प्रवेशित' : 'सामान्य (Non-RTE)';
+      document.getElementById('p-fee-badge').innerText = `बकाया फीस: ₹ ${Number(s.balance_fees || 0).toLocaleString('en-IN')}`;
+
       document.getElementById('profile-modal').classList.remove('hidden');
     }
 
@@ -1179,11 +1415,10 @@
       showAppToast("✔ विद्यार्थी Excel शीट डाउनलोड हो रही है...");
     }
 
-    // Initial render
+    // Initial Load
     renderTable(allStudents);
     updateMetrics(allStudents);
 
-    // Sync with backend API
     fetch('/api/students')
       .then(res => res.json())
       .then(data => {
@@ -1201,6 +1436,7 @@
             mother_name: item.mother_name || 'श्रीमती माता जी',
             mobile_no: item.mobile_no || '9876543210',
             dob: item.dob || '01/01/2012',
+            balance_fees: item.balance_fees || 8500,
             address: item.address || 'सिंहपुर',
             photo: item.photo || null
           }));
