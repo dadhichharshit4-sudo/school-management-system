@@ -265,7 +265,7 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
-      width: 105px;
+      width: 110px;
     }
     .btn-tbl-act {
       border: none;
@@ -305,8 +305,8 @@
       font-weight: 700;
     }
 
-    /* MODAL OVERLAYS - ROBUST DISPLAY ENGINE */
-    .modal-overlay {
+    /* MODAL OVERLAYS */
+    .custom-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.75);
@@ -314,12 +314,9 @@
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 999999;
+      z-index: 9999999;
       padding: 16px;
       box-sizing: border-box;
-    }
-    .modal-overlay.show-modal {
-      display: flex !important;
     }
     .modal-card {
       background: #ffffff;
@@ -467,16 +464,14 @@
       font-size: 13px;
       font-weight: 600;
       display: none;
-      z-index: 9999999;
+      z-index: 99999999;
     }
-
-    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
   <div id="local-toast"></div>
-  <input type="file" id="photo-upload-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+  <input type="file" id="photo-upload-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
 
   <!-- TOP HEADER -->
   <header class="bbs-main-header">
@@ -502,19 +497,19 @@
 
   <!-- TOP ACTION BUTTONS -->
   <div class="bbs-action-bar-top">
-    <button class="bbs-btn-action btn-green-add" onclick="openAddEmployeeModal()">
+    <button type="button" class="bbs-btn-action btn-green-add" onclick="openAddEmployeeModal()">
       ➕ नया कर्मचारी जोड़ें
     </button>
-    <button class="bbs-btn-action btn-blue-idcard" onclick="openBulkIdCardPrompt()">
+    <button type="button" class="bbs-btn-action btn-blue-idcard" onclick="openBulkIdCardPrompt()">
       🪪 ID कार्ड बल्क प्रिंट
     </button>
-    <button class="bbs-btn-action btn-purple-contract" onclick="openDefaultDocModal('contract')">
+    <button type="button" class="bbs-btn-action btn-purple-contract" onclick="openDefaultDocModal('contract')">
       📑 सेवा अनुबंध पत्र
     </button>
-    <button class="bbs-btn-action btn-teal-exp" onclick="openDefaultDocModal('experience')">
+    <button type="button" class="bbs-btn-action btn-teal-exp" onclick="openDefaultDocModal('experience')">
       📜 अनुभव प्रमाण पत्र
     </button>
-    <button class="bbs-btn-action btn-orange-salary" onclick="showSalaryRegister()">
+    <button type="button" class="bbs-btn-action btn-orange-salary" onclick="showSalaryRegister()">
       💰 वेतन / Salary रजिस्टर
     </button>
   </div>
@@ -547,7 +542,7 @@
       </select>
     </div>
     <div>
-      <button class="bbs-btn-pill" style="background:#0d9488;" onclick="exportEmployeesExcel()">📊 Excel डाउनलोड</button>
+      <button type="button" class="bbs-btn-pill" style="background:#0d9488;" onclick="exportEmployeesExcel()">📊 Excel डाउनलोड</button>
     </div>
   </div>
 
@@ -608,11 +603,11 @@
   <!-- ==========================================================================
        MODAL 1: ADD NEW EMPLOYEE FORM
        ========================================================================== -->
-  <div id="add-emp-modal" class="modal-overlay">
+  <div id="add-emp-modal" class="custom-modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
         <h3 style="font-size:16px; margin:0;"><span>👔</span> नवीन कर्मचारी प्रविष्टि फॉर्म (सत्र: 2026-27)</h3>
-        <button class="btn-close-modal" onclick="closeAddEmployeeModal()">×</button>
+        <button type="button" class="btn-close-modal" onclick="closeAddEmployeeModal()">×</button>
       </div>
       <form id="add-emp-form" onsubmit="saveNewEmployee(event)" style="padding:20px;">
         <div class="form-grid-3">
@@ -663,4 +658,5 @@
           <div>
             <label class="form-label">ईमेल पता</label>
             <input type="email" id="f-emp-email" class="form-input" placeholder="name@smps.edu">
-          </di
+          </div>
+          <di
