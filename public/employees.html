@@ -265,14 +265,14 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
-      width: 100px;
+      width: 105px;
     }
     .btn-tbl-act {
       border: none;
       border-radius: 4px;
       font-size: 9.5px;
       font-weight: 700;
-      padding: 3px 5px;
+      padding: 4px 6px;
       color: #ffffff;
       cursor: pointer;
       text-align: center;
@@ -305,18 +305,21 @@
       font-weight: 700;
     }
 
-    /* MODAL OVERLAY */
+    /* MODAL OVERLAYS - ROBUST DISPLAY ENGINE */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.75);
       backdrop-filter: blur(4px);
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
-      z-index: 99999;
+      z-index: 999999;
       padding: 16px;
       box-sizing: border-box;
+    }
+    .modal-overlay.show-modal {
+      display: flex !important;
     }
     .modal-card {
       background: #ffffff;
@@ -464,7 +467,7 @@
       font-size: 13px;
       font-weight: 600;
       display: none;
-      z-index: 999999;
+      z-index: 9999999;
     }
 
     .hidden { display: none !important; }
@@ -570,7 +573,7 @@
     <input type="text" id="emp-search-input" class="bbs-search-input" placeholder="कर्मचारी का नाम, पद, कोड (EMP001) या मोबाइल से खोजें..." onkeyup="filterEmployeesTable()">
   </div>
 
-  <!-- MASTER DIRECTORY TABLE (Pre-Rendered Fallback Rows Included) -->
+  <!-- MASTER DIRECTORY TABLE -->
   <div class="table-container-card">
     <table class="bbs-table">
       <thead>
@@ -587,35 +590,10 @@
           <th>मूल वेतन (SALARY)</th>
           <th>शैक्षणिक योग्यता</th>
           <th style="width:65px; text-align:center;">स्थिति</th>
-          <th style="width:105px; text-align:center;">दस्तावेज व एक्शन</th>
+          <th style="width:110px; text-align:center;">दस्तावेज व एक्शन</th>
         </tr>
       </thead>
-      <tbody id="emp-main-tbody">
-        <tr data-id="1">
-          <td style="text-align:center;"><div class="photo-thumb-box" onclick="triggerPhotoUpload(1)">👤</div></td>
-          <td style="text-align:center; font-weight:800; color:#0284c7;">EMP001</td>
-          <td class="editable-cell" ondblclick="makeEditable(this, 1, 'name')"><strong>SURESH CHANDRA VYAS</strong></td>
-          <td class="editable-cell" ondblclick="makeEditable(this, 1, 'designation')">PRINCIPAL</td>
-          <td>Teaching</td>
-          <td style="text-align:center; font-weight:700; color:#b45309;" class="editable-cell" ondblclick="makeEditable(this, 1, 'class_teacher')">10th</td>
-          <td class="editable-cell" ondblclick="makeEditable(this, 1, 'mobile_no')">9829012345</td>
-          <td class="editable-cell" ondblclick="makeEditable(this, 1, 'email')">suresh@smps.edu</td>
-          <td style="text-align:center;">01/07/2018</td>
-          <td style="font-weight:800; color:#15803d;" class="editable-cell" ondblclick="makeEditable(this, 1, 'salary')">₹ 38,000</td>
-          <td>M.Sc., B.Ed.</td>
-          <td style="text-align:center;"><span style="background:#dcfce7; color:#15803d; font-size:9.5px; padding:2px 6px; border-radius:4px; font-weight:800;">सक्रिय</span></td>
-          <td>
-            <div class="table-act-col">
-              <button type="button" class="btn-tbl-act tbl-act-contract" onclick="openStaffDocumentModal(1, 'contract')">📑 अनुबंध</button>
-              <button type="button" class="btn-tbl-act tbl-act-exp" onclick="openStaffDocumentModal(1, 'experience')">📜 अनुभव</button>
-              <button type="button" class="btn-tbl-act tbl-act-id" onclick="openStaffIdCardModal(1)">🪪 ID कार्ड</button>
-              <button type="button" class="btn-tbl-act tbl-act-edit" onclick="toggleEmployeeStatus(1)">Deactivate</button>
-              <a href="tel:9829012345" class="btn-tbl-act tbl-act-call">📞 कॉल</a>
-              <button type="button" class="btn-tbl-act tbl-act-del" onclick="deleteEmployee(1)">🗑️ हटाएं</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+      <tbody id="emp-main-tbody"></tbody>
     </table>
 
     <div class="bbs-pagination-bar">
@@ -630,7 +608,7 @@
   <!-- ==========================================================================
        MODAL 1: ADD NEW EMPLOYEE FORM
        ========================================================================== -->
-  <div id="add-emp-modal" class="modal-overlay hidden">
+  <div id="add-emp-modal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
         <h3 style="font-size:16px; margin:0;"><span>👔</span> नवीन कर्मचारी प्रविष्टि फॉर्म (सत्र: 2026-27)</h3>
@@ -646,4 +624,43 @@
             <label class="form-label">कर्मचारी का पूरा नाम (बड़े अक्षर) *</label>
             <input type="text" id="f-emp-name" class="form-input" style="text-transform:uppercase;" required>
           </div>
-          <
+          <div>
+            <label class="form-label">पद (Designation) *</label>
+            <select id="f-emp-desig" class="form-input" required>
+              <option value="PRINCIPAL">PRINCIPAL</option>
+              <option value="SENIOR TEACHER">SENIOR TEACHER</option>
+              <option value="TEACHER" selected>TEACHER</option>
+              <option value="ACCOUNTANT">ACCOUNTANT</option>
+              <option value="LIBRARIAN">LIBRARIAN</option>
+              <option value="LAB ASSISTANT">LAB ASSISTANT</option>
+              <option value="OFFICE STAFF">OFFICE STAFF</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">विभाग (Department) *</label>
+            <select id="f-emp-dept" class="form-input" required>
+              <option value="Teaching" selected>शिक्षण संकाय (Teaching)</option>
+              <option value="Non-Teaching">कार्यालय / सहायक (Non-Teaching)</option>
+              <option value="Administration">प्रशासन (Admin)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">कक्षाध्यापक (Class Teacher)</label>
+            <select id="f-emp-classteacher" class="form-input">
+              <option value="-" selected>- लागू नहीं -</option>
+              <option value="10th">Class 10th</option>
+              <option value="8th">Class 8th</option>
+              <option value="7th">Class 7th</option>
+              <option value="6th">Class 6th</option>
+              <option value="5th">Class 5th</option>
+              <option value="1st">Class 1st</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">मोबाइल नंबर *</label>
+            <input type="tel" id="f-emp-mobile" class="form-input" maxlength="10" placeholder="10-अंकीय मोबाइल" required>
+          </div>
+          <div>
+            <label class="form-label">ईमेल पता</label>
+            <input type="email" id="f-emp-email" class="form-input" placeholder="name@smps.edu">
+          </di
