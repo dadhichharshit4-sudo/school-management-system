@@ -3,49 +3,365 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>कर्मचारी प्रबंधन एवं दस्तावेज़ - SHREE MEWAR PUBLIC SCHOOL</title>
+  <title>कर्मचारी प्रबंधन एवं सेवा दस्तावेज़ - SHREE MEWAR PUBLIC SCHOOL</title>
   <link rel="stylesheet" href="/css/style.css">
   <style>
-    .emp-photo-box {
-      width: 44px;
-      height: 48px;
+    :root {
+      --bbs-maroon: #7a1c1c;
+      --bbs-dark-maroon: #581111;
+      --bbs-gold: #f59e0b;
+      --bbs-bg: #fdfaf6;
+    }
+
+    body {
+      background: var(--bbs-bg);
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* TOP GLOBAL HEADER */
+    .bbs-main-header {
+      background: linear-gradient(135deg, var(--bbs-maroon), var(--bbs-dark-maroon));
+      color: #ffffff;
+      padding: 10px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    }
+    .bbs-header-center { text-align: center; }
+    .bbs-header-school-name {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .bbs-header-session {
+      font-size: 11px;
+      color: #fef08a;
+      font-weight: 600;
+    }
+    .bbs-btn-pill {
+      background: #e28743;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* TIP BOX */
+    .bbs-tip-container {
+      max-width: 1050px;
+      margin: 16px auto 14px;
+      padding: 10px 18px;
+      border: 1.5px dashed #059669;
+      border-radius: 8px;
+      background: #f0fdf4;
+      text-align: center;
+      font-size: 12.5px;
+      color: #15803d;
+      font-weight: 700;
+    }
+
+    .bbs-page-title-box {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #7f1d1d;
+      margin: 10px 0 16px;
+    }
+
+    /* TOP ACTION BUTTONS */
+    .bbs-action-bar-top {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .bbs-btn-action {
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: filter 0.15s ease, transform 0.1s ease;
+    }
+    .bbs-btn-action:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-green-add { background: #16a34a; }
+    .btn-blue-idcard { background: #0284c7; }
+    .btn-purple-contract { background: #7c3aed; }
+    .btn-teal-exp { background: #0d9488; }
+    .btn-orange-salary { background: #ea580c; }
+
+    /* FILTERS CARD */
+    .bbs-filter-card {
+      max-width: 1150px;
+      margin: 0 auto 16px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .bbs-select-ctrl {
+      padding: 7px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      outline: none;
+      background: #ffffff;
+      min-width: 170px;
+    }
+
+    /* STATS STRIP */
+    .bbs-stats-strip {
+      max-width: 1150px;
+      margin: 0 auto 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .bbs-stat-pill {
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .pill-teaching { background: #0284c7; }
+    .pill-nonteaching { background: #0d9488; }
+    .pill-total { background: #7c2d12; }
+    .pill-active { background: #15803d; }
+
+    /* SEARCH BAR */
+    .bbs-search-box {
+      max-width: 650px;
+      margin: 0 auto 18px;
+      position: relative;
+    }
+    .bbs-search-input {
+      width: 100%;
+      padding: 10px 18px 10px 42px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 30px;
+      font-size: 13px;
+      outline: none;
+      box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .bbs-search-input:focus { border-color: #0284c7; }
+    .search-icon-inside {
+      position: absolute;
+      left: 16px;
+      top: 11px;
+      font-size: 15px;
+      color: #64748b;
+    }
+
+    /* DIRECTORY TABLE */
+    .table-container-card {
+      max-width: 1440px;
+      margin: 0 auto 20px;
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow-x: auto;
+    }
+    .bbs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      text-align: left;
+    }
+    .bbs-table th {
+      background: #fdf2e9;
+      color: #7c2d12;
+      padding: 8px 6px;
+      font-weight: 800;
+      border: 1px solid #fed7aa;
+      white-space: nowrap;
+    }
+    .bbs-table td {
+      padding: 7px 6px;
+      border: 1px solid #e2e8f0;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .bbs-table tr:nth-child(even) { background: #fffcf7; }
+    .bbs-table tr:hover { background: #fef9c3; }
+
+    .editable-cell { cursor: pointer; }
+    .editable-cell:hover { background: #fef08a !important; }
+    .inline-edit-input {
+      width: 100%;
+      padding: 4px;
+      font-size: 11px;
+      border: 1.5px solid #0284c7;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    /* PHOTO THUMBNAIL */
+    .photo-thumb-box {
+      width: 34px;
+      height: 38px;
       border: 1px solid #cbd5e1;
       border-radius: 4px;
-      object-fit: cover;
+      background: #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      position: relative;
       margin: 0 auto;
-      background: #f1f5f9;
-      font-size: 18px;
+      overflow: hidden;
     }
-    .emp-action-grid {
+    .photo-thumb-box:hover::after {
+      content: '📷';
+      position: absolute;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 12px;
+      width: 100%;
+      height: 100%;
       display: flex;
-      gap: 4px;
+      align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
     }
-    .btn-emp-act {
+    .photo-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ACTION BUTTONS GRID */
+    .table-act-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 100px;
+    }
+    .btn-tbl-act {
       border: none;
       border-radius: 4px;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
+      padding: 3px 5px;
       color: #ffffff;
-      padding: 4px 6px;
       cursor: pointer;
-      transition: filter 0.15s ease;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      transition: opacity 0.15s ease;
     }
-    .btn-emp-act:hover { filter: brightness(1.1); }
-    .b-act-edit { background: #ea580c; }
-    .b-act-contract { background: #6366f1; }
-    .b-act-exp { background: #0d9488; }
-    .b-act-join { background: #0284c7; }
+    .btn-tbl-act:hover { opacity: 0.9; }
+    .tbl-act-contract { background: #7c3aed; }
+    .tbl-act-exp { background: #0d9488; }
+    .tbl-act-id { background: #0284c7; }
+    .tbl-act-edit { background: #ea580c; }
+    .tbl-act-del { background: #dc2626; }
+    .tbl-act-call { background: #16a34a; }
 
-    /* Modal Sheet Styling */
-    .doc-print-sheet {
-      width: 700px;
+    /* MODAL OVERLAY */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .modal-card {
       background: #ffffff;
-      border: 3px double #991b1b;
+      border-radius: 14px;
+      max-width: 850px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--bbs-maroon), var(--bbs-dark-maroon));
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .btn-close-modal {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .form-group-full { grid-column: 1 / -1; }
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #334155;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .form-input:focus { border-color: #0284c7; }
+
+    /* DOCUMENT PRINT SHEET (Official Letterhead) */
+    .doc-print-sheet {
+      width: 680px;
+      background: #ffffff;
+      border: 3px double #78350f;
       padding: 36px 40px;
       margin: 0 auto;
       text-align: left;
@@ -55,39 +371,63 @@
     }
     .doc-school-header {
       text-align: center;
-      border-bottom: 2px solid #991b1b;
+      border-bottom: 2px solid #78350f;
       padding-bottom: 12px;
       margin-bottom: 18px;
     }
     .doc-school-header h2 {
       font-size: 24px;
-      color: #991b1b;
+      color: #7f1d1d;
       font-weight: 900;
+      margin: 0;
+      letter-spacing: 0.5px;
     }
     .doc-school-header p {
-      font-size: 11.5px;
+      font-size: 11px;
       color: #475569;
+      margin: 3px 0 0;
     }
     .doc-title-badge {
       text-align: center;
       margin: 14px 0 20px;
     }
     .doc-title-badge span {
-      background: #7f1d1d;
+      background: #78350f;
       color: #ffffff;
       font-weight: 800;
-      padding: 6px 18px;
+      padding: 5px 18px;
       border-radius: 20px;
-      font-size: 14px;
+      font-size: 13px;
       text-transform: uppercase;
+    }
+
+    /* ID CARD STYLING */
+    .id-card-wrapper {
+      width: 310px;
+      height: 470px;
+      margin: 10px auto;
+      border-radius: 12px;
+      border: 2px solid #991b1b;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      background: #ffffff;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .id-card-top {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 6px;
     }
 
     @media print {
       body * { visibility: hidden; }
-      #printable-doc-area, #printable-doc-area * {
+      #printable-doc-area, #printable-doc-area *,
+      #printable-id-card, #printable-id-card * {
         visibility: visible;
       }
-      #printable-doc-area {
+      #printable-doc-area, #printable-id-card {
         position: absolute;
         left: 0;
         top: 0;
@@ -95,249 +435,222 @@
       }
       .no-print { display: none !important; }
     }
+
+    #local-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      z-index: 999999;
+    }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <!-- Top Global Header -->
-  <header class="school-top-header">
-    <a href="/dashboard" class="header-left">
-      <div class="school-logo-badge">🏫 SMPS</div>
-      <div>
-        <div class="school-name-text">SHREE MEWAR PUBLIC SCHOOL</div>
-        <div class="school-session">सत्र: 2026-27 | School ERP Portal</div>
-      </div>
-    </a>
-    <div class="header-right">
-      <span class="lang-badge">HI</span>
-      <span class="lang-badge">EN</span>
-      <a href="/dashboard" class="btn-nav-top">डैशबोर्ड</a>
-      <a href="/login" class="btn-nav-top" style="background: var(--btn-red);">लॉगआउट</a>
+  <div id="local-toast"></div>
+  <input type="file" id="photo-upload-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+
+  <!-- TOP HEADER -->
+  <header class="bbs-main-header">
+    <a href="/dashboard" class="bbs-btn-pill">⬅ वापस (Dashboard)</a>
+    <div class="bbs-header-center">
+      <div class="bbs-header-school-name">SHREE MEWAR PUBLIC SCHOOL</div>
+      <div class="bbs-header-session">सक्रिय सत्र: 2026-27 | कर्मचारी प्रबंधन केंद्र</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="background:rgba(255,255,255,0.2); padding:4px 8px; border-radius:4px; font-size:11px; font-weight:800;">HI | EN</span>
+      <a href="/dashboard" class="bbs-btn-pill">📊 Dashboard</a>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="main-wrapper">
-    <!-- Top Action Bar -->
-    <div class="module-top-bar">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="/dashboard" class="btn-action-pill btn-act-orange">⬅ वापस (Dashboard)</a>
-        <h2 style="font-size: 20px; font-weight: 800; color: #7c2d12;">💼 कर्मचारी प्रबंधन एवं कानूनी दस्तावेज़ (Staff Hub)</h2>
-      </div>
-      <div class="module-title-badge">सत्र: 2026-27 | सिंहपुर</div>
+  <!-- TIP BANNER -->
+  <div class="bbs-tip-container">
+    💼 ✨ टिप: कर्मचारी के नाम, पद, कक्षाध्यापक या मोबाइल पर डबल-क्लिक करके सीधे एडिट करें! फोटो बदलने हेतु 📷 बॉक्स पर क्लिक करें। ✨
+  </div>
+
+  <div class="bbs-page-title-box">
+    👔 समस्त कर्मचारी एवं शिक्षण संकाय डायरेक्टरी 👔
+  </div>
+
+  <!-- TOP ACTION BUTTONS -->
+  <div class="bbs-action-bar-top">
+    <button class="bbs-btn-action btn-green-add" onclick="openAddEmployeeModal()">
+      ➕ नया कर्मचारी जोड़ें
+    </button>
+    <button class="bbs-btn-action btn-blue-idcard" onclick="openBulkIdCardPrompt()">
+      🪪 ID कार्ड बल्क प्रिंट
+    </button>
+    <button class="bbs-btn-action btn-purple-contract" onclick="openDefaultDocModal('contract')">
+      📑 सेवा अनुबंध पत्र
+    </button>
+    <button class="bbs-btn-action btn-teal-exp" onclick="openDefaultDocModal('experience')">
+      📜 अनुभव प्रमाण पत्र
+    </button>
+    <button class="bbs-btn-action btn-orange-salary" onclick="showSalaryRegister()">
+      💰 वेतन / Salary रजिस्टर
+    </button>
+  </div>
+
+  <!-- FILTERS CARD -->
+  <div class="bbs-filter-card">
+    <div>
+      <select id="emp-dept-filter" class="bbs-select-ctrl" onchange="filterEmployeesTable()">
+        <option value="">🏢 -- समस्त विभाग (All Depts) --</option>
+        <option value="Teaching">शिक्षण संकाय (Teaching)</option>
+        <option value="Non-Teaching">कार्यालय / सहायक (Non-Teaching)</option>
+        <option value="Administration">प्रशासन (Admin)</option>
+      </select>
     </div>
-
-    <!-- Filter & Add Staff Bar -->
-    <div class="filter-panel" style="justify-content: space-between;">
-      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <input type="text" id="emp-search-box" class="filter-control" style="width: 280px;" placeholder="🔍 कर्मचारी का नाम, पद या कोड खोजें..." onkeyup="filterEmployees()">
-        <select id="emp-dept-filter" class="filter-control" onchange="filterEmployees()">
-          <option value="">-- समस्त विभाग --</option>
-          <option value="Teaching">शिक्षण संकाय (Teaching)</option>
-          <option value="Non-Teaching">कार्यालय / सहायक (Non-Teaching)</option>
-        </select>
-      </div>
-
-      <div style="display: flex; gap: 8px; align-items: center;">
-        <div style="font-size: 12.5px; font-weight: 800; color: #78350f;">
-          कुल स्टाफ: <span id="emp-cnt-total" style="color: #15803d;">0</span>
-        </div>
-        <button class="btn-action-pill btn-act-green" onclick="addNewEmployeePrompt()">+ नया कर्मचारी जोड़ें</button>
-      </div>
+    <div>
+      <select id="emp-desig-filter" class="bbs-select-ctrl" onchange="filterEmployeesTable()">
+        <option value="">💼 -- समस्त पद (Designations) --</option>
+        <option value="PRINCIPAL">PRINCIPAL</option>
+        <option value="SENIOR TEACHER">SENIOR TEACHER</option>
+        <option value="TEACHER">TEACHER</option>
+        <option value="ACCOUNTANT">ACCOUNTANT</option>
+        <option value="LIBRARIAN">LIBRARIAN</option>
+      </select>
     </div>
-
-    <!-- Employees Directory Table -->
-    <div class="emp-panel-card" style="padding: 10px;">
-      <div class="table-responsive">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th style="width: 36px; text-align: center;">क्र.</th>
-              <th style="width: 50px; text-align: center;">फोटो</th>
-              <th>कर्मचारी का नाम</th>
-              <th>पद (Designation)</th>
-              <th style="text-align: center; width: 80px;">कोड</th>
-              <th>विभाग</th>
-              <th>मोबाइल नंबर</th>
-              <th>ईमेल</th>
-              <th style="text-align: center;">जॉइनिंग तिथि</th>
-              <th style="text-align: center;">कक्षाध्यापक</th>
-              <th style="text-align: center; width: 70px;">दस्तावेज</th>
-              <th style="text-align: center; width: 70px;">स्थिति</th>
-              <th style="text-align: center; min-width: 200px;">प्रमाण पत्र एवं अनुबंध कार्य</th>
-            </tr>
-          </thead>
-          <tbody id="emp-directory-tbody"></tbody>
-        </table>
-      </div>
+    <div>
+      <select id="emp-status-filter" class="bbs-select-ctrl" onchange="filterEmployeesTable()">
+        <option value="">🔘 समस्त स्थिति (All Status)</option>
+        <option value="Active" selected>🔘 केवल सक्रिय (Active)</option>
+        <option value="Inactive">🔘 अवकाश / निष्क्रिय</option>
+      </select>
     </div>
-  </main>
-
-  <!-- MODAL: STAFF DOCUMENT GENERATOR -->
-  <div id="staff-doc-modal" class="modal-overlay hidden">
-    <div style="background: #ffffff; border-radius: 14px; padding: 22px; max-width: 760px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: center;">
-      <div id="printable-doc-area">
-        <div class="doc-print-sheet">
-          <div class="doc-school-header">
-            <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
-            <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh (Raj.) PIN: 312207</p>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: #475569; margin-bottom: 14px;">
-            <span>क्रमांक: <strong id="doc-modal-ref">SMPS/DOC/2026/01</strong></span>
-            <span>दिनांक: <strong id="doc-modal-date">--</strong></span>
-          </div>
-          <div class="doc-title-badge"><span id="doc-modal-title">सेवा अनुबंध पत्र</span></div>
-          <div id="doc-modal-body" style="font-size: 13px; text-align: justify; color: #1e293b;"></div>
-          <div style="margin-top: 60px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="text-align: center;"><div style="border-top: 1px dashed #64748b; width: 150px; margin-bottom: 4px;"></div><span>हस्ताक्षर कर्मचारी</span></div>
-            <div style="text-align: center;"><div style="border-top: 1px dashed #64748b; width: 150px; margin-bottom: 4px;"></div><span>संस्था प्रधान / विद्यालय मुहर</span></div>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top: 18px; display: flex; gap: 10px; justify-content: center;" class="no-print">
-        <button class="btn-action-pill btn-act-green" onclick="window.print()">🖨️ A4 प्रिंट निकालें</button>
-        <button class="btn-action-pill" style="background: #64748b;" onclick="document.getElementById('staff-doc-modal').classList.add('hidden')">बंद करें</button>
-      </div>
+    <div>
+      <button class="bbs-btn-pill" style="background:#0d9488;" onclick="exportEmployeesExcel()">📊 Excel डाउनलोड</button>
     </div>
   </div>
 
-  <script src="/js/core.js"></script>
-  <script>
-    let allEmployees = [];
+  <!-- STATS STRIP -->
+  <div class="bbs-stats-strip">
+    <div class="bbs-stat-pill pill-teaching">
+      👨‍🏫 शिक्षक (Teaching): <span id="stat-teaching-cnt">0</span>
+    </div>
+    <div class="bbs-stat-pill pill-nonteaching">
+      🏢 कार्यालय स्टाफ: <span id="stat-nonteaching-cnt">0</span>
+    </div>
+    <div class="bbs-stat-pill pill-active">
+      ✔ बायोमेट्रिक सक्रिय: <span id="stat-active-cnt">0</span>
+    </div>
+    <div class="bbs-stat-pill pill-total">
+      👥 कुल कर्मचारी: <span id="stat-total-cnt">0</span>
+    </div>
+  </div>
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const res = await fetch('/api/employees');
-        if (res.ok) {
-          allEmployees = await res.json();
-        }
-      } catch (err) {
-        allEmployees = [];
-      }
+  <!-- SEARCH INPUT -->
+  <div class="bbs-search-box">
+    <span class="search-icon-inside">🔍</span>
+    <input type="text" id="emp-search-input" class="bbs-search-input" placeholder="कर्मचारी का नाम, पद, कोड (EMP001) या मोबाइल से खोजें..." onkeyup="filterEmployeesTable()">
+  </div>
 
-      if (!allEmployees || allEmployees.length === 0) {
-        allEmployees = [
-          { id: 1, name: 'SURESH CHANDRA VYAS', designation: 'PRINCIPAL', emp_code: 'EMP001', department: 'Teaching', mobile_no: '9829012345', email: 'suresh@smps.edu', joining_date: '01/07/2018', class_teacher: '10th', status: 'सक्रिय' },
-          { id: 2, name: 'MAHESH SHARMA', designation: 'SENIOR TEACHER', emp_code: 'EMP002', department: 'Teaching', mobile_no: '9414012345', email: 'mahesh@smps.edu', joining_date: '15/07/2019', class_teacher: '8th', status: 'सक्रिय' },
-          { id: 3, name: 'DINESH JOSHI', designation: 'ACCOUNTANT', emp_code: 'EMP003', department: 'Non-Teaching', mobile_no: '9785012345', email: 'dinesh@smps.edu', joining_date: '01/04/2020', class_teacher: '-', status: 'सक्रिय' },
-          { id: 4, name: 'SUNITA KANWAR', designation: 'TEACHER', emp_code: 'EMP004', department: 'Teaching', mobile_no: '9876543210', email: 'sunita@smps.edu', joining_date: '10/08/2021', class_teacher: '6th', status: 'सक्रिय' }
-        ];
-      }
+  <!-- MASTER DIRECTORY TABLE -->
+  <div class="table-container-card">
+    <table class="bbs-table">
+      <thead>
+        <tr>
+          <th style="width:36px; text-align:center;">फोटो</th>
+          <th style="width:65px; text-align:center;">कोड</th>
+          <th>कर्मचारी का नाम</th>
+          <th>पद (DESIGNATION)</th>
+          <th>विभाग</th>
+          <th style="width:50px; text-align:center;">कक्षाध्यापक</th>
+          <th>मोबाइल नंबर</th>
+          <th>ईमेल पता</th>
+          <th style="width:75px; text-align:center;">जॉइनिंग</th>
+          <th>मूल वेतन (SALARY)</th>
+          <th>शैक्षणिक योग्यता</th>
+          <th style="width:65px; text-align:center;">स्थिति</th>
+          <th style="width:105px; text-align:center;">दस्तावेज व एक्शन</th>
+        </tr>
+      </thead>
+      <tbody id="emp-main-tbody"></tbody>
+    </table>
 
-      document.getElementById('emp-cnt-total').innerText = allEmployees.length;
-      renderEmployeesTable(allEmployees);
-    });
+    <div class="bbs-pagination-bar">
+      <span class="page-info-pill" id="lbl-emp-count">कुल कर्मचारी: 0</span>
+    </div>
+  </div>
 
-    function renderEmployeesTable(list) {
-      const tbody = document.getElementById('emp-directory-tbody');
-      tbody.innerHTML = '';
+  <footer style="text-align:center; background:var(--bbs-dark-maroon); color:#fef08a; font-size:11.5px; padding:10px; margin-top:30px;">
+    © 2026 SHREE MEWAR PUBLIC SCHOOL | ❤️ Staff & HR Center
+  </footer>
 
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="13" style="text-align:center; padding:24px; color:#64748b;">कोई कर्मचारी रिकॉर्ड नहीं मिला।</td></tr>`;
-        return;
-      }
-
-      list.forEach((e, idx) => {
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align: center;">${idx + 1}</td>
-            <td style="text-align: center;"><div class="emp-photo-box">👤</div></td>
-            <td><strong>${e.name}</strong></td>
-            <td>${e.designation}</td>
-            <td style="text-align: center;"><strong style="color: #1e3a8a;">${e.emp_code}</strong></td>
-            <td>${e.department}</td>
-            <td>${e.mobile_no}</td>
-            <td>${e.email}</td>
-            <td style="text-align: center;">${e.joining_date}</td>
-            <td style="text-align: center; font-weight: 700; color: #b45309;">${e.class_teacher}</td>
-            <td style="text-align: center;"><span style="background: #eff6ff; color: #1d4ed8; font-size: 10px; padding: 2px 6px; border-radius: 4px;">📄 KYC</span></td>
-            <td style="text-align: center;"><span style="background: #dcfce7; color: #15803d; font-weight: 800; padding: 2px 8px; border-radius: 12px; font-size: 10.5px;">${e.status}</span></td>
-            <td>
-              <div class="emp-action-grid">
-                <button class="btn-emp-act b-act-contract" onclick="openStaffDocumentModal(${e.id}, 'contract')">📑 अनुबंध</button>
-                <button class="btn-emp-act b-act-exp" onclick="openStaffDocumentModal(${e.id}, 'experience')">📜 अनुभव</button>
-                <button class="btn-emp-act b-act-join" onclick="openStaffDocumentModal(${e.id}, 'joining')">📩 जॉइनिंग</button>
-              </div>
-            </td>
-          </tr>
-        `;
-      });
-    }
-
-    function filterEmployees() {
-      const q = document.getElementById('emp-search-box').value.toLowerCase().trim();
-      const dept = document.getElementById('emp-dept-filter').value;
-
-      const filtered = allEmployees.filter(e => {
-        const matchesQuery = (e.name || '').toLowerCase().includes(q) ||
-                             (e.designation || '').toLowerCase().includes(q) ||
-                             (e.emp_code || '').toLowerCase().includes(q);
-        const matchesDept = !dept || (e.department || '').toLowerCase().includes(dept.toLowerCase());
-        return matchesQuery && matchesDept;
-      });
-
-      document.getElementById('emp-cnt-total').innerText = filtered.length;
-      renderEmployeesTable(filtered);
-    }
-
-    function openStaffDocumentModal(empId, docType) {
-      const emp = allEmployees.find(e => e.id === empId) || allEmployees[0];
-      const todayStr = new Date().toLocaleDateString('en-GB');
-
-      document.getElementById('doc-modal-date').innerText = todayStr;
-      document.getElementById('doc-modal-ref').innerText = `SMPS/${docType.toUpperCase()}/2026/${String(emp.id).padStart(3, '0')}`;
-
-      const titleEl = document.getElementById('doc-modal-title');
-      const bodyEl = document.getElementById('doc-modal-body');
-
-      if (docType === 'contract') {
-        titleEl.innerText = 'सेवा अनुबंध पत्र (STAFF CONTRACT AGREEMENT)';
-        bodyEl.innerHTML = `
-          <p>यह अनुबंध आज दिनांक <strong>${todayStr}</strong> को <strong>श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)</strong> प्रबंध समिति एवं <strong>श्री/श्रीमती ${emp.name}</strong> (पद: ${emp.designation}, कर्मचारी कोड: ${emp.emp_code}) के मध्य निष्पादित किया जाता है।</p>
-          <p style="margin-top: 10px;">1. कर्मचारी विद्यालय के शैक्षणिक नियमों, उपस्थिति समयावधि एवं अनुशासन संहिता का पूर्ण निष्ठा से पालन करेंगे।<br>
-          2. सेवा अवधि के दौरान विद्यार्थियों के सर्वांगीण विकास एवं गोपनीयता बनाए रखना अनिवार्य होगा।<br>
-          3. यह अनुबंध शैक्षणिक सत्र 2026-27 हेतु मान्य रहेगा।</p>
-        `;
-      } else if (docType === 'experience') {
-        titleEl.innerText = 'अनुभव प्रमाण पत्र (EXPERIENCE CERTIFICATE)';
-        bodyEl.innerHTML = `
-          <p>प्रमाणित किया जाता है कि <strong>श्री/श्रीमती ${emp.name}</strong> हमारे विद्यालय में <strong>${emp.designation}</strong> पद पर दिनांक <strong>${emp.joining_date}</strong> से निरंतर कार्यरत हैं।</p>
-          <p style="margin-top: 10px;">इन्होंने अपने कार्यकाल में शिक्षण एवं पाठ्यसहगामी गतिविधियों में सराहनीय योगदान दिया है। इनका कार्य एवं नैतिक आचरण अत्यंत उत्तम रहा है। हम इनके उज्ज्वल भविष्य की कामना करते हैं।</p>
-        `;
-      } else {
-        titleEl.innerText = 'नियुक्ति आदेश (OFFICIAL APPOINTMENT ORDER)';
-        bodyEl.innerHTML = `
-          <p>सेवा में,<br><strong>श्री/श्रीमती ${emp.name}</strong><br>पद: ${emp.designation}</p>
-          <p style="margin-top: 10px;">आपको सूचित किया जाता है कि साक्षात्कार एवं योग्यता परीक्षण के आधार पर विद्यालय प्रबंध समिति द्वारा आपको <strong>श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)</strong> में <strong>${emp.designation}</strong> पद पर नियुक्त किया जाता है। कृपया अपने समस्त मूल दस्तावेजों के साथ कार्यभार ग्रहण करें।</p>
-        `;
-      }
-
-      document.getElementById('staff-doc-modal').classList.remove('hidden');
-    }
-
-    function addNewEmployeePrompt() {
-      const name = prompt("नए कर्मचारी का पूरा नाम लिखें:");
-      if (!name) return;
-      const desig = prompt("पद (Designation):", "TEACHER");
-      const dept = prompt("विभाग (Teaching / Non-Teaching):", "Teaching");
-
-      const newEmp = {
-        id: allEmployees.length + 1,
-        name: name.toUpperCase(),
-        designation: desig.toUpperCase(),
-        emp_code: "EMP" + String(allEmployees.length + 1).padStart(3, '0'),
-        department: dept,
-        mobile_no: '9876543210',
-        email: name.toLowerCase().replace(/\s+/g, '') + '@smps.edu',
-        joining_date: new Date().toLocaleDateString('en-GB'),
-        class_teacher: '-',
-        status: 'सक्रिय'
-      };
-
-      allEmployees.push(newEmp);
-      filterEmployees();
-      showToast(`✔ कर्मचारी ${name} की प्रविष्टि सफलतापूर्वक दर्ज हुई!`, "success");
-    }
-  </script>
-</body>
-</html>
+  <!-- ==========================================================================
+       MODAL 1: ADD NEW EMPLOYEE FORM
+       ========================================================================== -->
+  <div id="add-emp-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:16px; margin:0;"><span>👔</span> नवीन कर्मचारी प्रविष्टि फॉर्म (सत्र: 2026-27)</h3>
+        <button class="btn-close-modal" onclick="closeAddEmployeeModal()">×</button>
+      </div>
+      <form id="add-emp-form" onsubmit="saveNewEmployee(event)" style="padding:20px;">
+        <div class="form-grid-3">
+          <div>
+            <label class="form-label">कर्मचारी कोड (Emp Code) *</label>
+            <input type="text" id="f-emp-code" class="form-input" style="font-weight:800; color:#0284c7;" required>
+          </div>
+          <div>
+            <label class="form-label">कर्मचारी का पूरा नाम (बड़े अक्षर) *</label>
+            <input type="text" id="f-emp-name" class="form-input" style="text-transform:uppercase;" required>
+          </div>
+          <div>
+            <label class="form-label">पद (Designation) *</label>
+            <select id="f-emp-desig" class="form-input" required>
+              <option value="PRINCIPAL">PRINCIPAL</option>
+              <option value="SENIOR TEACHER">SENIOR TEACHER</option>
+              <option value="TEACHER" selected>TEACHER</option>
+              <option value="ACCOUNTANT">ACCOUNTANT</option>
+              <option value="LIBRARIAN">LIBRARIAN</option>
+              <option value="LAB ASSISTANT">LAB ASSISTANT</option>
+              <option value="OFFICE STAFF">OFFICE STAFF</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">विभाग (Department) *</label>
+            <select id="f-emp-dept" class="form-input" required>
+              <option value="Teaching" selected>शिक्षण संकाय (Teaching)</option>
+              <option value="Non-Teaching">कार्यालय / सहायक (Non-Teaching)</option>
+              <option value="Administration">प्रशासन (Admin)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">कक्षाध्यापक (Class Teacher)</label>
+            <select id="f-emp-classteacher" class="form-input">
+              <option value="-" selected>- लागू नहीं -</option>
+              <option value="10th">Class 10th</option>
+              <option value="8th">Class 8th</option>
+              <option value="7th">Class 7th</option>
+              <option value="6th">Class 6th</option>
+              <option value="5th">Class 5th</option>
+              <option value="1st">Class 1st</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">मोबाइल नंबर *</label>
+            <input type="tel" id="f-emp-mobile" class="form-input" maxlength="10" placeholder="10-अंकीय मोबाइल" required>
+          </div>
+          <div>
+            <label class="form-label">ईमेल पता</label>
+            <input type="email" id="f-emp-email" class="form-input" placeholder="name@smps.edu">
+          </div>
+          <div>
+            <label class="form-label">जॉइनिंग दिनांक *</label>
+            <input type="date" id="f-emp-joining" class="form-input" value="2026-07-01" required>
+          </div>
+          <div>
+            <label class="form-label">मासिक मूल वेतन (Salary ₹) *</label>
+            <input type="number" id="f-emp-salary" class="form-input" value="18000" required>
+          </div>
+          <div>
+            <la
