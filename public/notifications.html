@@ -381,27 +381,46 @@
     }
 
     // 4. WHATSAPP & SMS DISPATCH
+  // 1. WHATSAPP ONE-CLICK DIRECT DISPATCH
     function sendWhatsAppReminder(studentName, fatherName, mobile, amount) {
-      const message = `आदरणीय ${fatherName} जी, आपके बच्चे ${studentName} (श्री मेवाड़ पब्लिक स्कूल, सिंहपुर) की सत्र 2026-27 की कुल बकाया फीस ₹${amount} शेष है। कृपया शीघ्र विद्यालय कार्यालय में जमा करवाएं। धन्यवाद।`;
-      const cleanPhone = mobile.replace(/[^0-9]/g, '');
-      const waUrl = `https://api.whatsapp.com/send?phone=91${cleanPhone}&text=${encodeURIComponent(message)}`;
-      window.open(waUrl, '_blank');
-      showAppToast(`✔ ${studentName} के अभिभावक को WhatsApp संदेश भेजा गया!`);
-    }
-
-    function sendSmsReminder(studentName, mobile, amount) {
-      alert(`SMS भेजा गया:\n\nप्रिय अभिभावक, आपके बच्चे ${studentName} की बकाया फीस ₹${amount} शेष है। - श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)`);
-      showAppToast(`✔ SMS सफलतापूर्वक प्रेषित हुआ!`);
-    }
-
-    function switchTab(type) {
-      if (type === 'attendance') {
-        alert("अनुपस्थिति अलर्ट: आज अनुपस्थित सभी विद्यार्थियों की सूची लोड हो रही है...");
-      } else if (type === 'notice') {
-        alert("नोटिस ब्रॉडकास्ट: आगामी परीक्षा एवं अवकाश संबंधी संदेश भेजने हेतु तैयार है।");
+      if (!mobile || mobile.length < 10) {
+        showAppToast('❌ मान्य 10-अंकीय मोबाइल नंबर नहीं मिला', false);
+        return;
       }
+
+      const cleanPhone = mobile.replace(/[^0-9]/g, '').slice(-10);
+      const text = `आदरणीय ${fatherName} जी,\n\nश्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपके सुपुत्र/सुपुत्री ${studentName} की सत्र 2026-27 की कुल बकाया फीस ₹${amount} शेष है।\n\nकृपया इसे शीघ्र विद्यालय कार्यालय में जमा करवाएं।\n\nधन्यवाद,\nप्रशासन, SMPS सिंहपुर`;
+
+      // wa.me direct deep link (Bypasses popup blockers)
+      const waUrl = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(text)}`;
+      
+      const link = document.createElement('a');
+      link.href = waUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showAppToast(`✔ ${studentName} के अभिभावक हेतु WhatsApp चैट तैयार!`);
     }
 
+    // 2. PHONE DEFAULT SMS APP LAUNCHER
+    function sendSmsReminder(studentName, mobile, amount) {
+      if (!mobile || mobile.length < 10) {
+        showAppToast('❌ मान्य 10-अंकीय मोबाइल नंबर नहीं मिला', false);
+        return;
+      }
+
+      const cleanPhone = mobile.replace(/[^0-9]/g, '').slice(-10);
+      const text = `प्रिय अभिभावक, आपके बच्चे ${studentName} की SMPS स्कूल में बकाया फीस ₹${amount} शेष है। कृपया शीघ्र जमा करवाएं। - SMPS सिंहपुर`;
+
+      // Native SMS intent (Opens phone's SMS app directly with filled text)
+      const smsUrl = `sms:+91${cleanPhone}?body=${encodeURIComponent(text)}`;
+      
+      window.location.href = smsUrl;
+      showAppToast(`✔ SMS ऐप में संदेश तैयार!`);
+    }
     // Initialize
     loadStudentsData();
   </script>
