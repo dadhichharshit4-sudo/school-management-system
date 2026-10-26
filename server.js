@@ -22,14 +22,18 @@ app.get('/api/health', (req, res) => {
 });
 
 // PostgreSQL Database Connection (Supabase)
+const { Pool } = require('pg');
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 pool.connect((err, client, release) => {
   if (err) {
-    console.error('❌ Database Connection Error:', err.stack);
+    console.error('❌ Database Connection Error:', err.message);
   } else {
     console.log('✅ PostgreSQL Database connected successfully!');
     release();
