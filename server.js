@@ -1,23 +1,22 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Body Parsers & Static Directory
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Database Pool Connection (Single Declaration)
+// Database Pool Connection
 let pool = null;
 if (process.env.DATABASE_URL) {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
+    ssl: { rejectUnauthorized: false }
   });
 
   pool.connect((err, client, release) => {
@@ -28,30 +27,42 @@ if (process.env.DATABASE_URL) {
       release();
     }
   });
-} else {
-  console.log('⚠️ DATABASE_URL not found, running in offline/static mode');
 }
 
-// Routes
+// API Routes
 if (pool) {
   try {
     const studentsRoutes = require('./routes/students')(pool);
     app.use('/api/students', studentsRoutes);
   } catch (err) {
-    console.error('Error loading students route:', err);
+    console.error('Students route error:', err);
   }
 
   try {
     const employeesRoutes = require('./routes/employees')(pool);
     app.use('/api/employees', employeesRoutes);
   } catch (err) {
-    // If employees route is not modularized with pool, fallback
+    // Optional fallback
   }
 }
 
-// Page Routes
+// Root Route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  const publicDir = path.join(__dirname, 'public');
+  if (fs.existsSync(path.join(publicDir, 'dashboard.html'))) {
+    res.sendFile(path.join(publicDir, 'dashboard.html'));
+  } else if (fs.existsSync(path.join(publicDir, 'index.html'))) {
+    res.sendFile(path.join(publicDir, 'index.html'));
+  } else if (fs.existsSync(path.join(publicDir, 'login.html'))) {
+    res.sendFile(path.join(publicDir, 'login.html'));
+  } else {
+    res.redirect('/students');
+  }
+});
+
+// Primary Fixed Routes
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
 app.get('/students', (req, res) => {
@@ -62,11 +73,22 @@ app.get('/employees', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'employees.html'));
 });
 
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+// Dynamic Route: Public folder ke kisi bhi page ko bina .html ke direct open karega
+app.get('/:page', (req, res, next) => {
+  const pageName = req.params.page;
+  const filePath = path.join(__dirname, 'public', `${pageName}.html`);
+
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  next();
 });
 
-// Start Server
+// 404 Fallback
+app.use((req, res) => {
+  res.redirect('/dashboard');
+});
+
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
