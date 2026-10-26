@@ -285,7 +285,7 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
-      width: 90px;
+      width: 95px;
     }
     .btn-tbl-act {
       border: none;
@@ -323,6 +323,7 @@
       font-weight: 700;
     }
 
+    /* DIRECT DISPLAY OVERLAY ENGINE */
     .custom-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -453,6 +454,76 @@
       text-align: center;
     }
 
+    /* ID CARD BOX */
+    .id-card-wrapper {
+      width: 310px;
+      height: 470px;
+      margin: 10px auto;
+      border-radius: 12px;
+      border: 2px solid #991b1b;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      background: #ffffff;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .id-card-top {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 6px;
+    }
+
+    /* MATRIX ANALYTICS TABLE */
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      text-align: center;
+      margin-top: 14px;
+    }
+    .matrix-table th {
+      background: #78350f;
+      color: #ffffff;
+      padding: 6px 4px;
+      border: 1px solid #92400e;
+    }
+    .matrix-table td {
+      padding: 6px 4px;
+      border: 1px solid #cbd5e1;
+    }
+    .matrix-table tr:nth-child(even) { background: #fffbeb; }
+
+    /* CUSTOM REPORT PREVIEW */
+    .report-table-preview th {
+      background: #78350f;
+      color: #fff;
+      padding: 6px;
+      border: 1px solid #92400e;
+      font-size: 11px;
+    }
+    .report-table-preview td {
+      padding: 6px;
+      border: 1px solid #cbd5e1;
+      font-size: 11px;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-idcard-area, #printable-idcard-area *,
+      #printable-matrix-area, #printable-matrix-area *,
+      #printable-report-area, #printable-report-area * {
+        visibility: visible;
+      }
+      #printable-idcard-area, #printable-matrix-area, #printable-report-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+      .no-print { display: none !important; }
+    }
+
     #local-toast {
       position: fixed;
       bottom: 24px;
@@ -488,7 +559,7 @@
 
   <!-- TIP BANNER -->
   <div class="bbs-tip-container">
-    ✏️ ✨ टिप: टेबल में किसी भी जानकारी को तुरंत एडिट करने के लिए उस पर डबल-क्लिक करें! ✨
+    ✏️ ✨ टिप: टेबल में किसी भी जानकारी को तुरंत एडिट करने के लिए उस पर डबल-क्लिक करें! फोटो बदलने हेतु 📷 पर क्लिक करें। ✨
   </div>
 
   <div class="bbs-page-title-box">
@@ -500,16 +571,16 @@
     <button type="button" class="bbs-btn-action btn-green-add" onclick="openAddStudentModal()">
       ➕ नया छात्र जोड़ें
     </button>
-    <button type="button" class="bbs-btn-action btn-orange-edit" onclick="showAppToast('सर्च बार में छात्र का नाम लिखें')">
+    <button type="button" class="bbs-btn-action btn-orange-edit" onclick="openEditSearchModal()">
       ✏️ छात्र संपादित करें
     </button>
-    <button type="button" class="bbs-btn-action btn-blue-idcard" onclick="window.print()">
+    <button type="button" class="bbs-btn-action btn-blue-idcard" onclick="openIdCardSuiteModal()">
       🪪 ID कार्ड जनरेट करें
     </button>
-    <button type="button" class="bbs-btn-action btn-blue-report" onclick="showAppToast('नामांकन रिपोर्ट तैयार है')">
+    <button type="button" class="bbs-btn-action btn-blue-report" onclick="openEnrollmentMatrixModal()">
       🌐 नामांकन रिपोर्ट (Report)
     </button>
-    <button type="button" class="bbs-btn-action btn-red-custom" onclick="window.print()">
+    <button type="button" class="bbs-btn-action btn-red-custom" onclick="openCustomReportModal()">
       📄 कस्टम रिपोर्ट
     </button>
   </div>
@@ -592,7 +663,7 @@
           <th style="width:80px;">DOB</th>
           <th>बकाया फीस</th>
           <th>ADDRESS</th>
-          <th style="width:95px; text-align:center;">ACTION</th>
+          <th style="width:100px; text-align:center;">ACTION</th>
         </tr>
       </thead>
       <tbody id="bbs-main-tbody"></tbody>
@@ -604,7 +675,7 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL: 5-STEP COMMERCIAL ADMISSION WIZARD WITH FEES
+       MODAL 1: 5-STEP COMMERCIAL ADMISSION WIZARD WITH FEES
        ========================================================================== -->
   <div id="add-student-modal" class="custom-modal-overlay">
     <div class="modal-card">
@@ -738,7 +809,7 @@
           </div>
           <div style="margin-top:20px; display:flex; justify-content:space-between;">
             <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="switchFormTab(3)">⬅ पिछला</button>
-            <button type="button" class="bbs-btn-action btn-orange-edit" onclick="switchFormTab(5)">अगला: फीस पैकेज (Step 5) ➔</button>
+            <button type="button" class="bbs-btn-action btn-orange-edit" onclick="switchFormTab(5)">अगला: शुल्क पैकेज (Step 5) ➔</button>
           </div>
         </div>
 
@@ -784,6 +855,160 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       MODAL 2: EDIT STUDENT SEARCH
+       ========================================================================== -->
+  <div id="edit-search-modal" class="custom-modal-overlay">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 style="font-size:16px; margin:0;"><span>🔍</span> छात्र डेटा खोजें एवं संपादित करें</h3>
+        <button type="button" class="btn-close-modal" onclick="closeEditSearchModal()">×</button>
+      </div>
+      <div style="padding:24px;">
+        <div style="background:#fffaf0; border:1.5px solid #fed7aa; border-radius:10px; padding:20px;">
+          <div style="font-size:12px; color:#b91c1c; font-weight:700; margin-bottom:8px;">
+            ⚡ छात्र खोजें (नाम / Adm No / Roll No / पिता का नाम):
+          </div>
+          <input type="text" class="form-input" placeholder="कम से कम 2 अक्षर टाइप करें..." onkeyup="liveEditSearch(this.value)">
+          <div id="edit-search-results-box" style="margin-top:14px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: ID CARD GENERATION SUITE
+       ========================================================================== -->
+  <div id="idcard-suite-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:16px; margin:0;"><span>🪪</span> छात्र पहचान पत्र (Student ID Card)</h3>
+        <button type="button" class="btn-close-modal" onclick="closeIdCardSuiteModal()">×</button>
+      </div>
+      <div style="padding:16px; background:#f8fafc;" id="printable-idcard-area">
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px;" class="no-print">
+          <select id="id-suite-class" class="bbs-select-ctrl" onchange="loadIdCardsGrid()">
+            <option value="">-- कक्षा चुनें --</option>
+            <option value="PP.3+">PP.3+</option>
+            <option value="PP.4+">PP.4+</option>
+            <option value="PP.5+">PP.5+</option>
+            <option value="1st">1st</option>
+            <option value="8th">8th</option>
+            <option value="Class 10-A">Class 10-A</option>
+          </select>
+          <button type="button" class="bbs-btn-action btn-red-custom" onclick="window.print()">🖨️ A4 प्रिंट करें</button>
+        </div>
+
+        <div id="id-suite-empty-state" style="text-align:center; padding:30px; color:#64748b; border:1px dashed #cbd5e1; border-radius:8px;">
+          ऊपर से कक्षा का चुनाव करें या किसी भी छात्र का ID कार्ड देखें।
+        </div>
+        <div id="id-suite-cards-container" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: ENROLLMENT MATRIX REPORT
+       ========================================================================== -->
+  <div id="matrix-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:16px; margin:0;"><span>🌐</span> Matrix Analytics - क्रॉस टेबुलेशन रिपोर्ट</h3>
+        <button type="button" class="btn-close-modal" onclick="closeEnrollmentMatrixModal()">×</button>
+      </div>
+      <div style="padding:16px;" id="printable-matrix-area">
+        <div style="text-align:right; margin-bottom:10px;" class="no-print">
+          <button type="button" class="bbs-btn-action btn-blue-report" onclick="window.print()">🖨️ PRINT MATRIX</button>
+        </div>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th rowspan="2">कक्षा</th>
+              <th colspan="3">GENERAL</th>
+              <th colspan="3">OBC</th>
+              <th colspan="3">SC/ST</th>
+              <th colspan="3">TOTAL</th>
+            </tr>
+            <tr style="font-size:9.5px;">
+              <th>B</th><th>G</th><th>T</th>
+              <th>B</th><th>G</th><th>T</th>
+              <th>B</th><th>G</th><th>T</th>
+              <th>B</th><th>G</th><th>T</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>PP.3+</td><td>-</td><td>-</td><td>-</td><td>4</td><td>2</td><td>6</td><td>1</td><td>4</td><td>5</td><td>5</td><td>6</td><td>11</td></tr>
+            <tr><td>PP.4+</td><td>1</td><td>2</td><td>3</td><td>6</td><td>3</td><td>9</td><td>1</td><td>1</td><td>2</td><td>8</td><td>6</td><td>14</td></tr>
+            <tr><td>PP.5+</td><td>4</td><td>2</td><td>6</td><td>9</td><td>9</td><td>18</td><td>2</td><td>4</td><td>6</td><td>15</td><td>15</td><td>30</td></tr>
+            <tr><td>1ST</td><td>4</td><td>3</td><td>7</td><td>10</td><td>6</td><td>16</td><td>2</td><td>3</td><td>5</td><td>16</td><td>12</td><td>28</td></tr>
+            <tr><td>8TH</td><td>2</td><td>1</td><td>3</td><td>6</td><td>3</td><td>9</td><td>1</td><td>-</td><td>1</td><td>9</td><td>4</td><td>13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 5: CUSTOM REPORT MODAL
+       ========================================================================== -->
+  <div id="custom-report-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:16px; margin:0;"><span>📄</span> कस्टम रिपोर्ट जनरेटर</h3>
+        <button type="button" class="btn-close-modal" onclick="closeCustomReportModal()">×</button>
+      </div>
+      <div style="padding:16px;" id="printable-report-area">
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px;" class="no-print">
+          <span style="font-weight:700;">रिपोर्ट प्रीव्यू (A4 Landscape Print)</span>
+          <button type="button" class="bbs-btn-action btn-red-custom" onclick="window.print()">🖨️ A4 प्रिंट करें</button>
+        </div>
+        <table class="report-table-preview" style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th>Adm No.</th>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Father Name</th>
+              <th>Mobile</th>
+              <th>DOB</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody id="custom-report-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 6: FULL EDIT STUDENT MODAL
+       ========================================================================== -->
+  <div id="full-edit-modal" class="custom-modal-overlay">
+    <div class="modal-card" style="max-width:700px;">
+      <div class="modal-header">
+        <h3 style="font-size:16px; margin:0;"><span>✏️</span> छात्र संपूर्ण संपादन</h3>
+        <button type="button" class="btn-close-modal" onclick="closeFullEditModal()">×</button>
+      </div>
+      <form id="full-edit-form" onsubmit="saveFullEdit(event)" style="padding:20px;">
+        <input type="hidden" id="fe-id">
+        <div class="form-grid-3">
+          <div><label class="form-label">Adm No</label><input type="text" id="fe-scholar" class="form-input" required></div>
+          <div><label class="form-label">Roll No</label><input type="text" id="fe-roll" class="form-input" required></div>
+          <div class="form-group-full"><label class="form-label">Name</label><input type="text" id="fe-name" class="form-input" required></div>
+          <div><label class="form-label">Class</label><input type="text" id="fe-class" class="form-input" required></div>
+          <div><label class="form-label">Father Name</label><input type="text" id="fe-father" class="form-input" required></div>
+          <div><label class="form-label">Mother Name</label><input type="text" id="fe-mother" class="form-input" required></div>
+          <div><label class="form-label">Mobile</label><input type="tel" id="fe-mobile" class="form-input" required></div>
+          <div><label class="form-label">DOB</label><input type="text" id="fe-dob" class="form-input" required></div>
+          <div class="form-group-full"><label class="form-label">Address</label><input type="text" id="fe-address" class="form-input" required></div>
+        </div>
+        <div style="margin-top:16px; text-align:right;">
+          <button type="submit" class="bbs-btn-action btn-green-add">✔ परिवर्तन सुरक्षित करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- JAVASCRIPT ENGINE -->
   <script>
     function showAppToast(msg, isSuccess = true) {
@@ -805,6 +1030,7 @@
     window.masterStudents = [...DEFAULT_STUDENTS_LIST];
     let currentPhotoTargetId = null;
 
+    // 1. RENDER MAIN TABLE
     function renderMainTable(list) {
       const tbody = document.getElementById('bbs-main-tbody');
       if (!tbody) return;
@@ -839,26 +1065,27 @@
                 ${photoContent}
               </div>
             </td>
-            <td><strong>${s.scholar_no || '759'}</strong></td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'scholar_no')"><strong>${s.scholar_no || '759'}</strong></td>
             <td>${s.adm_date || '01/07/2026'}</td>
-            <td><strong>${s.name}</strong></td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'name')"><strong>${s.name}</strong></td>
             <td>${s.pen_no || '-'}</td>
-            <td style="text-align:center; font-weight:800;">${s.roll_no || '-'}</td>
+            <td style="text-align:center; font-weight:800;" class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'roll_no')">${s.roll_no || '-'}</td>
             <td>${s.class_name || '8th'}</td>
             <td>${s.section || 'A'}</td>
             <td style="text-align:center;">${statusBadge}</td>
             <td>${s.gender}</td>
             <td style="text-align:center; font-weight:700;">${s.rte || 'NO'}</td>
-            <td>${s.father_name || '-'}</td>
-            <td>${s.mother_name || '-'}</td>
-            <td>${s.mobile_no || '-'}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'father_name')">${s.father_name || '-'}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'mother_name')">${s.mother_name || '-'}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'mobile_no')">${s.mobile_no || '-'}</td>
             <td>${s.dob || '-'}</td>
-            <td style="color:#b91c1c; font-weight:800;">₹ ${Number(s.balance_fees || 0).toLocaleString('en-IN')}</td>
-            <td>${s.address || 'सिंहपुर'}</td>
+            <td style="color:#b91c1c; font-weight:800;" class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'balance_fees')">₹ ${Number(s.balance_fees || 0).toLocaleString('en-IN')}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${s.id}, 'address')">${s.address || 'सिंहपुर'}</td>
             <td>
               <div class="table-act-col">
                 <button type="button" class="btn-tbl-act tbl-act-deact" onclick="toggleDeactivate(${s.id})">${isInactive ? 'Activate' : 'Deactivate'}</button>
                 <button type="button" class="btn-tbl-act tbl-act-view" onclick="viewDetails(${s.id})">👁️ विवरण</button>
+                <button type="button" class="btn-tbl-act tbl-act-edit" onclick="openFullEdit(${s.id})">✏️ एडिट</button>
                 <a href="tel:${s.mobile_no}" class="btn-tbl-act tbl-act-call">📞 कॉल</a>
                 <button type="button" class="btn-tbl-act tbl-act-del" onclick="deleteStudent(${s.id})">🗑️ डिलीट</button>
               </div>
@@ -906,6 +1133,84 @@
       renderMainTable(filtered);
     };
 
+    // 2. INLINE CELL DOUBLE CLICK EDIT
+    function makeEditable(cell, studentId, fieldName) {
+      if (cell.querySelector('input')) return;
+      const originalText = cell.innerText.trim();
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'inline-edit-input';
+      input.value = originalText.replace('₹', '').trim();
+
+      cell.innerHTML = '';
+      cell.appendChild(input);
+      input.focus();
+
+      const finishEdit = async () => {
+        const newVal = input.value.trim() || originalText;
+        cell.innerHTML = (fieldName === 'name' || fieldName === 'scholar_no') ? `<strong>${newVal}</strong>` : (fieldName === 'balance_fees' ? `₹ ${Number(newVal).toLocaleString('en-IN')}` : newVal);
+        const student = window.masterStudents.find(s => s.id === studentId);
+        if (student && newVal !== originalText) {
+          student[fieldName] = newVal;
+          showAppToast(`✔ ${fieldName} अपडेट कर दिया गया`);
+          try {
+            await fetch(`/api/students/${studentId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ [fieldName]: newVal })
+            });
+          } catch(e) {}
+        }
+      };
+
+      input.addEventListener('blur', finishEdit);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') finishEdit();
+        if (e.key === 'Escape') cell.innerHTML = originalText;
+      });
+    }
+
+    // 3. PHOTO UPLOAD
+    function triggerPhotoUpload(id) {
+      currentPhotoTargetId = id;
+      const fileInput = document.getElementById('photo-upload-input');
+      fileInput.value = '';
+      fileInput.click();
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file || !currentPhotoTargetId) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = 180;
+          canvas.height = 200;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, 180, 200);
+
+          const compressed = canvas.toDataURL('image/jpeg', 0.75);
+          const student = window.masterStudents.find(s => s.id === currentPhotoTargetId);
+          if (student) {
+            student.photo = compressed;
+            filterMainTable();
+            showAppToast("✔ फोटो सफलतापूर्वक अपडेट हुई!");
+            fetch(`/api/students/${currentPhotoTargetId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ photo: compressed })
+            }).catch(() => {});
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // 4. MODALS LOGIC
     window.openAddStudentModal = function() {
       document.getElementById('f-scholar-no').value = 760 + window.masterStudents.length;
       document.getElementById('f-roll-no').value = window.masterStudents.length + 1;
@@ -976,7 +1281,6 @@
       calculateNetFee();
     };
 
-    // 2. PERMANENT DATABASE SAVE FUNCTION
     window.saveNewStudent = async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('btn-submit-admission');
@@ -1035,7 +1339,7 @@
         showAppToast(`✔ छात्र '${payload.name}' डेटाबेस में सुरक्षित हो गया!`);
       } catch (err) {
         console.error('Save error:', err);
-        showAppToast('❌ डेटाबेस से कनेक्ट नहीं हो सका, कृपया चेक करें', false);
+        showAppToast('❌ डेटाबेस से कनेक्ट नहीं हो सका', false);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -1044,6 +1348,7 @@
       }
     };
 
+    // 5. ROW ACTION FUNCTIONS
     window.toggleDeactivate = function(id) {
       const s = window.masterStudents.find(x => x.id === id);
       if (s) {
@@ -1051,81 +1356,213 @@
         s.status = isInactive ? 'सक्रिय (Active)' : 'निष्क्रिय (Inactive)';
         filterMainTable();
         showAppToast(`स्थिति: ${s.status}`);
+        fetch(`/api/students/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: s.status })
+        }).catch(() => {});
       }
     };
 
     window.viewDetails = function(id) {
       const s = window.masterStudents.find(x => x.id === id);
       if (!s) return;
-      alert(`छात्र विवरण:\n\nनाम: ${s.name}\nप्रवेश क्रमांक: ${s.scholar_no}\nकक्षा: ${s.class_name} - ${s.section}\nपिता: ${s.father_name}\nमाता: ${s.mother_name}\nमोबाइल: ${s.mobile_no}\nबकाया फीस: ₹${s.balance_fees}\nपता: ${s.address}`);
+      alert(`छात्र विस्तृत रिकॉर्ड:\n\nनाम: ${s.name}\nप्रवेश क्रमांक (Adm No): ${s.scholar_no}\nकक्षा: ${s.class_name} - ${s.section}\nरोल नंबर: ${s.roll_no}\nपिता: ${s.father_name}\nमाता: ${s.mother_name}\nमोबाइल: ${s.mobile_no}\nबकाया फीस: ₹${s.balance_fees || 0}\nपता: ${s.address}`);
     };
 
-    window.deleteStudent = function(id) {
+    window.deleteStudent = async function(id) {
       const s = window.masterStudents.find(x => x.id === id);
-      if (s && confirm(`क्या आप '${s.name}' का रिकॉर्ड हटाना चाहते हैं?`)) {
+      if (s && confirm(`क्या आप विद्यार्थी '${s.name}' का रिकॉर्ड हटाना चाहते हैं?`)) {
         window.masterStudents = window.masterStudents.filter(x => x.id !== id);
         filterMainTable();
-        showAppToast(`'${s.name}' हटाया गया`, false);
+        showAppToast(`'${s.name}' हटा दिया गया`, false);
+        try {
+          await fetch(`/api/students/${id}`, { method: 'DELETE' });
+        } catch(e) {}
       }
     };
 
-    function triggerPhotoUpload(id) {
-      currentPhotoTargetId = id;
-      const fileInput = document.getElementById('photo-upload-input');
-      fileInput.value = '';
-      fileInput.click();
-    }
+    window.openFullEdit = function(id) {
+      const s = window.masterStudents.find(x => x.id === id);
+      if (!s) return;
+      document.getElementById('fe-id').value = s.id;
+      document.getElementById('fe-scholar').value = s.scholar_no;
+      document.getElementById('fe-roll').value = s.roll_no;
+      document.getElementById('fe-name').value = s.name;
+      document.getElementById('fe-class').value = s.class_name;
+      document.getElementById('fe-father').value = s.father_name;
+      document.getElementById('fe-mother').value = s.mother_name;
+      document.getElementById('fe-mobile').value = s.mobile_no;
+      document.getElementById('fe-dob').value = s.dob;
+      document.getElementById('fe-address').value = s.address;
+      const m = document.getElementById('full-edit-modal');
+      if (m) m.style.display = 'flex';
+    };
 
-    function handlePhotoUpload(event) {
-      const file = event.target.files[0];
-      if (!file || !currentPhotoTargetId) return;
+    window.closeFullEditModal = function() {
+      const m = document.getElementById('full-edit-modal');
+      if (m) m.style.display = 'none';
+    };
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          canvas.width = 180;
-          canvas.height = 200;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, 180, 200);
+    window.saveFullEdit = async function(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('fe-id').value);
+      const s = window.masterStudents.find(x => x.id === id);
+      if (s) {
+        s.scholar_no = document.getElementById('fe-scholar').value;
+        s.roll_no = document.getElementById('fe-roll').value;
+        s.name = document.getElementById('fe-name').value.toUpperCase();
+        s.class_name = document.getElementById('fe-class').value;
+        s.father_name = document.getElementById('fe-father').value;
+        s.mother_name = document.getElementById('fe-mother').value;
+        s.mobile_no = document.getElementById('fe-mobile').value;
+        s.dob = document.getElementById('fe-dob').value;
+        s.address = document.getElementById('fe-address').value;
+        closeFullEditModal();
+        filterMainTable();
+        showAppToast("✔ छात्र विवरण सफलतापूर्वक अपडेट हुआ!");
+        fetch(`/api/students/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(s)
+        }).catch(() => {});
+      }
+    };
 
-          const compressed = canvas.toDataURL('image/jpeg', 0.75);
-          const student = window.masterStudents.find(s => s.id === currentPhotoTargetId);
-          if (student) {
-            student.photo = compressed;
-            filterMainTable();
-            showAppToast("✔ फोटो सफलतापूर्वक अपडेट हुई!");
-          }
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+    // 6. TOP SUITE MODALS
+    window.openEditSearchModal = function() {
+      const m = document.getElementById('edit-search-modal');
+      if (m) m.style.display = 'flex';
+    };
+    window.closeEditSearchModal = function() {
+      const m = document.getElementById('edit-search-modal');
+      if (m) m.style.display = 'none';
+    };
+    window.liveEditSearch = function(val) {
+      const resBox = document.getElementById('edit-search-results-box');
+      if (val.length < 2) { resBox.innerHTML = ''; return; }
+      const matched = window.masterStudents.filter(s => s.name.toLowerCase().includes(val.toLowerCase()) || String(s.scholar_no).includes(val));
+      if (matched.length === 0) { resBox.innerHTML = '<div style="font-size:12px; color:#64748b; padding:8px;">कोई छात्र नहीं मिला</div>'; return; }
+      let html = '<div style="background:#fff; border:1px solid #cbd5e1; border-radius:6px; padding:8px;">';
+      matched.forEach(s => {
+        html += `<div style="display:flex; justify-content:space-between; padding:6px; border-bottom:1px solid #f1f5f9; font-size:12px;">
+          <span><strong>${s.name}</strong> (${s.class_name}) - SR: ${s.scholar_no}</span>
+          <button type="button" class="bbs-btn-pill" style="padding:2px 8px; font-size:10px;" onclick="closeEditSearchModal(); openFullEdit(${s.id})">संपादित करें</button>
+        </div>`;
+      });
+      html += '</div>';
+      resBox.innerHTML = html;
+    };
+
+    window.openIdCardSuiteModal = function() {
+      const m = document.getElementById('idcard-suite-modal');
+      if (m) m.style.display = 'flex';
+      loadIdCardsGrid();
+    };
+    window.closeIdCardSuiteModal = function() {
+      const m = document.getElementById('idcard-suite-modal');
+      if (m) m.style.display = 'none';
+    };
+    window.loadIdCardsGrid = function() {
+      const cls = document.getElementById('id-suite-class')?.value || '';
+      const emptyState = document.getElementById('id-suite-empty-state');
+      const container = document.getElementById('id-suite-cards-container');
+
+      const matched = cls ? window.masterStudents.filter(s => s.class_name === cls) : window.masterStudents;
+      if (matched.length === 0) {
+        if (emptyState) emptyState.style.display = 'block';
+        if (container) container.innerHTML = '';
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+      if (container) {
+        container.innerHTML = '';
+        matched.forEach(s => {
+          container.innerHTML += `
+            <div class="id-card-wrapper" style="margin:0 auto; transform:scale(0.95);">
+              <div class="id-card-top">
+                <h4 style="font-size:13px; margin:0; color:#fff;">SHREE MEWAR PUBLIC SCHOOL</h4>
+                <p style="font-size:9px; color:#fef08a; margin:2px 0 0;">SINGHPUR, CHITTORGARH</p>
+              </div>
+              <div style="background:#fef08a; color:#7f1d1d; font-size:10px; font-weight:800; padding:2px 0; text-align:center;">IDENTITY CARD (2026-27)</div>
+              <div style="width:75px; height:85px; border:1.5px solid #7f1d1d; border-radius:6px; margin:10px auto 4px; display:flex; align-items:center; justify-content:center; font-size:32px; background:#f8fafc;">
+                ${s.photo ? `<img src="${s.photo}" style="width:100%; height:100%; object-fit:cover;">` : `👤`}
+              </div>
+              <div style="text-align:center; font-size:13px; font-weight:900; color:#7f1d1d; margin-bottom:8px;">${s.name}</div>
+              <div style="padding:0 16px; font-size:10.5px; line-height:1.6; flex:1;">
+                <div>SR No: <strong>${s.scholar_no}</strong></div>
+                <div>Class: <strong>${s.class_name}-${s.section || 'A'}</strong></div>
+                <div>Father: <strong>${s.father_name}</strong></div>
+                <div>Mobile: <strong>${s.mobile_no}</strong></div>
+              </div>
+              <div style="padding:6px 16px; font-size:9px; color:#64748b; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between;">
+                <span>SMPS</span><span>सील संस्था प्रधान</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+    };
+
+    window.openEnrollmentMatrixModal = function() {
+      const m = document.getElementById('matrix-modal');
+      if (m) m.style.display = 'flex';
+    };
+    window.closeEnrollmentMatrixModal = function() {
+      const m = document.getElementById('matrix-modal');
+      if (m) m.style.display = 'none';
+    };
+
+    window.openCustomReportModal = function() {
+      const tbody = document.getElementById('custom-report-tbody');
+      if (tbody) {
+        tbody.innerHTML = '';
+        window.masterStudents.forEach(s => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${s.scholar_no}</td>
+              <td><strong>${s.name}</strong></td>
+              <td>${s.class_name}</td>
+              <td>${s.father_name}</td>
+              <td>${s.mobile_no}</td>
+              <td>${s.dob}</td>
+              <td>${s.address}</td>
+            </tr>
+          `;
+        });
+      }
+      const m = document.getElementById('custom-report-modal');
+      if (m) m.style.display = 'flex';
+    };
+    window.closeCustomReportModal = function() {
+      const m = document.getElementById('custom-report-modal');
+      if (m) m.style.display = 'none';
+    };
 
     // INITIAL LOAD
     renderMainTable(window.masterStudents);
 
-    // FETCH FROM DATABASE
+    // BACKEND SYNC
     fetch('/api/students')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
           window.masterStudents = data.map((item, idx) => ({
             id: item.id || (idx + 1),
-            scholar_no: item.scholar_no || '750',
-            adm_date: item.adm_date || '01/07/2026',
-            name: item.name || 'STUDENT NAME',
+            scholar_no: item.scholar_no || item.admission_no || item.sr_no || '750',
+            adm_date: item.adm_date || item.admission_date || '01/07/2026',
+            name: item.name || item.student_name || 'STUDENT NAME',
             pen_no: item.pen_no || '-',
             roll_no: item.roll_no || (1 + idx),
-            class_name: item.class_name || '8th',
+            class_name: item.class_name || item.class || '8th',
             section: item.section || 'A',
             status: item.status || 'सक्रिय (Active)',
             gender: item.gender || 'Male',
             rte: item.rte || 'NO',
             father_name: item.father_name || '-',
             mother_name: item.mother_name || '-',
-            mobile_no: item.mobile_no || '9876543210',
+            mobile_no: item.mobile_no || item.mobile || item.phone || '9876543210',
             dob: item.dob || '01/01/2012',
             balance_fees: item.balance_fees || 0,
             address: item.address || 'सिंहपुर',
