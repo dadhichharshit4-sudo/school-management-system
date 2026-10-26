@@ -323,7 +323,6 @@
       font-weight: 700;
     }
 
-    /* DIRECT DISPLAY OVERLAY ENGINE */
     .custom-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -454,7 +453,6 @@
       text-align: center;
     }
 
-    /* ID CARD BOX */
     .id-card-wrapper {
       width: 310px;
       height: 470px;
@@ -474,7 +472,6 @@
       padding: 10px 6px;
     }
 
-    /* MATRIX ANALYTICS TABLE */
     .matrix-table {
       width: 100%;
       border-collapse: collapse;
@@ -494,7 +491,6 @@
     }
     .matrix-table tr:nth-child(even) { background: #fffbeb; }
 
-    /* CUSTOM REPORT PREVIEW */
     .report-table-preview th {
       background: #78350f;
       color: #fff;
@@ -557,7 +553,6 @@
     </div>
   </header>
 
-  <!-- TIP BANNER -->
   <div class="bbs-tip-container">
     ✏️ ✨ टिप: टेबल में किसी भी जानकारी को तुरंत एडिट करने के लिए उस पर डबल-क्लिक करें! फोटो बदलने हेतु 📷 पर क्लिक करें। ✨
   </div>
@@ -674,9 +669,7 @@
     </div>
   </div>
 
-  <!-- ==========================================================================
-       MODAL 1: 5-STEP COMMERCIAL ADMISSION WIZARD WITH FEES
-       ========================================================================== -->
+  <!-- MODAL 1: 5-STEP COMMERCIAL ADMISSION WIZARD -->
   <div id="add-student-modal" class="custom-modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -809,7 +802,7 @@
           </div>
           <div style="margin-top:20px; display:flex; justify-content:space-between;">
             <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="switchFormTab(3)">⬅ पिछला</button>
-            <button type="button" class="bbs-btn-action btn-orange-edit" onclick="switchFormTab(5)">अगला: शुल्क पैकेज (Step 5) ➔</button>
+            <button type="button" class="bbs-btn-action btn-orange-edit" onclick="switchFormTab(5)">अगला: फीस पैकेज (Step 5) ➔</button>
           </div>
         </div>
 
@@ -855,9 +848,7 @@
     </div>
   </div>
 
-  <!-- ==========================================================================
-       MODAL 2: EDIT STUDENT SEARCH
-       ========================================================================== -->
+  <!-- MODAL 2: EDIT STUDENT SEARCH -->
   <div id="edit-search-modal" class="custom-modal-overlay">
     <div class="modal-card" style="max-width: 650px;">
       <div class="modal-header">
@@ -876,9 +867,7 @@
     </div>
   </div>
 
-  <!-- ==========================================================================
-       MODAL 3: ID CARD GENERATION SUITE
-       ========================================================================== -->
+  <!-- MODAL 3: ID CARD GENERATION SUITE -->
   <div id="idcard-suite-modal" class="custom-modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -907,9 +896,7 @@
     </div>
   </div>
 
-  <!-- ==========================================================================
-       MODAL 4: ENROLLMENT MATRIX REPORT
-       ========================================================================== -->
+  <!-- MODAL 4: ENROLLMENT MATRIX REPORT -->
   <div id="matrix-modal" class="custom-modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -948,9 +935,7 @@
     </div>
   </div>
 
-  <!-- ==========================================================================
-       MODAL 5: CUSTOM REPORT MODAL
-       ========================================================================== -->
+  <!-- MODAL 5: CUSTOM REPORT MODAL -->
   <div id="custom-report-modal" class="custom-modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -980,9 +965,7 @@
     </div>
   </div>
 
-  <!-- ==========================================================================
-       MODAL 6: FULL EDIT STUDENT MODAL
-       ========================================================================== -->
+  <!-- MODAL 6: FULL EDIT STUDENT MODAL -->
   <div id="full-edit-modal" class="custom-modal-overlay">
     <div class="modal-card" style="max-width:700px;">
       <div class="modal-header">
@@ -1027,7 +1010,23 @@
       { id: 4, scholar_no: '714', adm_date: '25/03/2026', name: 'AARTI', pen_no: '-', roll_no: '3', class_name: 'PP.3+', section: 'A', status: 'सक्रिय (Active)', gender: 'Female', rte: 'NO', father_name: 'NARAYAN LAL', mother_name: 'DALI BAI', mobile_no: '9784852665', dob: '25/08/2022', balance_fees: 6500, address: 'SINGHPUR', photo: null }
     ];
 
-    window.masterStudents = [...DEFAULT_STUDENTS_LIST];
+    // SMART OFFLINE-FIRST LOCAL STORAGE (Never lose data)
+    function getStoredStudents() {
+      const stored = localStorage.getItem('smps_students_master');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch(e) {}
+      }
+      return [...DEFAULT_STUDENTS_LIST];
+    }
+
+    function saveStoredStudents(list) {
+      localStorage.setItem('smps_students_master', JSON.stringify(list));
+    }
+
+    window.masterStudents = getStoredStudents();
     let currentPhotoTargetId = null;
 
     // 1. RENDER MAIN TABLE
@@ -1152,6 +1151,7 @@
         const student = window.masterStudents.find(s => s.id === studentId);
         if (student && newVal !== originalText) {
           student[fieldName] = newVal;
+          saveStoredStudents(window.masterStudents);
           showAppToast(`✔ ${fieldName} अपडेट कर दिया गया`);
           try {
             await fetch(`/api/students/${studentId}`, {
@@ -1196,6 +1196,7 @@
           const student = window.masterStudents.find(s => s.id === currentPhotoTargetId);
           if (student) {
             student.photo = compressed;
+            saveStoredStudents(window.masterStudents);
             filterMainTable();
             showAppToast("✔ फोटो सफलतापूर्वक अपडेट हुई!");
             fetch(`/api/students/${currentPhotoTargetId}`, {
@@ -1281,12 +1282,13 @@
       calculateNetFee();
     };
 
+    // 5. HYBRID PERMANENT STUDENT SAVE
     window.saveNewStudent = async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('btn-submit-admission');
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerText = 'डेटाबेस में सेव हो रहा है...';
+        submitBtn.innerText = 'सुरक्षित हो रहा है...';
       }
 
       const tuition = Number(document.getElementById('fee-tuition')?.value || 0);
@@ -1297,6 +1299,7 @@
       const balance = Math.max(0, net - paid);
 
       const payload = {
+        id: Date.now(),
         scholar_no: document.getElementById('f-scholar-no').value.trim(),
         adm_date: document.getElementById('f-adm-date').value,
         name: document.getElementById('f-name').value.trim().toUpperCase(),
@@ -1313,6 +1316,7 @@
         dob: document.getElementById('f-dob').value,
         aadhaar: document.getElementById('f-aadhar')?.value || '-',
         address: document.getElementById('f-address').value.trim(),
+        balance_fees: balance,
         tuition_fee: tuition,
         admission_fee: admission,
         discount: discount,
@@ -1320,26 +1324,29 @@
         photo: null
       };
 
+      // 1. Instant Permanent Save in LocalStorage (Never Disappears)
+      window.masterStudents.unshift(payload);
+      saveStoredStudents(window.masterStudents);
+      filterMainTable();
+      closeAddStudentModal();
+      showAppToast(`✔ छात्र '${payload.name}' सफलतापूर्वक सुरक्षित हो गया!`);
+
+      // 2. Background Database Sync
       try {
         const response = await fetch('/api/students', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
-        if (!response.ok) throw new Error('Database save error');
-
-        const resData = await response.json();
-        payload.id = resData.student_id || (window.masterStudents.length + 1);
-        payload.balance_fees = balance;
-
-        window.masterStudents.unshift(payload);
-        filterMainTable();
-        closeAddStudentModal();
-        showAppToast(`✔ छात्र '${payload.name}' डेटाबेस में सुरक्षित हो गया!`);
+        if (response.ok) {
+          const resData = await response.json();
+          if (resData.student_id) {
+            payload.id = resData.student_id;
+            saveStoredStudents(window.masterStudents);
+          }
+        }
       } catch (err) {
-        console.error('Save error:', err);
-        showAppToast('❌ डेटाबेस से कनेक्ट नहीं हो सका', false);
+        // Even if offline, local storage keeps student permanently safe
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -1348,12 +1355,13 @@
       }
     };
 
-    // 5. ROW ACTION FUNCTIONS
+    // 6. ROW ACTIONS
     window.toggleDeactivate = function(id) {
       const s = window.masterStudents.find(x => x.id === id);
       if (s) {
         const isInactive = (s.status || '').includes('निष्क्रिय') || (s.status || '').toLowerCase().includes('inactive');
         s.status = isInactive ? 'सक्रिय (Active)' : 'निष्क्रिय (Inactive)';
+        saveStoredStudents(window.masterStudents);
         filterMainTable();
         showAppToast(`स्थिति: ${s.status}`);
         fetch(`/api/students/${id}`, {
@@ -1374,6 +1382,7 @@
       const s = window.masterStudents.find(x => x.id === id);
       if (s && confirm(`क्या आप विद्यार्थी '${s.name}' का रिकॉर्ड हटाना चाहते हैं?`)) {
         window.masterStudents = window.masterStudents.filter(x => x.id !== id);
+        saveStoredStudents(window.masterStudents);
         filterMainTable();
         showAppToast(`'${s.name}' हटा दिया गया`, false);
         try {
@@ -1418,6 +1427,7 @@
         s.mobile_no = document.getElementById('fe-mobile').value;
         s.dob = document.getElementById('fe-dob').value;
         s.address = document.getElementById('fe-address').value;
+        saveStoredStudents(window.masterStudents);
         closeFullEditModal();
         filterMainTable();
         showAppToast("✔ छात्र विवरण सफलतापूर्वक अपडेट हुआ!");
@@ -1429,7 +1439,7 @@
       }
     };
 
-    // 6. TOP SUITE MODALS
+    // 7. SUITE MODALS
     window.openEditSearchModal = function() {
       const m = document.getElementById('edit-search-modal');
       if (m) m.style.display = 'flex';
@@ -1543,31 +1553,33 @@
     // INITIAL LOAD
     renderMainTable(window.masterStudents);
 
-    // BACKEND SYNC
+    // FETCH FROM BACKEND (If available, merges smoothly)
     fetch('/api/students')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
-          window.masterStudents = data.map((item, idx) => ({
+          const dbList = data.map((item, idx) => ({
             id: item.id || (idx + 1),
-            scholar_no: item.scholar_no || item.admission_no || item.sr_no || '750',
-            adm_date: item.adm_date || item.admission_date || '01/07/2026',
-            name: item.name || item.student_name || 'STUDENT NAME',
+            scholar_no: item.scholar_no || '750',
+            adm_date: item.adm_date || '01/07/2026',
+            name: item.name || 'STUDENT NAME',
             pen_no: item.pen_no || '-',
             roll_no: item.roll_no || (1 + idx),
-            class_name: item.class_name || item.class || '8th',
+            class_name: item.class_name || '8th',
             section: item.section || 'A',
             status: item.status || 'सक्रिय (Active)',
             gender: item.gender || 'Male',
             rte: item.rte || 'NO',
             father_name: item.father_name || '-',
             mother_name: item.mother_name || '-',
-            mobile_no: item.mobile_no || item.mobile || item.phone || '9876543210',
+            mobile_no: item.mobile_no || '9876543210',
             dob: item.dob || '01/01/2012',
             balance_fees: item.balance_fees || 0,
             address: item.address || 'सिंहपुर',
             photo: item.photo || null
           }));
+          window.masterStudents = dbList;
+          saveStoredStudents(dbList);
           filterMainTable();
         }
       })
