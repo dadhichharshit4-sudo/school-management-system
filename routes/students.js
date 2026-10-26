@@ -39,7 +39,7 @@ module.exports = function(pool) {
     }
   });
 
-  // 2. INSERT NEW STUDENT & LINK FEES
+  // 2. PERMANENT STUDENT & FEES INSERTION
   router.post('/', async (req, res) => {
     const client = await pool.connect();
     try {
@@ -70,7 +70,6 @@ module.exports = function(pool) {
         initial_paid
       } = req.body;
 
-      // 1. Insert into students table
       const studentInsertQuery = `
         INSERT INTO students (
           scholar_no, admission_date, name, pen_no, roll_no, 
@@ -106,7 +105,7 @@ module.exports = function(pool) {
       const studentRes = await client.query(studentInsertQuery, studentValues);
       const newStudentId = studentRes.rows[0].id;
 
-      // 2. Calculate Fees permanently
+      // Fees Calculation & Permanent Entry
       const tFee = Number(tuition_fee || 0);
       const aFee = Number(admission_fee || 0);
       const disc = Number(discount || 0);
@@ -114,7 +113,6 @@ module.exports = function(pool) {
       const totalFees = Math.max(0, (tFee + aFee) - disc);
       const balanceFees = Math.max(0, totalFees - paid);
 
-      // 3. Insert into fees table so it appears in Fees Hub & SMS
       await client.query(`
         INSERT INTO fees (student_id, total_fees, paid_fees, balance_fees, status)
         VALUES ($1, $2, $3, $4, $5)
@@ -130,6 +128,51 @@ module.exports = function(pool) {
       res.status(500).json({ error: 'Failed to permanently save student' });
     } finally {
       client.release();
+    }
+  });
+
+  // 3. UPDATE STUDENT BY ID
+  router.put('/:id', async (req, res) => {
+    try {
+      const studentId = req.params.id;
+      const fields = req.body;
+      const setClauses = [];
+      const values = [];
+      let paramIndex = 1;
+
+      for (const [key, val] of Object.entries(fields)) {
+        if (key !== 'id') {
+          setClauses.push(`${key} = $${paramIndex}`);
+          values.push(val);
+          paramIndex++;
+        }
+      }
+
+      if (setClauses.length === 0) {
+        return res.status(400).json({ error: 'No fields to update' });
+      }
+
+      values.push(studentId);
+      const query = `UPDATE students SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`;
+      const result = await pool.query(query, values);
+
+      res.json({ success: true, student: result.rows[0] });
+    } catch (err) {
+      console.error('Update student error:', err);
+      res.status(500).json({ error: 'Failed to update student' });
+    }
+  });
+
+  // 4. DELETE STUDENT BY ID
+  router.delete('/:id', async (req, res) => {
+    try {
+      const studentId = req.params.id;
+      await pool.query('DELETE FROM fees WHERE student_id = $1', [studentId]);
+      await pool.query('DELETE FROM students WHERE id = $1', [studentId]);
+      res.json({ success: true, message: 'Student deleted successfully' });
+    } catch (err) {
+      console.error('Delete student error:', err);
+      res.status(500).json({ error: 'Failed to delete student' });
     }
   });
 
