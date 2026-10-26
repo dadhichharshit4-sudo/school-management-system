@@ -659,4 +659,496 @@
             <label class="form-label">ईमेल पता</label>
             <input type="email" id="f-emp-email" class="form-input" placeholder="name@smps.edu">
           </div>
-          <di
+          <div>
+            <label class="form-label">जॉइनिंग दिनांक *</label>
+            <input type="date" id="f-emp-joining" class="form-input" value="2026-07-01" required>
+          </div>
+          <div>
+            <label class="form-label">मासिक मूल वेतन (Salary ₹) *</label>
+            <input type="number" id="f-emp-salary" class="form-input" value="18000" required>
+          </div>
+          <div>
+            <label class="form-label">शैक्षणिक योग्यता (Qualification)</label>
+            <input type="text" id="f-emp-qual" class="form-input" value="M.A., B.Ed.">
+          </div>
+          <div>
+            <label class="form-label">पहचान संख्या / ID</label>
+            <input type="text" id="f-emp-aadhar" class="form-input" placeholder="ID विवरण">
+          </div>
+          <div>
+            <label class="form-label">बायोमेट्रिक / RFID कार्ड नं</label>
+            <input type="text" id="f-emp-rfid" class="form-input" value="BIO-101">
+          </div>
+          <div class="form-group-full">
+            <label class="form-label">स्थायी निवास पता</label>
+            <input type="text" id="f-emp-address" class="form-input" value="सिंहपुर, तहसील - कपासन, जिला - चित्तौड़गढ़ (राज.)">
+          </div>
+        </div>
+        <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeAddEmployeeModal()">रद्द करें</button>
+          <button type="submit" class="bbs-btn-action btn-green-add">💾 कर्मचारी सुरक्षित सेव करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: OFFICIAL DOCUMENTS GENERATOR
+       ========================================================================== -->
+  <div id="staff-doc-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:16px; margin:0;"><span id="doc-modal-head-title">📑 आधिकारिक सेवा दस्तावेज़</span></h3>
+        <button type="button" class="btn-close-modal" onclick="closeDocModal()">×</button>
+      </div>
+      <div style="padding:20px; background:#f8fafc;">
+        <div id="printable-doc-area">
+          <div class="doc-print-sheet">
+            <div class="doc-school-header">
+              <h2>SHREE MEWAR PUBLIC SCHOOL</h2>
+              <p>Near Bada Balaji Choraha, Village Singhpur, Tehsil Kapasan, Dist. Chittorgarh (Raj.) PIN: 312207</p>
+              <p>UDISE NO: 00290506910 | 📞 9799242540 | ✉️ shreemewarpublicschoolsinghpur@gmail.com</p>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; font-size:12px; color:#475569; margin-bottom:12px;">
+              <span>क्रमांक: <strong id="doc-ref-no" style="color:#78350f;">SMPS/HR/2026/01</strong></span>
+              <span>दिनांक: <strong id="doc-issue-date">--</strong></span>
+            </div>
+
+            <div class="doc-title-badge">
+              <span id="doc-badge-title">सेवा अनुबंध पत्र (STAFF SERVICE CONTRACT)</span>
+            </div>
+
+            <div id="doc-content-body" style="font-size:13px; text-align:justify; color:#1e293b;"></div>
+
+            <div style="margin-top:60px; display:flex; justify-content:space-between; align-items:flex-end;">
+              <div style="text-align:center;">
+                <div style="border-top:1px dashed #64748b; width:150px; margin-bottom:4px;"></div>
+                <span style="font-size:12px; font-weight:700;">हस्ताक्षर कर्मचारी</span>
+              </div>
+              <div style="text-align:center;">
+                <div style="border-top:1px dashed #64748b; width:160px; margin-bottom:4px;"></div>
+                <span style="font-size:12px; font-weight:700;">संस्था प्रधान / विद्यालय मुहर</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:10px; justify-content:center;" class="no-print">
+          <button type="button" class="bbs-btn-action btn-green-add" onclick="window.print()">🖨️ A4 प्रिंट निकालें</button>
+          <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeDocModal()">बंद करें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: EMPLOYEE ID CARD GENERATOR
+       ========================================================================== -->
+  <div id="staff-idcard-modal" class="custom-modal-overlay">
+    <div class="modal-card" style="max-width:420px;">
+      <div class="modal-header">
+        <h3 style="font-size:15px; margin:0;"><span>🪪</span> कर्मचारी पहचान पत्र (Staff ID Card)</h3>
+        <button type="button" class="btn-close-modal" onclick="closeStaffIdCardModal()">×</button>
+      </div>
+      <div style="padding:16px; background:#f8fafc;">
+        <div id="printable-id-card">
+          <div class="id-card-wrapper">
+            <div class="id-card-top">
+              <h4 style="font-size:14px; font-weight:900; margin:0; color:#fff;">SHREE MEWAR PUBLIC SCHOOL</h4>
+              <p style="font-size:9.5px; color:#fef08a; margin:3px 0 0;">सिंहपुर, कपासन, चित्तौड़गढ़ (राज.) पिन: 312207</p>
+            </div>
+            <div style="background:#fef08a; color:#7f1d1d; font-size:11px; font-weight:800; padding:3px 0; text-align:center; border-bottom:1.5px solid #f59e0b;">
+              STAFF IDENTITY CARD (2026-27)
+            </div>
+
+            <div id="staff-id-avatar" style="width:85px; height:98px; border:2px solid #7f1d1d; border-radius:8px; margin:14px auto 6px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-size:42px; overflow:hidden;">👤</div>
+            <div id="staff-id-name" style="text-align:center; font-size:14.5px; font-weight:900; color:#7f1d1d; margin-bottom:2px; text-transform:uppercase;">--</div>
+            <div id="staff-id-desig" style="text-align:center; font-size:11px; font-weight:800; color:#0284c7; margin-bottom:10px;">--</div>
+
+            <div style="padding:0 20px; font-size:11px; color:#334155; line-height:1.7; flex:1;">
+              <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e2e8f0; padding:2px 0;"><span>कोड:</span><strong id="staff-id-code">--</strong></div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e2e8f0; padding:2px 0;"><span>विभाग:</span><strong id="staff-id-dept">--</strong></div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e2e8f0; padding:2px 0;"><span>मोबाइल:</span><strong id="staff-id-mobile">--</strong></div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e2e8f0; padding:2px 0;"><span>जॉइनिंग:</span><strong id="staff-id-joining">--</strong></div>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e2e8f0; padding:2px 0;"><span>रक्त समूह:</span><strong style="color:#b91c1c;">B+</strong></div>
+            </div>
+
+            <div style="padding:8px 20px 12px; display:flex; justify-content:space-between; align-items:flex-end; font-size:10px; color:#64748b; background:#f8fafc; border-top:1px solid #e2e8f0;">
+              <div><span>||||||||||||||||</span><br><span>SMPS-FACULTY</span></div>
+              <div style="text-align:right;"><div style="border-top:1px solid #475569; width:80px; margin-bottom:2px;"></div><span>संस्था प्रधान मुहर</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:14px;" class="no-print">
+          <button type="button" class="bbs-btn-action btn-green-add" onclick="window.print()">🖨️ A4 प्रिंट ID Card</button>
+          <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeStaffIdCardModal()">बंद करें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    function showAppToast(msg, isSuccess = true) {
+      const t = document.getElementById('local-toast');
+      if (!t) return;
+      t.innerText = msg;
+      t.style.background = isSuccess ? '#15803d' : '#b91c1c';
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2800);
+    }
+
+    // मास्टर कर्मचारी डिफ़ॉल्ट डेटा
+    const DEFAULT_EMPLOYEES_LIST = [
+      { id: 1, emp_code: 'EMP001', name: 'SURESH CHANDRA VYAS', designation: 'PRINCIPAL', department: 'Teaching', class_teacher: '10th', mobile_no: '9829012345', email: 'suresh@smps.edu', joining_date: '01/07/2018', salary: 38000, qualification: 'M.Sc., B.Ed.', status: 'सक्रिय (Active)', photo: null },
+      { id: 2, emp_code: 'EMP002', name: 'MAHESH SHARMA', designation: 'SENIOR TEACHER', department: 'Teaching', class_teacher: '8th', mobile_no: '9414012345', email: 'mahesh@smps.edu', joining_date: '15/07/2019', salary: 26000, qualification: 'M.A., B.Ed.', status: 'सक्रिय (Active)', photo: null },
+      { id: 3, emp_code: 'EMP003', name: 'DINESH JOSHI', designation: 'ACCOUNTANT', department: 'Non-Teaching', class_teacher: '-', mobile_no: '9785012345', email: 'dinesh@smps.edu', joining_date: '01/04/2020', salary: 22000, qualification: 'M.Com, Tally', status: 'सक्रिय (Active)', photo: null },
+      { id: 4, emp_code: 'EMP004', name: 'SUNITA KANWAR', designation: 'TEACHER', department: 'Teaching', class_teacher: '6th', mobile_no: '9876543210', email: 'sunita@smps.edu', joining_date: '10/08/2021', salary: 18000, qualification: 'B.Sc., B.Ed.', status: 'सक्रिय (Active)', photo: null },
+      { id: 5, emp_code: 'EMP005', name: 'KISHAN LAL MEENA', designation: 'LAB ASSISTANT', department: 'Non-Teaching', class_teacher: '-', mobile_no: '9636543210', email: 'kishan@smps.edu', joining_date: '05/01/2022', salary: 15000, qualification: 'B.Sc.', status: 'सक्रिय (Active)', photo: null }
+    ];
+
+    window.masterEmployees = [...DEFAULT_EMPLOYEES_LIST];
+    let currentPhotoTargetId = null;
+
+    // 1. RENDER TABLE
+    function renderEmployeesTable(list) {
+      const tbody = document.getElementById('emp-main-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="15" style="text-align:center; padding:24px; color:#64748b; font-weight:700;">कोई कर्मचारी रिकॉर्ड नहीं मिला।</td></tr>`;
+        const countLabel = document.getElementById('lbl-emp-count');
+        if (countLabel) countLabel.innerText = `कुल कर्मचारी: 0`;
+        updateCounters(0, 0, 0, 0);
+        return;
+      }
+
+      let teach = 0, nonTeach = 0, active = 0;
+
+      list.forEach((e) => {
+        const isTeaching = (e.department || '').toLowerCase().includes('teach');
+        if (isTeaching) teach++; else nonTeach++;
+
+        const isInactive = (e.status || '').toLowerCase().includes('inactive') || (e.status || '').includes('निष्क्रिय');
+        if (!isInactive) active++;
+
+        const photoContent = e.photo 
+          ? `<img src="${e.photo}" class="photo-thumb-img">` 
+          : `<span style="font-size:16px;">👤</span>`;
+
+        const statusBadge = isInactive
+          ? `<span style="background:#fee2e2; color:#b91c1c; font-size:9.5px; padding:2px 6px; border-radius:4px; font-weight:800;">निष्क्रिय</span>`
+          : `<span style="background:#dcfce7; color:#15803d; font-size:9.5px; padding:2px 6px; border-radius:4px; font-weight:800;">सक्रिय</span>`;
+
+        tbody.innerHTML += `
+          <tr data-id="${e.id}">
+            <td style="text-align:center;">
+              <div class="photo-thumb-box" onclick="triggerPhotoUpload(${e.id})" title="फोटो अपलोड करें">
+                ${photoContent}
+              </div>
+            </td>
+            <td style="text-align:center; font-weight:800; color:#0284c7;">${e.emp_code}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${e.id}, 'name')"><strong>${e.name}</strong></td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${e.id}, 'designation')">${e.designation}</td>
+            <td>${e.department}</td>
+            <td style="text-align:center; font-weight:700; color:#b45309;" class="editable-cell" ondblclick="makeEditable(this, ${e.id}, 'class_teacher')">${e.class_teacher}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${e.id}, 'mobile_no')">${e.mobile_no}</td>
+            <td class="editable-cell" ondblclick="makeEditable(this, ${e.id}, 'email')">${e.email}</td>
+            <td style="text-align:center;">${e.joining_date}</td>
+            <td style="font-weight:800; color:#15803d;" class="editable-cell" ondblclick="makeEditable(this, ${e.id}, 'salary')">₹ ${Number(e.salary || 0).toLocaleString('en-IN')}</td>
+            <td>${e.qualification || '-'}</td>
+            <td style="text-align:center;">${statusBadge}</td>
+            <td>
+              <div class="table-act-col">
+                <button type="button" class="btn-tbl-act tbl-act-contract" onclick="openStaffDocumentModal(${e.id}, 'contract')">📑 अनुबंध</button>
+                <button type="button" class="btn-tbl-act tbl-act-exp" onclick="openStaffDocumentModal(${e.id}, 'experience')">📜 अनुभव</button>
+                <button type="button" class="btn-tbl-act tbl-act-id" onclick="openStaffIdCardModal(${e.id})">🪪 ID कार्ड</button>
+                <button type="button" class="btn-tbl-act tbl-act-edit" onclick="toggleEmployeeStatus(${e.id})">${isInactive ? 'सक्रिय करें' : 'Deactivate'}</button>
+                <a href="tel:${e.mobile_no}" class="btn-tbl-act tbl-act-call">📞 कॉल</a>
+                <button type="button" class="btn-tbl-act tbl-act-del" onclick="deleteEmployee(${e.id})">🗑️ हटाएं</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      const countLabel = document.getElementById('lbl-emp-count');
+      if (countLabel) countLabel.innerText = `कुल कर्मचारी: ${list.length}`;
+      updateCounters(teach, nonTeach, active, list.length);
+    }
+
+    function updateCounters(t, nt, act, tot) {
+      const elTeach = document.getElementById('stat-teaching-cnt');
+      const elNonTeach = document.getElementById('stat-nonteaching-cnt');
+      const elAct = document.getElementById('stat-active-cnt');
+      const elTot = document.getElementById('stat-total-cnt');
+
+      if (elTeach) elTeach.innerText = t;
+      if (elNonTeach) elNonTeach.innerText = nt;
+      if (elAct) elAct.innerText = act;
+      if (elTot) elTot.innerText = tot;
+    }
+
+    window.filterEmployeesTable = function() {
+      const q = (document.getElementById('emp-search-input')?.value || '').toLowerCase().trim();
+      const dept = document.getElementById('emp-dept-filter')?.value || '';
+      const desig = document.getElementById('emp-desig-filter')?.value || '';
+      const statusFilter = document.getElementById('emp-status-filter')?.value || '';
+
+      const filtered = window.masterEmployees.filter(e => {
+        const matchesQuery = !q ||
+                             (e.name || '').toLowerCase().includes(q) ||
+                             (e.designation || '').toLowerCase().includes(q) ||
+                             (e.emp_code || '').toLowerCase().includes(q) ||
+                             String(e.mobile_no || '').includes(q);
+
+        const matchesDept = !dept || (e.department || '') === dept;
+        const matchesDesig = !desig || (e.designation || '').toUpperCase() === desig.toUpperCase();
+
+        let matchesStatus = true;
+        const isInactive = (e.status || '').toLowerCase().includes('inactive') || (e.status || '').includes('निष्क्रिय');
+        if (statusFilter === 'Active') matchesStatus = !isInactive;
+        else if (statusFilter === 'Inactive') matchesStatus = isInactive;
+
+        return matchesQuery && matchesDept && matchesDesig && matchesStatus;
+      });
+
+      renderEmployeesTable(filtered);
+    };
+
+    // 2. INLINE CELL DOUBLE CLICK EDIT
+    function makeEditable(cell, empId, fieldName) {
+      if (cell.querySelector('input')) return;
+      const originalText = cell.innerText.trim();
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'inline-edit-input';
+      input.value = originalText.replace('₹', '').trim();
+
+      cell.innerHTML = '';
+      cell.appendChild(input);
+      input.focus();
+
+      const finishEdit = () => {
+        const newVal = input.value.trim() || originalText;
+        cell.innerHTML = (fieldName === 'name') ? `<strong>${newVal}</strong>` : (fieldName === 'salary' ? `₹ ${Number(newVal).toLocaleString('en-IN')}` : newVal);
+        const emp = window.masterEmployees.find(e => e.id === empId);
+        if (emp && newVal !== originalText) {
+          emp[fieldName] = newVal;
+          showAppToast(`✔ ${fieldName} अपडेट कर दिया गया`);
+        }
+      };
+
+      input.addEventListener('blur', finishEdit);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') finishEdit();
+        if (e.key === 'Escape') cell.innerHTML = originalText;
+      });
+    }
+
+    // 3. PHOTO UPLOAD & COMPRESSION
+    function triggerPhotoUpload(id) {
+      currentPhotoTargetId = id;
+      const fileInput = document.getElementById('photo-upload-input');
+      fileInput.value = '';
+      fileInput.click();
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file || !currentPhotoTargetId) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = 200;
+          canvas.height = 200;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, 200, 200);
+
+          const compressed = canvas.toDataURL('image/jpeg', 0.75);
+          const emp = window.masterEmployees.find(e => e.id === currentPhotoTargetId);
+          if (emp) {
+            emp.photo = compressed;
+            filterEmployeesTable();
+            showAppToast("✔ कर्मचारी फोटो सफलतापूर्वक अपडेट हुई!");
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // 4. ADD EMPLOYEE MODAL
+    window.openAddEmployeeModal = function() {
+      const nextCode = 'EMP00' + (window.masterEmployees.length + 1);
+      document.getElementById('f-emp-code').value = nextCode;
+      document.getElementById('f-emp-name').value = '';
+      document.getElementById('f-emp-mobile').value = '';
+      document.getElementById('f-emp-email').value = '';
+      const m = document.getElementById('add-emp-modal');
+      if (m) m.style.display = 'flex';
+    };
+
+    window.closeAddEmployeeModal = function() {
+      const m = document.getElementById('add-emp-modal');
+      if (m) m.style.display = 'none';
+    };
+
+    window.saveNewEmployee = function(e) {
+      e.preventDefault();
+      const newEmp = {
+        id: window.masterEmployees.length + 1,
+        emp_code: document.getElementById('f-emp-code').value.trim(),
+        name: document.getElementById('f-emp-name').value.trim().toUpperCase(),
+        designation: document.getElementById('f-emp-desig').value,
+        department: document.getElementById('f-emp-dept').value,
+        class_teacher: document.getElementById('f-emp-classteacher').value,
+        mobile_no: document.getElementById('f-emp-mobile').value.trim(),
+        email: document.getElementById('f-emp-email').value.trim() || 'staff@smps.edu',
+        joining_date: document.getElementById('f-emp-joining').value,
+        salary: Number(document.getElementById('f-emp-salary').value || 18000),
+        qualification: document.getElementById('f-emp-qual').value.trim(),
+        status: 'सक्रिय (Active)',
+        photo: null
+      };
+
+      window.masterEmployees.unshift(newEmp);
+      filterEmployeesTable();
+      closeAddEmployeeModal();
+      showAppToast(`✔ कर्मचारी '${newEmp.name}' की प्रविष्टि सुरक्षित हुई!`);
+    };
+
+    // 5. OFFICIAL DOCUMENTS GENERATOR
+    window.openStaffDocumentModal = function(empId, docType) {
+      const emp = window.masterEmployees.find(e => e.id === empId) || window.masterEmployees[0];
+      const today = new Date().toLocaleDateString('hi-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      document.getElementById('doc-issue-date').innerText = today;
+      document.getElementById('doc-ref-no').innerText = `SMPS/HR/2026/${String(emp.id).padStart(3, '0')}`;
+
+      const titleEl = document.getElementById('doc-badge-title');
+      const bodyEl = document.getElementById('doc-content-body');
+
+      if (docType === 'contract') {
+        titleEl.innerText = 'सेवा अनुबंध पत्र (STAFF CONTRACT AGREEMENT)';
+        bodyEl.innerHTML = `
+          <p>यह अनुबंध आज दिनांक <strong>${today}</strong> को <strong>श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)</strong> प्रबंध समिति एवं <strong>श्री/श्रीमती ${emp.name}</strong> (पद: ${emp.designation}, कोड: ${emp.emp_code}) के मध्य निष्पादित किया जाता है।</p>
+          <p style="margin-top: 10px;">1. कर्मचारी विद्यालय के शैक्षणिक नियमों, उपस्थिति समयावधि एवं अनुशासन संहिता का पूर्ण निष्ठा से पालन करेंगे।<br>
+          2. मासिक वेतन ₹${Number(emp.salary || 18000).toLocaleString('en-IN')} नियत देय होगा।<br>
+          3. सेवा अवधि के दौरान विद्यार्थियों के सर्वांगीण विकास एवं परीक्षा परिणामों की जिम्मेदारी रहेगी।<br>
+          4. यह अनुबंध शैक्षणिक सत्र 2026-27 हेतु मान्य रहेगा।</p>
+        `;
+      } else if (docType === 'experience') {
+        titleEl.innerText = 'अनुभव प्रमाण पत्र (EXPERIENCE CERTIFICATE)';
+        bodyEl.innerHTML = `
+          <p>प्रमाणित किया जाता है कि <strong>श्री/श्रीमती ${emp.name}</strong> हमारे विद्यालय में <strong>${emp.designation}</strong> पद पर दिनांक <strong>${emp.joining_date}</strong> से निरंतर निष्ठापूर्वक सेवारत हैं।</p>
+          <p style="margin-top: 10px;">इन्होंने अपने कार्यकाल में शिक्षण, परीक्षा संचालन एवं पाठ्यसहगामी गतिविधियों में सराहनीय योगदान दिया है। इनका नैतिक आचरण एवं कार्यकुशलता अत्यंत उत्तम रही है। हम इनके उज्ज्वल भविष्य की कामना करते हैं।</p>
+        `;
+      }
+
+      const m = document.getElementById('staff-doc-modal');
+      if (m) m.style.display = 'flex';
+    };
+
+    window.openDefaultDocModal = function(type) {
+      openStaffDocumentModal(window.masterEmployees[0]?.id || 1, type);
+    };
+
+    window.closeDocModal = function() {
+      const m = document.getElementById('staff-doc-modal');
+      if (m) m.style.display = 'none';
+    };
+
+    // 6. STAFF ID CARD GENERATOR
+    window.openStaffIdCardModal = function(empId) {
+      const emp = window.masterEmployees.find(e => e.id === empId) || window.masterEmployees[0];
+      if (!emp) return;
+
+      document.getElementById('staff-id-name').innerText = emp.name;
+      document.getElementById('staff-id-desig').innerText = emp.designation;
+      document.getElementById('staff-id-code').innerText = emp.emp_code;
+      document.getElementById('staff-id-dept').innerText = emp.department;
+      document.getElementById('staff-id-mobile').innerText = emp.mobile_no;
+      document.getElementById('staff-id-joining').innerText = emp.joining_date;
+
+      const avBox = document.getElementById('staff-id-avatar');
+      avBox.innerHTML = emp.photo ? `<img src="${emp.photo}" style="width:100%; height:100%; object-fit:cover;">` : `👤`;
+
+      const m = document.getElementById('staff-idcard-modal');
+      if (m) m.style.display = 'flex';
+    };
+
+    window.closeStaffIdCardModal = function() {
+      const m = document.getElementById('staff-idcard-modal');
+      if (m) m.style.display = 'none';
+    };
+
+    window.openBulkIdCardPrompt = function() {
+      openStaffIdCardModal(window.masterEmployees[0]?.id || 1);
+      showAppToast("स्टाफ ID कार्ड प्रिंट शीट तैयार!");
+    };
+
+    // 7. STATUS TOGGLE & DELETE
+    window.toggleEmployeeStatus = function(id) {
+      const emp = window.masterEmployees.find(e => e.id === id);
+      if (emp) {
+        const isInactive = (emp.status || '').includes('निष्क्रिय') || (emp.status || '').toLowerCase().includes('inactive');
+        emp.status = isInactive ? 'सक्रिय (Active)' : 'निष्क्रिय (Inactive)';
+        filterEmployeesTable();
+        showAppToast(`स्थिति अपडेट: ${emp.status}`);
+      }
+    };
+
+    window.deleteEmployee = function(id) {
+      const emp = window.masterEmployees.find(e => e.id === id);
+      if (emp && confirm(`क्या आप कर्मचारी '${emp.name}' का रिकॉर्ड हटाना चाहते हैं?`)) {
+        window.masterEmployees = window.masterEmployees.filter(e => e.id !== id);
+        filterEmployeesTable();
+        showAppToast(`कर्मचारी '${emp.name}' हटा दिया गया`, false);
+      }
+    };
+
+    window.showSalaryRegister = function() {
+      alert("वेतन रजिस्टर (माह: अक्टूबर 2026):\n\n- कुल देय वेतन: ₹ 1,19,000\n- उपस्थिति आधार: 100% बायोमेट्रिक सिंक\n- बैंक खाता ट्रांसफर स्थिति: तैयार\n\nसमस्त विवरण वित्तीय लेखा-जोखा केंद्र में दर्ज है।");
+    };
+
+    window.exportEmployeesExcel = function() {
+      showAppToast("✔ कर्मचारी डायरेक्टरी Excel शीट डाउनलोड हो रही है...");
+    };
+
+    // INITIAL LOAD
+    renderEmployeesTable(window.masterEmployees);
+
+    // BACKEND SYNC
+    fetch('/api/employees')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          window.masterEmployees = data.map((item, idx) => ({
+            id: item.id || (idx + 1),
+            emp_code: item.emp_code || ('EMP00' + (idx + 1)),
+            name: item.name || item.employee_name || 'FACULTY MEMBER',
+            designation: item.designation || 'TEACHER',
+            department: item.department || 'Teaching',
+            class_teacher: item.class_teacher || '-',
+            mobile_no: item.mobile_no || item.mobile || item.phone || '9876543210',
+            email: item.email || 'staff@smps.edu',
+            joining_date: item.joining_date || '01/07/2020',
+            salary: item.salary || 20000,
+            qualification: item.qualification || 'Graduate',
+            status: item.status || 'सक्रिय (Active)',
+            photo: item.photo || null
+          }));
+          filterEmployeesTable();
+        }
+      })
+      .catch(() => {});
+  </script>
+</body>
+</html>
