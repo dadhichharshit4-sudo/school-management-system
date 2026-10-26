@@ -3,7 +3,7 @@ const express = require('express');
 module.exports = function(pool) {
   const router = express.Router();
 
-  // 1. GET ALL STUDENTS
+  // 1. GET ALL STUDENTS WITH FEES
   router.get('/', async (req, res) => {
     try {
       const result = await pool.query(`
@@ -39,7 +39,7 @@ module.exports = function(pool) {
     }
   });
 
-  // 2. CREATE NEW STUDENT (WITH PERMANENT FEES INSERTION)
+  // 2. INSERT NEW STUDENT & LINK FEES
   router.post('/', async (req, res) => {
     const client = await pool.connect();
     try {
@@ -70,7 +70,7 @@ module.exports = function(pool) {
         initial_paid
       } = req.body;
 
-      // Insert Student
+      // 1. Insert into students table
       const studentInsertQuery = `
         INSERT INTO students (
           scholar_no, admission_date, name, pen_no, roll_no, 
@@ -106,7 +106,7 @@ module.exports = function(pool) {
       const studentRes = await client.query(studentInsertQuery, studentValues);
       const newStudentId = studentRes.rows[0].id;
 
-      // Calculate Fees
+      // 2. Calculate Fees permanently
       const tFee = Number(tuition_fee || 0);
       const aFee = Number(admission_fee || 0);
       const disc = Number(discount || 0);
@@ -114,7 +114,7 @@ module.exports = function(pool) {
       const totalFees = Math.max(0, (tFee + aFee) - disc);
       const balanceFees = Math.max(0, totalFees - paid);
 
-      // Insert into Fees table permanently
+      // 3. Insert into fees table so it appears in Fees Hub & SMS
       await client.query(`
         INSERT INTO fees (student_id, total_fees, paid_fees, balance_fees, status)
         VALUES ($1, $2, $3, $4, $5)
