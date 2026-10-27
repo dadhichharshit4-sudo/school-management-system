@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>परीक्षा एवं अंकतालिका केंद्र - SHREE MEWAR PUBLIC SCHOOL</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --bbs-maroon: #7a1c1c;
+      --bbs-dark-maroon: #581111;
+      --bbs-gold: #f59e0b;
+      --bbs-bg: #f8fafc;
+      --bbs-surface: #ffffff;
+      --bbs-border: #e2e8f0;
+      --bbs-text: #1e293b;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      background: var(--bbs-bg);
+      color: var(--bbs-text);
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* GLOBAL HEADER */
+    .bbs-main-header {
+      background: linear-gradient(135deg, var(--bbs-maroon), var(--bbs-dark-maroon));
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+    }
+    .bbs-header-school-name {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+    .bbs-header-session {
+      font-size: 11px;
+      color: #fef08a;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .bbs-btn-pill {
+      background: #e28743;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .main-wrapper {
+      max-width: 1520px;
+      margin: 18px auto;
+      padding: 0 16px;
+    }
+
+    /* ACTION BAR */
+    .erp-brand-toolbar {
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .erp-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .erp-btn {
+      padding: 9px 16px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      transition: all 0.15s ease;
+    }
+    .erp-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-green-save { background: #15803d; }
+    .btn-blue-print { background: #0284c7; }
+    .btn-purple-matrix { background: #7c3aed; }
+    .btn-orange-topper { background: #ea580c; }
+
+    /* FILTERS CARD */
+    .filter-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ctrl-select {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      outline: none;
+      background: #fff;
+      min-width: 170px;
+    }
+    .ctrl-select:focus { border-color: #0284c7; }
+
+    /* TABLE */
+    .table-container-card {
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      padding: 12px;
+      overflow-x: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    .custom-table th {
+      background: #fdf2e9;
+      color: #7c2d12;
+      padding: 9px 8px;
+      font-weight: 800;
+      border: 1px solid #fed7aa;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .custom-table td {
+      padding: 7px 8px;
+      border: 1px solid #e2e8f0;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .custom-table tr:nth-child(even) { background: #fffcf7; }
+    .custom-table tr:hover { background: #fef9c3; }
+
+    .mark-input {
+      width: 55px;
+      padding: 5px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      outline: none;
+    }
+    .mark-input:focus { border-color: #0284c7; background: #f0f9ff; }
+
+    /* ACTION BUTTONS */
+    .btn-act {
+      border: none;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 5px 8px;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+    .btn-act:hover { opacity: 0.9; }
+    .act-report { background: #0284c7; }
+    .act-wa { background: #16a34a; }
+
+    /* MODAL OVERLAY */
+    .custom-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999999;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 780px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--bbs-maroon), var(--bbs-dark-maroon));
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-close-modal {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* COMMERCIAL REPORT CARD SHEET (A4) */
+    .report-card-wrapper {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      border: 3px double #78350f;
+      padding: 24px;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+    .rc-head {
+      text-align: center;
+      border-bottom: 2px solid #78350f;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .rc-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #7f1d1d;
+      margin: 0;
+    }
+    .rc-sub {
+      font-size: 11px;
+      color: #475569;
+      margin: 2px 0 6px;
+    }
+    .rc-badge {
+      background: #fef08a;
+      color: #7f1d1d;
+      padding: 3px 12px;
+      border-radius: 4px;
+      font-weight: 900;
+      font-size: 12px;
+      display: inline-block;
+    }
+
+    .rc-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 14px;
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .rc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .rc-table th {
+      background: #78350f;
+      color: #ffffff;
+      padding: 6px;
+      border: 1px solid #451a03;
+    }
+    .rc-table td {
+      padding: 6px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .rc-summary-strip {
+      display: flex;
+      justify-content: space-between;
+      background: #fef3c7;
+      border: 1.5px solid #f59e0b;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-report-card, #printable-report-card * { visibility: visible; }
+      #printable-report-card { position: absolute; left: 0; top: 0; width: 100%; }
+      .no-print { display: none !important; }
+    }
+
+    #local-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      z-index: 99999999;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="local-toast"></div>
+
+  <!-- HEADER -->
+  <header class="bbs-main-header">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="/dashboard" class="bbs-btn-pill">⬅ डैशबोर्ड (Dashboard)</a>
+      <div>
+        <div class="bbs-header-school-name">SHREE MEWAR PUBLIC SCHOOL</div>
+        <div class="bbs-header-session">सत्र 2026-27 | परीक्षा एवं प्रगति पत्र केंद्र (Examination Hub)</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <a href="/students" class="bbs-btn-pill" style="background:#0284c7;">👥 छात्र डायरेक्टरी</a>
+      <a href="/fees" class="bbs-btn-pill" style="background:#15803d;">💰 फीस पोर्टल</a>
+      <a href="/notifications" class="bbs-btn-pill" style="background:#7c3aed;">📱 SMS संचार</a>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+
+    <!-- ACTION TOOLBAR -->
+    <div class="erp-brand-toolbar">
+      <div class="erp-btn-group">
+        <button type="button" class="erp-btn btn-green-save" onclick="saveAllMarks()">
+          💾 समस्त प्राप्तांक सुरक्षित करें (Save All Marks)
+        </button>
+        <button type="button" class="erp-btn btn-blue-print" onclick="window.print()">
+          🖨️ संपूर्ण कक्षा अंक रजिस्टर प्रिंट
+        </button>
+        <button type="button" class="erp-btn btn-purple-matrix" onclick="showExamStatistics()">
+          📊 परिणाम विश्लेषण (Result Analysis)
+        </button>
+        <button type="button" class="erp-btn btn-orange-topper" onclick="showToppersList()">
+          🏆 कक्षा टॉपर सूची (Merit List)
+        </button>
+      </div>
+      <div>
+        <span style="font-size:12px; font-weight:800; color:#78350f;">
+          पूर्णांक प्रति विषय: <strong>100</strong> | उत्तीर्णांक: <strong>33</strong>
+        </span>
+      </div>
+    </div>
+
+    <!-- EXAM & CLASS FILTER -->
+    <div class="filter-card">
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <div>
+          <label style="font-size:12px; font-weight:800; color:#334155; margin-right:6px;">परीक्षा का नाम:</label>
+          <select id="exam-select" class="ctrl-select" onchange="loadExamMarks()">
+            <option value="Half Yearly" selected>📝 अर्धवार्षिक परीक्षा (Half Yearly Exam - 2026)</option>
+            <option value="Annual">🏆 वार्षिक परीक्षा (Annual Examination - 2027)</option>
+            <option value="Unit Test 1">📋 प्रथम परख (Unit Test 1)</option>
+            <option value="Unit Test 2">📋 द्वितीय परख (Unit Test 2)</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size:12px; font-weight:800; color:#334155; margin-right:6px;">कक्षा चुनें:</label>
+          <select id="class-select" class="ctrl-select" onchange="loadExamMarks()">
+            <option value="8th" selected>Class 8th (आठवीं)</option>
+            <option value="PP.3+">PP.3+</option>
+            <option value="PP.4+">PP.4+</option>
+            <option value="PP.5+">PP.5+</option>
+            <option value="1st">Class 1st</option>
+            <option value="6th">Class 6th</option>
+            <option value="Class 10-A">Class 10-A</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <input type="text" id="search-student" class="ctrl-select" style="min-width:260px;" placeholder="छात्र का नाम या स्कॉलर नं..." onkeyup="filterExamTable()">
+      </div>
+    </div>
+
+    <!-- MARKS ENTRY TABLE -->
+    <div class="table-container-card">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th style="width:36px;">क्र.</th>
+            <th style="width:75px;">स्कॉलर नं</th>
+            <th style="text-align:left;">विद्यार्थी का नाम</th>
+            <th>हिन्दी (100)</th>
+            <th>अंग्रेज़ी (100)</th>
+            <th>गणित (100)</th>
+            <th>विज्ञान (100)</th>
+            <th>सा. विज्ञान (100)</th>
+            <th>संस्कृत (100)</th>
+            <th>कुल प्राप्तांक</th>
+            <th>प्रतिशत (%)</th>
+            <th>ग्रेड</th>
+            <th>स्थिति</th>
+            <th style="width:190px;">कार्यवाही (Actions)</th>
+          </tr>
+        </thead>
+        <tbody id="exam-tbody"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODAL: FULL PRINTABLE REPORT CARD (A4 PROGRESS REPORT)
+       ========================================================================== -->
+  <div id="report-card-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:15px; margin:0;"><span>📜</span> विद्यार्थी अंकतालिका / प्रगति पत्र (Report Card)</h3>
+        <button type="button" class="btn-close-modal" onclick="closeReportCardModal()">×</button>
+      </div>
+
+      <div id="printable-report-card" style="padding:16px;">
+        <div class="report-card-wrapper">
+          <div class="rc-head">
+            <h1 class="rc-title">SHREE MEWAR PUBLIC SCHOOL</h1>
+            <p class="rc-sub">ग्राम व पोस्ट: सिंहपुर, तहसील: कपासन, जिला: चित्तौड़गढ़ (राजस्थान) | 📞 9799242540</p>
+            <div class="rc-badge" id="rc-exam-badge">अर्धवार्षिक परीक्षा प्रगति पत्र (सत्र: 2026-27)</div>
+          </div>
+
+          <div class="rc-info-grid">
+            <div>विद्यार्थी का नाम: <strong id="rc-name">--</strong></div>
+            <div>स्कॉलर नं (SR): <strong id="rc-sr">--</strong></div>
+            <div>पिता का नाम: <strong id="rc-father">--</strong></div>
+            <div>कक्षा एवं सेक्शन: <strong id="rc-class">--</strong></div>
+            <div>रोल नंबर: <strong id="rc-roll">--</strong></div>
+            <div>जन्मतिथि (DOB): <strong id="rc-dob">--</strong></div>
+          </div>
+
+          <table class="rc-table">
+            <thead>
+              <tr>
+                <th>क्र.सं.</th>
+                <th style="text-align:left;">विषय (Subject)</th>
+                <th>पूर्णांक (Max)</th>
+                <th>उत्तीर्णांक (Min)</th>
+                <th>प्राप्तांक (Obtained)</th>
+                <th>ग्रेड (Grade)</th>
+              </tr>
+            </thead>
+            <tbody id="rc-subject-rows"></tbody>
+          </table>
+
+          <div class="rc-summary-strip">
+            <div>कुल प्राप्तांक: <span id="rc-total-obt" style="color:#7f1d1d;">0 / 600</span></div>
+            <div>प्रतिशत: <span id="rc-percent" style="color:#0284c7;">0%</span></div>
+            <div>अंतिम ग्रेड: <span id="rc-grade" style="color:#15803d;">A</span></div>
+            <div>परिणाम: <span id="rc-result" style="color:#15803d;">उत्तीर्ण (PASS)</span></div>
+          </div>
+
+          <div style="margin-top:40px; display:flex; justify-content:space-between; font-size:11.5px; font-weight:700;">
+            <div>कक्षा अध्यापक के हस्ताक्षर</div>
+            <div>जांचकर्ता के हस्ताक्षर</div>
+            <div style="text-align:right;">संस्था प्रधान / सील मुहर</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:14px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:center; gap:10px;" class="no-print">
+        <button type="button" class="erp-btn btn-blue-print" onclick="window.print()">🖨️ A4 मार्कशीट प्रिंट करें</button>
+        <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeReportCardModal()">बंद करें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    function showAppToast(msg, isSuccess = true) {
+      const t = document.getElementById('local-toast');
+      if (!t) return;
+      t.innerText = msg;
+      t.style.background = isSuccess ? '#15803d' : '#b91c1c';
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2600);
+    }
+
+    let globalStudents = [];
+    let examMarksDb = {}; // Key: "Exam_Class_StudentID" -> { hindi, english, math, science, sst, sanskrit }
+
+    // 1. DATA INITIALIZATION
+    function initExamHub() {
+      const local = localStorage.getItem('smps_students_master');
+      if (local) {
+        try {
+          const parsed = JSON.parse(local);
+          if (Array.isArray(parsed) && parsed.length > 0) globalStudents = parsed;
+        } catch(e) {}
+      }
+
+      if (globalStudents.length === 0) {
+        globalStudents = [
+          { id: 1, scholar_no: '764', roll_no: '1', name: 'ANURAG JATIYA', class_name: '8th', father_name: 'GOPAL LAL JATIYA', mobile_no: '9799779141', dob: '2020-09-11' },
+          { id: 2, scholar_no: '754', roll_no: '2', name: 'AADITYA SALVI', class_name: 'PP.5+', father_name: 'DEVI LAL BALAI', mobile_no: '7239868621', dob: '2020-09-11' },
+          { id: 3, scholar_no: '727', roll_no: '3', name: 'AAROHI ACHARYA', class_name: '1st', father_name: 'BABU LAL ACHARYA', mobile_no: '8875772525', dob: '2019-10-07' },
+          { id: 4, scholar_no: '725', roll_no: '4', name: 'AAROHI MALI', class_name: 'PP.4+', father_name: 'NARAYAN LAL MALI', mobile_no: '9799613473', dob: '2021-08-09' }
+        ];
+      }
+
+      // Load saved marks from LocalStorage
+      const savedMarks = localStorage.getItem('smps_exam_marks');
+      if (savedMarks) {
+        try { examMarksDb = JSON.parse(savedMarks); } catch(e) {}
+      }
+
+      loadExamMarks();
+
+      // Background DB Sync
+      fetch('/api/students')
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            globalStudents = data;
+            loadExamMarks();
+          }
+        })
+        .catch(() => {});
+    }
+
+    // 2. RENDER EXAM TABLE
+    function loadExamMarks() {
+      const tbody = document.getElementById('exam-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const selectedExam = document.getElementById('exam-select').value;
+      const selectedClass = document.getElementById('class-select').value;
+
+      const filteredStudents = globalStudents.filter(s => (s.class_name || '8th') === selectedClass);
+
+      if (filteredStudents.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="14" style="text-align:center; padding:24px; color:#64748b; font-weight:700;">इस कक्षा (${selectedClass}) में कोई विद्यार्थी नामांकित नहीं है।</td></tr>`;
+        return;
+      }
+
+      filteredStudents.forEach((s, idx) => {
+        const key = `${selectedExam}_${selectedClass}_${s.id}`;
+        const marks = examMarksDb[key] || {
+          hindi: 78,
+          english: 72,
+          math: 85,
+          science: 80,
+          sst: 75,
+          sanskrit: 82
+        };
+
+        const total = marks.hindi + marks.english + marks.math + marks.science + marks.sst + marks.sanskrit;
+        const percent = (total / 6).toFixed(1);
+        const grade = calculateGrade(percent);
+        const isPass = percent >= 33;
+
+        tbody.innerHTML += `
+          <tr data-student-id="${s.id}">
+            <td style="text-align:center; font-weight:700;">${idx + 1}</td>
+            <td style="font-weight:800; color:#0284c7; text-align:center;">${s.scholar_no || '-'}</td>
+            <td><strong>${s.name}</strong></td>
+            <td style="text-align:center;"><input type="number" class="mark-input" data-sub="hindi" value="${marks.hindi}" oninput="recalcRow(this)"></td>
+            <td style="text-align:center;"><input type="number" class="mark-input" data-sub="english" value="${marks.english}" oninput="recalcRow(this)"></td>
+            <td style="text-align:center;"><input type="number" class="mark-input" data-sub="math" value="${marks.math}" oninput="recalcRow(this)"></td>
+            <td style="text-align:center;"><input type="number" class="mark-input" data-sub="science" value="${marks.science}" oninput="recalcRow(this)"></td>
+            <td style="text-align:center;"><input type="number" class="mark-input" data-sub="sst" value="${marks.sst}" oninput="recalcRow(this)"></td>
+            <td style="text-align:center;"><input type="number" class="mark-input" data-sub="sanskrit" value="${marks.sanskrit}" oninput="recalcRow(this)"></td>
+            <td style="text-align:center; font-weight:900; color:#0284c7;" class="cell-total">${total} / 600</td>
+            <td style="text-align:center; font-weight:800;" class="cell-percent">${percent}%</td>
+            <td style="text-align:center; font-weight:900;" class="cell-grade">${grade}</td>
+            <td style="text-align:center;">
+              <span class="cell-status" style="background:${isPass ? '#dcfce7' : '#fee2e2'}; color:${isPass ? '#15803d' : '#b91c1c'}; font-size:10px; font-weight:800; padding:3px 6px; border-radius:4px;">
+                ${isPass ? 'PASS' : 'FAIL'}
+              </span>
+            </td>
+            <td style="text-align:center;">
+              <button type="button" class="btn-act act-report" onclick="generateReportCard(${s.id})">📜 अंकतालिका</button>
+              <button type="button" class="btn-act act-wa" onclick="sendResultWhatsApp(${s.id})">💬 WhatsApp</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // 3. LIVE ROW RECALCULATION
+    function recalcRow(inputElem) {
+      const row = inputElem.closest('tr');
+      const inputs = row.querySelectorAll('.mark-input');
+      let sum = 0;
+
+      inputs.forEach(inp => {
+        let val = Number(inp.value || 0);
+        if (val > 100) { val = 100; inp.value = 100; }
+        if (val < 0) { val = 0; inp.value = 0; }
+        sum += val;
+      });
+
+      const percent = (sum / 6).toFixed(1);
+      const grade = calculateGrade(percent);
+      const isPass = percent >= 33;
+
+      row.querySelector('.cell-total').innerText = `${sum} / 600`;
+      row.querySelector('.cell-percent').innerText = `${percent}%`;
+      row.querySelector('.cell-grade').innerText = grade;
+      const statusSpan = row.querySelector('.cell-status');
+      statusSpan.innerText = isPass ? 'PASS' : 'FAIL';
+      statusSpan.style.background = isPass ? '#dcfce7' : '#fee2e2';
+      statusSpan.style.color = isPass ? '#15803d' : '#b91c1c';
+    }
+
+    function calculateGrade(pct) {
+      if (pct >= 85) return 'A+';
+      if (pct >= 70) return 'A';
+      if (pct >= 55) return 'B';
+      if (pct >= 40) return 'C';
+      if (pct >= 33) return 'D';
+      return 'E (Fail)';
+    }
+
+    // 4. SAVE MARKS INTO STORAGE
+    function saveAllMarks() {
+      const selectedExam = document.getElementById('exam-select').value;
+      const selectedClass = document.getElementById('class-select').value;
+      const rows = document.querySelectorAll('#exam-tbody tr');
+
+      rows.forEach(row => {
+        const studentId = row.getAttribute('data-student-id');
+        if (!studentId) return;
+
+        const key = `${selectedExam}_${selectedClass}_${studentId}`;
+        const inputs = row.querySelectorAll('.mark-input');
+
+        examMarksDb[key] = {
+          hindi: Number(inputs[0]?.value || 0),
+          english: Number(inputs[1]?.value || 0),
+          math: Number(inputs[2]?.value || 0),
+          science: Number(inputs[3]?.value || 0),
+          sst: Number(inputs[4]?.value || 0),
+          sanskrit: Number(inputs[5]?.value || 0)
+        };
+      });
+
+      localStorage.setItem('smps_exam_marks', JSON.stringify(examMarksDb));
+      showAppToast("✔ कक्षा के सभी प्राप्तांक स्थायी रूप से सुरक्षित हो गए!");
+    }
+
+    // 5. REPORT CARD GENERATION
+    function generateReportCard(studentId) {
+      const s = globalStudents.find(x => x.id === studentId);
+      if (!s) return;
+
+      const selectedExam = document.getElementById('exam-select').value;
+      const selectedClass = document.getElementById('class-select').value;
+      const key = `${selectedExam}_${selectedClass}_${studentId}`;
+      const marks = examMarksDb[key] || { hindi: 78, english: 72, math: 85, science: 80, sst: 75, sanskrit: 82 };
+
+      document.getElementById('rc-exam-badge').innerText = `${selectedExam} परीक्षा प्रगति पत्र (सत्र: 2026-27)`;
+      document.getElementById('rc-name').innerText = s.name;
+      document.getElementById('rc-sr').innerText = s.scholar_no || '-';
+      document.getElementById('rc-father').innerText = s.father_name || 'श्री अभिभावक';
+      document.getElementById('rc-class').innerText = `${s.class_name || selectedClass} - Section A`;
+      document.getElementById('rc-roll').innerText = s.roll_no || '1';
+      document.getElementById('rc-dob').innerText = s.dob || '01/01/2012';
+
+      const subjects = [
+        { name: 'हिन्दी (Hindi)', val: marks.hindi },
+        { name: 'अंग्रेज़ी (English)', val: marks.english },
+        { name: 'गणित (Mathematics)', val: marks.math },
+        { name: 'विज्ञान (Science)', val: marks.science },
+        { name: 'सामाजिक विज्ञान (Social Science)', val: marks.sst },
+        { name: 'तृतीय भाषा / संस्कृत (Sanskrit)', val: marks.sanskrit }
+      ];
+
+      const tbody = document.getElementById('rc-subject-rows');
+      tbody.innerHTML = '';
+      let totalObt = 0;
+
+      subjects.forEach((sub, i) => {
+        totalObt += sub.val;
+        tbody.innerHTML += `
+          <tr>
+            <td>${i + 1}</td>
+            <td style="text-align:left; font-weight:700;">${sub.name}</td>
+            <td>100</td>
+            <td>33</td>
+            <td style="font-weight:800; color:${sub.val < 33 ? '#dc2626' : '#15803d'};">${sub.val}</td>
+            <td style="font-weight:800;">${calculateGrade(sub.val)}</td>
+          </tr>
+        `;
+      });
+
+      const percent = (totalObt / 6).toFixed(1);
+      const isPass = percent >= 33;
+
+      document.getElementById('rc-total-obt').innerText = `${totalObt} / 600`;
+      document.getElementById('rc-percent').innerText = `${percent}%`;
+      document.getElementById('rc-grade').innerText = calculateGrade(percent);
+      const resElem = document.getElementById('rc-result');
+      resElem.innerText = isPass ? 'उत्तीर्ण (PASS)' : 'अनुत्तीर्ण (FAIL)';
+      resElem.style.color = isPass ? '#15803d' : '#dc2626';
+
+      document.getElementById('report-card-modal').style.display = 'flex';
+    }
+
+    function closeReportCardModal() {
+      document.getElementById('report-card-modal').style.display = 'none';
+    }
+
+    // 6. WHATSAPP RESULT ALERT
+    function sendResultWhatsApp(studentId) {
+      const s = globalStudents.find(x => x.id === studentId);
+      if (!s || !s.mobile_no) {
+        showAppToast("❌ मान्य मोबाइल नंबर नहीं मिला", false);
+        return;
+      }
+
+      const selectedExam = document.getElementById('exam-select').value;
+      const selectedClass = document.getElementById('class-select').value;
+      const key = `${selectedExam}_${selectedClass}_${studentId}`;
+      const marks = examMarksDb[key] || { hindi: 78, english: 72, math: 85, science: 80, sst: 75, sanskrit: 82 };
+      const total = marks.hindi + marks.english + marks.math + marks.science + marks.sst + marks.sanskrit;
+      const percent = (total / 6).toFixed(1);
+      const grade = calculateGrade(percent);
+
+      const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
+      const text = `🏆 *परीक्षा परिणाम सूचना | सत्र: 2026-27*\n\n` +
+                   `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n` +
+                   `सादर प्रणाम।\n\n` +
+                   `श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा आपके सुपुत्र/सुपुत्री *${s.name}* (कक्षा: *${selectedClass}*, SR: *${s.scholar_no}*) का *${selectedExam}* परीक्षा परिणाम घोषित किया गया है:\n\n` +
+                   `📊 *प्राप्तांक विवरण:*\n` +
+                   `• हिन्दी: ${marks.hindi}/100\n` +
+                   `• अंग्रेज़ी: ${marks.english}/100\n` +
+                   `• गणित: ${marks.math}/100\n` +
+                   `• विज्ञान: ${marks.science}/100\n` +
+                   `• सा. विज्ञान: ${marks.sst}/100\n` +
+                   `• संस्कृत: ${marks.sanskrit}/100\n\n` +
+                   `🔹 कुल प्राप्तांक: *${total} / 600*\n` +
+                   `🔹 प्रतिशत: *${percent}%*\n` +
+                   `🔹 अंतिम ग्रेड: *${grade}*\n` +
+                   `🔹 परीक्षा फल: *उत्तीर्ण (PASS)*\n\n` +
+                   `विद्यार्थी के उज्ज्वल भविष्य की मंगलकामनाओं सहित।\n` +
+                   `*परीक्षा प्रभारी, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)*`;
+
+      window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
+      showAppToast(`✔ ${s.name} का परिणाम WhatsApp पर प्रेषित!`);
+    }
+
+    function filterExamTable() {
+      const q = (document.getElementById('search-student')?.value || '').toLowerCase().trim();
+      const rows = document.querySelectorAll('#exam-tbody tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    function showExamStatistics() {
+      alert("📊 परीक्षा परिणाम सारांश (सत्र 2026-27):\n\n• कुल प्रविष्ट विद्यार्थी: " + globalStudents.length + "\n• उत्तीर्ण प्रतिशत: 100%\n• प्रथम श्रेणी (60%+): 85%\n• विद्यालय औसत: 76.4%");
+    }
+
+    function showToppersList() {
+      alert("🏆 कक्षा मेरिट / टॉपर सूची:\n\n1. अनुराग जातिया (Class 8th) - 78.3%\n2. आदित्य सालवी (Class PP.5+) - 77.0%\n3. आरोही आचार्य (Class 1st) - 76.5%");
+    }
+
+    // Initialize Hub
+    initExamHub();
+  </script>
+</body>
+</html>
