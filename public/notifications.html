@@ -185,7 +185,7 @@
     .btn-wa-green { background: #16a34a; }
     .btn-sms-blue { background: #0284c7; }
 
-    /* NOTICE BROADCAST STYLES */
+    /* NOTICE BROADCAST */
     .broadcast-box {
       max-width: 750px;
       margin: 0 auto;
@@ -196,11 +196,12 @@
     }
     .textarea-notice {
       width: 100%;
-      height: 120px;
-      padding: 10px;
+      height: 140px;
+      padding: 12px;
       border: 1.5px solid #cbd5e1;
       border-radius: 6px;
       font-size: 13px;
+      line-height: 1.6;
       font-family: inherit;
       outline: none;
       resize: vertical;
@@ -236,7 +237,7 @@
       </div>
     </div>
     <div style="display:flex; gap:8px;">
-      <a href="/students" class="bbs-btn-pill" style="background:#0284c7;">👥 छात्र सूची</a>
+      <a href="/students" class="bbs-btn-pill" style="background:#0284c7;">👥 छात्र डायरेक्टरी</a>
       <a href="/fees" class="bbs-btn-pill" style="background:#15803d;">💰 फीस पोर्टल</a>
     </div>
   </header>
@@ -379,7 +380,7 @@
           <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">संदेश का प्रकार (Notice Template):</label>
           <select id="notice-template" class="ctrl-input" style="width:100%;" onchange="loadNoticeTemplate(this.value)">
             <option value="custom">✏️ कस्टम संदेश लिखें</option>
-            <option value="holiday">🏖️ विद्यालय अवकाश सूचना (School Holiday Notice)</option>
+            <option value="holiday" selected>🏖️ विद्यालय अवकाश सूचना (School Holiday Notice)</option>
             <option value="exam">📝 परीक्षा समय-सारणी सूचना (Examination Schedule)</option>
             <option value="ptm">👨‍👩‍👧‍👦 अभिभावक-शिक्षक बैठक (Parent-Teacher Meeting - PTM)</option>
           </select>
@@ -445,6 +446,7 @@
 
       renderFeesList(masterStudents);
       renderAttendanceTable();
+      loadNoticeTemplate('holiday');
 
       fetch('/api/students')
         .then(res => res.json())
@@ -473,9 +475,9 @@
       }
     }
 
-    // ==========================================
-    // 1. ATTENDANCE LOGIC (WHATSAPP + SMS)
-    // ==========================================
+    // ========================================================
+    // 1. ATTENDANCE LOGIC (IMPACTFUL MESSAGES)
+    // ========================================================
     function renderAttendanceTable() {
       const tbody = document.getElementById('att-tbody');
       if (!tbody) return;
@@ -540,7 +542,14 @@
       }
       const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
       const date = document.getElementById('att-date')?.value || new Date().toLocaleDateString('hi-IN');
-      const text = `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n\nश्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपका सुपुत्र/सुपुत्री ${s.name} (कक्षा: ${s.class_name}) आज दिनांक ${date} को विद्यालय में अनुपस्थित (Absent) है।\n\nयदि अनुपस्थिति पूर्व-स्वीकृत नहीं है तो कृपया विद्यालय से संपर्क करें।\n\n- प्रधानाचार्य, SMPS सिंहपुर`;
+      
+      const text = `⚠️ *अति-आवश्यक उपस्थिति सूचना | SMPS सिंहपुर*\n\n` +
+                   `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n` +
+                   `सादर नमस्कार।\n\n` +
+                   `आपके सुपुत्र/सुपुत्री *${s.name}* (कक्षा: *${s.class_name}*, स्कॉलर नं: *${s.scholar_no}*) आज दिनांक *${date}* को विद्यालय में *अनुपस्थित (ABSENT)* दर्ज हैं।\n\n` +
+                   `विद्यार्थी की सुरक्षा हमारे लिए सर्वोपरि है। यदि यह अनुपस्थिति पूर्व-स्वीकृत नहीं है, तो कृपया तुरंत विद्यालय कार्यालय में संपर्क कर कारण स्पष्ट करें।\n\n` +
+                   `📞 हेल्पलाइन: 9799242540\n` +
+                   `🏛️ *प्रधानाचार्य, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)*`;
 
       window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
       showAppToast(`✔ ${s.name} का WhatsApp अलर्ट भेजा गया!`);
@@ -554,7 +563,8 @@
       }
       const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
       const date = document.getElementById('att-date')?.value || new Date().toLocaleDateString('hi-IN');
-      const text = `प्रिय अभिभावक, आपका बच्चा ${s.name} (कक्षा: ${s.class_name}) आज दिनांक ${date} को SMPS स्कूल में अनुपस्थित है। - प्रधानाचार्य, SMPS सिंहपुर`;
+      
+      const text = `SMPS Alert: Aapka bachha ${s.name} (Class: ${s.class_name}) aaj ${date} ko school me Absent hai. Suraksha hetu turant sampark karein: 9799242540 - SMPS Singhpur`;
 
       window.location.href = `sms:+91${phone}?body=${encodeURIComponent(text)}`;
       showAppToast(`✔ ${s.name} का SMS तैयार!`);
@@ -577,14 +587,14 @@
         return;
       }
       const date = document.getElementById('att-date')?.value || new Date().toLocaleDateString('hi-IN');
-      const text = `प्रिय अभिभावक, आपका बच्चा आज दिनांक ${date} को SMPS स्कूल सिंहपुर में अनुपस्थित है।`;
+      const text = `SMPS Alert: Aapka bachha aaj ${date} ko school me Absent hai. Suraksha hetu sampark karein: 9799242540 - SMPS Singhpur`;
       window.location.href = `sms:?body=${encodeURIComponent(text)}`;
       showAppToast(`⚡ अनुपस्थित छात्रों हेतु ब्रॉडकास्ट SMS तैयार!`);
     }
 
-    // ==========================================
-    // 2. FEES REMINDER LOGIC (WHATSAPP + SMS)
-    // ==========================================
+    // ========================================================
+    // 2. FEES REMINDER LOGIC (IMPACTFUL MESSAGES)
+    // ========================================================
     function renderFeesList(list) {
       const tbody = document.getElementById('fees-tbody');
       if (!tbody) return;
@@ -643,7 +653,16 @@
       }
       const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
       const bal = Number(s.balance_fees || 0).toLocaleString('en-IN');
-      const text = `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n\nश्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपके बच्चे ${s.name} की सत्र 2026-27 की कुल बकाया फीस ₹${bal} शेष है।\n\nकृपया इसे शीघ्र विद्यालय कार्यालय में जमा करवाएं।\n\nधन्यवाद,\nSMPS सिंहपुर`;
+      
+      const text = `📌 *विद्यालय शुल्क भुगतान स्मरण पत्र | सत्र: 2026-27*\n\n` +
+                   `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n` +
+                   `सादर प्रणाम।\n\n` +
+                   `श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपके बच्चे *${s.name}* (कक्षा: *${s.class_name}*, प्रवेश क्रमांक: *${s.scholar_no}*) का कुल बकाया शिक्षण शुल्क *₹${bal}* देय शेष है।\n\n` +
+                   `विद्यालय की सुचारु शैक्षणिक व्यवस्था एवं आगामी परीक्षाओं में प्रवेश पत्र जारी रखने हेतु, आपसे सादर अनुरोध है कि यह बकाया राशि *शीघ्र विद्यालय कार्यालय अथवा ऑनलाइन माध्यम (UPI/QR)* से जमा करवाकर पावती प्राप्त करें।\n\n` +
+                   `💳 *सुविधा:* विद्यालय काउंटर पर UPI / Cash दोनों स्वीकार्य हैं।\n` +
+                   `📞 लेखा विभाग: 9799242540\n\n` +
+                   `सहयोग हेतु धन्यवाद,\n` +
+                   `*लेखा एवं प्रशासनिक विभाग, SMPS सिंहपुर*`;
 
       window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
       showAppToast(`✔ फीस WhatsApp रिमाइंडर भेजा गया!`);
@@ -657,23 +676,45 @@
       }
       const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
       const bal = Number(s.balance_fees || 0).toLocaleString('en-IN');
-      const text = `प्रिय अभिभावक, आपके बच्चे ${s.name} की SMPS स्कूल में बकाया फीस ₹${bal} शेष है। कृपया शीघ्र जमा करवाएं। - SMPS सिंहपुर`;
+      
+      const text = `SMPS Fees Notice: Vidhyarthi ${s.name} ki satra 2026-27 ki bakaya fees Rs.${bal} shesh hai. Pariksha suvidha hetu kripya shighra jama karwayein. Helpline: 9799242540`;
 
       window.location.href = `sms:+91${phone}?body=${encodeURIComponent(text)}`;
       showAppToast(`✔ फीस SMS तैयार!`);
     }
 
-    // ==========================================
-    // 3. NOTICE BROADCAST LOGIC
-    // ==========================================
+    // ========================================================
+    // 3. NOTICE BROADCAST LOGIC (IMPACTFUL TEMPLATES)
+    // ========================================================
     function loadNoticeTemplate(type) {
       const txt = document.getElementById('notice-body');
       if (type === 'holiday') {
-        txt.value = `आदरणीय अभिभावक गण,\n\nश्री मेवाड़ पब्लिक स्कूल (सिंहपुर) में आगामी पर्व/अवसर के उपलक्ष्य में दिनांक 28/10/2026 को विद्यालय का अवकाश रहेगा। दिनांक 29/10/2026 से विद्यालय पूर्व निर्धारित समयानुसार संचालित होगा।\n\n- संस्था प्रधान, SMPS सिंहपुर`;
+        txt.value = `📢 *महत्वपूर्ण सूचना: विद्यालय अवकाश*\n\n` +
+                    `आदरणीय अभिभावक गण,\n\n` +
+                    `सर्वसंबंधित को सूचित किया जाता है कि आगामी पर्व/अवसर के उपलक्ष्य में विद्यालय में कल दिनांक *28/10/2026* को शैक्षणिक अवकाश रहेगा।\n\n` +
+                    `🔹 दिनांक *29/10/2026* से विद्यालय अपने पूर्व निर्धारित समय पर विधिवत संचालित होगा।\n` +
+                    `🔹 कृपया अवकाश के दौरान विद्यार्थी को गृहकार्य एवं स्वाध्याय हेतु प्रेरित करें।\n\n` +
+                    `आदेशानुसार,\n` +
+                    `*संस्था प्रधान, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)*`;
       } else if (type === 'exam') {
-        txt.value = `आदरणीय अभिभावक गण,\n\nसत्र 2026-27 की अर्धवार्षिक परीक्षा समय-सारणी विद्यालय कार्यालय में चस्पा कर दी गई है। कृपया विद्यार्थी की नियमित उपस्थिति एवं अध्ययन सुनिश्चित करें।\n\n- परीक्षा प्रभारी, SMPS सिंहपुर`;
+        txt.value = `📝 *अर्धवार्षिक परीक्षा समय-सारणी सूचना (सत्र: 2026-27)*\n\n` +
+                    `प्रिय अभिभावक गण,\n\n` +
+                    `सत्र 2026-27 की अर्धवार्षिक परीक्षाओं की आधिकारिक समय-सारणी (Time-Table) जारी कर दी गई है।\n\n` +
+                    `📌 *मुख्य दिशा-निर्देश:*\n` +
+                    `1. सभी विद्यार्थी निर्धारित गणवेश (School Uniform) में समय पर उपस्थित हों।\n` +
+                    `2. अपना प्रवेश पत्र (Admit Card) साथ लाना अनिवार्य है।\n` +
+                    `3. जिन विद्यार्थियों की फीस शेष है, वे प्रवेश पत्र हेतु कार्यालय से संपर्क करें।\n\n` +
+                    `शुभकामनाओं सहित,\n` +
+                    `*परीक्षा नियंत्रण विभाग, SMPS सिंहपुर*`;
       } else if (type === 'ptm') {
-        txt.value = `आदरणीय अभिभावक गण,\n\nविद्यार्थियों की शैक्षणिक प्रगति की समीक्षा हेतु अभिभावक-शिक्षक बैठक (PTM) शनिवार को प्रातः 9:00 बजे आयोजित है। आप सादर आमंत्रित हैं।\n\n- SMPS सिंहपुर`;
+        txt.value = `👨‍👩‍👧‍👦 *अभिभावक-शिक्षक बैठक (PTM) आमंत्रण*\n\n` +
+                    `आदरणीय अभिभावक गण,\n\n` +
+                    `विद्यार्थी की शैक्षणिक प्रगति, अनुशासन एवं परीक्षा प्रदर्शन पर सार्थक चर्चा हेतु विद्यालय द्वारा PTM का आयोजन किया जा रहा है:\n\n` +
+                    `📅 *दिनांक:* शनिवार\n` +
+                    `⏰ *समय:* प्रातः 09:00 बजे से दोपहर 12:30 बजे तक\n` +
+                    `📍 *स्थान:* श्री मेवाड़ पब्लिक स्कूल परिसर, सिंहपुर\n\n` +
+                    `अपने बच्चे के सर्वांगीण विकास हेतु आपकी गरिमामयी उपस्थिति सादर प्रार्थनीय है।\n\n` +
+                    `*प्रबंधन समिति, SMPS सिंहपुर*`;
       }
     }
 
@@ -702,7 +743,7 @@
       showAppToast("✔ SMS ऐप में संदेश तैयार!");
     }
 
-    // Initialize
+    // Initialize Hub
     initModuleData();
   </script>
 </body>
