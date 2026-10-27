@@ -25,7 +25,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    /* GLOBAL HEADER */
+    /* HEADER */
     .bbs-main-header {
       background: linear-gradient(135deg, var(--bbs-maroon), var(--bbs-dark-maroon));
       color: #ffffff;
@@ -62,7 +62,7 @@
     }
 
     .main-wrapper {
-      max-width: 1520px;
+      max-width: 1560px;
       margin: 18px auto;
       padding: 0 16px;
     }
@@ -73,7 +73,7 @@
       border: 1.5px solid #fed7aa;
       border-radius: 10px;
       padding: 12px 18px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -104,7 +104,48 @@
     .btn-green-save { background: #15803d; }
     .btn-blue-print { background: #0284c7; }
     .btn-purple-matrix { background: #7c3aed; }
-    .btn-orange-topper { background: #ea580c; }
+    .btn-orange-settings { background: #ea580c; }
+
+    /* MAX MARKS CONFIG STRIP */
+    .config-strip {
+      background: #fff7ed;
+      border: 1.5px solid #fed7aa;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .config-inputs-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .config-sub-box {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #ffffff;
+      padding: 4px 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+    .config-input {
+      width: 48px;
+      padding: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      outline: none;
+    }
 
     /* FILTERS CARD */
     .filter-card {
@@ -129,7 +170,6 @@
       background: #fff;
       min-width: 170px;
     }
-    .ctrl-select:focus { border-color: #0284c7; }
 
     /* TABLE */
     .table-container-card {
@@ -149,14 +189,14 @@
     .custom-table th {
       background: #fdf2e9;
       color: #7c2d12;
-      padding: 9px 8px;
+      padding: 8px 6px;
       font-weight: 800;
       border: 1px solid #fed7aa;
       white-space: nowrap;
       text-align: center;
     }
     .custom-table td {
-      padding: 7px 8px;
+      padding: 6px 8px;
       border: 1px solid #e2e8f0;
       vertical-align: middle;
       white-space: nowrap;
@@ -165,7 +205,7 @@
     .custom-table tr:hover { background: #fef9c3; }
 
     .mark-input {
-      width: 55px;
+      width: 52px;
       padding: 5px;
       border: 1.5px solid #cbd5e1;
       border-radius: 4px;
@@ -177,12 +217,18 @@
     .mark-input:focus { border-color: #0284c7; background: #f0f9ff; }
 
     /* ACTION BUTTONS */
+    .btn-act-grp {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      align-items: center;
+    }
     .btn-act {
       border: none;
       border-radius: 4px;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
-      padding: 5px 8px;
+      padding: 4px 8px;
       color: #ffffff;
       cursor: pointer;
       display: inline-flex;
@@ -192,10 +238,11 @@
       transition: opacity 0.15s ease;
     }
     .btn-act:hover { opacity: 0.9; }
+    .act-edit { background: #ea580c; }
     .act-report { background: #0284c7; }
     .act-wa { background: #16a34a; }
 
-    /* MODAL OVERLAY */
+    /* MODAL */
     .custom-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -236,7 +283,31 @@
       cursor: pointer;
     }
 
-    /* COMMERCIAL REPORT CARD SHEET (A4) */
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #334155;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-ctrl {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      outline: none;
+    }
+    .form-ctrl:focus { border-color: #0284c7; }
+
+    /* REPORT CARD (A4) */
     .report-card-wrapper {
       width: 100%;
       max-width: 700px;
@@ -272,7 +343,6 @@
       font-size: 12px;
       display: inline-block;
     }
-
     .rc-info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -284,7 +354,6 @@
       border-radius: 6px;
       border: 1px solid #e2e8f0;
     }
-
     .rc-table {
       width: 100%;
       border-collapse: collapse;
@@ -302,7 +371,6 @@
       padding: 6px;
       border: 1px solid #cbd5e1;
     }
-
     .rc-summary-strip {
       display: flex;
       justify-content: space-between;
@@ -363,41 +431,58 @@
     <div class="erp-brand-toolbar">
       <div class="erp-btn-group">
         <button type="button" class="erp-btn btn-green-save" onclick="saveAllMarks()">
-          💾 समस्त प्राप्तांक सुरक्षित करें (Save All Marks)
+          💾 समस्त अंक सुरक्षित करें (Save All)
         </button>
         <button type="button" class="erp-btn btn-blue-print" onclick="window.print()">
-          🖨️ संपूर्ण कक्षा अंक रजिस्टर प्रिंट
+          🖨️ संपूर्ण अंक रजिस्टर प्रिंट
         </button>
         <button type="button" class="erp-btn btn-purple-matrix" onclick="showExamStatistics()">
-          📊 परिणाम विश्लेषण (Result Analysis)
+          📊 परिणाम विश्लेषण
         </button>
-        <button type="button" class="erp-btn btn-orange-topper" onclick="showToppersList()">
-          🏆 कक्षा टॉपर सूची (Merit List)
+        <button type="button" class="erp-btn btn-orange-settings" onclick="toggleMaxMarksConfig()">
+          ⚙️ विषयवार पूर्णांक सेटिंग (Max Marks Setup)
         </button>
       </div>
       <div>
         <span style="font-size:12px; font-weight:800; color:#78350f;">
-          पूर्णांक प्रति विषय: <strong>100</strong> | उत्तीर्णांक: <strong>33</strong>
+          कुल विषय: <strong>6</strong> | कुल पूर्णांक (Grand Max): <strong id="lbl-grand-max">600</strong>
         </span>
       </div>
     </div>
 
-    <!-- EXAM & CLASS FILTER -->
+    <!-- DYNAMIC MAX MARKS CONFIGURATION STRIP -->
+    <div id="max-marks-config-box" class="config-strip">
+      <div style="font-size:12.5px; font-weight:800; color:#9a3412;">
+        ⚙️ विषयवार पूर्णांक (Max Marks) समायोजित करें:
+      </div>
+      <div class="config-inputs-row">
+        <div class="config-sub-box">हिन्दी: <input type="number" id="mm-hindi" class="config-input" value="100" onchange="updateMaxMarksConfig()"></div>
+        <div class="config-sub-box">अंग्रेज़ी: <input type="number" id="mm-english" class="config-input" value="100" onchange="updateMaxMarksConfig()"></div>
+        <div class="config-sub-box">गणित: <input type="number" id="mm-math" class="config-input" value="100" onchange="updateMaxMarksConfig()"></div>
+        <div class="config-sub-box">विज्ञान: <input type="number" id="mm-science" class="config-input" value="100" onchange="updateMaxMarksConfig()"></div>
+        <div class="config-sub-box">सा.वि.: <input type="number" id="mm-sst" class="config-input" value="100" onchange="updateMaxMarksConfig()"></div>
+        <div class="config-sub-box">संस्कृत: <input type="number" id="mm-sanskrit" class="config-input" value="100" onchange="updateMaxMarksConfig()"></div>
+        <button type="button" class="erp-btn btn-green-save" style="padding:5px 10px; font-size:11px;" onclick="updateMaxMarksConfig()">लागू करें</button>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
     <div class="filter-card">
       <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
         <div>
           <label style="font-size:12px; font-weight:800; color:#334155; margin-right:6px;">परीक्षा का नाम:</label>
-          <select id="exam-select" class="ctrl-select" onchange="loadExamMarks()">
-            <option value="Half Yearly" selected>📝 अर्धवार्षिक परीक्षा (Half Yearly Exam - 2026)</option>
-            <option value="Annual">🏆 वार्षिक परीक्षा (Annual Examination - 2027)</option>
-            <option value="Unit Test 1">📋 प्रथम परख (Unit Test 1)</option>
-            <option value="Unit Test 2">📋 द्वितीय परख (Unit Test 2)</option>
+          <select id="exam-select" class="ctrl-select" onchange="onExamOrClassChange()">
+            <option value="Half Yearly" selected>📝 अर्धवार्षिक परीक्षा (Half Yearly Exam)</option>
+            <option value="Annual">🏆 वार्षिक परीक्षा (Annual Exam)</option>
+            <option value="Unit Test 1">📋 प्रथम परख (Unit Test 1 - 20 Marks)</option>
+            <option value="Unit Test 2">📋 द्वितीय परख (Unit Test 2 - 20 Marks)</option>
+            <option value="Pre Board">🎓 प्री-बोर्ड परीक्षा (Pre Board Exam)</option>
           </select>
         </div>
 
         <div>
           <label style="font-size:12px; font-weight:800; color:#334155; margin-right:6px;">कक्षा चुनें:</label>
-          <select id="class-select" class="ctrl-select" onchange="loadExamMarks()">
+          <select id="class-select" class="ctrl-select" onchange="onExamOrClassChange()">
             <option value="8th" selected>Class 8th (आठवीं)</option>
             <option value="PP.3+">PP.3+</option>
             <option value="PP.4+">PP.4+</option>
@@ -414,7 +499,7 @@
       </div>
     </div>
 
-    <!-- MARKS ENTRY TABLE -->
+    <!-- MARKS TABLE -->
     <div class="table-container-card">
       <table class="custom-table">
         <thead>
@@ -422,17 +507,17 @@
             <th style="width:36px;">क्र.</th>
             <th style="width:75px;">स्कॉलर नं</th>
             <th style="text-align:left;">विद्यार्थी का नाम</th>
-            <th>हिन्दी (100)</th>
-            <th>अंग्रेज़ी (100)</th>
-            <th>गणित (100)</th>
-            <th>विज्ञान (100)</th>
-            <th>सा. विज्ञान (100)</th>
-            <th>संस्कृत (100)</th>
+            <th id="th-hindi">हिन्दी (100)</th>
+            <th id="th-english">अंग्रेज़ी (100)</th>
+            <th id="th-math">गणित (100)</th>
+            <th id="th-science">विज्ञान (100)</th>
+            <th id="th-sst">सा.वि. (100)</th>
+            <th id="th-sanskrit">संस्कृत (100)</th>
             <th>कुल प्राप्तांक</th>
             <th>प्रतिशत (%)</th>
             <th>ग्रेड</th>
             <th>स्थिति</th>
-            <th style="width:190px;">कार्यवाही (Actions)</th>
+            <th style="width:230px;">कार्यवाही (Actions)</th>
           </tr>
         </thead>
         <tbody id="exam-tbody"></tbody>
@@ -442,7 +527,65 @@
   </main>
 
   <!-- ==========================================================================
-       MODAL: FULL PRINTABLE REPORT CARD (A4 PROGRESS REPORT)
+       MODAL 1: INDIVIDUAL STUDENT MARKS EDIT MODAL
+       ========================================================================== -->
+  <div id="edit-marks-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:15px; margin:0;"><span>✏️</span> छात्र प्राप्तांक संशोधन (Marks Editor)</h3>
+        <button type="button" class="btn-close-modal" onclick="closeEditMarksModal()">×</button>
+      </div>
+      <form id="edit-marks-form" onsubmit="saveIndividualMarks(event)" style="padding:20px;">
+        <input type="hidden" id="em-student-id">
+        <div style="background:#fff7ed; border:1px solid #fed7aa; padding:10px 14px; border-radius:6px; margin-bottom:14px;">
+          छात्र: <strong id="em-student-name" style="color:#0284c7;">--</strong> | 
+          स्कॉलर नं: <strong id="em-scholar-no">--</strong> | 
+          परीक्षा: <strong id="em-exam-name">--</strong>
+        </div>
+
+        <div class="form-grid-3">
+          <div>
+            <label class="form-label" id="lbl-em-hindi">हिन्दी प्राप्तांक</label>
+            <input type="number" id="em-hindi" class="form-ctrl" required oninput="calcEditModalPreview()">
+          </div>
+          <div>
+            <label class="form-label" id="lbl-em-english">अंग्रेज़ी प्राप्तांक</label>
+            <input type="number" id="em-english" class="form-ctrl" required oninput="calcEditModalPreview()">
+          </div>
+          <div>
+            <label class="form-label" id="lbl-em-math">गणित प्राप्तांक</label>
+            <input type="number" id="em-math" class="form-ctrl" required oninput="calcEditModalPreview()">
+          </div>
+          <div>
+            <label class="form-label" id="lbl-em-science">विज्ञान प्राप्तांक</label>
+            <input type="number" id="em-science" class="form-ctrl" required oninput="calcEditModalPreview()">
+          </div>
+          <div>
+            <label class="form-label" id="lbl-em-sst">सामाजिक विज्ञान</label>
+            <input type="number" id="em-sst" class="form-ctrl" required oninput="calcEditModalPreview()">
+          </div>
+          <div>
+            <label class="form-label" id="lbl-em-sanskrit">संस्कृत / तृतीय भाषा</label>
+            <input type="number" id="em-sanskrit" class="form-ctrl" required oninput="calcEditModalPreview()">
+          </div>
+        </div>
+
+        <div style="background:#f1f5f9; border:1.5px solid #cbd5e1; border-radius:8px; padding:12px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div><span>कुल प्राप्तांक:</span> <strong id="em-preview-total" style="color:#0284c7;">0</strong></div>
+          <div><span>प्रतिशत:</span> <strong id="em-preview-percent" style="color:#15803d;">0%</strong></div>
+          <div><span>ग्रेड:</span> <strong id="em-preview-grade" style="color:#ea580c;">A</strong></div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeEditMarksModal()">रद्द करें</button>
+          <button type="submit" class="erp-btn btn-green-save">✔ प्राप्तांक अपडेट करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: OFFICIAL REPORT CARD (A4)
        ========================================================================== -->
   <div id="report-card-modal" class="custom-modal-overlay">
     <div class="modal-card">
@@ -516,10 +659,18 @@
     }
 
     let globalStudents = [];
-    let examMarksDb = {}; // Key: "Exam_Class_StudentID" -> { hindi, english, math, science, sst, sanskrit }
+    let examMarksDb = {}; 
+    let maxMarksConfig = {
+      hindi: 100,
+      english: 100,
+      math: 100,
+      science: 100,
+      sst: 100,
+      sanskrit: 100
+    };
 
-    // 1. DATA INITIALIZATION
     function initExamHub() {
+      // 1. Load students
       const local = localStorage.getItem('smps_students_master');
       if (local) {
         try {
@@ -537,7 +688,14 @@
         ];
       }
 
-      // Load saved marks from LocalStorage
+      // 2. Load Max marks config
+      const savedConfig = localStorage.getItem('smps_max_marks_config');
+      if (savedConfig) {
+        try { maxMarksConfig = JSON.parse(savedConfig); } catch(e) {}
+      }
+      applyMaxMarksToInputs();
+
+      // 3. Load exam marks
       const savedMarks = localStorage.getItem('smps_exam_marks');
       if (savedMarks) {
         try { examMarksDb = JSON.parse(savedMarks); } catch(e) {}
@@ -557,7 +715,63 @@
         .catch(() => {});
     }
 
-    // 2. RENDER EXAM TABLE
+    // TOGGLE & APPLY MAX MARKS
+    function toggleMaxMarksConfig() {
+      const box = document.getElementById('max-marks-config-box');
+      box.style.display = (box.style.display === 'none') ? 'flex' : 'none';
+    }
+
+    function applyMaxMarksToInputs() {
+      document.getElementById('mm-hindi').value = maxMarksConfig.hindi;
+      document.getElementById('mm-english').value = maxMarksConfig.english;
+      document.getElementById('mm-math').value = maxMarksConfig.math;
+      document.getElementById('mm-science').value = maxMarksConfig.science;
+      document.getElementById('mm-sst').value = maxMarksConfig.sst;
+      document.getElementById('mm-sanskrit').value = maxMarksConfig.sanskrit;
+      updateTableHeaders();
+    }
+
+    function updateTableHeaders() {
+      document.getElementById('th-hindi').innerText = `हिन्दी (${maxMarksConfig.hindi})`; document.getElementById('th-english').innerText = `अंग्रेज़ी (${maxMarksConfig.english})`;
+      document.getElementById('th-math').innerText = `गणित (${maxMarksConfig.math})`; document.getElementById('th-science').innerText = `विज्ञान (${maxMarksConfig.science})`;
+      document.getElementById('th-sst').innerText = `सा.वि. (${maxMarksConfig.sst})`; document.getElementById('th-sanskrit').innerText = `संस्कृत (${maxMarksConfig.sanskrit})`;
+
+      const grandTotal = getGrandMax();
+      document.getElementById('lbl-grand-max').innerText = grandTotal;
+    }
+
+    function getGrandMax() {
+      return maxMarksConfig.hindi + maxMarksConfig.english + maxMarksConfig.math + 
+             maxMarksConfig.science + maxMarksConfig.sst + maxMarksConfig.sanskrit;
+    }
+
+    function updateMaxMarksConfig() {
+      maxMarksConfig.hindi = Number(document.getElementById('mm-hindi').value || 100);
+      maxMarksConfig.english = Number(document.getElementById('mm-english').value || 100);
+      maxMarksConfig.math = Number(document.getElementById('mm-math').value || 100);
+      maxMarksConfig.science = Number(document.getElementById('mm-science').value || 100);
+      maxMarksConfig.sst = Number(document.getElementById('mm-sst').value || 100);
+      maxMarksConfig.sanskrit = Number(document.getElementById('mm-sanskrit').value || 100);
+
+      localStorage.setItem('smps_max_marks_config', JSON.stringify(maxMarksConfig));
+      updateTableHeaders();
+      loadExamMarks();
+      showAppToast("✔ विषयवार पूर्णांक (Max Marks) सफलतापूर्वक अपडेट हुए!");
+    }
+
+    function onExamOrClassChange() {
+      const exam = document.getElementById('exam-select').value;
+      // Auto adjust presets for Unit Tests vs Half Yearly
+      if (exam.startsWith('Unit Test')) {
+        maxMarksConfig = { hindi: 20, english: 20, math: 20, science: 20, sst: 20, sanskrit: 20 };
+      } else {
+        maxMarksConfig = { hindi: 100, english: 100, math: 100, science: 100, sst: 100, sanskrit: 100 };
+      }
+      applyMaxMarksToInputs();
+      loadExamMarks();
+    }
+
+    // RENDER TABLE
     function loadExamMarks() {
       const tbody = document.getElementById('exam-tbody');
       if (!tbody) return;
@@ -565,29 +779,27 @@
 
       const selectedExam = document.getElementById('exam-select').value;
       const selectedClass = document.getElementById('class-select').value;
+      const grandMax = getGrandMax();
 
       const filteredStudents = globalStudents.filter(s => (s.class_name || '8th') === selectedClass);
 
       if (filteredStudents.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="14" style="text-align:center; padding:24px; color:#64748b; font-weight:700;">इस कक्षा (${selectedClass}) में कोई विद्यार्थी नामांकित नहीं है।</td></tr>`;
-        return;
-      }
-
-      filteredStudents.forEach((s, idx) => {
-        const key = `${selectedExam}_${selectedClass}_${s.id}`;
+        tbody.innerHTML = `<tr><td colspan="14" style="text-align:center; padding:24px; color:#64748b; font-weight:700;">इस कक्षा (${selectedClass}) में कोई विद्यार्थी नामांकित नहीं है।</td></tr>`; return; }  filteredStudents.forEach((s, idx) => { const key = `${selectedExam}_${selectedClass}_${s.id}`;
+        // Scale default marks proportionally to max marks
+        const ratio = maxMarksConfig.hindi / 100;
         const marks = examMarksDb[key] || {
-          hindi: 78,
-          english: 72,
-          math: 85,
-          science: 80,
-          sst: 75,
-          sanskrit: 82
+          hindi: Math.round(78 * ratio),
+          english: Math.round(72 * ratio),
+          math: Math.round(85 * ratio),
+          science: Math.round(80 * ratio),
+          sst: Math.round(75 * ratio),
+          sanskrit: Math.round(82 * ratio)
         };
 
         const total = marks.hindi + marks.english + marks.math + marks.science + marks.sst + marks.sanskrit;
-        const percent = (total / 6).toFixed(1);
+        const percent = ((total / grandMax) * 100).toFixed(1);
         const grade = calculateGrade(percent);
-        const isPass = percent >= 33;
+        const isPass = Number(percent) >= 33;
 
         tbody.innerHTML += `
           <tr data-student-id="${s.id}">
@@ -600,205 +812,8 @@
             <td style="text-align:center;"><input type="number" class="mark-input" data-sub="science" value="${marks.science}" oninput="recalcRow(this)"></td>
             <td style="text-align:center;"><input type="number" class="mark-input" data-sub="sst" value="${marks.sst}" oninput="recalcRow(this)"></td>
             <td style="text-align:center;"><input type="number" class="mark-input" data-sub="sanskrit" value="${marks.sanskrit}" oninput="recalcRow(this)"></td>
-            <td style="text-align:center; font-weight:900; color:#0284c7;" class="cell-total">${total} / 600</td>
+            <td style="text-align:center; font-weight:900; color:#0284c7;" class="cell-total">${total} /${grandMax}</td>
             <td style="text-align:center; font-weight:800;" class="cell-percent">${percent}%</td>
             <td style="text-align:center; font-weight:900;" class="cell-grade">${grade}</td>
             <td style="text-align:center;">
-              <span class="cell-status" style="background:${isPass ? '#dcfce7' : '#fee2e2'}; color:${isPass ? '#15803d' : '#b91c1c'}; font-size:10px; font-weight:800; padding:3px 6px; border-radius:4px;">
-                ${isPass ? 'PASS' : 'FAIL'}
-              </span>
-            </td>
-            <td style="text-align:center;">
-              <button type="button" class="btn-act act-report" onclick="generateReportCard(${s.id})">📜 अंकतालिका</button>
-              <button type="button" class="btn-act act-wa" onclick="sendResultWhatsApp(${s.id})">💬 WhatsApp</button>
-            </td>
-          </tr>
-        `;
-      });
-    }
-
-    // 3. LIVE ROW RECALCULATION
-    function recalcRow(inputElem) {
-      const row = inputElem.closest('tr');
-      const inputs = row.querySelectorAll('.mark-input');
-      let sum = 0;
-
-      inputs.forEach(inp => {
-        let val = Number(inp.value || 0);
-        if (val > 100) { val = 100; inp.value = 100; }
-        if (val < 0) { val = 0; inp.value = 0; }
-        sum += val;
-      });
-
-      const percent = (sum / 6).toFixed(1);
-      const grade = calculateGrade(percent);
-      const isPass = percent >= 33;
-
-      row.querySelector('.cell-total').innerText = `${sum} / 600`;
-      row.querySelector('.cell-percent').innerText = `${percent}%`;
-      row.querySelector('.cell-grade').innerText = grade;
-      const statusSpan = row.querySelector('.cell-status');
-      statusSpan.innerText = isPass ? 'PASS' : 'FAIL';
-      statusSpan.style.background = isPass ? '#dcfce7' : '#fee2e2';
-      statusSpan.style.color = isPass ? '#15803d' : '#b91c1c';
-    }
-
-    function calculateGrade(pct) {
-      if (pct >= 85) return 'A+';
-      if (pct >= 70) return 'A';
-      if (pct >= 55) return 'B';
-      if (pct >= 40) return 'C';
-      if (pct >= 33) return 'D';
-      return 'E (Fail)';
-    }
-
-    // 4. SAVE MARKS INTO STORAGE
-    function saveAllMarks() {
-      const selectedExam = document.getElementById('exam-select').value;
-      const selectedClass = document.getElementById('class-select').value;
-      const rows = document.querySelectorAll('#exam-tbody tr');
-
-      rows.forEach(row => {
-        const studentId = row.getAttribute('data-student-id');
-        if (!studentId) return;
-
-        const key = `${selectedExam}_${selectedClass}_${studentId}`;
-        const inputs = row.querySelectorAll('.mark-input');
-
-        examMarksDb[key] = {
-          hindi: Number(inputs[0]?.value || 0),
-          english: Number(inputs[1]?.value || 0),
-          math: Number(inputs[2]?.value || 0),
-          science: Number(inputs[3]?.value || 0),
-          sst: Number(inputs[4]?.value || 0),
-          sanskrit: Number(inputs[5]?.value || 0)
-        };
-      });
-
-      localStorage.setItem('smps_exam_marks', JSON.stringify(examMarksDb));
-      showAppToast("✔ कक्षा के सभी प्राप्तांक स्थायी रूप से सुरक्षित हो गए!");
-    }
-
-    // 5. REPORT CARD GENERATION
-    function generateReportCard(studentId) {
-      const s = globalStudents.find(x => x.id === studentId);
-      if (!s) return;
-
-      const selectedExam = document.getElementById('exam-select').value;
-      const selectedClass = document.getElementById('class-select').value;
-      const key = `${selectedExam}_${selectedClass}_${studentId}`;
-      const marks = examMarksDb[key] || { hindi: 78, english: 72, math: 85, science: 80, sst: 75, sanskrit: 82 };
-
-      document.getElementById('rc-exam-badge').innerText = `${selectedExam} परीक्षा प्रगति पत्र (सत्र: 2026-27)`;
-      document.getElementById('rc-name').innerText = s.name;
-      document.getElementById('rc-sr').innerText = s.scholar_no || '-';
-      document.getElementById('rc-father').innerText = s.father_name || 'श्री अभिभावक';
-      document.getElementById('rc-class').innerText = `${s.class_name || selectedClass} - Section A`;
-      document.getElementById('rc-roll').innerText = s.roll_no || '1';
-      document.getElementById('rc-dob').innerText = s.dob || '01/01/2012';
-
-      const subjects = [
-        { name: 'हिन्दी (Hindi)', val: marks.hindi },
-        { name: 'अंग्रेज़ी (English)', val: marks.english },
-        { name: 'गणित (Mathematics)', val: marks.math },
-        { name: 'विज्ञान (Science)', val: marks.science },
-        { name: 'सामाजिक विज्ञान (Social Science)', val: marks.sst },
-        { name: 'तृतीय भाषा / संस्कृत (Sanskrit)', val: marks.sanskrit }
-      ];
-
-      const tbody = document.getElementById('rc-subject-rows');
-      tbody.innerHTML = '';
-      let totalObt = 0;
-
-      subjects.forEach((sub, i) => {
-        totalObt += sub.val;
-        tbody.innerHTML += `
-          <tr>
-            <td>${i + 1}</td>
-            <td style="text-align:left; font-weight:700;">${sub.name}</td>
-            <td>100</td>
-            <td>33</td>
-            <td style="font-weight:800; color:${sub.val < 33 ? '#dc2626' : '#15803d'};">${sub.val}</td>
-            <td style="font-weight:800;">${calculateGrade(sub.val)}</td>
-          </tr>
-        `;
-      });
-
-      const percent = (totalObt / 6).toFixed(1);
-      const isPass = percent >= 33;
-
-      document.getElementById('rc-total-obt').innerText = `${totalObt} / 600`;
-      document.getElementById('rc-percent').innerText = `${percent}%`;
-      document.getElementById('rc-grade').innerText = calculateGrade(percent);
-      const resElem = document.getElementById('rc-result');
-      resElem.innerText = isPass ? 'उत्तीर्ण (PASS)' : 'अनुत्तीर्ण (FAIL)';
-      resElem.style.color = isPass ? '#15803d' : '#dc2626';
-
-      document.getElementById('report-card-modal').style.display = 'flex';
-    }
-
-    function closeReportCardModal() {
-      document.getElementById('report-card-modal').style.display = 'none';
-    }
-
-    // 6. WHATSAPP RESULT ALERT
-    function sendResultWhatsApp(studentId) {
-      const s = globalStudents.find(x => x.id === studentId);
-      if (!s || !s.mobile_no) {
-        showAppToast("❌ मान्य मोबाइल नंबर नहीं मिला", false);
-        return;
-      }
-
-      const selectedExam = document.getElementById('exam-select').value;
-      const selectedClass = document.getElementById('class-select').value;
-      const key = `${selectedExam}_${selectedClass}_${studentId}`;
-      const marks = examMarksDb[key] || { hindi: 78, english: 72, math: 85, science: 80, sst: 75, sanskrit: 82 };
-      const total = marks.hindi + marks.english + marks.math + marks.science + marks.sst + marks.sanskrit;
-      const percent = (total / 6).toFixed(1);
-      const grade = calculateGrade(percent);
-
-      const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
-      const text = `🏆 *परीक्षा परिणाम सूचना | सत्र: 2026-27*\n\n` +
-                   `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n` +
-                   `सादर प्रणाम।\n\n` +
-                   `श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा आपके सुपुत्र/सुपुत्री *${s.name}* (कक्षा: *${selectedClass}*, SR: *${s.scholar_no}*) का *${selectedExam}* परीक्षा परिणाम घोषित किया गया है:\n\n` +
-                   `📊 *प्राप्तांक विवरण:*\n` +
-                   `• हिन्दी: ${marks.hindi}/100\n` +
-                   `• अंग्रेज़ी: ${marks.english}/100\n` +
-                   `• गणित: ${marks.math}/100\n` +
-                   `• विज्ञान: ${marks.science}/100\n` +
-                   `• सा. विज्ञान: ${marks.sst}/100\n` +
-                   `• संस्कृत: ${marks.sanskrit}/100\n\n` +
-                   `🔹 कुल प्राप्तांक: *${total} / 600*\n` +
-                   `🔹 प्रतिशत: *${percent}%*\n` +
-                   `🔹 अंतिम ग्रेड: *${grade}*\n` +
-                   `🔹 परीक्षा फल: *उत्तीर्ण (PASS)*\n\n` +
-                   `विद्यार्थी के उज्ज्वल भविष्य की मंगलकामनाओं सहित।\n` +
-                   `*परीक्षा प्रभारी, श्री मेवाड़ पब्लिक स्कूल (सिंहपुर)*`;
-
-      window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
-      showAppToast(`✔ ${s.name} का परिणाम WhatsApp पर प्रेषित!`);
-    }
-
-    function filterExamTable() {
-      const q = (document.getElementById('search-student')?.value || '').toLowerCase().trim();
-      const rows = document.querySelectorAll('#exam-tbody tr');
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(q) ? '' : 'none';
-      });
-    }
-
-    function showExamStatistics() {
-      alert("📊 परीक्षा परिणाम सारांश (सत्र 2026-27):\n\n• कुल प्रविष्ट विद्यार्थी: " + globalStudents.length + "\n• उत्तीर्ण प्रतिशत: 100%\n• प्रथम श्रेणी (60%+): 85%\n• विद्यालय औसत: 76.4%");
-    }
-
-    function showToppersList() {
-      alert("🏆 कक्षा मेरिट / टॉपर सूची:\n\n1. अनुराग जातिया (Class 8th) - 78.3%\n2. आदित्य सालवी (Class PP.5+) - 77.0%\n3. आरोही आचार्य (Class 1st) - 76.5%");
-    }
-
-    // Initialize Hub
-    initExamHub();
-  </script>
-</body>
-</html>
+              <span class="cell
