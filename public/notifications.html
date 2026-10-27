@@ -160,6 +160,12 @@
     .custom-table tr:hover { background: #fef9c3; }
 
     /* ACTION BUTTONS */
+    .btn-act-group {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+    }
     .btn-act {
       border: none;
       border-radius: 4px;
@@ -172,7 +178,9 @@
       align-items: center;
       gap: 4px;
       text-decoration: none;
+      transition: opacity 0.15s ease;
     }
+    .btn-act:hover { opacity: 0.9; }
     .btn-wa-red { background: #dc2626; }
     .btn-wa-green { background: #16a34a; }
     .btn-sms-blue { background: #0284c7; }
@@ -249,7 +257,7 @@
     </div>
 
     <!-- ======================================================================
-         PANEL 1: ATTENDANCE ABSENTEE ALERT
+         PANEL 1: ATTENDANCE ABSENTEE ALERT (WITH WHATSAPP & SMS)
          ====================================================================== -->
     <div id="panel-attendance" class="content-panel" style="display:none;">
       <h3 class="section-title">
@@ -280,9 +288,12 @@
             <option value="absent" selected>केवल अनुपस्थित (Absent)</option>
           </select>
         </div>
-        <div style="margin-left:auto;">
+        <div style="margin-left:auto; display:flex; gap:8px;">
+          <button type="button" class="btn-act btn-sms-blue" onclick="sendAllAbsentSMS()">
+            📨 अनुपस्थित SMS ब्रॉडकास्ट
+          </button>
           <button type="button" class="btn-act btn-wa-green" onclick="sendAllAbsentAlerts()">
-            ⚡ समस्त अनुपस्थित छात्रों को WhatsApp भेजें
+            ⚡ अनुपस्थित WhatsApp भेजें
           </button>
         </div>
       </div>
@@ -298,7 +309,7 @@
               <th>अभिभावक</th>
               <th>मोबाइल नंबर</th>
               <th style="text-align:center; width:110px;">आज की स्थिति</th>
-              <th style="text-align:center; width:180px;">अनुपस्थिति अलर्ट भेजें</th>
+              <th style="text-align:center; width:220px;">अलर्ट भेजें (WhatsApp / SMS)</th>
             </tr>
           </thead>
           <tbody id="att-tbody"></tbody>
@@ -307,7 +318,7 @@
     </div>
 
     <!-- ======================================================================
-         PANEL 2: FEES REMINDER ALERT
+         PANEL 2: FEES REMINDER ALERT (WITH WHATSAPP & SMS)
          ====================================================================== -->
     <div id="panel-fees" class="content-panel">
       <h3 class="section-title">
@@ -333,7 +344,7 @@
               <th>अभिभावक</th>
               <th>मोबाइल नंबर</th>
               <th style="color:#b91c1c;">बकाया राशि</th>
-              <th style="text-align:center; width:200px;">फीस रिमाइंडर भेजें</th>
+              <th style="text-align:center; width:220px;">फीस रिमाइंडर भेजें</th>
             </tr>
           </thead>
           <tbody id="fees-tbody"></tbody>
@@ -407,9 +418,8 @@
     }
 
     let masterStudents = [];
-    let attendanceMap = {}; // id -> 'P' or 'A'
+    let attendanceMap = {};
 
-    // 1. DATA INITIALIZATION
     function initModuleData() {
       const local = localStorage.getItem('smps_students_master');
       if (local) {
@@ -429,7 +439,6 @@
         ];
       }
 
-      // Default attendance: 2nd and 4th student marked absent for testing
       masterStudents.forEach((s, idx) => {
         attendanceMap[s.id] = (idx === 0 || idx === 3) ? 'A' : 'P';
       });
@@ -437,7 +446,6 @@
       renderFeesList(masterStudents);
       renderAttendanceTable();
 
-      // Backend sync
       fetch('/api/students')
         .then(res => res.json())
         .then(data => {
@@ -450,7 +458,6 @@
         .catch(() => {});
     }
 
-    // 2. TAB SWITCHING LOGIC (100% FIXED)
     function selectCommTab(tabName) {
       document.getElementById('panel-attendance').style.display = (tabName === 'attendance') ? 'block' : 'none';
       document.getElementById('panel-fees').style.display = (tabName === 'fees') ? 'block' : 'none';
@@ -467,7 +474,7 @@
     }
 
     // ==========================================
-    // ATTENDANCE LOGIC
+    // 1. ATTENDANCE LOGIC (WHATSAPP + SMS)
     // ==========================================
     function renderAttendanceTable() {
       const tbody = document.getElementById('att-tbody');
@@ -506,9 +513,14 @@
             <td>${s.mobile_no || '-'}</td>
             <td style="text-align:center;">${badge}</td>
             <td style="text-align:center;">
-              <button type="button" class="btn-act btn-wa-red" onclick="sendAbsentWhatsApp(${s.id})">
-                💬 अनुपस्थिति WhatsApp
-              </button>
+              <div class="btn-act-group">
+                <button type="button" class="btn-act btn-wa-red" onclick="sendAbsentWhatsApp(${s.id})">
+                  💬 WhatsApp
+                </button>
+                <button type="button" class="btn-act btn-sms-blue" onclick="sendAbsentSMS(${s.id})">
+                  📨 SMS
+                </button>
+              </div>
             </td>
           </tr>
         `;
@@ -531,7 +543,21 @@
       const text = `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n\nश्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपका सुपुत्र/सुपुत्री ${s.name} (कक्षा: ${s.class_name}) आज दिनांक ${date} को विद्यालय में अनुपस्थित (Absent) है।\n\nयदि अनुपस्थिति पूर्व-स्वीकृत नहीं है तो कृपया विद्यालय से संपर्क करें।\n\n- प्रधानाचार्य, SMPS सिंहपुर`;
 
       window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
-      showAppToast(`✔ ${s.name} का अनुपस्थिति अलर्ट भेजा गया!`);
+      showAppToast(`✔ ${s.name} का WhatsApp अलर्ट भेजा गया!`);
+    }
+
+    function sendAbsentSMS(id) {
+      const s = masterStudents.find(x => x.id === id);
+      if (!s || !s.mobile_no) {
+        showAppToast("❌ मान्य मोबाइल नंबर नहीं मिला", false);
+        return;
+      }
+      const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
+      const date = document.getElementById('att-date')?.value || new Date().toLocaleDateString('hi-IN');
+      const text = `प्रिय अभिभावक, आपका बच्चा ${s.name} (कक्षा: ${s.class_name}) आज दिनांक ${date} को SMPS स्कूल में अनुपस्थित है। - प्रधानाचार्य, SMPS सिंहपुर`;
+
+      window.location.href = `sms:+91${phone}?body=${encodeURIComponent(text)}`;
+      showAppToast(`✔ ${s.name} का SMS तैयार!`);
     }
 
     function sendAllAbsentAlerts() {
@@ -544,8 +570,20 @@
       showAppToast(`⚡ ${absentList.length} अनुपस्थित छात्रों के संदेश तैयार!`);
     }
 
+    function sendAllAbsentSMS() {
+      const absentList = masterStudents.filter(s => attendanceMap[s.id] === 'A');
+      if (absentList.length === 0) {
+        showAppToast("कोई अनुपस्थित छात्र नहीं है!");
+        return;
+      }
+      const date = document.getElementById('att-date')?.value || new Date().toLocaleDateString('hi-IN');
+      const text = `प्रिय अभिभावक, आपका बच्चा आज दिनांक ${date} को SMPS स्कूल सिंहपुर में अनुपस्थित है।`;
+      window.location.href = `sms:?body=${encodeURIComponent(text)}`;
+      showAppToast(`⚡ अनुपस्थित छात्रों हेतु ब्रॉडकास्ट SMS तैयार!`);
+    }
+
     // ==========================================
-    // FEES REMINDER LOGIC
+    // 2. FEES REMINDER LOGIC (WHATSAPP + SMS)
     // ==========================================
     function renderFeesList(list) {
       const tbody = document.getElementById('fees-tbody');
@@ -572,9 +610,14 @@
             <td>${s.mobile_no || '-'}</td>
             <td style="color:#dc2626; font-weight:900;">₹ ${bal}</td>
             <td style="text-align:center;">
-              <button type="button" class="btn-act btn-wa-red" onclick="sendFeesWhatsApp(${s.id})">
-                💬 फीस रिमाइंडर
-              </button>
+              <div class="btn-act-group">
+                <button type="button" class="btn-act btn-wa-red" onclick="sendFeesWhatsApp(${s.id})">
+                  💬 WhatsApp
+                </button>
+                <button type="button" class="btn-act btn-sms-blue" onclick="sendFeesSMS(${s.id})">
+                  📨 SMS
+                </button>
+              </div>
             </td>
           </tr>
         `;
@@ -603,11 +646,25 @@
       const text = `आदरणीय ${s.father_name || 'अभिभावक'} जी,\n\nश्री मेवाड़ पब्लिक स्कूल (सिंहपुर) द्वारा सूचित किया जाता है कि आपके बच्चे ${s.name} की सत्र 2026-27 की कुल बकाया फीस ₹${bal} शेष है।\n\nकृपया इसे शीघ्र विद्यालय कार्यालय में जमा करवाएं।\n\nधन्यवाद,\nSMPS सिंहपुर`;
 
       window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
-      showAppToast(`✔ फीस रिमाइंडर भेजा गया!`);
+      showAppToast(`✔ फीस WhatsApp रिमाइंडर भेजा गया!`);
+    }
+
+    function sendFeesSMS(id) {
+      const s = masterStudents.find(x => x.id === id);
+      if (!s || !s.mobile_no) {
+        showAppToast("❌ मान्य मोबाइल नंबर नहीं मिला", false);
+        return;
+      }
+      const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
+      const bal = Number(s.balance_fees || 0).toLocaleString('en-IN');
+      const text = `प्रिय अभिभावक, आपके बच्चे ${s.name} की SMPS स्कूल में बकाया फीस ₹${bal} शेष है। कृपया शीघ्र जमा करवाएं। - SMPS सिंहपुर`;
+
+      window.location.href = `sms:+91${phone}?body=${encodeURIComponent(text)}`;
+      showAppToast(`✔ फीस SMS तैयार!`);
     }
 
     // ==========================================
-    // NOTICE BROADCAST LOGIC
+    // 3. NOTICE BROADCAST LOGIC
     // ==========================================
     function loadNoticeTemplate(type) {
       const txt = document.getElementById('notice-body');
@@ -628,7 +685,6 @@
         return;
       }
 
-      // First student of target class as trigger
       const targetStudent = (target === 'ALL') ? masterStudents[0] : (masterStudents.find(s => s.class_name === target) || masterStudents[0]);
       const phone = targetStudent.mobile_no.replace(/[^0-9]/g, '').slice(-10);
 
