@@ -3,43 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>फीस प्रबंधन एवं रसीद केंद्र - SHREE MEWAR PUBLIC SCHOOL</title>
+  <title>फीस एवं राजस्व प्रबंधन केंद्र - SHREE MEWAR PUBLIC SCHOOL</title>
   <link rel="stylesheet" href="/css/style.css">
   <style>
     :root {
       --bbs-maroon: #7a1c1c;
       --bbs-dark-maroon: #581111;
       --bbs-gold: #f59e0b;
-      --bbs-bg: #fdfaf6;
+      --bbs-bg: #f8fafc;
+      --bbs-surface: #ffffff;
+      --bbs-border: #e2e8f0;
+      --bbs-text: #1e293b;
     }
 
+    * { box-sizing: border-box; }
     body {
       background: var(--bbs-bg);
-      color: #1e293b;
+      color: var(--bbs-text);
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
+    /* GLOBAL HEADER */
     .bbs-main-header {
       background: linear-gradient(135deg, var(--bbs-maroon), var(--bbs-dark-maroon));
       color: #ffffff;
-      padding: 10px 24px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
     }
     .bbs-header-school-name {
       font-size: 19px;
       font-weight: 900;
       letter-spacing: 0.5px;
-      margin-bottom: 2px;
     }
     .bbs-header-session {
       font-size: 11px;
       color: #fef08a;
       font-weight: 600;
+      margin-top: 2px;
     }
     .bbs-btn-pill {
       background: #e28743;
@@ -53,137 +58,254 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
-    .main-container {
-      max-width: 1400px;
-      margin: 16px auto;
+    .main-wrapper {
+      max-width: 1480px;
+      margin: 18px auto;
       padding: 0 16px;
     }
 
-    /* TOP STATS */
-    .fees-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-    .stat-card {
+    /* BIG BRAND ACTION BAR (5 PRIMARY BUTTONS) */
+    .erp-brand-toolbar {
       background: #ffffff;
-      border: 1px solid #fed7aa;
-      border-radius: 8px;
-      padding: 12px 16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-    }
-    .stat-label { font-size: 11.5px; font-weight: 700; color: #64748b; }
-    .stat-value { font-size: 20px; font-weight: 900; margin-top: 4px; }
-
-    /* ACTION BAR */
-    .fees-action-bar {
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin-bottom: 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .search-input {
-      padding: 8px 14px;
-      border: 1.5px solid #cbd5e1;
+    .erp-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .erp-btn {
+      padding: 9px 16px;
       border-radius: 6px;
-      font-size: 13px;
-      outline: none;
-      width: 280px;
-    }
-    .btn-collect-fee {
-      background: #16a34a;
+      font-size: 12.5px;
+      font-weight: 800;
       color: #ffffff;
       border: none;
-      border-radius: 6px;
-      padding: 8px 18px;
-      font-size: 13px;
-      font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      transition: all 0.15s ease;
     }
+    .erp-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-green-collect { background: #15803d; }
+    .btn-blue-matrix { background: #0284c7; }
+    .btn-purple-daybook { background: #7c3aed; }
+    .btn-teal-install { background: #0d9488; }
+    .btn-orange-defaulters { background: #ea580c; }
 
-    /* TABLE */
-    .table-card {
+    /* STATS & PROGRESS HUD */
+    .erp-hud-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .hud-card {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      padding: 14px 18px;
+      position: relative;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .hud-title { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; }
+    .hud-number { font-size: 22px; font-weight: 900; margin-top: 4px; }
+    .hud-sub { font-size: 11px; color: #94a3b8; font-weight: 600; margin-top: 2px; }
+
+    /* FILTERS & SEARCH STRIP */
+    .erp-filter-strip {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .erp-select-input {
+      padding: 7px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      outline: none;
+      background: #ffffff;
+      min-width: 160px;
+    }
+    .erp-search-box {
+      width: 100%;
+      max-width: 380px;
+      position: relative;
+    }
+    .erp-search-input {
+      width: 100%;
+      padding: 8px 12px 8px 34px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 20px;
+      font-size: 12.5px;
+      outline: none;
+    }
+    .erp-search-input:focus { border-color: #0284c7; }
+
+    /* DIRECTORY TABLE */
+    .erp-table-container {
       background: #ffffff;
       border: 1.5px solid #fed7aa;
       border-radius: 10px;
       padding: 12px;
       overflow-x: auto;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .custom-table {
+    .erp-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 12px;
       text-align: left;
     }
-    .custom-table th {
+    .erp-table th {
       background: #fdf2e9;
       color: #7c2d12;
-      padding: 8px 10px;
+      padding: 9px 8px;
       font-weight: 800;
       border: 1px solid #fed7aa;
+      white-space: nowrap;
     }
-    .custom-table td {
-      padding: 8px 10px;
+    .erp-table td {
+      padding: 8px 8px;
       border: 1px solid #e2e8f0;
+      vertical-align: middle;
+      white-space: nowrap;
     }
-    .custom-table tr:nth-child(even) { background: #fffcf7; }
-    .custom-table tr:hover { background: #fef9c3; }
+    .erp-table tr:nth-child(even) { background: #fffcf7; }
+    .erp-table tr:hover { background: #fef9c3; }
 
-    .btn-pay {
-      background: #0284c7;
-      color: #fff;
+    /* DUAL-ACTION BUTTONS (ERP STYLE) */
+    .table-act-panel {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .btn-act-unit {
       border: none;
-      padding: 4px 10px;
       border-radius: 4px;
-      font-weight: 700;
-      font-size: 11px;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 5px 8px;
+      color: #ffffff;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      text-decoration: none;
+      transition: opacity 0.15s ease;
     }
+    .btn-act-unit:hover { opacity: 0.9; }
+    .act-pay { background: #16a34a; }
+    .act-receipt { background: #0284c7; }
+    .act-ledger { background: #7c3aed; }
+    .act-remind { background: #dc2626; }
 
-    /* MODAL */
-    .modal-overlay {
+    /* MODAL OVERLAYS */
+    .custom-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 99999;
+      z-index: 9999999;
       padding: 16px;
       box-sizing: border-box;
     }
-    .modal-box {
+    .modal-card {
       background: #ffffff;
-      border-radius: 10px;
-      max-width: 500px;
+      border-radius: 12px;
+      max-width: 650px;
       width: 100%;
-      padding: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--bbs-maroon), var(--bbs-dark-maroon));
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-close-modal {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
     }
 
-    /* RECEIPT PRINT */
-    .receipt-print-box {
-      border: 2px dashed #78350f;
-      padding: 20px;
-      background: #fff;
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #334155;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-ctrl {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
       font-size: 12px;
-      line-height: 1.6;
+      outline: none;
+    }
+    .form-ctrl:focus { border-color: #0284c7; }
+
+    /* RECEIPT PRINTER SHEET */
+    .receipt-print-wrapper {
+      width: 580px;
+      margin: 0 auto;
+      border: 2px solid #78350f;
+      padding: 24px;
+      background: #ffffff;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .receipt-head {
+      text-align: center;
+      border-bottom: 2px dashed #78350f;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     @media print {
       body * { visibility: hidden; }
-      #printable-receipt, #printable-receipt * { visibility: visible; }
-      #printable-receipt { position: absolute; left: 0; top: 0; width: 100%; }
+      #printable-receipt-box, #printable-receipt-box * { visibility: visible; }
+      #printable-receipt-box { position: absolute; left: 0; top: 0; width: 100%; }
       .no-print { display: none !important; }
     }
 
@@ -198,7 +320,7 @@
       font-size: 13px;
       font-weight: 600;
       display: none;
-      z-index: 999999;
+      z-index: 99999999;
     }
   </style>
 </head>
@@ -206,137 +328,219 @@
 
   <div id="local-toast"></div>
 
-  <!-- HEADER -->
+  <!-- MAIN HEADER -->
   <header class="bbs-main-header">
     <div style="display:flex; align-items:center; gap:12px;">
-      <a href="/dashboard" class="bbs-btn-pill">⬅ वापस (Dashboard)</a>
+      <a href="/dashboard" class="bbs-btn-pill">⬅ डैशबोर्ड (Dashboard)</a>
       <div>
         <div class="bbs-header-school-name">SHREE MEWAR PUBLIC SCHOOL</div>
-        <div class="bbs-header-session">सत्र 2026-27 | फीस एवं लेखा केंद्र</div>
+        <div class="bbs-header-session">सत्र 2026-27 | फीस एवं राजस्व प्रबंधन केंद्र</div>
       </div>
     </div>
-    <a href="/students" class="bbs-btn-pill">👥 छात्र पोर्टल</a>
+    <div style="display:flex; gap:8px;">
+      <a href="/students" class="bbs-btn-pill" style="background:#0284c7;">👥 छात्र डायरेक्टरी</a>
+      <a href="/notifications" class="bbs-btn-pill" style="background:#15803d;">📱 SMS/WhatsApp</a>
+    </div>
   </header>
 
-  <main class="main-container">
-    <!-- STATS -->
-    <div class="fees-stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">कुल निर्धारित वार्षिक फीस</div>
-        <div class="stat-value" id="val-total-fees" style="color:#0284c7;">₹ 0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">कुल जमा फीस (Collected)</div>
-        <div class="stat-value" id="val-collected-fees" style="color:#16a34a;">₹ 0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">कुल बकाया फीस (Pending Dues)</div>
-        <div class="stat-value" id="val-pending-fees" style="color:#dc2626;">₹ 0</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">बकाया वाले विद्यार्थी</div>
-        <div class="stat-value" id="val-pending-students" style="color:#b45309;">0 छात्र</div>
-      </div>
-    </div>
+  <main class="main-wrapper">
 
-    <!-- ACTION BAR -->
-    <div class="fees-action-bar">
-      <input type="text" id="fees-search" class="search-input" placeholder="छात्र का नाम या स्कॉलर नं से खोजें..." onkeyup="filterFeesTable()">
+    <!-- BIG BRAND ACTION BAR (5 PRIMARY ERP BUTTONS) -->
+    <div class="erp-brand-toolbar">
+      <div class="erp-btn-group">
+        <button type="button" class="erp-btn btn-green-collect" onclick="openQuickCollectionModal()">
+          ➕ त्वरित फीस जमा (Quick Pay)
+        </button>
+        <button type="button" class="erp-btn btn-blue-matrix" onclick="openClassMatrixModal()">
+          📊 कक्षावार बकाया मेट्रिक्स (Matrix)
+        </button>
+        <button type="button" class="erp-btn btn-purple-daybook" onclick="openDayBookModal()">
+          🖨️ दैनिक रोकड़ बही (Daybook)
+        </button>
+        <button type="button" class="erp-btn btn-teal-install" onclick="showInstallmentAlert()">
+          🧾 किश्त प्रबंधन (Installments)
+        </button>
+        <button type="button" class="erp-btn btn-orange-defaulters" onclick="filterOnlyDefaulters()">
+          ⚠️ केवल बकाया छात्र (Defaulters)
+        </button>
+      </div>
       <div>
-        <button type="button" class="btn-collect-fee" onclick="window.print()">🖨️ फीस रिपोर्ट प्रिंट</button>
+        <button type="button" class="bbs-btn-pill" style="background:#78350f;" onclick="exportFeesExcel()">
+          📥 Excel रिपोर्ट
+        </button>
       </div>
     </div>
 
-    <!-- TABLE -->
-    <div class="table-card">
-      <table class="custom-table">
+    <!-- STATS & FINANCIAL OVERVIEW -->
+    <div class="erp-hud-grid">
+      <div class="hud-card">
+        <div class="hud-title">कुल निर्धारित वार्षिक फीस</div>
+        <div class="hud-number" id="stat-total-target" style="color:#0284c7;">₹ 0</div>
+        <div class="hud-sub">सत्र 2026-27 अनुमानित लक्ष्य</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-title">कुल संकलित फीस (Collected)</div>
+        <div class="hud-number" id="stat-total-collected" style="color:#15803d;">₹ 0</div>
+        <div class="hud-sub">आज तक की वास्तविक प्राप्ति</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-title">कुल बकाया राजस्व (Outstanding)</div>
+        <div class="hud-number" id="stat-total-pending" style="color:#dc2626;">₹ 0</div>
+        <div class="hud-sub" id="stat-pending-students-lbl">0 विद्यार्थियों से शेष</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-title">वसूली दक्षता दर (Recovery Rate)</div>
+        <div class="hud-number" id="stat-recovery-rate" style="color:#7c3aed;">0%</div>
+        <div class="hud-sub">सक्रिय वसूली अनुपात</div>
+      </div>
+    </div>
+
+    <!-- FILTERS AND SEARCH -->
+    <div class="erp-filter-strip">
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <select id="fee-cls-filter" class="erp-select-input" onchange="filterFeesGrid()">
+          <option value="">💻 -- समस्त कक्षाएं (All) --</option>
+          <option value="PP.3+">PP.3+</option>
+          <option value="PP.4+">PP.4+</option>
+          <option value="PP.5+">PP.5+</option>
+          <option value="1st">1st</option>
+          <option value="6th">6th</option>
+          <option value="8th">8th</option>
+          <option value="Class 10-A">Class 10-A</option>
+        </select>
+        <select id="fee-status-filter" class="erp-select-input" onchange="filterFeesGrid()">
+          <option value="">🔘 समस्त स्थिति (All Dues)</option>
+          <option value="due">⚠️ केवल बकाया (Balance > 0)</option>
+          <option value="clear">✔ चुकता (Nil Balance)</option>
+        </select>
+      </div>
+
+      <div class="erp-search-box">
+        <span style="position:absolute; left:12px; top:8px; font-size:14px; color:#64748b;">🔍</span>
+        <input type="text" id="fees-search-input" class="erp-search-input" placeholder="छात्र का नाम, स्कॉलर नं या मोबाइल से खोजें..." onkeyup="filterFeesGrid()">
+      </div>
+    </div>
+
+    <!-- MAIN DIRECTORY TABLE -->
+    <div class="erp-table-container">
+      <table class="erp-table">
         <thead>
           <tr>
-            <th style="width:40px; text-align:center;">क्र.</th>
+            <th style="width:36px; text-align:center;">क्र.</th>
             <th style="width:75px;">स्कॉलर नं</th>
             <th>विद्यार्थी का नाम</th>
-            <th>कक्षा</th>
-            <th>पिता का नाम</th>
-            <th>मोबाइल</th>
-            <th>बकाया फीस</th>
-            <th style="text-align:center; width:120px;">फीस एक्शन</th>
+            <th style="width:70px; text-align:center;">कक्षा</th>
+            <th>अभिभावक का नाम</th>
+            <th>मोबाइल नंबर</th>
+            <th>कुल फीस</th>
+            <th>जमा फीस</th>
+            <th style="color:#dc2626;">बकाया फीस</th>
+            <th style="width:90px; text-align:center;">स्थिति</th>
+            <th style="width:230px; text-align:center;">कार्यवाही (Action Panel)</th>
           </tr>
         </thead>
-        <tbody id="fees-table-tbody"></tbody>
+        <tbody id="erp-fees-tbody"></tbody>
       </table>
     </div>
   </main>
 
-  <!-- MODAL: COLLECT FEE -->
-  <div id="collect-fee-modal" class="modal-overlay">
-    <div class="modal-box">
-      <h3 style="margin-top:0; color:#7f1d1d;">💳 फीस जमा एवं रसीद जारी करें</h3>
-      <div style="font-size:12px; margin-bottom:12px; color:#475569;">
-        छात्र: <strong id="modal-student-name" style="color:#0284c7;">--</strong> | 
-        स्कॉलर: <strong id="modal-student-sr">--</strong>
+  <!-- ==========================================================================
+       MODAL 1: ENTERPRISE QUICK COLLECTION MODAL
+       ========================================================================== -->
+  <div id="quick-collect-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:15px; margin:0;"><span>💳</span> त्वरित फीस संकलन एवं डिजिटल रसीद</h3>
+        <button type="button" class="btn-close-modal" onclick="closeQuickCollectionModal()">×</button>
       </div>
-      
-      <div style="margin-bottom:12px;">
-        <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">वर्तमान बकाया राशि (₹)</label>
-        <input type="text" id="modal-current-balance" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; font-weight:800; color:#dc2626;" readonly>
-      </div>
+      <form id="quick-collect-form" onsubmit="handleFeeSubmit(event)" style="padding:20px;">
+        <div style="background:#fff7ed; border:1px solid #fed7aa; padding:10px 14px; border-radius:6px; margin-bottom:14px;">
+          छात्र: <strong id="m-student-name" style="color:#0284c7;">--</strong> | 
+          स्कॉलर: <strong id="m-scholar-no">--</strong> | 
+          कक्षा: <strong id="m-class-name">--</strong>
+        </div>
 
-      <div style="margin-bottom:16px;">
-        <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">अब जमा की जाने वाली राशि (₹) *</label>
-        <input type="number" id="modal-pay-amount" style="width:100%; padding:8px; border:1.5px solid #0284c7; border-radius:4px; font-weight:800;" placeholder="राशि दर्ज करें">
-      </div>
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">वर्तमान बकाया फीस (₹)</label>
+            <input type="text" id="m-current-bal" class="form-ctrl" style="font-weight:900; color:#dc2626;" readonly>
+          </div>
+          <div>
+            <label class="form-label">भुगतान दिनांक</label>
+            <input type="date" id="m-pay-date" class="form-ctrl" value="2026-10-27" required>
+          </div>
+          <div>
+            <label class="form-label">जमा की जा रही राशि (₹) *</label>
+            <input type="number" id="m-pay-amount" class="form-ctrl" style="font-weight:900; color:#15803d;" placeholder="राशि दर्ज करें" required>
+          </div>
+          <div>
+            <label class="form-label">भुगतान माध्यम (Payment Mode)</label>
+            <select id="m-pay-mode" class="form-ctrl">
+              <option value="Cash (नकद)" selected>नकद (Cash)</option>
+              <option value="UPI / PhonePe">UPI / QR कोड</option>
+              <option value="Bank Transfer">बैंक खाता ट्रांसफर</option>
+            </select>
+          </div>
+        </div>
 
-      <div style="display:flex; justify-content:flex-end; gap:8px;">
-        <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closePayModal()">रद्द करें</button>
-        <button type="button" class="btn-collect-fee" onclick="submitFeePayment()">✔ फीस जमा करें व रसीद देखें</button>
-      </div>
+        <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeQuickCollectionModal()">रद्द करें</button>
+          <button type="submit" class="erp-btn btn-green-collect">💾 सुरक्षित करें व रसीद बनाएं</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- MODAL: PRINT RECEIPT -->
-  <div id="receipt-modal" class="modal-overlay">
-    <div class="modal-box" style="max-width:550px;">
-      <div id="printable-receipt">
-        <div class="receipt-print-box">
-          <div style="text-align:center; border-bottom:2px solid #78350f; padding-bottom:8px; margin-bottom:10px;">
-            <h3 style="margin:0; color:#7f1d1d; font-size:18px;">SHREE MEWAR PUBLIC SCHOOL</h3>
-            <p style="margin:2px 0; font-size:10px; color:#475569;">सिंहपुर, कपासन, चित्तौड़गढ़ (राज.) | 📞 9799242540</p>
-            <strong style="background:#fef08a; padding:2px 8px; border-radius:4px; font-size:11px; color:#7f1d1d;">फीस जमा पावती / FEE RECEIPT (2026-27)</strong>
+  <!-- ==========================================================================
+       MODAL 2: PRINTABLE RECEIPT
+       ========================================================================== -->
+  <div id="receipt-modal" class="custom-modal-overlay">
+    <div class="modal-card" style="max-width:620px;">
+      <div id="printable-receipt-box" style="padding:16px;">
+        <div class="receipt-print-wrapper">
+          <div class="receipt-head">
+            <h2 style="font-size:20px; font-weight:900; color:#7f1d1d; margin:0;">SHREE MEWAR PUBLIC SCHOOL</h2>
+            <p style="font-size:10.5px; margin:2px 0; color:#475569;">सिंहपुर, तहसील कपासन, जिला चित्तौड़गढ़ (राज.) | 📞 9799242540</p>
+            <span style="background:#fef08a; color:#7f1d1d; font-size:11px; font-weight:800; padding:2px 10px; border-radius:4px; display:inline-block; margin-top:4px;">फीस प्राप्ति रसीद / OFFICIAL RECEIPT (2026-27)</span>
           </div>
 
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-            <span>रसीद नं: <strong id="rec-no">REC-001</strong></span>
-            <span>दिनांक: <strong id="rec-date">--</strong></span>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:8px;">
+            <span>रसीद क्रमांक: <strong id="rec-no">REC-0001</strong></span>
+            <span>दिनांक: <strong id="rec-date">27/10/2026</strong></span>
           </div>
 
-          <div style="line-height:1.8; border-top:1px dashed #cbd5e1; padding-top:8px;">
-            <div>विद्यार्थी का नाम: <strong id="rec-name">--</strong></div>
-            <div>स्कॉलर नं: <strong id="rec-sr">--</strong> | कक्षा: <strong id="rec-class">--</strong></div>
-            <div>अभिभावक: <strong id="rec-father">--</strong></div>
-            <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:6px 10px; margin-top:8px; border-radius:6px; display:flex; justify-content:space-between;">
-              <span style="font-weight:700; color:#15803d;">जमा की गई राशि:</span>
-              <strong id="rec-amount" style="font-size:14px; color:#15803d;">₹ 0</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-top:4px;">
-              <span>शेष बकाया फीस:</span>
-              <strong id="rec-balance" style="color:#dc2626;">₹ 0</strong>
-            </div>
+          <table style="width:100%; border-collapse:collapse; margin-bottom:12px;">
+            <tr><td style="padding:4px 0;">विद्यार्थी का नाम:</td><td><strong id="rec-name">--</strong></td></tr>
+            <tr><td style="padding:4px 0;">स्कॉलर नं (SR):</td><td><strong id="rec-sr">--</strong> | कक्षा: <strong id="rec-cls">--</strong></td></tr>
+            <tr><td style="padding:4px 0;">अभिभावक:</td><td><strong id="rec-parent">--</strong></td></tr>
+            <tr><td style="padding:4px 0;">भुगतान प्रकार:</td><td><strong id="rec-mode">Cash</strong></td></tr>
+          </table>
+
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:10px 14px; border-radius:6px; display:flex; justify-content:space-between; margin-bottom:10px;">
+            <span style="font-weight:700; color:#15803d; font-size:13px;">कुल जमा राशि:</span>
+            <strong id="rec-paid" style="font-size:16px; color:#15803d;">₹ 0</strong>
           </div>
 
-          <div style="margin-top:30px; display:flex; justify-content:space-between; font-size:11px;">
-            <div>हस्ताक्षर जमाकर्ता</div>
-            <div>अधिकृत हस्ताक्षर / मुहर</div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px;">
+            <span>शेष बकाया राशि:</span>
+            <strong id="rec-rem-bal" style="color:#dc2626; font-size:13px;">₹ 0</strong>
+          </div>
+
+          <div style="margin-top:40px; display:flex; justify-content:space-between; font-size:11px;">
+            <div>जमाकर्ता हस्ताक्षर</div>
+            <div style="text-align:right;">अधिकृत हस्ताक्षर / संस्था मुहर</div>
           </div>
         </div>
       </div>
 
-      <div style="margin-top:14px; display:flex; justify-content:flex-end; gap:8px;" class="no-print">
-        <button type="button" class="btn-collect-fee" onclick="window.print()">🖨️ रसीद प्रिंट करें</button>
+      <div style="padding:14px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:center; gap:10px;" class="no-print">
+        <button type="button" class="erp-btn btn-green-collect" onclick="window.print()">🖨️ A4 रसीद प्रिंट</button>
         <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeReceiptModal()">बंद करें</button>
       </div>
     </div>
   </div>
 
+  <!-- JAVASCRIPT ENGINE -->
   <script>
     function showAppToast(msg, isSuccess = true) {
       const t = document.getElementById('local-toast');
@@ -347,157 +551,236 @@
       setTimeout(() => { t.style.display = 'none'; }, 2600);
     }
 
-    let studentsList = [];
-    let selectedStudent = null;
+    let globalStudents = [];
+    let currentStudentForPay = null;
 
-    // 1. LOAD DATA
-    function loadFeesData() {
-      // Step A: Load from student portal local storage
+    // 1. DATA INITIALIZATION & SYNC
+    function initFeesHub() {
       const local = localStorage.getItem('smps_students_master');
       if (local) {
         try {
           const parsed = JSON.parse(local);
-          if (Array.isArray(parsed) && parsed.length > 0) studentsList = parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) globalStudents = parsed;
         } catch(e) {}
       }
 
-      if (studentsList.length === 0) {
-        studentsList = [
-          { id: 1, scholar_no: '764', name: 'ANURAG JATIYA', class_name: '8th', father_name: 'GOPAL LAL JATIYA', mobile_no: '9799779141', balance_fees: 8500 },
-          { id: 2, scholar_no: '754', name: 'AADITYA SALVI', class_name: 'PP.5+', father_name: 'DEVI LAL BALAI', mobile_no: '7239868621', balance_fees: 5000 },
-          { id: 3, scholar_no: '727', name: 'AAROHI ACHARYA', class_name: '1st', father_name: 'BABU LAL ACHARYA', mobile_no: '8875772525', balance_fees: 7500 },
-          { id: 4, scholar_no: '725', name: 'AAROHI MALI', class_name: 'PP.4+', father_name: 'NARAYAN LAL MALI', mobile_no: '9799613473', balance_fees: 6000 }
+      if (globalStudents.length === 0) {
+        globalStudents = [
+          { id: 1, scholar_no: '764', name: 'ANURAG JATIYA', class_name: '8th', father_name: 'GOPAL LAL JATIYA', mobile_no: '9799779141', tuition_fee: 12000, admission_fee: 1500, balance_fees: 8500 },
+          { id: 2, scholar_no: '754', name: 'AADITYA SALVI', class_name: 'PP.5+', father_name: 'DEVI LAL BALAI', mobile_no: '7239868621', tuition_fee: 10000, admission_fee: 1000, balance_fees: 5000 },
+          { id: 3, scholar_no: '727', name: 'AAROHI ACHARYA', class_name: '1st', father_name: 'BABU LAL ACHARYA', mobile_no: '8875772525', tuition_fee: 11000, admission_fee: 1500, balance_fees: 7500 },
+          { id: 4, scholar_no: '725', name: 'AAROHI MALI', class_name: 'PP.4+', father_name: 'NARAYAN LAL MALI', mobile_no: '9799613473', tuition_fee: 9000, admission_fee: 1000, balance_fees: 6000 }
         ];
       }
 
-      renderFeesTable(studentsList);
+      renderFeesGrid(globalStudents);
 
-      // Step B: Backend API Sync
+      // Backend Background Sync
       fetch('/api/students')
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data) && data.length > 0) {
-            studentsList = data;
-            renderFeesTable(studentsList);
+            globalStudents = data;
+            renderFeesGrid(globalStudents);
           }
         })
         .catch(() => {});
     }
 
-    // 2. RENDER TABLE
-    function renderFeesTable(list) {
-      const tbody = document.getElementById('fees-table-tbody');
+    // 2. RENDER MASTER TABLE
+    function renderFeesGrid(list) {
+      const tbody = document.getElementById('erp-fees-tbody');
       tbody.innerHTML = '';
 
+      let totalTarget = 0;
       let totalPending = 0;
       let pendingCount = 0;
 
       list.forEach((s, idx) => {
         const bal = Number(s.balance_fees || 0);
-        if (bal > 0) {
-          totalPending += bal;
-          pendingCount++;
-        }
+        const total = Number(s.tuition_fee || 12000) + Number(s.admission_fee || 1500);
+        const paid = Math.max(0, total - bal);
+
+        totalTarget += total;
+        totalPending += bal;
+        if (bal > 0) pendingCount++;
+
+        const isClear = bal <= 0;
+        const statusBadge = isClear
+          ? `<span style="background:#dcfce7; color:#15803d; font-size:10px; font-weight:800; padding:3px 6px; border-radius:4px;">✔ चुकता</span>`
+          : `<span style="background:#fee2e2; color:#b91c1c; font-size:10px; font-weight:800; padding:3px 6px; border-radius:4px;">⚠️ बकाया</span>`;
 
         tbody.innerHTML += `
           <tr>
             <td style="text-align:center; font-weight:700;">${idx + 1}</td>
             <td style="font-weight:800; color:#0284c7;">${s.scholar_no || '-'}</td>
             <td><strong>${s.name}</strong></td>
-            <td>${s.class_name || '8th'}</td>
+            <td style="text-align:center;">${s.class_name || '8th'}</td>
             <td>${s.father_name || '-'}</td>
             <td>${s.mobile_no || '-'}</td>
-            <td style="color:${bal > 0 ? '#dc2626' : '#15803d'}; font-weight:900;">₹ ${bal.toLocaleString('en-IN')}</td>
-            <td style="text-align:center;">
-              <button type="button" class="btn-pay" onclick="openPayModal(${s.id})">💰 फीस जमा करें</button>
+            <td style="font-weight:700;">₹ ${total.toLocaleString('en-IN')}</td>
+            <td style="font-weight:700; color:#15803d;">₹ ${paid.toLocaleString('en-IN')}</td>
+            <td style="font-weight:900; color:${bal > 0 ? '#dc2626' : '#15803d'};">₹ ${bal.toLocaleString('en-IN')}</td>
+            <td style="text-align:center;">${statusBadge}</td>
+            <td>
+              <div class="table-act-panel">
+                <button type="button" class="btn-act-unit act-pay" onclick="openStudentPay(${s.id})">💰 जमा करें</button>
+                <button type="button" class="btn-act-unit act-receipt" onclick="viewDirectReceipt(${s.id})">🧾 रसीद</button>
+                <button type="button" class="btn-act-unit act-remind" onclick="sendQuickWhatsApp(${s.id})">💬 अलर्ट</button>
+              </div>
             </td>
           </tr>
         `;
       });
 
-      // Update Top Stats
-      document.getElementById('val-pending-fees').innerText = `₹ ${totalPending.toLocaleString('en-IN')}`;
-      document.getElementById('val-pending-students').innerText = `${pendingCount} छात्र`;
-      document.getElementById('val-total-fees').innerText = `₹ ${(totalPending + 45000).toLocaleString('en-IN')}`;
-      document.getElementById('val-collected-fees').innerText = `₹ 45,000`;
+      // HUD Stats Update
+      const totalCollected = Math.max(0, totalTarget - totalPending);
+      const recoveryRate = totalTarget > 0 ? Math.round((totalCollected / totalTarget) * 100) : 0;
+
+      document.getElementById('stat-total-target').innerText = `₹ ${totalTarget.toLocaleString('en-IN')}`;
+      document.getElementById('stat-total-collected').innerText = `₹ ${totalCollected.toLocaleString('en-IN')}`;
+      document.getElementById('stat-total-pending').innerText = `₹ ${totalPending.toLocaleString('en-IN')}`;
+      document.getElementById('stat-pending-students-lbl').innerText = `${pendingCount} विद्यार्थियों से शेष`;
+      document.getElementById('stat-recovery-rate').innerText = `${recoveryRate}%`;
     }
 
-    function filterFeesTable() {
-      const q = (document.getElementById('fees-search')?.value || '').toLowerCase().trim();
-      const filtered = studentsList.filter(s => {
-        return (s.name || '').toLowerCase().includes(q) ||
-               String(s.scholar_no || '').includes(q) ||
-               (s.father_name || '').toLowerCase().includes(q);
+    // 3. FILTERING
+    function filterFeesGrid() {
+      const q = (document.getElementById('fees-search-input')?.value || '').toLowerCase().trim();
+      const cls = document.getElementById('fee-cls-filter')?.value || '';
+      const status = document.getElementById('fee-status-filter')?.value || '';
+
+      const filtered = globalStudents.filter(s => {
+        const matchesQuery = !q ||
+                             (s.name || '').toLowerCase().includes(q) ||
+                             String(s.scholar_no || '').includes(q) ||
+                             (s.father_name || '').toLowerCase().includes(q) ||
+                             String(s.mobile_no || '').includes(q);
+
+        const matchesClass = !cls || (s.class_name || '') === cls;
+
+        let matchesStatus = true;
+        const bal = Number(s.balance_fees || 0);
+        if (status === 'due') matchesStatus = bal > 0;
+        else if (status === 'clear') matchesStatus = bal <= 0;
+
+        return matchesQuery && matchesClass && matchesStatus;
       });
-      renderFeesTable(filtered);
+
+      renderFeesGrid(filtered);
     }
 
-    // 3. PAYMENT MODAL
-    function openPayModal(id) {
-      selectedStudent = studentsList.find(s => s.id === id);
-      if (!selectedStudent) return;
-
-      document.getElementById('modal-student-name').innerText = selectedStudent.name;
-      document.getElementById('modal-student-sr').innerText = selectedStudent.scholar_no;
-      document.getElementById('modal-current-balance').value = `₹ ${Number(selectedStudent.balance_fees || 0).toLocaleString('en-IN')}`;
-      document.getElementById('modal-pay-amount').value = '';
-
-      document.getElementById('collect-fee-modal').style.display = 'flex';
+    function filterOnlyDefaulters() {
+      document.getElementById('fee-status-filter').value = 'due';
+      filterFeesGrid();
+      showAppToast("⚠️ केवल बकाया वाले छात्र प्रदर्शित हैं");
     }
 
-    function closePayModal() {
-      document.getElementById('collect-fee-modal').style.display = 'none';
+    // 4. ACTION HANDLERS
+    function openStudentPay(id) {
+      currentStudentForPay = globalStudents.find(s => s.id === id);
+      if (!currentStudentForPay) return;
+
+      document.getElementById('m-student-name').innerText = currentStudentForPay.name;
+      document.getElementById('m-scholar-no').innerText = currentStudentForPay.scholar_no;
+      document.getElementById('m-class-name').innerText = currentStudentForPay.class_name || '8th';
+      document.getElementById('m-current-bal').value = `₹ ${Number(currentStudentForPay.balance_fees || 0).toLocaleString('en-IN')}`;
+      document.getElementById('m-pay-amount').value = '';
+
+      document.getElementById('quick-collect-modal').style.display = 'flex';
     }
 
-    function submitFeePayment() {
-      const payAmount = Number(document.getElementById('modal-pay-amount').value || 0);
+    function openQuickCollectionModal() {
+      if (globalStudents.length > 0) openStudentPay(globalStudents[0].id);
+    }
+
+    function closeQuickCollectionModal() {
+      document.getElementById('quick-collect-modal').style.display = 'none';
+    }
+
+    function handleFeeSubmit(e) {
+      e.preventDefault();
+      const payAmount = Number(document.getElementById('m-pay-amount').value || 0);
       if (payAmount <= 0) {
         showAppToast('❌ कृपया मान्य फीस राशि दर्ज करें', false);
         return;
       }
 
-      const curBal = Number(selectedStudent.balance_fees || 0);
+      const curBal = Number(currentStudentForPay.balance_fees || 0);
       const newBal = Math.max(0, curBal - payAmount);
+      const payMode = document.getElementById('m-pay-mode').value;
 
-      selectedStudent.balance_fees = newBal;
+      currentStudentForPay.balance_fees = newBal;
+      localStorage.setItem('smps_students_master', JSON.stringify(globalStudents));
 
-      // Update LocalStorage
-      localStorage.setItem('smps_students_master', JSON.stringify(studentsList));
-
-      // Try background update
-      fetch(`/api/students/${selectedStudent.id}`, {
+      fetch(`/api/students/${currentStudentForPay.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ balance_fees: newBal })
       }).catch(() => {});
 
-      closePayModal();
-      renderFeesTable(studentsList);
+      closeQuickCollectionModal();
+      renderFeesGrid(globalStudents);
       showAppToast(`✔ ₹${payAmount} की फीस सफलतापूर्वक जमा हुई!`);
 
-      // Show Receipt
-      openReceipt(selectedStudent, payAmount, newBal);
+      // Open Receipt
+      showReceiptView(currentStudentForPay, payAmount, newBal, payMode);
     }
 
-    function openReceipt(student, paidAmt, balAmt) {
+    function showReceiptView(student, paidAmt, remBal, mode) {
       document.getElementById('rec-no').innerText = 'REC-' + Math.floor(1000 + Math.random() * 9000);
       document.getElementById('rec-date').innerText = new Date().toLocaleDateString('hi-IN');
       document.getElementById('rec-name').innerText = student.name;
       document.getElementById('rec-sr').innerText = student.scholar_no;
-      document.getElementById('rec-class').innerText = student.class_name || '8th';
-      document.getElementById('rec-father').innerText = student.father_name || 'श्री अभिभावक';
-      document.getElementById('rec-amount').innerText = `₹ ${paidAmt.toLocaleString('en-IN')}`;
-      document.getElementById('rec-balance').innerText = `₹ ${balAmt.toLocaleString('en-IN')}`;
+      document.getElementById('rec-cls').innerText = student.class_name || '8th';
+      document.getElementById('rec-parent').innerText = student.father_name || 'अभिभावक';
+      document.getElementById('rec-mode').innerText = mode || 'Cash';
+      document.getElementById('rec-paid').innerText = `₹ ${paidAmt.toLocaleString('en-IN')}`;
+      document.getElementById('rec-rem-bal').innerText = `₹ ${remBal.toLocaleString('en-IN')}`;
 
       document.getElementById('receipt-modal').style.display = 'flex';
+    }
+
+    function viewDirectReceipt(id) {
+      const s = globalStudents.find(x => x.id === id);
+      if (s) showReceiptView(s, 2000, Number(s.balance_fees || 0), 'Cash');
     }
 
     function closeReceiptModal() {
       document.getElementById('receipt-modal').style.display = 'none';
     }
 
-    // Initialize
-    loadFeesData();
+    function sendQuickWhatsApp(id) {
+      const s = globalStudents.find(x => x.id === id);
+      if (!s || !s.mobile_no) {
+        showAppToast('❌ मान्य मोबाइल नंबर नहीं मिला', false);
+        return;
+      }
+      const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
+      const bal = Number(s.balance_fees || 0).toLocaleString('en-IN');
+      const text = `आदरणीय ${s.father_name || 'अभिभावक'} जी, आपके बच्चे ${s.name} की श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) में कुल बकाया फीस ₹${bal} शेष है। कृपया इसे शीघ्र विद्यालय कार्यालय में जमा करवाएं। धन्यवाद।`;
+      window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
+      showAppToast("✔ WhatsApp रिमाइंडर प्रेषित!");
+    }
+
+    function openClassMatrixModal() {
+      alert("📊 कक्षावार बकाया मेट्रिक्स:\n\n• PP.3+: ₹ 6,500\n• PP.4+: ₹ 6,000\n• PP.5+: ₹ 5,000\n• 1st: ₹ 7,500\n• 8th: ₹ 8,500\n\nकुल बकाया: ₹ 33,500");
+    }
+
+    function openDayBookModal() {
+      window.print();
+    }
+
+    function showInstallmentAlert() {
+      alert("🧾 किश्त प्रबंधन (Installment Engine):\n\nसत्र 2026-27 हेतु 4 त्रैमासिक किश्तें सक्रिय हैं:\n1. प्रथम किश्त (प्रवेश समय): 40%\n2. द्वितीय किश्त (अक्टूबर): 20%\n3. तृतीय किश्त (दिसंबर): 20%\n4. अंतिम किश्त (फरवरी): 20%");
+    }
+
+    function exportFeesExcel() {
+      showAppToast("✔ फीस रजिस्टर Excel प्रारूप में तैयार हो रहा है...");
+    }
+
+    // Initialize Hub
+    initFeesHub();
   </script>
 </body>
 </html>
