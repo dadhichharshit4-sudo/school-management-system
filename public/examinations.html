@@ -8,29 +8,24 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     
     body {
-      background: linear-gradient(135deg, #ea580c 0%, #f97316 40%, #ea580c 100%);
+      background: linear-gradient(135deg, #d97706 0%, #ea580c 50%, #c2410c 100%);
       min-height: 100vh;
       color: #1e293b;
-      padding-bottom: 40px;
+      padding-bottom: 50px;
     }
 
-    /* TOP BRAND HEADER */
+    /* TOP HEADER */
     .top-header {
       background: #7f1d1d;
       color: #ffffff;
-      padding: 10px 20px;
+      padding: 10px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .btn-back-hub {
-      background: #e28743;
+      background: #ea580c;
       color: #fff;
       padding: 6px 14px;
       border-radius: 6px;
@@ -40,46 +35,29 @@
       border: none;
       cursor: pointer;
     }
-    .school-title-text {
-      text-align: center;
-      flex-grow: 1;
-    }
-    .school-title-text h1 {
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .session-tag {
-      font-size: 11px;
-      color: #fef08a;
-      font-weight: 700;
-      margin-top: 2px;
-    }
+    .school-title-text { text-align: center; }
+    .school-title-text h1 { font-size: 19px; font-weight: 900; letter-spacing: 0.5px; }
+    .session-tag { font-size: 11px; color: #fef08a; font-weight: 700; }
 
-    /* CONTAINER */
     .wrapper-main {
-      max-width: 1400px;
-      margin: 20px auto;
+      max-width: 1480px;
+      margin: 18px auto;
       padding: 0 16px;
     }
 
-    /* 16 BUTTONS HUB GRID (From Video) */
+    /* 16 BUTTONS HUB GRID (Exact layout from Video) */
     .hub-card-container {
       background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-      margin-bottom: 24px;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
       border: 3px solid #fbd38d;
     }
     .hub-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 12px;
+      gap: 10px;
     }
     @media (max-width: 1100px) { .hub-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 700px) { .hub-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -89,51 +67,50 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 12px 8px;
-      border-radius: 12px;
+      padding: 10px 6px;
+      border-radius: 10px;
       color: #ffffff;
-      text-decoration: none;
       font-size: 11.5px;
       font-weight: 800;
       text-align: center;
       cursor: pointer;
       border: none;
-      min-height: 82px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
-      transition: all 0.2s ease;
-      gap: 6px;
+      min-height: 78px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      transition: all 0.15s ease;
+      gap: 4px;
     }
     .hub-tile:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       filter: brightness(1.1);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
     }
-    .hub-tile span.icon { font-size: 24px; }
+    .hub-tile span.icon { font-size: 22px; }
 
-    /* SPECIFIC TILE COLORS (Matched Exactly to Video) */
-    .tile-1  { background: #0284c7; } /* 1. नई परीक्षा बनाएं */
-    .tile-2  { background: #16a34a; } /* 2. अंक प्रविष्टि */
-    .tile-3  { background: #dc2626; } /* 3. रोल नंबर */
-    .tile-4  { background: #0284c7; } /* 4. टाइम टेबल */
-    .tile-5  { background: #ea580c; } /* 5. प्रवेश पत्र */
-    .tile-6  { background: #e11d48; } /* 6. मार्कशीट */
-    .tile-7  { background: #1e293b; } /* 7. सिटिंग प्लान (Rooms) */
-    .tile-8  { background: #7c3aed; } /* 8. रिजल्ट रजिस्टर */
-    .tile-9  { background: #cbd5e1; color: #1e293b; } /* 9. परीक्षा सूची */
-    .tile-10 { background: #34d399; } /* 10. ई-लर्निंग / टेस्ट */
-    .tile-11 { background: #9333ea; } /* 11. लॉक करें */
-    .tile-12 { background: #38bdf8; } /* 12. सेव्हड पेपर */
-    .tile-13 { background: #3b82f6; } /* 13. टॉपर्स लिस्ट */
-    .tile-14 { background: #15803d; } /* 14. ग्रीन शीट */
-    .tile-15 { background: #ef4444; } /* 15. परीक्षा सूची */
-    .tile-16 { background: #047857; } /* 16. छात्र प्रमोशन */
+    /* EXACT TILE COLOR THEMES */
+    .tile-1  { background: #0284c7; }
+    .tile-2  { background: #16a34a; }
+    .tile-3  { background: #dc2626; }
+    .tile-4  { background: #0284c7; }
+    .tile-5  { background: #ea580c; }
+    .tile-6  { background: #e11d48; }
+    .tile-7  { background: #1e293b; }
+    .tile-8  { background: #7c3aed; }
+    .tile-9  { background: #64748b; }
+    .tile-10 { background: #10b981; }
+    .tile-11 { background: #8b5cf6; }
+    .tile-12 { background: #06b6d4; }
+    .tile-13 { background: #3b82f6; }
+    .tile-14 { background: #15803d; }
+    .tile-15 { background: #ef4444; }
+    .tile-16 { background: #047857; }
 
-    /* ACTIVE MODULE WORKSPACE */
+    /* WORKSPACE */
     .workspace-card {
       background: #ffffff;
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
       border: 1.5px solid #fed7aa;
     }
     .ws-header {
@@ -155,32 +132,66 @@
       gap: 8px;
     }
 
-    .filter-bar-custom {
+    /* 4-STEP WIZARD (From Video 1) */
+    .wizard-steps-strip {
       display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
       background: #fff7ed;
-      padding: 12px 16px;
-      border-radius: 8px;
       border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 18px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .w-step {
+      flex: 1;
+      min-width: 140px;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+      text-align: center;
+      cursor: pointer;
+    }
+    .w-step.active {
+      background: #ea580c;
+      color: #fff;
+      border-color: #ea580c;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
       margin-bottom: 16px;
     }
-    .ctrl-select, .ctrl-input {
-      padding: 8px 12px;
+    .ctrl-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+      color: #334155;
+    }
+    .ctrl-input, .ctrl-select {
+      width: 100%;
+      padding: 8px 10px;
       border: 1.5px solid #cbd5e1;
       border-radius: 6px;
       font-size: 12px;
       font-weight: 700;
       outline: none;
-      background: #ffffff;
     }
+    .ctrl-input:focus, .ctrl-select:focus { border-color: #0284c7; }
 
-    /* TABLES */
+    /* TABLE */
     .table-container {
       overflow-x: auto;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
+      margin-bottom: 16px;
     }
     .custom-table {
       width: 100%;
@@ -206,18 +217,17 @@
     .custom-table tr:nth-child(even) { background: #fffcf7; }
     .custom-table tr:hover { background: #fef9c3; }
 
-    /* ACTION BUTTONS */
-    .btn-action-small {
+    .btn-act {
       border: none;
       border-radius: 4px;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 800;
-      padding: 5px 8px;
+      padding: 6px 12px;
       color: #ffffff;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       text-decoration: none;
     }
     .btn-green { background: #16a34a; }
@@ -225,11 +235,88 @@
     .btn-orange { background: #ea580c; }
     .btn-red { background: #dc2626; }
 
-    /* PRINTABLE TEMPLATES (HIDDEN UNTIL TRIGGERED) */
+    /* THEME 1: ROYAL REPORT CARD SHEET (Exact replicate of Video 02:19) */
+    .royal-report-sheet {
+      width: 760px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 3px solid #7f1d1d;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      border-radius: 6px;
+    }
+    .royal-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 70px;
+      font-weight: 900;
+      color: rgba(127, 29, 29, 0.05);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .royal-head {
+      text-align: center;
+      border-bottom: 2px solid #7f1d1d;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .royal-school-name {
+      font-size: 22px;
+      font-weight: 900;
+      color: #7f1d1d;
+      letter-spacing: 0.5px;
+    }
+    .royal-address {
+      font-size: 11px;
+      color: #475569;
+      margin: 2px 0;
+    }
+    .royal-exam-badge {
+      background: #fef08a;
+      color: #7f1d1d;
+      padding: 3px 12px;
+      border-radius: 4px;
+      font-weight: 900;
+      font-size: 12px;
+      display: inline-block;
+      margin-top: 4px;
+      border: 1px solid #f59e0b;
+    }
+
+    .royal-student-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      font-size: 11.5px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+
+    .royal-metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 14px 0 30px;
+      text-align: center;
+    }
+    .metric-card {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
     @media print {
       body * { visibility: hidden; }
-      #print-area, #print-area * { visibility: visible; }
-      #print-area { position: absolute; left: 0; top: 0; width: 100%; }
+      #printable-target, #printable-target * { visibility: visible; }
+      #printable-target { position: absolute; left: 0; top: 0; width: 100%; }
       .no-print { display: none !important; }
     }
 
@@ -252,10 +339,10 @@
 
   <div id="local-toast"></div>
 
-  <!-- TOP HEADER -->
+  <!-- HEADER -->
   <header class="top-header">
-    <div class="header-left">
-      <a href="/dashboard" class="btn-back-hub">⬅ डैशबोर्ड (Dashboard)</a>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="/dashboard" class="btn-back-hub">⬅ डैशबोर्ड</a>
     </div>
     <div class="school-title-text">
       <h1>🚩 परीक्षा व्यवस्थापन 🚩</h1>
@@ -268,70 +355,70 @@
 
   <main class="wrapper-main">
 
-    <!-- 16 BIG BRAND TILES HUB (Exact match with video) -->
+    <!-- 16 TILES HUB (Exact match with video) -->
     <div class="hub-card-container">
       <div class="hub-grid">
-        <button type="button" class="hub-tile tile-1" onclick="switchSection('new_exam')">
+        <button type="button" class="hub-tile tile-1" onclick="openModule('new_exam')">
           <span class="icon">📝</span>
           <span>1. नई परीक्षा बनाएं</span>
         </button>
-        <button type="button" class="hub-tile tile-2" onclick="switchSection('marks_entry')">
+        <button type="button" class="hub-tile tile-2" onclick="openModule('marks_entry')">
           <span class="icon">💻</span>
           <span>2. अंक प्रविष्टि (Marks)</span>
         </button>
-        <button type="button" class="hub-tile tile-3" onclick="switchSection('roll_no')">
+        <button type="button" class="hub-tile tile-3" onclick="openModule('roll_no')">
           <span class="icon">🔢</span>
           <span>3. रोल नंबर</span>
         </button>
-        <button type="button" class="hub-tile tile-4" onclick="switchSection('timetable')">
+        <button type="button" class="hub-tile tile-4" onclick="openModule('timetable')">
           <span class="icon">📅</span>
           <span>4. टाइम टेबल</span>
         </button>
-        <button type="button" class="hub-tile tile-5" onclick="switchSection('admit_card')">
+        <button type="button" class="hub-tile tile-5" onclick="openModule('admit_card')">
           <span class="icon">🪪</span>
           <span>5. प्रवेश पत्र</span>
         </button>
-        <button type="button" class="hub-tile tile-6" onclick="switchSection('report_card')">
+        <button type="button" class="hub-tile tile-6" onclick="openModule('report_card')">
           <span class="icon">📜</span>
           <span>6. मार्कशीट कार्ड</span>
         </button>
-        <button type="button" class="hub-tile tile-7" onclick="switchSection('seating_plan')">
+        <button type="button" class="hub-tile tile-7" onclick="openModule('rooms')">
           <span class="icon">🪑</span>
           <span>7. सिटिंग प्लान (Rooms)</span>
         </button>
-        <button type="button" class="hub-tile tile-8" onclick="switchSection('result_register')">
+        <button type="button" class="hub-tile tile-8" onclick="openModule('result_register')">
           <span class="icon">📊</span>
           <span>8. रिजल्ट रजिस्टर</span>
         </button>
-        <button type="button" class="hub-tile tile-9" onclick="switchSection('exam_list')">
+        <button type="button" class="hub-tile tile-9" onclick="openModule('exam_list')">
           <span class="icon">📋</span>
           <span>9. परीक्षा सूची</span>
         </button>
-        <button type="button" class="hub-tile tile-10" onclick="switchSection('elearning')">
+        <button type="button" class="hub-tile tile-10" onclick="openModule('elearning')">
           <span class="icon">🧪</span>
           <span>10. ई-लर्निंग / टेस्ट</span>
         </button>
-        <button type="button" class="hub-tile tile-11" onclick="switchSection('lock_exam')">
+        <button type="button" class="hub-tile tile-11" onclick="openModule('lock')">
           <span class="icon">🔒</span>
           <span>11. लॉक करें</span>
         </button>
-        <button type="button" class="hub-tile tile-12" onclick="switchSection('saved_papers')">
+        <button type="button" class="hub-tile tile-12" onclick="openModule('saved_papers')">
           <span class="icon">📑</span>
           <span>12. सेव्हड पेपर</span>
         </button>
-        <button type="button" class="hub-tile tile-13" onclick="switchSection('toppers')">
+        <button type="button" class="hub-tile tile-13" onclick="openModule('toppers')">
           <span class="icon">🏆</span>
           <span>13. टॉपर्स लिस्ट</span>
         </button>
-        <button type="button" class="hub-tile tile-14" onclick="switchSection('green_sheet')">
+        <button type="button" class="hub-tile tile-14" onclick="openModule('green_sheet')">
           <span class="icon">📑</span>
           <span>14. ग्रीन शीट (Master)</span>
         </button>
-        <button type="button" class="hub-tile tile-15" onclick="switchSection('exam_list')">
+        <button type="button" class="hub-tile tile-15" onclick="openModule('exam_list')">
           <span class="icon">✅</span>
           <span>15. परीक्षा सूची</span>
         </button>
-        <button type="button" class="hub-tile tile-16" onclick="switchSection('promotion')">
+        <button type="button" class="hub-tile tile-16" onclick="openModule('promotion')">
           <span class="icon">🎓</span>
           <span>16. छात्र प्रमोशन</span>
         </button>
@@ -339,93 +426,90 @@
     </div>
 
     <!-- ======================================================================
-         SECTION 1: नई परीक्षा बनाएं (With Dynamic Max Marks Setup)
+         1. NEW EXAM WIZARD (As seen in Video 00:10)
          ====================================================================== -->
-    <div id="sec-new_exam" class="workspace-card">
+    <div id="view-new_exam" class="workspace-card">
       <div class="ws-header">
-        <h3 class="ws-title"><span>📝</span> नई परीक्षा बनाएं (Create New Exam & Setup Marks)</h3>
-        <button type="button" class="btn-action-small btn-green" onclick="saveNewExam()">💾 परीक्षा सुरक्षित करें</button>
+        <h3 class="ws-title"><span>📝</span> नई परीक्षा बनाएं (Exam Setup Wizard)</h3>
+        <button type="button" class="btn-act btn-green" onclick="saveExamWizard()">💾 परीक्षा सुरक्षित एवं प्रकाशित करें</button>
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
+
+      <div class="wizard-steps-strip">
+        <div class="w-step active">1. विवरण (Details)</div>
+        <div class="w-step">2. कक्षा / विषय (Subject)</div>
+        <div class="w-step">3. घटक / अंक (Components/Marks)</div>
+        <div class="w-step">4. शेड्यूल (Schedule)</div>
+      </div>
+
+      <div class="form-grid-2">
         <div>
-          <label style="font-size:12px; font-weight:700;">शैक्षणिक सत्र (Academic Session):</label>
-          <input type="text" class="ctrl-input" value="2026-27" style="width:100%;" readonly>
+          <label class="ctrl-label">शैक्षणिक सत्र (Academic Session):</label>
+          <input type="text" class="ctrl-input" value="2026-27" readonly>
         </div>
         <div>
-          <label style="font-size:12px; font-weight:700;">परीक्षा का नाम (Exam Title):</label>
-          <input type="text" id="new-exam-title" class="ctrl-input" placeholder="उदा. SECOND UNIT TEST 2026" style="width:100%;">
+          <label class="ctrl-label">परीक्षा का नाम (Exam Title):</label>
+          <input type="text" id="wiz-title" class="ctrl-input" value="SECOND UNIT TEST 2026">
         </div>
         <div>
-          <label style="font-size:12px; font-weight:700;">आरंभ तिथि (Start Date):</label>
-          <input type="date" id="new-exam-start" class="ctrl-input" value="2026-10-27" style="width:100%;">
+          <label class="ctrl-label">आरंभ तिथि (Start Date):</label>
+          <input type="date" id="wiz-start" class="ctrl-input" value="2026-10-27">
         </div>
         <div>
-          <label style="font-size:12px; font-weight:700;">समाप्ति तिथि (End Date):</label>
-          <input type="date" id="new-exam-end" class="ctrl-input" value="2026-11-04" style="width:100%;">
+          <label class="ctrl-label">समाप्ति तिथि (End Date):</label>
+          <input type="date" id="wiz-end" class="ctrl-input" value="2026-11-04">
         </div>
       </div>
 
-      <div style="background:#fff7ed; border:1.5px solid #fed7aa; padding:14px; border-radius:8px; margin-bottom:16px;">
-        <h4 style="font-size:13px; font-weight:800; color:#9a3412; margin-bottom:10px;">
-          ⚙️ इस परीक्षा के विषयवार अधिकतम पूर्णांक (Max Marks) निर्धारित करें:
+      <div style="background:#fff7ed; border:1px solid #fed7aa; padding:12px; border-radius:8px; margin-bottom:16px;">
+        <h4 style="font-size:12px; font-weight:800; color:#9a3412; margin-bottom:8px;">
+          घटक एवं अधिकतम पूर्णांक (Marks Setup):
         </h4>
-        <div style="display:grid; grid-template-columns: repeat(6, 1fr); gap:10px;">
-          <div>हिन्दी: <input type="number" id="cfg-hindi" class="ctrl-input" value="20" style="width:100%; text-align:center;"></div>
-          <div>अंग्रेज़ी: <input type="number" id="cfg-english" class="ctrl-input" value="20" style="width:100%; text-align:center;"></div>
-          <div>गणित: <input type="number" id="cfg-math" class="ctrl-input" value="20" style="width:100%; text-align:center;"></div>
-          <div>विज्ञान: <input type="number" id="cfg-science" class="ctrl-input" value="20" style="width:100%; text-align:center;"></div>
-          <div>सा.वि.: <input type="number" id="cfg-sst" class="ctrl-input" value="20" style="width:100%; text-align:center;"></div>
-          <div>संस्कृत: <input type="number" id="cfg-sanskrit" class="ctrl-input" value="20" style="width:100%; text-align:center;"></div>
+        <div style="display:grid; grid-template-columns: repeat(6, 1fr); gap:8px;">
+          <div>हिन्दी: <input type="number" id="wz-hindi" class="ctrl-input" value="20"></div>
+          <div>अंग्रेज़ी: <input type="number" id="wz-english" class="ctrl-input" value="20"></div>
+          <div>गणित: <input type="number" id="wz-math" class="ctrl-input" value="20"></div>
+          <div>विज्ञान: <input type="number" id="wz-science" class="ctrl-input" value="20"></div>
+          <div>सा.वि.: <input type="number" id="wz-sst" class="ctrl-input" value="20"></div>
+          <div>संस्कृत: <input type="number" id="wz-sanskrit" class="ctrl-input" value="20"></div>
         </div>
       </div>
     </div>
 
     <!-- ======================================================================
-         SECTION 2: अंक प्रविष्टि (Subject-wise Marks Entry)
+         2. MARKS ENTRY GRID (As seen in Video 01:03)
          ====================================================================== -->
-    <div id="sec-marks_entry" class="workspace-card" style="display:none;">
+    <div id="view-marks_entry" class="workspace-card" style="display:none;">
       <div class="ws-header">
-        <h3 class="ws-title"><span>💻</span> परीक्षा अंक प्रविष्टि (Subject-wise Marks Entry)</h3>
-        <button type="button" class="btn-action-small btn-green" onclick="saveAllMarksGrid()">💾 समस्त अंक सुरक्षित करें</button>
+        <h3 class="ws-title"><span>💻</span> अंक प्रविष्टि (Subject Marks Register)</h3>
+        <button type="button" class="btn-act btn-green" onclick="saveAllSubjectMarks()">💾 सुरक्षित करें</button>
       </div>
 
-      <div class="filter-bar-custom">
+      <div class="form-grid-2" style="margin-bottom:14px;">
         <div>
-          <label style="font-size:11.5px; font-weight:700;">परीक्षा चुनें:</label>
-          <select id="me-exam" class="ctrl-select" onchange="renderMarksEntryTable()">
-            <option value="SECOND UNIT TEST" selected>SECOND UNIT TEST</option>
-            <option value="HALF YEARLY">HALF YEARLY EXAMINATION</option>
-            <option value="ANNUAL">ANNUAL EXAMINATION</option>
-          </select>
+          <label class="ctrl-label">कक्षा एवं विषय चुनें:</label>
+          <div style="display:flex; gap:8px;">
+            <select id="me-class" class="ctrl-select" onchange="renderMarksGrid()">
+              <option value="8th" selected>8th</option>
+              <option value="PP.3+">PP.3+</option>
+              <option value="PP.4+">PP.4+</option>
+              <option value="PP.5+">PP.5+</option>
+              <option value="1st">1st</option>
+              <option value="4th">4th</option>
+            </select>
+            <select id="me-sub" class="ctrl-select" onchange="renderMarksGrid()">
+              <option value="hindi">HINDI (WRITTEN)</option>
+              <option value="english">ENGLISH (WRITTEN)</option>
+              <option value="math">MATHEMATICS</option>
+              <option value="science">SCIENCE</option>
+              <option value="sst">SOCIAL SCIENCE</option>
+              <option value="sanskrit">SANSKRIT / E.V.S</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label style="font-size:11.5px; font-weight:700;">कक्षा चुनें:</label>
-          <select id="me-class" class="ctrl-select" onchange="renderMarksEntryTable()">
-            <option value="8th" selected>8th</option>
-            <option value="PP.3+">PP.3+</option>
-            <option value="PP.4+">PP.4+</option>
-            <option value="PP.5+">PP.5+</option>
-            <option value="1st">1st</option>
-            <option value="3rd">3rd</option>
-            <option value="4th">4th</option>
-          </select>
-        </div>
-        <div>
-          <label style="font-size:11.5px; font-weight:700;">सेक्शन:</label>
-          <select id="me-section" class="ctrl-select">
-            <option value="A" selected>A</option>
-          </select>
-        </div>
-        <div>
-          <label style="font-size:11.5px; font-weight:700;">विषय चुनें:</label>
-          <select id="me-subject" class="ctrl-select" onchange="renderMarksEntryTable()">
-            <option value="hindi">HINDI</option>
-            <option value="english">ENGLISH</option>
-            <option value="math">MATHEMATICS</option>
-            <option value="science">SCIENCE</option>
-            <option value="sst">SOCIAL SCIENCE</option>
-            <option value="sanskrit">SANSKRIT / E.V.S</option>
-          </select>
+        <div style="display:flex; gap:8px; align-items:flex-end;">
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:8px 12px; border-radius:6px; font-size:11.5px; font-weight:800; color:#15803d;">
+            कुल छात्र: <span id="me-count-lbl">5</span> | उत्तीर्ण: <span>100%</span>
+          </div>
         </div>
       </div>
 
@@ -434,11 +518,11 @@
           <thead>
             <tr>
               <th style="width:36px;">क्र.</th>
-              <th style="width:90px;">स्कॉलर नं</th>
+              <th style="width:85px;">स्कॉलर नं</th>
               <th style="text-align:left;">विद्यार्थी का नाम</th>
-              <th style="width:140px;">प्राप्तांक (<span id="me-th-max">Max: 20</span>)</th>
-              <th style="width:110px;">अनुपस्थित (Absent)</th>
-              <th style="width:90px;">स्थिति</th>
+              <th style="width:130px;">प्राप्तांक (<span id="me-max-tag">Max: 20</span>)</th>
+              <th style="width:100px;">अनुपस्थित (Absent)</th>
+              <th style="width:85px;">स्थिति</th>
             </tr>
           </thead>
           <tbody id="me-tbody"></tbody>
@@ -447,179 +531,134 @@
     </div>
 
     <!-- ======================================================================
-         SECTION 3: रोल नंबर आवंटन (Roll Numbers)
+         6. REPORT CARD (Theme 1 Royal as seen in Video 02:19)
          ====================================================================== -->
-    <div id="sec-roll_no" class="workspace-card" style="display:none;">
+    <div id="view-report_card" class="workspace-card" style="display:none;">
       <div class="ws-header">
-        <h3 class="ws-title"><span>🔢</span> रोल नंबर आवंटन (Roll Number Manager)</h3>
-        <button type="button" class="btn-action-small btn-blue" onclick="autoGenerateRollNumbers()">⚡ ऑटो-रोल नंबर जनरेट करें</button>
+        <h3 class="ws-title"><span>📜</span> रिपोर्ट कार्ड जनरेटर (Theme 1 Royal)</h3>
+        <button type="button" class="btn-act btn-blue" onclick="window.print()">🖨️ A4 रिपोर्ट कार्ड प्रिंट करें</button>
       </div>
-      <div class="filter-bar-custom">
-        <label style="font-size:12px; font-weight:700;">कक्षा:</label>
-        <select id="rn-class" class="ctrl-select" onchange="renderRollNoTable()">
-          <option value="8th" selected>8th</option>
-          <option value="PP.3+">PP.3+</option>
-          <option value="PP.4+">PP.4+</option>
-          <option value="PP.5+">PP.5+</option>
-          <option value="1st">1st</option>
+
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <select id="rc-student-picker" class="ctrl-select" style="max-width:300px;" onchange="loadStudentTheme1Report()">
+          <!-- Populated dynamically -->
         </select>
       </div>
-      <div class="table-container">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th style="width:40px;">क्र.</th>
-              <th>स्कॉलर नं</th>
-              <th style="text-align:left;">विद्यार्थी का नाम</th>
-              <th>पिता का नाम</th>
-              <th>वर्तमान रोल नंबर</th>
-              <th>नया रोल नंबर</th>
-            </tr>
-          </thead>
-          <tbody id="rn-tbody"></tbody>
-        </table>
+
+      <div id="printable-target">
+        <div class="royal-report-sheet">
+          <div class="royal-watermark">SHREE MEWAR</div>
+
+          <div class="royal-head">
+            <div class="royal-school-name">SHREE MEWAR PUBLIC SCHOOL</div>
+            <div class="royal-address">Near Bada Balaji Chhatravad, Singhpur, Teh. - Kapasan Dist. - Chittorgarh PIN - 312207 (Raj.)</div>
+            <div class="royal-exam-badge">SCHOLASTIC ACHIEVEMENT REPORT (SECOND UNIT TEST 2026-27)</div>
+          </div>
+
+          <div class="royal-student-info">
+            <div>विद्यार्थी का नाम: <strong id="roy-name">ANURAG JATIYA</strong></div>
+            <div>स्कॉलर नं: <strong id="roy-sr">764</strong></div>
+            <div>पिता का नाम: <strong id="roy-father">GOPAL LAL JATIYA</strong></div>
+            <div>कक्षा: <strong id="roy-class">8th - Section A</strong></div>
+            <div>रोल नंबर: <strong id="roy-roll">0001</strong></div>
+            <div>जन्मतिथि: <strong>11/09/2020</strong></div>
+          </div>
+
+          <table class="custom-table" style="margin-bottom:14px;">
+            <thead>
+              <tr>
+                <th style="text-align:left;">विषय (Subject)</th>
+                <th>घटक (Component)</th>
+                <th>पूर्णांक (Max)</th>
+                <th>उत्तीर्णांक (Min)</th>
+                <th>प्राप्तांक (Obtained)</th>
+                <th>ग्रेड</th>
+              </tr>
+            </thead>
+            <tbody id="roy-subjects-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+
+          <div class="royal-metrics-strip">
+            <div class="metric-card" style="background:#eff6ff;">
+              <div>कुल प्राप्तांक</div>
+              <div id="roy-grand-obt" style="color:#0284c7; font-size:14px; margin-top:2px;">112 / 120</div>
+            </div>
+            <div class="metric-card" style="background:#f0fdf4;">
+              <div>प्रतिशत</div>
+              <div id="roy-grand-pct" style="color:#15803d; font-size:14px; margin-top:2px;">93.3%</div>
+            </div>
+            <div class="metric-card" style="background:#fefce8;">
+              <div>ग्रेड</div>
+              <div style="color:#ca8a04; font-size:14px; margin-top:2px;">A+</div>
+            </div>
+            <div class="metric-card" style="background:#f0fdf4;">
+              <div>परीक्षा परिणाम</div>
+              <div style="color:#15803d; font-size:14px; margin-top:2px;">PASS (उत्तीर्ण)</div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; margin-top:40px; padding:0 10px;">
+            <div>कक्षा अध्यापक</div>
+            <div>जांचकर्ता</div>
+            <div style="text-align:right;">संस्था प्रधान / सील मुहर</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ======================================================================
-         SECTION 4: टाइम टेबल (Time Table)
+         7. ROOM SITTING PLAN (As seen in Video 00:16)
          ====================================================================== -->
-    <div id="sec-timetable" class="workspace-card" style="display:none;">
+    <div id="view-rooms" class="workspace-card" style="display:none;">
       <div class="ws-header">
-        <h3 class="ws-title"><span>📅</span> परीक्षा समय-सारणी (Exam Time Table)</h3>
-        <button type="button" class="btn-action-small btn-blue" onclick="window.print()">🖨️ टाइम टेबल प्रिंट करें</button>
+        <h3 class="ws-title"><span>🪑</span> परीक्षा कक्ष एवं सिटिंग प्लान (Rooms Management)</h3>
+        <button type="button" class="btn-act btn-green" onclick="addNewExamRoom()">➕ नया रूम जोड़ें</button>
       </div>
-      <div id="tt-print-sheet" style="background:#fff; border:2px solid #78350f; padding:20px; border-radius:8px;">
-        <div style="text-align:center; border-bottom:2px solid #78350f; padding-bottom:8px; margin-bottom:12px;">
-          <h2 style="color:#7f1d1d; font-size:18px;">SHREE MEWAR PUBLIC SCHOOL</h2>
-          <p style="font-size:11px; color:#475569;">सिंहपुर, चित्तौड़गढ़ (राज.) | सत्र: 2026-27</p>
-          <strong style="background:#fef08a; padding:3px 10px; border-radius:4px; font-size:12px; color:#7f1d1d;">समय सारणी: SECOND UNIT TEST</strong>
-        </div>
+
+      <div class="table-container">
         <table class="custom-table">
           <thead>
             <tr>
-              <th>विषय (Subject)</th>
-              <th>घटक (Component)</th>
-              <th>दिनांक</th>
-              <th>दिन</th>
-              <th>समय (Time)</th>
+              <th style="width:40px;">ID</th>
+              <th style="text-align:left;">कक्ष का नाम</th>
+              <th>प्रकार</th>
+              <th>पंक्तियां (Rows)</th>
+              <th>स्तंभ (Cols)</th>
+              <th>कुल क्षमता (Capacity)</th>
+              <th>कार्यवाही</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td>ENGLISH</td><td><strong style="color:#dc2626;">WRITTEN</strong></td><td>17-Aug-2026</td><td>सोमवार</td><td>09:00 AM - 12:00 PM</td></tr>
-            <tr><td>SCIENCE</td><td><strong style="color:#dc2626;">WRITTEN</strong></td><td>18-Aug-2026</td><td>मंगलवार</td><td>09:00 AM - 12:00 PM</td></tr>
-            <tr><td>SANSKRIT</td><td><strong style="color:#dc2626;">WRITTEN</strong></td><td>19-Aug-2026</td><td>बुधवार</td><td>09:00 AM - 12:00 PM</td></tr>
-            <tr><td>HINDI</td><td><strong style="color:#dc2626;">WRITTEN</strong></td><td>20-Aug-2026</td><td>गुरुवार</td><td>09:00 AM - 12:00 PM</td></tr>
-            <tr><td>SOCIAL SCIENCE</td><td><strong style="color:#dc2626;">WRITTEN</strong></td><td>21-Aug-2026</td><td>शुक्रवार</td><td>09:00 AM - 12:00 PM</td></tr>
-            <tr><td>MATHEMATICS</td><td><strong style="color:#dc2626;">WRITTEN</strong></td><td>22-Aug-2026</td><td>शनिवार</td><td>09:00 AM - 12:00 PM</td></tr>
+          <tbody id="rooms-tbody">
+            <tr>
+              <td style="text-align:center;">53</td>
+              <td>कक्षा 1 (Classroom)</td>
+              <td>कक्षा</td>
+              <td style="text-align:center;">6</td>
+              <td style="text-align:center;">3</td>
+              <td style="text-align:center; font-weight:800; color:#15803d;">18</td>
+              <td style="text-align:center;"><button class="btn-act btn-blue" style="padding:2px 6px;">✏️ एडिट</button></td>
+            </tr>
+            <tr>
+              <td style="text-align:center;">54</td>
+              <td>कक्षा 2 (Classroom)</td>
+              <td>कक्षा</td>
+              <td style="text-align:center;">4</td>
+              <td style="text-align:center;">4</td>
+              <td style="text-align:center; font-weight:800; color:#15803d;">16</td>
+              <td style="text-align:center;"><button class="btn-act btn-blue" style="padding:2px 6px;">✏️ एडिट</button></td>
+            </tr>
+            <tr>
+              <td style="text-align:center;">55</td>
+              <td>मुख्य हॉल (Main Hall)</td>
+              <td>हॉल</td>
+              <td style="text-align:center;">10</td>
+              <td style="text-align:center;">5</td>
+              <td style="text-align:center; font-weight:800; color:#15803d;">50</td>
+              <td style="text-align:center;"><button class="btn-act btn-blue" style="padding:2px 6px;">✏️ एडिट</button></td>
+            </tr>
           </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ======================================================================
-         SECTION 6: मार्कशीट कार्ड (Report Card Generator with Theme 1 & 2)
-         ====================================================================== -->
-    <div id="sec-report_card" class="workspace-card" style="display:none;">
-      <div class="ws-header">
-        <h3 class="ws-title"><span>📜</span> रिपोर्ट कार्ड / मार्कशीट जनरेटर</h3>
-        <button type="button" class="btn-action-small btn-blue" onclick="window.print()">🖨️ A4 मार्कशीट प्रिंट करें</button>
-      </div>
-
-      <div class="filter-bar-custom">
-        <div>
-          <label style="font-size:12px; font-weight:700;">कक्षा:</label>
-          <select id="rc-class" class="ctrl-select" onchange="renderReportCardList()">
-            <option value="8th" selected>8th</option>
-            <option value="PP.3+">PP.3+</option>
-            <option value="PP.4+">PP.4+</option>
-            <option value="PP.5+">PP.5+</option>
-            <option value="1st">1st</option>
-          </select>
-        </div>
-        <div>
-          <label style="font-size:12px; font-weight:700;">थीम चुनें:</label>
-          <select id="rc-theme" class="ctrl-select">
-            <option value="theme1" selected>Theme 1 (Royal Red/Gold Header)</option>
-            <option value="theme2">Theme 2 (RBSE Board Standard)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- STUDENT SELECTION GRID -->
-      <div id="rc-student-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-bottom:20px;"></div>
-
-      <!-- PRINTABLE A4 PREVIEW BOX -->
-      <div id="rc-preview-box" style="border:2px solid #78350f; padding:24px; background:#fff; border-radius:8px;">
-        <div style="text-align:center; border-bottom:2px solid #78350f; padding-bottom:10px; margin-bottom:14px;">
-          <h2 style="font-size:20px; font-weight:900; color:#7f1d1d; margin:0;">SHREE MEWAR PUBLIC SCHOOL</h2>
-          <p style="font-size:11px; margin:2px 0; color:#475569;">सिंहपुर, कपासन, चित्तौड़गढ़ (राज.) | 📞 9799242540</p>
-          <span style="background:#fef08a; color:#7f1d1d; font-size:11.5px; font-weight:800; padding:3px 12px; border-radius:4px; display:inline-block; margin-top:4px;">
-            SCHOLASTIC ACHIEVEMENT REPORT CARD (2026-27)
-          </span>
-        </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:12px; background:#f8fafc; padding:10px 14px; border-radius:6px; margin-bottom:14px;">
-          <div>विद्यार्थी: <strong id="rc-lbl-name">--</strong></div>
-          <div>स्कॉलर नं: <strong id="rc-lbl-sr">--</strong></div>
-          <div>पिता का नाम: <strong id="rc-lbl-father">--</strong></div>
-          <div>कक्षा: <strong id="rc-lbl-cls">--</strong></div>
-        </div>
-
-        <table class="custom-table" style="margin-bottom:16px;">
-          <thead>
-            <tr>
-              <th>विषय (Subject)</th>
-              <th>पूर्णांक (Max)</th>
-              <th>उत्तीर्णांक (Min)</th>
-              <th>प्राप्तांक (Obtained)</th>
-              <th>ग्रेड</th>
-            </tr>
-          </thead>
-          <tbody id="rc-subjects-table-body"></tbody>
-        </table>
-
-        <div style="display:flex; justify-content:space-between; background:#fef3c7; border:1px solid #f59e0b; padding:8px 14px; border-radius:6px; font-weight:800; font-size:13px; margin-bottom:30px;">
-          <div>कुल प्राप्तांक: <span id="rc-grand-obt">0</span> / <span id="rc-grand-max">120</span></div>
-          <div>प्रतिशत: <span id="rc-grand-pct" style="color:#0284c7;">0%</span></div>
-          <div>परिणाम: <span id="rc-grand-res" style="color:#15803d;">PASS</span></div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; margin-top:40px;">
-          <div>कक्षा अध्यापक</div>
-          <div>जांचकर्ता</div>
-          <div style="text-align:right;">संस्था प्रधान / मुहर</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ======================================================================
-         SECTION 14: ग्रीन शीट (Master Green Tabulation Sheet)
-         ====================================================================== -->
-    <div id="sec-green_sheet" class="workspace-card" style="display:none;">
-      <div class="ws-header">
-        <h3 class="ws-title"><span>📑</span> मास्टर अंक रजिस्टर (Green Sheet - Tabulation Register)</h3>
-        <button type="button" class="btn-action-small btn-green" onclick="window.print()">🖨️ ग्रीन शीट प्रिंट</button>
-      </div>
-      <div class="table-container">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th style="background:#15803d;">क्र.</th>
-              <th style="background:#15803d;">स्कॉलर</th>
-              <th style="background:#15803d; text-align:left;">विद्यार्थी का नाम</th>
-              <th style="background:#15803d;">HINDI</th>
-              <th style="background:#15803d;">ENG</th>
-              <th style="background:#15803d;">MATH</th>
-              <th style="background:#15803d;">SCI</th>
-              <th style="background:#15803d;">SST</th>
-              <th style="background:#15803d;">SKT</th>
-              <th style="background:#15803d;">कुल</th>
-              <th style="background:#15803d;">%</th>
-              <th style="background:#15803d;">फल</th>
-            </tr>
-          </thead>
-          <tbody id="gs-tbody"></tbody>
         </table>
       </div>
     </div>
@@ -634,23 +673,23 @@
       t.innerText = msg;
       t.style.background = isSuccess ? '#15803d' : '#b91c1c';
       t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 2600);
+      setTimeout(() => { t.style.display = 'none'; }, 2400);
     }
 
-    let examMasterStudents = [];
-    let activeMarksStore = {};
+    let examStudents = [];
+    let marksRepository = {};
 
-    function initSystem() {
+    function initExaminationSystem() {
       const local = localStorage.getItem('smps_students_master');
       if (local) {
         try {
           const parsed = JSON.parse(local);
-          if (Array.isArray(parsed) && parsed.length > 0) examMasterStudents = parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) examStudents = parsed;
         } catch(e) {}
       }
 
-      if (examMasterStudents.length === 0) {
-        examMasterStudents = [
+      if (examStudents.length === 0) {
+        examStudents = [
           { id: 1, scholar_no: '764', roll_no: '0001', name: 'ANURAG JATIYA', class_name: '8th', father_name: 'GOPAL LAL JATIYA', mobile_no: '9799779141' },
           { id: 2, scholar_no: '754', roll_no: '0002', name: 'AADITYA SALVI', class_name: 'PP.5+', father_name: 'DEVI LAL BALAI', mobile_no: '7239868621' },
           { id: 3, scholar_no: '727', roll_no: '0003', name: 'AAROHI ACHARYA', class_name: '1st', father_name: 'BABU LAL ACHARYA', mobile_no: '8875772525' },
@@ -659,60 +698,48 @@
         ];
       }
 
-      const saved = localStorage.getItem('smps_exam_marks_store');
-      if (saved) {
-        try { activeMarksStore = JSON.parse(saved); } catch(e) {}
-      }
-
-      renderMarksEntryTable();
-      renderRollNoTable();
-      renderReportCardList();
-      renderGreenSheet();
+      populateStudentDropdown();
+      renderMarksGrid();
+      loadStudentTheme1Report();
     }
 
-    // 16-BUTTON NAVIGATION SWITCHER
-    function switchSection(secId) {
-      const sections = ['new_exam', 'marks_entry', 'roll_no', 'timetable', 'report_card', 'green_sheet'];
-      sections.forEach(s => {
-        const el = document.getElementById(`sec-${s}`);
-        if (el) el.style.display = (s === secId) ? 'block' : 'none';
+    function openModule(modId) {
+      const allModules = ['new_exam', 'marks_entry', 'report_card', 'rooms'];
+      allModules.forEach(m => {
+        const el = document.getElementById(`view-${m}`);
+        if (el) el.style.display = (m === modId) ? 'block' : 'none';
       });
 
-      if (secId === 'marks_entry') renderMarksEntryTable();
-      if (secId === 'roll_no') renderRollNoTable();
-      if (secId === 'report_card') renderReportCardList();
-      if (secId === 'green_sheet') renderGreenSheet();
+      if (modId === 'marks_entry') renderMarksGrid();
+      if (modId === 'report_card') loadStudentTheme1Report();
 
-      showAppToast(`✔ मॉड्यूल खोला गया: ${secId}`);
+      showAppToast(`✔ मॉड्यूल खुला: ${modId}`);
     }
 
-    // SECTION 1: SAVE NEW EXAM
-    function saveNewExam() {
-      const title = document.getElementById('new-exam-title').value.trim();
-      if (!title) {
-        showAppToast("❌ कृपया परीक्षा का नाम दर्ज करें", false);
-        return;
-      }
-      showAppToast(`✔ परीक्षा "${title}" एवं पूर्णांक सफलतापूर्वक सक्रिय किए गए!`);
-      switchSection('marks_entry');
+    // 1. SAVE WIZARD
+    function saveExamWizard() {
+      const title = document.getElementById('wiz-title').value;
+      showAppToast(`✔ परीक्षा "${title}" सफलता से प्रकाशित (Published) हुई!`);
+      openModule('marks_entry');
     }
 
-    // SECTION 2: MARKS ENTRY GRID
-    function renderMarksEntryTable() {
+    // 2. MARKS ENTRY GRID
+    function renderMarksGrid() {
       const tbody = document.getElementById('me-tbody');
       if (!tbody) return;
       tbody.innerHTML = '';
 
       const cls = document.getElementById('me-class').value;
-      const sub = document.getElementById('me-subject').value;
-      const max = Number(document.getElementById(`cfg-${sub}`)?.value || 20);
-      document.getElementById('me-th-max').innerText = `Max: ${max}`;
+      const sub = document.getElementById('me-sub').value;
+      const maxMarks = Number(document.getElementById(`wz-${sub}`)?.value || 20);
+      document.getElementById('me-max-tag').innerText = `Max: ${maxMarks}`;
 
-      const students = examMasterStudents.filter(s => (s.class_name || '8th') === cls);
+      const filtered = examStudents.filter(s => (s.class_name || '8th') === cls);
+      document.getElementById('me-count-lbl').innerText = filtered.length;
 
-      students.forEach((s, idx) => {
+      filtered.forEach((s, idx) => {
         const key = `${s.id}_${sub}`;
-        const val = activeMarksStore[key] !== undefined ? activeMarksStore[key] : Math.round(max * 0.85);
+        const val = marksRepository[key] !== undefined ? marksRepository[key] : Math.round(maxMarks * 0.85);
 
         tbody.innerHTML += `
           <tr>
@@ -720,10 +747,10 @@
             <td style="text-align:center; font-weight:800; color:#0284c7;">${s.scholar_no}</td>
             <td><strong>${s.name}</strong></td>
             <td style="text-align:center;">
-              <input type="number" class="ctrl-input" data-key="${key}" value="${val}" max="${max}" style="width:65px; text-align:center; font-weight:900;">
+              <input type="number" class="ctrl-input" data-key="${key}" value="${val}" max="${maxMarks}" style="width:65px; text-align:center; font-weight:900;">
             </td>
             <td style="text-align:center;">
-              <input type="checkbox" onchange="toggleAbsent(this, '${key}')">
+              <input type="checkbox" onchange="toggleStudentAbsent(this, '${key}')">
             </td>
             <td style="text-align:center;">
               <span style="background:#dcfce7; color:#15803d; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px;">दर्ज</span>
@@ -733,105 +760,72 @@
       });
     }
 
-    function toggleAbsent(cb, key) {
+    function toggleStudentAbsent(cb, key) {
       const inp = document.querySelector(`input[data-key="${key}"]`);
       if (cb.checked) {
         inp.value = 0;
         inp.disabled = true;
       } else {
         inp.disabled = false;
-        inp.value = 15;
+        inp.value = 16;
       }
     }
 
-    function saveAllMarksGrid() {
+    function saveAllSubjectMarks() {
       const inputs = document.querySelectorAll('#me-tbody input[type="number"]');
       inputs.forEach(inp => {
-        const key = inp.getAttribute('data-key');
-        activeMarksStore[key] = Number(inp.value || 0);
+        marksRepository[inp.getAttribute('data-key')] = Number(inp.value || 0);
       });
-      localStorage.setItem('smps_exam_marks_store', JSON.stringify(activeMarksStore));
-      showAppToast("✔ समस्त विद्यार्थियों के अंक सफलतापूर्वक सुरक्षित हुए!");
+      localStorage.setItem('smps_exam_marks_store', JSON.stringify(marksRepository));
+      showAppToast("✔ विषय के समस्त अंक सुरक्षित हुए!");
     }
 
-    // SECTION 3: ROLL NUMBERS
-    function renderRollNoTable() {
-      const tbody = document.getElementById('rn-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      const cls = document.getElementById('rn-class').value;
-      const list = examMasterStudents.filter(s => (s.class_name || '8th') === cls);
-
-      list.forEach((s, idx) => {
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;">${idx + 1}</td>
-            <td style="text-align:center; font-weight:800; color:#0284c7;">${s.scholar_no}</td>
-            <td><strong>${s.name}</strong></td>
-            <td>${s.father_name}</td>
-            <td style="text-align:center; font-weight:800;">${s.roll_no || '-'}</td>
-            <td style="text-align:center;">
-              <input type="text" class="ctrl-input" value="D00${idx + 1}" style="width:70px; text-align:center; font-weight:800;">
-            </td>
-          </tr>
-        `;
+    // 6. REPORT CARD THEME 1
+    function populateStudentDropdown() {
+      const select = document.getElementById('rc-student-picker');
+      if (!select) return;
+      select.innerHTML = '';
+      examStudents.forEach(s => {
+        select.innerHTML += `<option value="${s.id}">${s.name} (SR: ${s.scholar_no})</option>`;
       });
     }
 
-    function autoGenerateRollNumbers() {
-      showAppToast("✔ कक्षा हेतु रोल नंबर श्रेणी D001 - D015 आवंटित!");
-    }
-
-    // SECTION 6: REPORT CARD
-    function renderReportCardList() {
-      const grid = document.getElementById('rc-student-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      const cls = document.getElementById('rc-class').value;
-      const list = examMasterStudents.filter(s => (s.class_name || '8th') === cls);
-
-      list.forEach(s => {
-        grid.innerHTML += `
-          <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:8px; padding:12px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong>${s.name}</strong><br>
-              <span style="font-size:11px; color:#64748b;">SR: ${s.scholar_no} | Roll: ${s.roll_no || '1'}</span>
-            </div>
-            <button type="button" class="btn-action-small btn-blue" onclick="loadStudentReportCard(${s.id})">
-              📜 देखें
-            </button>
-          </div>
-        `;
-      });
-
-      if (list.length > 0) loadStudentReportCard(list[0].id);
-    }
-
-    function loadStudentReportCard(id) {
-      const s = examMasterStudents.find(x => x.id === id);
+    function loadStudentTheme1Report() {
+      const picker = document.getElementById('rc-student-picker');
+      const studentId = picker ? Number(picker.value || 1) : 1;
+      const s = examStudents.find(x => x.id === studentId) || examStudents[0];
       if (!s) return;
 
-      document.getElementById('rc-lbl-name').innerText = s.name;
-      document.getElementById('rc-lbl-sr').innerText = s.scholar_no;
-      document.getElementById('rc-lbl-father').innerText = s.father_name;
-      document.getElementById('rc-lbl-cls').innerText = s.class_name || '8th';
+      document.getElementById('roy-name').innerText = s.name;
+      document.getElementById('roy-sr').innerText = s.scholar_no;
+      document.getElementById('roy-father').innerText = s.father_name;
+      document.getElementById('roy-class').innerText = `${s.class_name || '8th'} - Section A`;
+      document.getElementById('roy-roll').innerText = s.roll_no || '0001';
 
-      const subs = ['hindi', 'english', 'math', 'science', 'sst', 'sanskrit'];
-      const tbody = document.getElementById('rc-subjects-table-body');
+      const subs = [
+        { code: 'hindi', title: 'HINDI' },
+        { code: 'english', title: 'ENGLISH' },
+        { code: 'math', title: 'MATHEMATICS' },
+        { code: 'science', title: 'SCIENCE' },
+        { code: 'sst', title: 'SOCIAL SCIENCE' },
+        { code: 'sanskrit', title: 'SANSKRIT' }
+      ];
+
+      const tbody = document.getElementById('roy-subjects-tbody');
       tbody.innerHTML = '';
-
-      let grandObt = 0;
-      let grandMax = 0;
+      let totalObt = 0;
+      let totalMax = 0;
 
       subs.forEach(sub => {
-        const max = Number(document.getElementById(`cfg-${sub}`)?.value || 20);
-        const obt = activeMarksStore[`${s.id}_${sub}`] !== undefined ? activeMarksStore[`${s.id}_${sub}`] : Math.round(max * 0.85);
-        grandObt += obt;
-        grandMax += max;
+        const max = Number(document.getElementById(`wz-${sub.code}`)?.value || 20);
+        const obt = marksRepository[`${s.id}_${sub.code}`] !== undefined ? marksRepository[`${s.id}_${sub.code}`] : Math.round(max * 0.85);
+        totalObt += obt;
+        totalMax += max;
 
         tbody.innerHTML += `
           <tr>
-            <td style="font-weight:700; text-transform:uppercase;">${sub}</td>
+            <td style="font-weight:700;">${sub.title}</td>
+            <td style="text-align:center; color:#dc2626; font-weight:700;">WRITTEN</td>
             <td style="text-align:center;">${max}</td>
             <td style="text-align:center;">${Math.round(max * 0.33)}</td>
             <td style="text-align:center; font-weight:800; color:#15803d;">${obt}</td>
@@ -840,40 +834,16 @@
         `;
       });
 
-      document.getElementById('rc-grand-obt').innerText = grandObt;
-      document.getElementById('rc-grand-max').innerText = grandMax;
-      document.getElementById('rc-grand-pct').innerText = `${((grandObt / grandMax) * 100).toFixed(1)}%`;
-      document.getElementById('rc-grand-res').innerText = (grandObt >= grandMax * 0.33) ? 'PASS' : 'FAIL';
+      document.getElementById('roy-grand-obt').innerText = `${totalObt} / ${totalMax}`;
+      document.getElementById('roy-grand-pct').innerText = `${((totalObt / totalMax) * 100).toFixed(1)}%`;
     }
 
-    // SECTION 14: GREEN SHEET
-    function renderGreenSheet() {
-      const tbody = document.getElementById('gs-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      examMasterStudents.forEach((s, idx) => {
-        tbody.innerHTML += `
-          <tr>
-            <td style="text-align:center;">${idx + 1}</td>
-            <td style="text-align:center; font-weight:800;">${s.scholar_no}</td>
-            <td><strong>${s.name}</strong></td>
-            <td style="text-align:center; color:#15803d; font-weight:800;">18</td>
-            <td style="text-align:center; color:#15803d; font-weight:800;">17</td>
-            <td style="text-align:center; color:#15803d; font-weight:800;">19</td>
-            <td style="text-align:center; color:#15803d; font-weight:800;">18</td>
-            <td style="text-align:center; color:#15803d; font-weight:800;">17</td>
-            <td style="text-align:center; color:#15803d; font-weight:800;">18</td>
-            <td style="text-align:center; font-weight:900; color:#0284c7;">107 / 120</td>
-            <td style="text-align:center; font-weight:800;">89.1%</td>
-            <td style="text-align:center;"><span style="background:#dcfce7; color:#15803d; font-weight:800; padding:2px 6px; border-radius:4px;">PASS</span></td>
-          </tr>
-        `;
-      });
+    function addNewExamRoom() {
+      alert("➕ नया रूम जोड़े:\nकक्ष संख्या, पंक्ति (Rows), और स्तंभ (Cols) दर्ज करके नया हॉल या रूम सक्रिय कर सकते हैं।");
     }
 
-    // Initialize System
-    initSystem();
+    // Run
+    initExaminationSystem();
   </script>
 </body>
 </html>
