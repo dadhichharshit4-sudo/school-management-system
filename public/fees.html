@@ -62,12 +62,12 @@
     }
 
     .main-wrapper {
-      max-width: 1480px;
+      max-width: 1520px;
       margin: 18px auto;
       padding: 0 16px;
     }
 
-    /* BIG BRAND ACTION BAR (5 PRIMARY BUTTONS) */
+    /* ACTION BAR */
     .erp-brand-toolbar {
       background: #ffffff;
       border: 1.5px solid #fed7aa;
@@ -107,7 +107,7 @@
     .btn-teal-install { background: #0d9488; }
     .btn-orange-defaulters { background: #ea580c; }
 
-    /* STATS & PROGRESS HUD */
+    /* STATS STRIP */
     .erp-hud-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -119,14 +119,13 @@
       border-radius: 8px;
       border: 1px solid #e2e8f0;
       padding: 14px 18px;
-      position: relative;
       box-shadow: 0 1px 4px rgba(0,0,0,0.03);
     }
     .hud-title { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; }
     .hud-number { font-size: 22px; font-weight: 900; margin-top: 4px; }
     .hud-sub { font-size: 11px; color: #94a3b8; font-weight: 600; margin-top: 2px; }
 
-    /* FILTERS & SEARCH STRIP */
+    /* FILTERS */
     .erp-filter-strip {
       background: #ffffff;
       border: 1px solid #cbd5e1;
@@ -164,7 +163,7 @@
     }
     .erp-search-input:focus { border-color: #0284c7; }
 
-    /* DIRECTORY TABLE */
+    /* TABLE */
     .erp-table-container {
       background: #ffffff;
       border: 1.5px solid #fed7aa;
@@ -196,11 +195,12 @@
     .erp-table tr:nth-child(even) { background: #fffcf7; }
     .erp-table tr:hover { background: #fef9c3; }
 
-    /* DUAL-ACTION BUTTONS (ERP STYLE) */
+    /* ACTION BUTTONS IN TABLE */
     .table-act-panel {
       display: flex;
-      gap: 4px;
+      gap: 5px;
       align-items: center;
+      justify-content: center;
     }
     .btn-act-unit {
       border: none;
@@ -218,11 +218,11 @@
     }
     .btn-act-unit:hover { opacity: 0.9; }
     .act-pay { background: #16a34a; }
+    .act-edit { background: #ea580c; }
     .act-receipt { background: #0284c7; }
-    .act-ledger { background: #7c3aed; }
     .act-remind { background: #dc2626; }
 
-    /* MODAL OVERLAYS */
+    /* MODAL */
     .custom-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -285,7 +285,7 @@
     }
     .form-ctrl:focus { border-color: #0284c7; }
 
-    /* RECEIPT PRINTER SHEET */
+    /* RECEIPT PRINT WRAPPER */
     .receipt-print-wrapper {
       width: 580px;
       margin: 0 auto;
@@ -345,7 +345,7 @@
 
   <main class="main-wrapper">
 
-    <!-- BIG BRAND ACTION BAR (5 PRIMARY ERP BUTTONS) -->
+    <!-- ACTION BAR -->
     <div class="erp-brand-toolbar">
       <div class="erp-btn-group">
         <button type="button" class="erp-btn btn-green-collect" onclick="openQuickCollectionModal()">
@@ -354,7 +354,7 @@
         <button type="button" class="erp-btn btn-blue-matrix" onclick="openClassMatrixModal()">
           📊 कक्षावार बकाया मेट्रिक्स (Matrix)
         </button>
-        <button type="button" class="erp-btn btn-purple-daybook" onclick="openDayBookModal()">
+        <button type="button" class="erp-btn btn-purple-daybook" onclick="window.print()">
           🖨️ दैनिक रोकड़ बही (Daybook)
         </button>
         <button type="button" class="erp-btn btn-teal-install" onclick="showInstallmentAlert()">
@@ -365,13 +365,13 @@
         </button>
       </div>
       <div>
-        <button type="button" class="bbs-btn-pill" style="background:#78350f;" onclick="exportFeesExcel()">
+        <button type="button" class="bbs-btn-pill" style="background:#78350f;" onclick="showAppToast('Excel रजिस्टर तैयार हो रहा है...')">
           📥 Excel रिपोर्ट
         </button>
       </div>
     </div>
 
-    <!-- STATS & FINANCIAL OVERVIEW -->
+    <!-- HUD STATS -->
     <div class="erp-hud-grid">
       <div class="hud-card">
         <div class="hud-title">कुल निर्धारित वार्षिक फीस</div>
@@ -395,7 +395,7 @@
       </div>
     </div>
 
-    <!-- FILTERS AND SEARCH -->
+    <!-- FILTERS -->
     <div class="erp-filter-strip">
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
         <select id="fee-cls-filter" class="erp-select-input" onchange="filterFeesGrid()">
@@ -421,7 +421,7 @@
       </div>
     </div>
 
-    <!-- MAIN DIRECTORY TABLE -->
+    <!-- MAIN TABLE -->
     <div class="erp-table-container">
       <table class="erp-table">
         <thead>
@@ -433,10 +433,11 @@
             <th>अभिभावक का नाम</th>
             <th>मोबाइल नंबर</th>
             <th>कुल फीस</th>
+            <th>छूट (Disc.)</th>
             <th>जमा फीस</th>
             <th style="color:#dc2626;">बकाया फीस</th>
-            <th style="width:90px; text-align:center;">स्थिति</th>
-            <th style="width:230px; text-align:center;">कार्यवाही (Action Panel)</th>
+            <th style="width:85px; text-align:center;">स्थिति</th>
+            <th style="width:280px; text-align:center;">कार्यवाही (Action Panel)</th>
           </tr>
         </thead>
         <tbody id="erp-fees-tbody"></tbody>
@@ -445,12 +446,61 @@
   </main>
 
   <!-- ==========================================================================
-       MODAL 1: ENTERPRISE QUICK COLLECTION MODAL
+       MODAL 1: EDIT FEE STRUCTURE MODAL
+       ========================================================================== -->
+  <div id="edit-fee-structure-modal" class="custom-modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:15px; margin:0;"><span>✏️</span> छात्र फीस संरचना संपादन (Fee Structure Editor)</h3>
+        <button type="button" class="btn-close-modal" onclick="closeEditFeeModal()">×</button>
+      </div>
+      <form id="edit-fee-form" onsubmit="saveFeeStructureChanges(event)" style="padding:20px;">
+        <input type="hidden" id="ef-student-id">
+        <div style="background:#fff7ed; border:1px solid #fed7aa; padding:10px 14px; border-radius:6px; margin-bottom:14px;">
+          छात्र: <strong id="ef-student-name" style="color:#0284c7;">--</strong> | 
+          स्कॉलर नं: <strong id="ef-scholar-no">--</strong> | 
+          कक्षा: <strong id="ef-class-name">--</strong>
+        </div>
+
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">वार्षिक शिक्षण शुल्क (Tuition Fee) *</label>
+            <input type="number" id="ef-tuition-fee" class="form-ctrl" oninput="calcEditModalPreview()" required>
+          </div>
+          <div>
+            <label class="form-label">प्रवेश शुल्क (Admission Fee)</label>
+            <input type="number" id="ef-admission-fee" class="form-ctrl" oninput="calcEditModalPreview()">
+          </div>
+          <div>
+            <label class="form-label" style="color:#15803d;">विशेष छूट / स्कॉलरशिप (Discount)</label>
+            <input type="number" id="ef-discount-fee" class="form-ctrl" oninput="calcEditModalPreview()">
+          </div>
+          <div>
+            <label class="form-label" style="color:#0284c7;">अब तक कुल जमा राशि (Total Paid) *</label>
+            <input type="number" id="ef-paid-fee" class="form-ctrl" oninput="calcEditModalPreview()" required>
+          </div>
+        </div>
+
+        <div style="background:#f1f5f9; border:1.5px solid #cbd5e1; border-radius:8px; padding:12px; margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+          <div><span>कुल देय फीस:</span> <strong id="ef-preview-total" style="color:#0284c7;">₹ 0</strong></div>
+          <div><span>अंतिम शेष बकाया:</span> <strong id="ef-preview-balance" style="color:#dc2626; font-size:15px;">₹ 0</strong></div>
+        </div>
+
+        <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="bbs-btn-pill" style="background:#64748b;" onclick="closeEditFeeModal()">रद्द करें</button>
+          <button type="submit" class="erp-btn btn-green-collect">✔ फीस संरचना अपडेट करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: QUICK FEE COLLECTION MODAL
        ========================================================================== -->
   <div id="quick-collect-modal" class="custom-modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 style="font-size:15px; margin:0;"><span>💳</span> त्वरित फीस संकलन एवं डिजिटल रसीद</h3>
+        <h3 style="font-size:15px; margin:0;"><span>💳</span> त्वरित फीस संकलन एवं रसीद</h3>
         <button type="button" class="btn-close-modal" onclick="closeQuickCollectionModal()">×</button>
       </div>
       <form id="quick-collect-form" onsubmit="handleFeeSubmit(event)" style="padding:20px;">
@@ -474,11 +524,11 @@
             <input type="number" id="m-pay-amount" class="form-ctrl" style="font-weight:900; color:#15803d;" placeholder="राशि दर्ज करें" required>
           </div>
           <div>
-            <label class="form-label">भुगतान माध्यम (Payment Mode)</label>
+            <label class="form-label">भुगतान माध्यम (Mode)</label>
             <select id="m-pay-mode" class="form-ctrl">
               <option value="Cash (नकद)" selected>नकद (Cash)</option>
-              <option value="UPI / PhonePe">UPI / QR कोड</option>
-              <option value="Bank Transfer">बैंक खाता ट्रांसफर</option>
+              <option value="UPI / PhonePe">UPI / PhonePe</option>
+              <option value="Bank Transfer">बैंक ट्रांसफर</option>
             </select>
           </div>
         </div>
@@ -492,7 +542,7 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL 2: PRINTABLE RECEIPT
+       MODAL 3: PRINTABLE RECEIPT
        ========================================================================== -->
   <div id="receipt-modal" class="custom-modal-overlay">
     <div class="modal-card" style="max-width:620px;">
@@ -566,16 +616,15 @@
 
       if (globalStudents.length === 0) {
         globalStudents = [
-          { id: 1, scholar_no: '764', name: 'ANURAG JATIYA', class_name: '8th', father_name: 'GOPAL LAL JATIYA', mobile_no: '9799779141', tuition_fee: 12000, admission_fee: 1500, balance_fees: 8500 },
-          { id: 2, scholar_no: '754', name: 'AADITYA SALVI', class_name: 'PP.5+', father_name: 'DEVI LAL BALAI', mobile_no: '7239868621', tuition_fee: 10000, admission_fee: 1000, balance_fees: 5000 },
-          { id: 3, scholar_no: '727', name: 'AAROHI ACHARYA', class_name: '1st', father_name: 'BABU LAL ACHARYA', mobile_no: '8875772525', tuition_fee: 11000, admission_fee: 1500, balance_fees: 7500 },
-          { id: 4, scholar_no: '725', name: 'AAROHI MALI', class_name: 'PP.4+', father_name: 'NARAYAN LAL MALI', mobile_no: '9799613473', tuition_fee: 9000, admission_fee: 1000, balance_fees: 6000 }
+          { id: 1, scholar_no: '764', name: 'ANURAG JATIYA', class_name: '8th', father_name: 'GOPAL LAL JATIYA', mobile_no: '9799779141', tuition_fee: 12000, admission_fee: 1500, discount: 1000, balance_fees: 8500 },
+          { id: 2, scholar_no: '754', name: 'AADITYA SALVI', class_name: 'PP.5+', father_name: 'DEVI LAL BALAI', mobile_no: '7239868621', tuition_fee: 10000, admission_fee: 1000, discount: 0, balance_fees: 5000 },
+          { id: 3, scholar_no: '727', name: 'AAROHI ACHARYA', class_name: '1st', father_name: 'BABU LAL ACHARYA', mobile_no: '8875772525', tuition_fee: 11000, admission_fee: 1500, discount: 500, balance_fees: 7500 },
+          { id: 4, scholar_no: '725', name: 'AAROHI MALI', class_name: 'PP.4+', father_name: 'NARAYAN LAL MALI', mobile_no: '9799613473', tuition_fee: 9000, admission_fee: 1000, discount: 0, balance_fees: 6000 }
         ];
       }
 
       renderFeesGrid(globalStudents);
 
-      // Backend Background Sync
       fetch('/api/students')
         .then(res => res.json())
         .then(data => {
@@ -597,11 +646,15 @@
       let pendingCount = 0;
 
       list.forEach((s, idx) => {
+        const tuition = Number(s.tuition_fee || 12000);
+        const admission = Number(s.admission_fee || 0);
+        const discount = Number(s.discount || 0);
         const bal = Number(s.balance_fees || 0);
-        const total = Number(s.tuition_fee || 12000) + Number(s.admission_fee || 1500);
-        const paid = Math.max(0, total - bal);
 
-        totalTarget += total;
+        const totalNet = Math.max(0, (tuition + admission) - discount);
+        const paid = Math.max(0, totalNet - bal);
+
+        totalTarget += totalNet;
         totalPending += bal;
         if (bal > 0) pendingCount++;
 
@@ -618,13 +671,15 @@
             <td style="text-align:center;">${s.class_name || '8th'}</td>
             <td>${s.father_name || '-'}</td>
             <td>${s.mobile_no || '-'}</td>
-            <td style="font-weight:700;">₹ ${total.toLocaleString('en-IN')}</td>
-            <td style="font-weight:700; color:#15803d;">₹ ${paid.toLocaleString('en-IN')}</td>
+            <td style="font-weight:700;">₹ ${totalNet.toLocaleString('en-IN')}</td>
+            <td style="color:#15803d; font-weight:700;">₹ ${discount.toLocaleString('en-IN')}</td>
+            <td style="font-weight:700; color:#0284c7;">₹ ${paid.toLocaleString('en-IN')}</td>
             <td style="font-weight:900; color:${bal > 0 ? '#dc2626' : '#15803d'};">₹ ${bal.toLocaleString('en-IN')}</td>
             <td style="text-align:center;">${statusBadge}</td>
             <td>
               <div class="table-act-panel">
-                <button type="button" class="btn-act-unit act-pay" onclick="openStudentPay(${s.id})">💰 जमा करें</button>
+                <button type="button" class="btn-act-unit act-pay" onclick="openStudentPay(${s.id})">💰 जमा</button>
+                <button type="button" class="btn-act-unit act-edit" onclick="openEditFeeModal(${s.id})">✏️ एडिट फीस</button>
                 <button type="button" class="btn-act-unit act-receipt" onclick="viewDirectReceipt(${s.id})">🧾 रसीद</button>
                 <button type="button" class="btn-act-unit act-remind" onclick="sendQuickWhatsApp(${s.id})">💬 अलर्ट</button>
               </div>
@@ -633,7 +688,6 @@
         `;
       });
 
-      // HUD Stats Update
       const totalCollected = Math.max(0, totalTarget - totalPending);
       const recoveryRate = totalTarget > 0 ? Math.round((totalCollected / totalTarget) * 100) : 0;
 
@@ -644,7 +698,88 @@
       document.getElementById('stat-recovery-rate').innerText = `${recoveryRate}%`;
     }
 
-    // 3. FILTERING
+    // 3. EDIT FEE STRUCTURE LOGIC
+    function openEditFeeModal(id) {
+      const s = globalStudents.find(x => x.id === id);
+      if (!s) return;
+
+      document.getElementById('ef-student-id').value = s.id;
+      document.getElementById('ef-student-name').innerText = s.name;
+      document.getElementById('ef-scholar-no').innerText = s.scholar_no;
+      document.getElementById('ef-class-name').innerText = s.class_name || '8th';
+
+      const tuition = Number(s.tuition_fee || 12000);
+      const admission = Number(s.admission_fee || 0);
+      const discount = Number(s.discount || 0);
+      const bal = Number(s.balance_fees || 0);
+      const paid = Math.max(0, (tuition + admission - discount) - bal);
+
+      document.getElementById('ef-tuition-fee').value = tuition;
+      document.getElementById('ef-admission-fee').value = admission;
+      document.getElementById('ef-discount-fee').value = discount;
+      document.getElementById('ef-paid-fee').value = paid;
+
+      calcEditModalPreview();
+      document.getElementById('edit-fee-structure-modal').style.display = 'flex';
+    }
+
+    function closeEditFeeModal() {
+      document.getElementById('edit-fee-structure-modal').style.display = 'none';
+    }
+
+    function calcEditModalPreview() {
+      const tuition = Number(document.getElementById('ef-tuition-fee').value || 0);
+      const admission = Number(document.getElementById('ef-admission-fee').value || 0);
+      const discount = Number(document.getElementById('ef-discount-fee').value || 0);
+      const paid = Number(document.getElementById('ef-paid-fee').value || 0);
+
+      const netTotal = Math.max(0, (tuition + admission) - discount);
+      const newBal = Math.max(0, netTotal - paid);
+
+      document.getElementById('ef-preview-total').innerText = `₹ ${netTotal.toLocaleString('en-IN')}`;
+      document.getElementById('ef-preview-balance').innerText = `₹ ${newBal.toLocaleString('en-IN')}`;
+    }
+
+    function saveFeeStructureChanges(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('ef-student-id').value);
+      const s = globalStudents.find(x => x.id === id);
+      if (!s) return;
+
+      const tuition = Number(document.getElementById('ef-tuition-fee').value || 0);
+      const admission = Number(document.getElementById('ef-admission-fee').value || 0);
+      const discount = Number(document.getElementById('ef-discount-fee').value || 0);
+      const paid = Number(document.getElementById('ef-paid-fee').value || 0);
+
+      const netTotal = Math.max(0, (tuition + admission) - discount);
+      const newBal = Math.max(0, netTotal - paid);
+
+      s.tuition_fee = tuition;
+      s.admission_fee = admission;
+      s.discount = discount;
+      s.balance_fees = newBal;
+
+      // Update LocalStorage
+      localStorage.setItem('smps_students_master', JSON.stringify(globalStudents));
+
+      // Background API Sync
+      fetch(`/api/students/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tuition_fee: tuition,
+          admission_fee: admission,
+          discount: discount,
+          balance_fees: newBal
+        })
+      }).catch(() => {});
+
+      closeEditFeeModal();
+      renderFeesGrid(globalStudents);
+      showAppToast(`✔ ${s.name} की फीस संरचना सफलतापूर्वक अपडेट हुई!`);
+    }
+
+    // 4. FILTERING
     function filterFeesGrid() {
       const q = (document.getElementById('fees-search-input')?.value || '').toLowerCase().trim();
       const cls = document.getElementById('fee-cls-filter')?.value || '';
@@ -676,7 +811,7 @@
       showAppToast("⚠️ केवल बकाया वाले छात्र प्रदर्शित हैं");
     }
 
-    // 4. ACTION HANDLERS
+    // 5. PAYMENT AND RECEIPT
     function openStudentPay(id) {
       currentStudentForPay = globalStudents.find(s => s.id === id);
       if (!currentStudentForPay) return;
@@ -723,7 +858,6 @@
       renderFeesGrid(globalStudents);
       showAppToast(`✔ ₹${payAmount} की फीस सफलतापूर्वक जमा हुई!`);
 
-      // Open Receipt
       showReceiptView(currentStudentForPay, payAmount, newBal, payMode);
     }
 
@@ -758,25 +892,17 @@
       }
       const phone = s.mobile_no.replace(/[^0-9]/g, '').slice(-10);
       const bal = Number(s.balance_fees || 0).toLocaleString('en-IN');
-      const text = `आदरणीय ${s.father_name || 'अभिभावक'} जी, आपके बच्चे ${s.name} की श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) में कुल बकाया फीस ₹${bal} शेष है। कृपया इसे शीघ्र विद्यालय कार्यालय में जमा करवाएं। धन्यवाद।`;
+      const text = `आदरणीय ${s.father_name || 'अभिभावक'} जी, आपके बच्चे ${s.name} की श्री मेवाड़ पब्लिक स्कूल (सिंहपुर) में कुल बकाया फीस ₹${bal} देय शेष है। कृपया इसे शीघ्र विद्यालय कार्यालय में जमा करवाएं। धन्यवाद।`;
       window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
       showAppToast("✔ WhatsApp रिमाइंडर प्रेषित!");
     }
 
     function openClassMatrixModal() {
-      alert("📊 कक्षावार बकाया मेट्रिक्स:\n\n• PP.3+: ₹ 6,500\n• PP.4+: ₹ 6,000\n• PP.5+: ₹ 5,000\n• 1st: ₹ 7,500\n• 8th: ₹ 8,500\n\nकुल बकाया: ₹ 33,500");
-    }
-
-    function openDayBookModal() {
-      window.print();
+      alert("📊 कक्षावार बकाया मेट्रिक्स:\n\n• PP.3+: ₹ 6,500\n• PP.4+: ₹ 6,000\n• PP.5+: ₹ 5,000\n• 1st: ₹ 7,500\n• 8th: ₹ 8,500\n\nसक्रिय लक्ष्य पूर्णता: 72%");
     }
 
     function showInstallmentAlert() {
       alert("🧾 किश्त प्रबंधन (Installment Engine):\n\nसत्र 2026-27 हेतु 4 त्रैमासिक किश्तें सक्रिय हैं:\n1. प्रथम किश्त (प्रवेश समय): 40%\n2. द्वितीय किश्त (अक्टूबर): 20%\n3. तृतीय किश्त (दिसंबर): 20%\n4. अंतिम किश्त (फरवरी): 20%");
-    }
-
-    function exportFeesExcel() {
-      showAppToast("✔ फीस रजिस्टर Excel प्रारूप में तैयार हो रहा है...");
     }
 
     // Initialize Hub
